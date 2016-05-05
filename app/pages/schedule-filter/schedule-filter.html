@@ -1,15 +1,15 @@
 
 <ion-toolbar>
   <ion-buttons start>
-    <button (click)="dismiss()">Cancel</button>
+    <button (click)="dismiss()">Anuluj</button>
   </ion-buttons>
 
   <ion-title>
-    Filter Sessions
+    Filtruj treningi
   </ion-title>
 
   <ion-buttons end>
-    <button (click)="applyFilters()">Done</button>
+    <button (click)="applyFilters()">Ustaw</button>
   </ion-buttons>
 </ion-toolbar>
 
@@ -17,7 +17,7 @@
 <ion-content class="outer-content">
 
   <ion-list>
-    <ion-list-header>Tracks</ion-list-header>
+    <ion-list-header>Rodzaj</ion-list-header>
 
     <ion-item *ngFor="#track of tracks" [attr.track]="track.name | lowercase">
       <span item-left class="dot"></span>
@@ -29,7 +29,7 @@
 
   <ion-list>
     <button ion-item (click)="resetFilters()" danger detail-none class="reset-filters">
-      Reset All Filters
+      Wyłącz wszystkie filtry
     </button>
   </ion-list>
 

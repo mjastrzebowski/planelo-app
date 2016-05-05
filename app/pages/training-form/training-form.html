@@ -1,0 +1,103 @@
+<ion-toolbar class="android-attr">
+  <ion-title [hidden]="editing">Nowy trening</ion-title>
+  <ion-title [hidden]="!editing">Zmiana treningu</ion-title>
+  <ion-buttons start>
+    <button (click)="dismiss()">
+      <span primary showWhen="ios">Zamknij</span>
+      <ion-icon name='close' showWhen="android,windows"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content class="training-form has-header">
+  <ion-list *ngIf="auth.isClient && available.length === 0">
+    <ion-list-header>
+      <ion-row center>
+        <ion-col width-20>
+          <ion-spinner name="dots" class="spinner-dots"><svg viewBox="0 0 64 64" style="left: 9px; animation-delay: 0ms; animation-duration: 750ms;"><circle transform="translate(32,32)" r="6"></circle></svg><svg viewBox="0 0 64 64" style="left: 0px; animation-delay: -110ms; animation-duration: 750ms;"><circle transform="translate(32,32)" r="6"></circle></svg><svg viewBox="0 0 64 64" style="left: -9px; animation-delay: -220ms; animation-duration: 750ms;"><circle transform="translate(32,32)" r="6"></circle></svg></ion-spinner>
+        </ion-col>
+        <ion-col>Sprawdzanie terminów...</ion-col>
+      </ion-row>
+    </ion-list-header>
+  </ion-list>
+
+  <form #trainingForm="ngForm" novalidate>
+    <ion-list *ngIf="auth.isClient">
+      <ion-item-group *ngFor="#w of available">
+        <ion-item-divider sticky>{{w.descDate}}</ion-item-divider>
+        <ion-item *ngFor="#hour of w.hours" (click)="selectHour(hour)">
+          <h3>{{hour.timeStart}} - {{hour.timeEnd}}</h3>
+          <button favorite item-right>{{hour.trainers.length}} dostępne</button>
+          <!-- <p *ngFor="#trainer of hour.trainers">{{trainer.title}}</p> -->
+        </ion-item>
+      </ion-item-group>
+    </ion-list>
+
+    <div *ngIf="auth.isOwner">
+      <ion-list>
+        <ion-item>
+          <ion-label>Klient</ion-label>
+          <ion-select [(ngModel)]="trainings[0].client">
+            <ion-option *ngFor="#client of workoutStore.clientStore.clients | async" [value]="client.key">{{client.lastname}} {{client.name}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <ion-list *ngFor="#training of trainings; #t = index">
+        <ion-list-header padding-v-0>
+          <ion-row center padding-v-0>
+            <ion-col width-80>Trening</ion-col>
+            <ion-col width-20>
+              <button clear danger small (click)="removeTraining(t)" [hidden]="t === 0">
+                <ion-icon name="remove-circle"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-list-header>
+        <ion-item>
+          <ion-label>Termin</ion-label>
+          <ion-select [(ngModel)]="training.date" (change)="updateDateTime()">
+            <span *ngFor="#w of available">
+              <ion-option *ngFor="#hour of w.hours" [value]="hour">{{hour.timeStart}} {{w.descDate}}</ion-option>
+            </span>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Trener</ion-label>
+          <ion-select [(ngModel)]="training.trainer">
+            <ion-option *ngFor="#trainer of training.date?.trainers" [value]="trainer.key">{{trainer.title}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item [hidden]="editing">
+          <ion-label>Powtarzaj</ion-label>
+          <ion-toggle [(ngModel)]="training.repeat"></ion-toggle>
+        </ion-item>
+        <ion-item [hidden]="!editing || !training.repeat">
+          <ion-label>Zmień też następne:</ion-label>
+          <ion-toggle [(ngModel)]="training.all"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          Powtórzone: 
+          <p><span *ngFor="#rep of repeated">{{rep.startTime}} {{rep.fullDate}}<br></span></p>
+        </ion-item>
+      </ion-list>
+
+      <ion-buttons padding text-center [hidden]="editing">
+        <button outline small (click)="addTraining(exercise)"><ion-icon name="add"></ion-icon> dodaj kolejny</button>
+      </ion-buttons>
+    </div>
+
+    <ion-row responsive-sm>
+      <ion-col *ngIf="auth.isOwner">
+        <button primary block type="submit" (click)="save()">Zapisz</button>
+        <!-- <button primary block type="submit" [hidden]="!editing" (click)="save()">Zapisz zmiany</button> -->
+      </ion-col>
+      <ion-col>
+        <button light block (click)="dismiss()">Anuluj</button>
+      </ion-col>
+    </ion-row>
+    <ion-col center text-center [hidden]="!editing">
+      <button clear small danger center text-center (click)="delete()">Usuń</button>
+      <button clear small danger center text-center (click)="deleteAll()">Usuń wszystkie</button>
+    </ion-col>
+  </form>
+</ion-content>

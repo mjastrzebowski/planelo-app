@@ -1,0 +1,50 @@
+<ion-navbar *navbar>
+  <button menuToggle>
+    <ion-icon name="menu"></ion-icon>
+  </button>
+  <ion-title>Klient</ion-title>
+</ion-navbar>
+
+<ion-content class="client-detail">
+    <ion-item >
+      <h3 (click)="loadCalendar()">{{client?.name}}</h3>
+      <p>Informacje o treningach</p>
+    </ion-item>
+
+  <ion-list>
+    <button ion-item large (click)="goToClientWorkouts(client)">
+      <ion-icon name="hammer" item-left></ion-icon> Cykle
+      <ion-note item-right>{{cycles.length}}</ion-note>
+    </button>
+    <button ion-item large (click)="goToClientLogs(client)">
+      <ion-icon name="clipboard" item-left></ion-icon> Treningi
+      <ion-note item-right>0</ion-note>
+    </button>
+    <button ion-item (click)="goToClientFavorites(client)">
+      <ion-icon name="heart" item-left></ion-icon> Ulubione
+      <ion-note item-right>0</ion-note>
+    </button>
+  </ion-list>
+
+  <div id="calendar"></div>
+</ion-content>
+
+<ion-toolbar position="bottom">
+  <ion-row>
+    <ion-col text-center>
+      <button clear><ion-icon name="call"></ion-icon></button>
+    </ion-col>
+    <ion-col text-center>
+      <button clear><ion-icon name="text"></ion-icon></button>
+    </ion-col>
+    <ion-col text-center>
+      <button clear><ion-icon name="mail"></ion-icon></button>
+    </ion-col>
+    <ion-col text-center>
+      <button clear><ion-icon name="contact"></ion-icon></button>
+    </ion-col>
+    <ion-col text-center>
+      <button clear><ion-icon name="document"></ion-icon></button>
+    </ion-col>
+  </ion-row>
+</ion-toolbar>

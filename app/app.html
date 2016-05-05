@@ -1,25 +1,29 @@
 
 <!-- left menu -->
 <ion-menu [content]="content">
+  
+  <ion-item class="menu-userbar" padding [hidden]="!showUserBar || !auth.authenticated">
+    <h1 padding-top *ngIf="auth.name">{{auth.name}} {{auth.lastname}}</h1>
+    <h1 padding-top *ngIf="!auth.name && auth.title">{{auth.title}}</h1>
+    <h1 padding-top *ngIf="!auth.name && !auth.title">Jarosław Jakubowski</h1>
+    <h2 *ngIf="auth.isOwner">Szef</h2>
+    <h2 *ngIf="auth.isTrainer">Trener</h2>
+    <h2 *ngIf="auth.isClient">Klient</h2>
+  </ion-item>
 
-  <ion-toolbar>
-    <ion-title>Account</ion-title>
+  <ion-toolbar [hidden]="showUserBar">
+    <ion-title>Niezalogowany</ion-title>
   </ion-toolbar>
 
-  <ion-content>
-
+  <ion-content class="menu">
     <ion-list>
-
       <button ion-item menuClose *ngFor="#p of pages" (click)="openPage(p)" [hidden]="p.hide">
         <ion-icon item-left [name]="p.icon"></ion-icon>
         {{p.title}}
       </button>
-
     </ion-list>
   </ion-content>
-
 </ion-menu>
-
 
 <!-- main navigation -->
 <ion-nav id="nav" [root]="root" #content swipe-back-enabled="false"></ion-nav>

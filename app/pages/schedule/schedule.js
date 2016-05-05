@@ -1,18 +1,18 @@
 import {IonicApp, Page, Modal, Alert, NavController} from 'ionic/ionic';
-import {ConferenceData} from '../../providers/conference-data';
+import {ClientData} from '../../providers/client-data';
 import {UserData} from '../../providers/user-data';
 import {ScheduleFilterPage} from '../schedule-filter/schedule-filter';
-import {SessionDetailPage} from '../session-detail/session-detail';
+import {TrainingDetailPage} from '../training-detail/training-detail';
 
 
 @Page({
   templateUrl: 'build/pages/schedule/schedule.html'
 })
 export class SchedulePage {
-  constructor(app: IonicApp, nav: NavController, confData: ConferenceData, user: UserData) {
+  constructor(app: IonicApp, nav: NavController, clientData: ClientData, user: UserData) {
     this.app = app;
     this.nav = nav;
-    this.confData = confData;
+    this.clientData = clientData;
     this.user = user;
 
     this.dayIndex = 0;
@@ -22,19 +22,19 @@ export class SchedulePage {
     this.segment = 'all';
 
     this.hasSessions = false;
-    this.groups = [];
+    this.clients = [];
 
     this.updateSchedule();
   }
 
   onPageDidEnter() {
-    this.app.setTitle('Schedule');
+    this.app.setTitle('Plan');
   }
 
   updateSchedule() {
-    this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).then(data => {
-      this.shownSessions = data.shownSessions;
-      this.groups = data.groups;
+    this.clientData.getTimeline(this.queryText, this.excludeTracks, this.segment).then(data => {
+      this.shownSessions = true;
+      this.clients = data.clients;
     });
   }
 
@@ -51,15 +51,18 @@ export class SchedulePage {
 
   }
 
-  goToSessionDetail(sessionData) {
-    // go to the session detail page
-    // and pass in the session data
-    this.nav.push(SessionDetailPage, sessionData);
+  goToTrainingDetail(cycle, trainingId) {
+    // go to the training detail page
+    // and pass in the training data
+    this.nav.push(TrainingDetailPage, {
+      cycle: cycle,
+      trainingId: trainingId
+    });
   }
 
-  addFavorite(slidingItem, sessionData) {
+  addFavorite(slidingItem, trainingData) {
 
-    if (this.user.hasFavorite(sessionData.name)) {
+    if (this.user.hasFavorite(trainingData.name)) {
       // woops, they already favorited it! What shall we do!?
       // create an alert instance
       let alert = Alert.create({

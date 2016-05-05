@@ -20,11 +20,14 @@
 // Both iOS and MD colors can be further customized if colors
 // are different per mode.
 
+// @import "themes/dark";
+
 $colors: (
   primary:    #387ef5,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
-  favorite:   #69BB7B
-);
+  favorite:   #69BB7B,
+  energized:  #ffc527
+); // !default;

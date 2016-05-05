@@ -1,0 +1,68 @@
+<ion-navbar *navbar>
+  <button menuToggle>
+    <ion-icon name="menu"></ion-icon>
+  </button>
+  <ion-title>Klienci</ion-title>
+  <ion-buttons end>
+    <button (click)="showClientForm()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-content class="client-list">
+
+  <ion-searchbar primary
+                 [(ngModel)]="queryText"
+                 (input)="updateList()"
+                 placeholder="Szukaj">
+  </ion-searchbar>
+
+  <ion-list [hidden]="shownSessions === 0">
+    <!-- <ion-item > -->
+      <button ion-item (click)="showClientForm(client)" *ngFor="#client of clients | async; #c = index" [hidden]="client.hide">
+        <h3>{{client?.lastname}} {{client?.name}}</h3>
+        <!-- <p>Informacje o treningach</p> -->
+      </button>
+    <!-- </ion-item> -->
+  </ion-list>
+
+  <ion-list-header [hidden]="shownSessions > 0">
+      Nie znaleziono klientów
+  </ion-list-header>
+
+  <!-- 
+
+
+  <ion-list>
+    <ion-item *ngFor="#client of clients" class="client">
+      <button (click)="goToClientDetail(client)">
+        {{client.name}}
+      </button>
+    </ion-item>
+  </ion-list> -->
+
+    <!-- <ion-card-content class="outer-content">
+      <ion-list>
+        <ion-list-header>
+          Treningi
+        </ion-list-header>
+        <button ion-item *ngFor="#cycle of client.cycles" (click)="goToCycleDetail(cycle)">
+          <h3>{{cycle.name}}</h3>
+        </button>
+      </ion-list>
+    </ion-card-content> -->
+
+    <!-- <ion-item>
+      <button (click)="goToClientTwitter(client)" clear item-left>
+        <ion-icon name="logo-twitter"></ion-icon>
+        Tweet
+      </button>
+      <button (click)="openClientShare(client)" clear item-right>
+        <ion-icon name="share"></ion-icon>
+        Share
+      </button>
+    </ion-item> -->
+
+  <!-- </ion-card> -->
+</ion-content>

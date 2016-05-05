@@ -1,0 +1,26 @@
+<ion-navbar *navbar>
+  <button menuToggle>
+    <ion-icon name="menu"></ion-icon>
+  </button>
+  <ion-title>Trenerzy</ion-title>
+  <ion-buttons end>
+    <button (click)="showTrainerForm()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-content class="trainer-list">
+<!-- 
+  <ion-searchbar primary
+                 [(ngModel)]="queryText"
+                 (input)="updateTrainers()"
+                 placeholder="Szukaj">
+  </ion-searchbar> -->
+
+  <ion-list>
+      <button ion-item (click)="showTrainerForm(trainer)" *ngFor="#trainer of trainers | async; #t = index">
+        <h3>{{trainer?.title}}</h3>
+      </button>
+  </ion-list>
+</ion-content>

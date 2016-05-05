@@ -5,10 +5,10 @@
 
   <ion-segment [(ngModel)]="segment" (change)="updateSchedule()">
     <ion-segment-button value="all">
-      All
+      Bieżące
     </ion-segment-button>
     <ion-segment-button value="favorites">
-      Favorites
+      Odłożone
     </ion-segment-button>
   </ion-segment>
 
@@ -24,32 +24,27 @@
   <ion-searchbar primary
                  [(ngModel)]="queryText"
                  (input)="updateSchedule()"
-                 placeholder="Search">
+                 placeholder="Szukaj">
   </ion-searchbar>
 
-  <ion-list [hidden]="shownSessions === 0">
-
-    <ion-item-group *ngFor="#group of groups" [hidden]="group.hide">
+  <ion-list [hidden]="shownSessions === 0" show-reorder="true">
+    <ion-item-group *ngFor="#client of clients; #c = index" [hidden]="client.hide">
 
       <ion-item-divider sticky>
-        {{group.time}}
+        Dzisiaj
       </ion-item-divider>
 
-      <ion-item-sliding *ngFor="#session of group.sessions" #slidingItem [attr.track]="session.tracks[0] | lowercase" [hidden]="session.hide">
-
-        <button ion-item (click)="goToSessionDetail(session)">
-          <h3>{{session.name}}</h3>
+      <ion-item-sliding *ngFor="#training of client.cycles[c].trainings; #t = index" #slidingItem [attr.track]="training.exercises[0].name | lowercase" [hidden]="training.hide">
+        <button ion-item (click)="goToTrainingDetail(client.cycles[c], t)">
+          <h3>{{client.name}}</h3>
           <p>
-            {{session.timeStart}} &mdash;
-            {{session.timeEnd}}:
-            {{session.location}}
+            {{training.timeStart}} &mdash; {{training.timeEnd}}: Trening {{t+1}}/{{client.cycles[c].size}}
           </p>
         </button>
 
         <ion-item-options>
-          <button favorite (click)="addFavorite(slidingItem, session)" *ngIf="segment === 'all'">
-            Favorite
-          </button>
+          <button favorite (click)="leaveTraining(slidingItem, training)" *ngIf="segment === 'all'">Odłóż</button>
+          <button danger (click)="editTraining(slidingItem, training)" *ngIf="segment === 'all'">Edytuj</button>
         </ion-item-options>
 
       </ion-item-sliding>
@@ -59,7 +54,7 @@
   </ion-list>
 
   <ion-list-header [hidden]="shownSessions > 0">
-      No Sessions Found
+      Nie znaleziono treningów
   </ion-list-header>
 
 
