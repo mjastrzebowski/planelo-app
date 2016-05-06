@@ -1,6 +1,7 @@
 <ion-toolbar class="android-attr">
-  <ion-title [hidden]="editing">Nowy trening</ion-title>
-  <ion-title [hidden]="!editing">Zmiana treningu</ion-title>
+  <ion-title [hidden]="trainings[0].completed || editing">Nowy trening</ion-title>
+  <ion-title [hidden]="trainings[0].completed || !editing">Zmiana treningu</ion-title>
+  <ion-title [hidden]="!trainings[0].completed">Odwołany trening</ion-title>
   <ion-buttons start>
     <button (click)="dismiss()">
       <span primary showWhen="ios">Zamknij</span>
@@ -67,17 +68,21 @@
             <ion-option *ngFor="#trainer of training.date?.trainers" [value]="trainer.key">{{trainer.title}}</ion-option>
           </ion-select>
         </ion-item>
-        <ion-item [hidden]="editing">
+        <ion-item [hidden]="training.completed || editing">
           <ion-label>Powtarzaj</ion-label>
           <ion-toggle [(ngModel)]="training.repeat"></ion-toggle>
         </ion-item>
-        <ion-item [hidden]="!editing || !training.repeat">
+        <ion-item [hidden]="training.completed || !editing || !training.repeat">
           <ion-label>Zmień też następne:</ion-label>
           <ion-toggle [(ngModel)]="training.all"></ion-toggle>
         </ion-item>
-        <ion-item>
+        <ion-item [hidden]="training.completed">
           Powtórzone: 
           <p><span *ngFor="#rep of repeated">{{rep.startTime}} {{rep.fullDate}}<br></span></p>
+        </ion-item>
+        <ion-item [hidden]="!training.completed">
+          Powód odwołania: 
+          <p><span>{{training.completed}}</span></p>
         </ion-item>
       </ion-list>
 

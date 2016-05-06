@@ -3,16 +3,7 @@
     <ion-icon name="menu"></ion-icon>
   </button>
 
-  <ion-segment *ngIf="auth.isOwner" [(ngModel)]="segment" (change)="segmentChange()">
-    <ion-segment-button value="list">
-      Lista
-    </ion-segment-button>
-    <ion-segment-button value="calendar">
-      Kalendarz
-    </ion-segment-button>
-  </ion-segment>
-
-  <ion-title *ngIf="auth.isTrainer || auth.isClient">Treningi</ion-title>
+  <ion-title>Treningi</ion-title>
 
   <ion-buttons end>
     <button [hidden]="auth.isTrainer" (click)="showTrainingForm()">
@@ -38,20 +29,11 @@
     </ion-list-header>
   </ion-list>
 
-  <div id="calendar" [hidden]="(auth.isClient || auth.isOwner) && segment !== 'calendar'"></div>
+  <div id="calendar" [hidden]="auth.isClient"></div>
 
-  <div [hidden]="!loaded || segment !== 'list'">
-    <ion-list *ngIf="auth.isOwner">
-      <ion-item-sliding *ngFor="#workout of workouts | async; #w = index" #slidingItem [attr.track]="workout.key">
-        <button ion-item (click)="showTrainingForm(workout)">
-          <h3><strong>{{workout.timeStart}} - {{workout.timeEnd}}</strong>, {{workout.descDate}}</h3>
-          <p>{{workout.place}}, <strong>{{workout.client}}</strong>, {{workout.trainer}}</p>
-        </button>
-      </ion-item-sliding>
-    </ion-list>
-
-    <ion-list *ngIf="auth.isClient">
-      <ion-item-sliding *ngFor="#workout of workouts | async; #w = index" #slidingItem [attr.track]="workout.key" [hidden]="workout.completed">
+  <div *ngIf="auth.isClient" [hidden]="!loaded">
+    <ion-list>
+      <ion-item-sliding *ngFor="#workout of workouts | async; #w = index" #slidingItem [attr.track]="workout.key" [hidden]="workout.completed || workout.date == '2099-12-31'">
         <ion-item>
           <h3><strong>{{workout.timeStart}} - {{workout.timeEnd}}</strong>, {{workout.descDate}}</h3>
           <p>{{workout.place}}, <strong>{{workout.trainer}}</strong></p>
@@ -61,7 +43,7 @@
       </ion-item-sliding>
     </ion-list>
 
-    <ion-buttons padding *ngIf="auth.isClient">
+    <ion-buttons padding>
       <button primary block type="submit" (click)="showTrainingForm()">Dodaj trening</button>
     </ion-buttons>
   </div>

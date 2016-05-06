@@ -28,7 +28,6 @@ export class TrainingListPage {
     this.dates = [];
     this.trainings = [];
     this.clients = [];
-    this.segment = 'list';
     this.dayIndex = 0;
     this.queryText = '';
     this.excludeTracks = [];
@@ -262,16 +261,6 @@ export class TrainingListPage {
     }, 500);
   }
 
-  segmentChange() {
-    if (this.segment === 'calendar') {
-      if (!this.calendar) {
-        this.renderCalendar();
-      } else {
-        this.refreshCalendar();
-      }
-    }
-  }
-
   onPageLoaded() {
     setTimeout(() => {
       this.loaded = true;
@@ -281,23 +270,18 @@ export class TrainingListPage {
     this.calendar = false;
 
     let asub = this.auth.subscribe((authenticated: boolean) => {
-      // if (asub) {
-      //   asub.unsubscribe();
-      // }
-
       this.workouts = this.workoutStore.workouts;
-      if (this.auth.isTrainer || this.segment === 'calendar') {
-        let sub = this.workouts.subscribe(() => {
-          if (sub) {
-            sub.unsubscribe();
-          }
-
-          if (!this.calendar) {
-            console.log('test sub render');
-            this.renderCalendar();
-          } else {
-            console.log('test sub refresh');
-            this.refreshCalendar();
+      if (this.auth.isOwner || this.auth.isTrainer) {
+        let sub = this.workouts.subscribe((list) => {
+          // console.log('test?', list);
+          if (list.get(-1).date === '2099-12-31' || this.loaded) {
+            if (!this.calendar) {
+              console.log('test sub render');
+              this.renderCalendar();
+            } else {
+              console.log('test sub refresh');
+              this.refreshCalendar();
+            }
           }
         });
       }
@@ -351,8 +335,9 @@ export class TrainingListPage {
           dow: [ 1, 2, 3, 4, 5 ]
         },
 
-        eventOverlap: false,
-        editable: false,
+        eventOverlap: true,
+        editable: true,
+        eventDurationEditable: false,
         eventLimit: true,
         selectable: true,
         selectHelper: false,
@@ -390,7 +375,8 @@ export class TrainingListPage {
         events: this.getEvents.bind(this),
 
         eventClick: this.calendarEvent.bind(this),
-        select: this.calendarSelect.bind(this)
+        select: this.calendarSelect.bind(this),
+        eventDrop: this.calendarDrag.bind(this)
       };
     } else if (this.auth.isTrainer) {
       let calendarOptions = {
@@ -474,6 +460,25 @@ export class TrainingListPage {
     this.calendar = true;
   }
 
+  calendarDrag(event, delta, revertFunc) {
+    let index = this.workoutStore.findIndex(event.id);
+    let workout = this.workoutStore.list.get(index);
+    let changes = {
+      trainer: event.resourceId,
+      date: event.start.format('YYYY-MM-DD'),
+      dateTime: event.start.format('YYYY-MM-DD') + ' ' + event.start.format('HH:00'),
+      timeStart: event.start.format('HH:00'),
+      timeEnd: event.start.add(1, 'hours').format('HH:00')
+    };
+
+    if (confirm('Czy na pewno przenieść trening?')) {
+      this.workoutService.updateWorkout(workout, changes);
+    } else {
+      // revertFunc();
+    }
+    this.refreshCalendar(true);
+  }
+
   calendarSelect(start, end, event, view, resource) {
     console.log('test calendarSelect', start.format('YYYY-MM-DD'), start.format('HH:00'), resource.id);
     // client: "Kamil Pilarczyk"
@@ -551,94 +556,172 @@ export class TrainingListPage {
   }
 
   getEvents(start, end, timezone, callback) {
-      var events = [];
-      this.workoutStore.list.forEach(workout => {
-          switch (workout.trainerKey) {
-            case '-KBN-fYLnmIQ_6pSwnV6': // adam
-              let trainerColor = '#9b6127';
-              break;
-            case '-KEiiFLK6kxKsJoTGjKU': // oskar
-              let trainerColor = '#c124ec';
-              break;
-            case '-KBN-noa5OGgfW2XYbvZ': // damian
-              let trainerColor = '#7e60ff';
-              break;
-            case '-KEiiHM34nL9fAhGCAC8': // pawel
-              let trainerColor = '#373293';
-              break;
-          }
-          var event = {
-              id: workout.key,
-              resourceId: workout.trainerKey,
-              title: this.auth.isClient ? workout.trainer : workout.client,
-              start: workout.date + 'T' + workout.timeStart,
-              end: workout.date + 'T' + workout.timeEnd,
-              color: trainerColor
-          };
-          events.push(event);
+    var events = [];
+    this.workoutStore.list.forEach(workout => {
+      switch (workout.trainerKey) {
+        case '-KBN-fYLnmIQ_6pSwnV6': // adam
+          let trainerColor = '#9b6127';
+          break;
+        case '-KEiiFLK6kxKsJoTGjKU': // oskar
+          let trainerColor = '#c124ec';
+          break;
+        case '-KBN-noa5OGgfW2XYbvZ': // damian
+          let trainerColor = '#7e60ff';
+          break;
+        case '-KEiiHM34nL9fAhGCAC8': // pawel
+          let trainerColor = '#373293';
+          break;
+      }
+      if (workout.completed) {
+        trainerColor = 'red';
+      }
+      var event = {
+        id: workout.key,
+        resourceId: workout.trainerKey,
+        title: this.auth.isClient ? workout.trainer : workout.client,
+        start: workout.date + 'T' + workout.timeStart,
+        end: workout.date + 'T' + workout.timeEnd,
+        color: trainerColor,
+        constraint: 'businessHours'
+      };
+      events.push(event);
 
-          // var eventPlace = {
-          //     id: workout.key,
-          //     resourceId: workout.placeKey,
-          //     title: workout.trainer,
-          //     start: workout.date + 'T' + workout.timeStart,
-          //     end: workout.date + 'T' + workout.timeEnd
-          // };
-          // events.push(eventPlace);
-      });
-      return callback ? callback(events) : events;
+      // var eventPlace = {
+      //     id: workout.key,
+      //     resourceId: workout.placeKey,
+      //     title: workout.trainer,
+      //     start: workout.date + 'T' + workout.timeStart,
+      //     end: workout.date + 'T' + workout.timeEnd
+      // };
+      // events.push(eventPlace);
+    });
+
+    var hours = [
+      { timeStart: '8:00', timeEnd: '09:00' },
+      { timeStart: '9:00', timeEnd: '10:00' },
+      { timeStart: '10:00', timeEnd: '11:00' },
+      { timeStart: '11:00', timeEnd: '12:00' },
+      { timeStart: '12:00', timeEnd: '13:00' },
+      { timeStart: '13:00', timeEnd: '14:00' },
+      { timeStart: '16:00', timeEnd: '17:00' },
+      { timeStart: '17:00', timeEnd: '18:00' },
+      { timeStart: '18:00', timeEnd: '19:00' },
+      { timeStart: '19:00', timeEnd: '20:00' },
+      { timeStart: '20:00', timeEnd: '21:00' },
+      { timeStart: '21:00', timeEnd: '22:00' }
+    ];
+
+    this.workoutStore.trainerStore.list.forEach(trainer => {
+      // debugger;
+      for (let d = 4; d <= 31; d++) {
+        let date = new Date('2016-05-04');
+        date.setDate(d);
+        let day = date.getDate();
+        if (day < 10) {
+          day = '0' + day;
+        }
+        let weekDay = date.getDay()-1;
+
+        if (trainer.hours[weekDay]) {
+          hours.forEach(hour => {
+            if (trainer.hours[weekDay][hour.timeStart]) {
+              let time = hour.timeStart;
+              if (time === '8:00' || time === '9:00') {
+                time = '0' + hour.timeStart;
+              }
+              var working = {
+                id: 'available',
+                resourceId: trainer.key,
+                start: '2016-05-' + day + 'T'+ time,
+                end: '2016-05-' + day + 'T'+ hour.timeEnd,
+                rendering: 'background'
+              };
+              events.push(working);
+            }
+          });
+        }
+      }
+
+    //   // var eventPlace = {
+    //   //     id: workout.key,
+    //   //     resourceId: workout.placeKey,
+    //   //     title: workout.trainer,
+    //   //     start: workout.date + 'T' + workout.timeStart,
+    //   //     end: workout.date + 'T' + workout.timeEnd
+    //   // };
+    //   // events.push(eventPlace);
+    });
+
+    let vacation = [{
+      start: '2016-05-09T07:00',
+      end: '2016-05-15T22:00',
+      overlap: false,
+      rendering: 'background',
+      color: '#ff9f89',
+      resourceId: '-KBN-noa5OGgfW2XYbvZ'
+    },{
+      start: '2016-05-06T16:00',
+      end: '2016-05-06T21:00',
+      overlap: false,
+      rendering: 'background',
+      color: '#ff9f89',
+      resourceId: '-KEiiHM34nL9fAhGCAC8'
+    }];
+    events.push(vacation[0]);
+    events.push(vacation[1]);
+    return callback ? callback(events) : events;
   }
 
   getResources(callback) {
-      console.log('test get resources');
-      var resources = [];
+    console.log('test get resources');
+    var resources = [];
 
-      if (this.workoutStore.placeStore.size === 0) {
-        callback([]);
-        return false;
-      }
+    if (this.workoutStore.placeStore.size === 0) {
+      callback([]);
+      return false;
+    }
 
-      this.workoutStore.trainerStore.list.forEach(trainer => {
-        var resource = {
-          id: trainer.key,
-          title: trainer.title
-        };
-        resources.push(resource);
-      });
+    this.workoutStore.trainerStore.list.forEach(trainer => {
+      var resource = {
+        id: trainer.key,
+        title: trainer.title
+      };
+      resources.push(resource);
+    });
 
-      // var i = 0, childrens = [];
-      // this.workoutStore.trainerStore.list.forEach(trainer => {
-      //     if (i++ < 3) {
-      //         var resource = {
-      //             id: trainer.key,
-      //             title: trainer.title
-      //         };
-      //         childrens.push(resource);
-      //     }
-      // });
-      // var place1 = this.workoutStore.placeStore.list.get(0);
-      // resources.push({
-      //     id: place1.key,
-      //     title: place1.title,
-      //     children: childrens
-      // });
+    // var i = 0, childrens = [];
+    // this.workoutStore.trainerStore.list.forEach(trainer => {
+    //     if (i++ < 3) {
+    //         var resource = {
+    //             id: trainer.key,
+    //             title: trainer.title
+    //         };
+    //         childrens.push(resource);
+    //     }
+    // });
+    // var place1 = this.workoutStore.placeStore.list.get(0);
+    // resources.push({
+    //     id: place1.key,
+    //     title: place1.title,
+    //     children: childrens
+    // });
 
-      // i = 0, childrens = [];
-      // this.workoutStore.trainerStore.list.forEach(trainer => {
-      //     if (i++ >= 3) {
-      //         var resource = {
-      //             id: trainer.key,
-      //             title: trainer.title
-      //         };
-      //         childrens.push(resource);
-      //     }
-      // });
-      // var place2 = this.workoutStore.placeStore.list.get(1);
-      // resources.push({
-      //     id: place2.key,
-      //     title: place2.title,
-      //     children: childrens
-      // });
-      return callback ? callback(resources) : resources;
+    // i = 0, childrens = [];
+    // this.workoutStore.trainerStore.list.forEach(trainer => {
+    //     if (i++ >= 3) {
+    //         var resource = {
+    //             id: trainer.key,
+    //             title: trainer.title
+    //         };
+    //         childrens.push(resource);
+    //     }
+    // });
+    // var place2 = this.workoutStore.placeStore.list.get(1);
+    // resources.push({
+    //     id: place2.key,
+    //     title: place2.title,
+    //     children: childrens
+    // });
+    return callback ? callback(resources) : resources;
   }
 }

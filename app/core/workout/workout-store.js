@@ -105,13 +105,13 @@ export class WorkoutStore {
       let workout: IWorkout = val;
       workout.key = key;
 
-      if (this.auth.isOwner
+      if (workout.date === '2099-12-31' || this.auth.isOwner
         || (this.auth.isTrainer && (this.auth.key === workout.trainer || workout.trainer === '-KGr0KKyDpE2JpoOBsgz'))
         || (this.auth.isClient && this.auth.key === workout.client)) {
         this.list = this.list.push(workout);
         this.updateWorkoutDependencies(workout);
+        this.emit();
       }
-      this.emit();
     }
   }
 

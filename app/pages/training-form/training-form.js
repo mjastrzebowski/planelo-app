@@ -98,7 +98,7 @@ export class TrainingFormModal {
     }
 
     // let lastDate = this.workoutStore.list.last().date;
-    for (var d = today; d <= 30; d++) {
+    for (let d = today; d <= 30; d++) {
       let nextDay = new Date('2016-05-01');
       nextDay.setDate(d);
       if (nextDay.getDay() !== 0) {
@@ -119,7 +119,15 @@ export class TrainingFormModal {
           }
 
           this.workoutStore.trainerStore.list.forEach(trainer => {
-            var d = (new Date(date)).getDay()-1;
+            let thisDate = new Date(date);
+            let thisDay = thisDate.getDate();
+            if ((thisDay >= 9 && thisDay <= 15 && trainer.key === '-KBN-noa5OGgfW2XYbvZ') ||
+              (thisDay === 6 && trainer.key === '-KEiiHM34nL9fAhGCAC8' && time >= '16:00')) {
+              // console.log('urlop', trainer.username, thisDay, time);
+              return;
+            }
+
+            let d = thisDate.getDay()-1;
             if (trainer.hours[d] && trainer.hours[d][hour.timeStart]) {
               if (!this.workoutStore.list.find(workout => {
                 if (!workout.completed && (date === workout.date && workout.timeStart === time && workout.trainerKey === trainer.key)

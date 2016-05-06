@@ -1,0 +1,10 @@
+<!-- <ul class="workout-filters">
+  <li><a [class.active]="!filter" [routerLink]="['/Workouts']">Zobacz wszystkie</a></li>
+  <li><a [class.active]="filter == 'active'" [routerLink]="['/Workouts', {filter: 'active'}]">Wolni</a></li>
+  <li><a [class.active]="filter == 'completed'" [routerLink]="['/Workouts', {filter: 'completed'}]">Zajęci</a></li>
+</ul>
+ -->
+<div class="workout-list pre-scrollable">
+test?
+  <div *ngFor="#workout of workouts | async">{{ workout.date }}</div>
+</div>
