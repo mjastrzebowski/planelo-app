@@ -1,6 +1,6 @@
 <ion-content>
-  <ion-slides pager (change)="onSlideChange($event)">
-    <ion-slide *ngFor="#slide of slides">
+  <ion-slides pager (ionChange)="onSlideChange($event)">
+    <ion-slide *ngFor="let slide of slides">
       <ion-toolbar transparent>
         <ion-buttons end>
           <button (click)="startApp()">{{ slide.continueText }}</button>

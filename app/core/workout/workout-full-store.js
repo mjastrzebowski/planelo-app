@@ -1,5 +1,5 @@
 import { List } from 'immutable';
-import { ReplaySubject } from 'rxjs/subject/ReplaySubject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { AuthService } from '../../core/auth/auth-service';
 
@@ -15,7 +15,8 @@ export class WorkoutFullStore {
 
   constructor(ref: Firebase, auth: AuthService, public clientStore: ClientStore, public placeStore: PlaceStore, public trainerStore: TrainerStore) {
     this.auth = auth;
-    ref = ref.orderByChild('dateTime'); // .startAt('2016-04-29 08:00');
+    // ref = ref.orderByChild('dateTime').startAt('2016-06-20 08:00');
+    ref = ref.orderByChild('dateTime').startAt('2016-06-20 08:00');// .endAt('2016-06-30 08:00');
     ref.on('child_added', this.created.bind(this));
     ref.on('child_changed', this.updated.bind(this));
     ref.on('child_removed', this.deleted.bind(this));

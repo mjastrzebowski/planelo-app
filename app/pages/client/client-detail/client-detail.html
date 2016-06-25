@@ -7,14 +7,14 @@
 
 <ion-content class="client-detail">
     <ion-item >
-      <h3 (click)="loadCalendar()">{{client?.name}}</h3>
+      <h3>{{client?.name}} {{client?.lastname}}</h3>
       <p>Informacje o treningach</p>
     </ion-item>
 
   <ion-list>
     <button ion-item large (click)="goToClientWorkouts(client)">
       <ion-icon name="hammer" item-left></ion-icon> Cykle
-      <ion-note item-right>{{cycles.length}}</ion-note>
+      <ion-note item-right>5</ion-note>
     </button>
     <button ion-item large (click)="goToClientLogs(client)">
       <ion-icon name="clipboard" item-left></ion-icon> Treningi

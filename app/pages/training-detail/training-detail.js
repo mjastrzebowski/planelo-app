@@ -1,8 +1,9 @@
-import {Page, NavParams, NavController, Modal} from 'ionic/ionic';
+import { Component } from '@angular/core';
+import {NavParams, NavController, Modal} from 'ionic-angular';
 
 import {TrainingHistoryModal} from '../training-history/training-history'
 
-@Page({
+@Component({
   templateUrl: 'build/pages/training-detail/training-detail.html'
 })
 export class TrainingDetailPage {
@@ -82,7 +83,7 @@ export class TrainingDetailPage {
     });
   }
 
-  onPageLoaded() {
+  ionViewLoaded() {
     this.getExercises();
   }
 }

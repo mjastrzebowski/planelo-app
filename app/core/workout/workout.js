@@ -13,6 +13,7 @@ export interface IWorkout {
   timeStart?: string;
   timeEnd?: string;
   repeat?: boolean;
+  fixed?: boolean;
 }
 
 export class Workout implements IWorkout {
@@ -26,6 +27,7 @@ export class Workout implements IWorkout {
   timeStart: string;
   timeEnd: string;
   repeat: boolean;
+  fixed: boolean;
 
   constructor(
     place: string,
@@ -35,7 +37,8 @@ export class Workout implements IWorkout {
     dateTime: string,
     timeStart: string,
     timeEnd: string,
-    repeat: boolean) {
+    repeat: boolean,
+    fixed: boolean) {
     this.place = place;
     this.trainer = trainer;
     this.client = client;
@@ -44,5 +47,6 @@ export class Workout implements IWorkout {
     this.timeStart = timeStart;
     this.timeEnd = timeEnd;
     this.repeat = repeat;
+    this.fixed = fixed;
   }
 }

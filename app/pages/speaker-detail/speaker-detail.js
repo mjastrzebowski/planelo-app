@@ -1,8 +1,9 @@
-import {NavController, NavParams, Page} from 'ionic/ionic';
+import { Component } from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
 import {SessionDetailPage} from '../session-detail/session-detail';
 
 
-@Page({
+@Component({
   templateUrl: 'build/pages/speaker-detail/speaker-detail.html'
 })
 export class SpeakerDetailPage {

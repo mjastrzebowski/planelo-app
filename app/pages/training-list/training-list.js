@@ -1,9 +1,10 @@
-import {IonicApp, Page, Modal, Alert, ActionSheet, Toast, NavController} from 'ionic/ionic';
-import {Toast} from 'ionic-angular';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import {App, Modal, Alert, ActionSheet, Toast, NavController} from 'ionic-angular';
 
-import { ChangeDetectionStrategy, Input } from 'angular2/core';
 import { List } from 'immutable';
-import { ReplaySubject } from 'rxjs/subject/ReplaySubject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+
+import { Utils } from '../../providers/utils';
 
 import { AuthService } from '../../core/auth/auth-service';
 import { WorkoutStore } from '../../core/workout/workout-store';
@@ -12,15 +13,16 @@ import { WorkoutService } from '../../core/workout/workout-service';
 import {TrainingFormModal} from '../training-form/training-form'
 // import {TrainingDetailPage} from '../training-detail/training-detail';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/training-list/training-list.html'
 })
 export class TrainingListPage {
   @Input() workouts: ReplaySubject<List<any>>;
 
-  constructor(app: IonicApp, nav: NavController, auth: AuthService, workoutStore: WorkoutStore, workoutService: WorkoutService) {
+  constructor(app: App, nav: NavController, utils: Utils, auth: AuthService, workoutStore: WorkoutStore, workoutService: WorkoutService) {
     this.app = app;
     this.nav = nav;
+    this.utils = utils; // new Utils(this.nav);
     this.auth = auth;
     this.workoutStore = workoutStore;
     this.workoutService = workoutService;
@@ -34,6 +36,7 @@ export class TrainingListPage {
     this.filterTracks = [];
     this.shownSessions = 0;
 
+    this.place = '-KBHukjV0l8M-EkpTdI4';
     this.events = [];
 
     this.loaded = false;
@@ -112,11 +115,22 @@ export class TrainingListPage {
 
 
   updateRepeat() {
-    // this.workoutStore.list.forEach(workout => {
-      // if (workout.date === '2016-05-02' || workout.date === '2016-05-03') {
+    this.workoutStore.list.forEach(workout => {
+      if (workout.date === '2016-06-10' && workout.fixed) {
         // this.workoutService.deleteWorkout(workout);
-      // }
-    // });
+        let newDate = '2016-07-01';
+        let newDateTime = newDate + ' ' + workout.timeStart;
+        this.workoutService.createWorkout(
+          workout.placeKey,
+          workout.trainerKey || '',
+          workout.clientKey,
+          newDate || '',
+          newDateTime || '',
+          workout.timeStart || '',
+          workout.timeEnd || '',
+          true);
+      }
+    });
   }
 
 
@@ -138,7 +152,7 @@ export class TrainingListPage {
   }
 
   saveTraining(data) {
-    console.log('closed training modal with data: ', data);
+    // console.log('closed training modal with data: ', data);
     if (data) {
       if (data[0].hasOwnProperty('delete')) {
         data.forEach(training => {
@@ -146,7 +160,7 @@ export class TrainingListPage {
         });
         this.deleteTrainingAlert(data[0]);
       } else if (this.editing) {
-        console.log('saveTraining editing', data);
+        // console.log('saveTraining editing', data);
         // debugger;
         data.forEach(training => {
           this.workoutService.updateWorkout(training, {
@@ -161,8 +175,8 @@ export class TrainingListPage {
           });
         });
       } else {
-        console.log('saveTraining adding', data);
-        let place = data[0].place || '-KBHukjV0l8M-EkpTdI4';
+        // console.log('saveTraining adding', data);
+        let place = data[0].place || this.place; //'-KBHukjV0l8M-EkpTdI4';
         let client = data[0].client || '';
         data.forEach(training => {
           this.workoutService.createWorkout(
@@ -241,7 +255,7 @@ export class TrainingListPage {
         {
           text: 'Anuluj',
           handler: data => {
-            console.log('Prompt cancel clicked');
+            // console.log('Prompt cancel clicked');
           }
         },
         {
@@ -261,61 +275,53 @@ export class TrainingListPage {
     }, 500);
   }
 
-  onPageLoaded() {
-    setTimeout(() => {
-      this.loaded = true;
-      console.log('test onpageloaded');
-    }, 2000);
+  onPlaceChanged(event) {
+    this.refreshCalendar(true);
+  }
+
+  ionViewLoaded() {
+    this.utils.presentLoading('Ładowanie treningów...');
 
     this.calendar = false;
 
-    let asub = this.auth.subscribe((authenticated: boolean) => {
+    let authSub = this.auth.subscribe((authenticated: boolean) => {
       this.workouts = this.workoutStore.workouts;
-      if (this.auth.isOwner || this.auth.isTrainer) {
-        let sub = this.workouts.subscribe((list) => {
-          // console.log('test?', list);
-          if (list.get(-1).date === '2099-12-31' || this.loaded) {
-            if (!this.calendar) {
-              console.log('test sub render');
-              this.renderCalendar();
-            } else {
-              console.log('test sub refresh');
-              this.refreshCalendar();
+      if (authenticated) {
+        authSub.unsubscribe();
+
+        if (this.auth.isTrainer) {
+          this.place = this.auth.place;
+        }
+        let workSub = this.workouts.subscribe((list) => {
+          if (list.get(-1).date === '2099-12-31') {
+            if (this.auth.isOwner || this.auth.isTrainer) {
+              if (!this.calendar) {
+                this.renderCalendar();
+              } else {
+                this.refreshCalendar();
+              }
             }
+            this.utils.stopLoading();
           }
         });
       }
-
-      // if (this.auth.isClient) {
-      //   this.workouts.subscribe(() => {
-      //     this.trainings = this.workoutStore.workouts;
-      //   });
-      // }
     });
-    // this.showTrainingForm();
   }
 
   refreshCalendar(force) {
     var events = this.getEvents();
-    // debugger;
+
     if (!force && events.length === this.events.length) {
       return;
     }
-    console.log('test refreshCalendar', this.calendar);
+
     this.events = events;
 
-    // var ev = this.getEvents();
-    // var res = this.getResources();
-    // refetch events
     $('#calendar').fullCalendar('refetchEvents');
-    // refetch resources
     $('#calendar').fullCalendar('refetchResources');
-    // $('#calendar').fullCalendar('changeView', 'agendaDay');
   }
 
   renderCalendar() {
-    console.log('test renderCalendar', this.calendar);
-
     if (this.auth.isOwner) {
       let calendarOptions = {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
@@ -345,7 +351,7 @@ export class TrainingListPage {
         header: {
           left: 'today prev,next',
           center: 'title',
-          right: 'agendaDay,agendaTwoDay,agendaWeek,agendaWeek2,month'
+          right: 'agendaDay,agendaTwoDay,agendaWeek'
         },
         defaultView: 'agendaTwoDay',
         views: {
@@ -405,45 +411,7 @@ export class TrainingListPage {
         header: {
           left: 'today prev,next',
           center: 'title',
-          right: 'agendaDay,agendaTwoDay,agendaWeek,month'
-        },
-        defaultView: 'agendaTwoDay',
-        views: {
-          agendaTwoDay: {
-            type: 'agenda',
-            duration: { days: 2 }
-          }
-        },
-        events: this.getEvents.bind(this)
-      };
-    } else if (this.auth.isClient) {
-      let calendarOptions = {
-        schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-        now: new Date().toDateString(),
-        contentHeight: 'auto',
-        lang: 'pl',
-
-        allDaySlot: false,
-        slotLabelFormat: 'HH:mm',
-        scrollTime: '07:30',
-        minTime: '07:00:00',
-        maxTime: '22:00:00',
-        firstDay: 1,
-        businessHours: {
-          start: '08:00',
-          end: '21:00',
-          dow: [ 1, 2, 3, 4, 5 ]
-        },
-
-        eventOverlap: false,
-        editable: false,
-        eventLimit: true,
-        selectable: false,
-        selectHelper: false,
-        header: {
-          left: 'today prev,next',
-          center: 'title',
-          right: 'agendaDay,agendaTwoDay,agendaWeek,month'
+          right: 'agendaDay,agendaTwoDay,agendaWeek'
         },
         defaultView: 'agendaTwoDay',
         views: {
@@ -480,22 +448,6 @@ export class TrainingListPage {
   }
 
   calendarSelect(start, end, event, view, resource) {
-    console.log('test calendarSelect', start.format('YYYY-MM-DD'), start.format('HH:00'), resource.id);
-    // client: "Kamil Pilarczyk"
-    // clientKey: "-KF-rubC8xOwylNhe-q3"
-    // completed: false
-    // createdAt: 1461182433770
-    // date: "2016-04-28"
-    // dateTime: "2016-04-28 10:00"
-    // descDate: "czwartek, 28.04.2016"
-    // fullDate: Thu Apr 28 2016 02:00:00 GMT+0200 (CEST)
-    // key: "-KFpFc_ZT5jaI_BlxglF"
-    // place: "Hermanowska"
-    // placeKey: "-KBHukjV0l8M-EkpTdI4"
-    // timeEnd: "11:00"
-    // timeStart: "10:00"
-    // trainer: "Adam Ciesielski"
-    // trainerKey: "-KBN-fYLnmIQ_6pSwnV6"
     let workout = {
       trainerKey: resource.id,
       date: start.format('YYYY-MM-DD'),
@@ -503,26 +455,13 @@ export class TrainingListPage {
       timeStart: start.format('HH:00'),
       timeEnd: start.add(1, 'hours').format('HH:00')
     };
-    // debugger;
+
     this.showTrainingForm(workout);
-    //   var title = prompt('Event Title:');
-    //   var eventData;
-    //   if (title) {
-    //       eventData = {
-    //           title: title,
-    //           start: start,
-    //           end: end
-    //       };
-    //       $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-    //   }
-    //   $('#calendar').fullCalendar('unselect');
   }
 
   calendarEvent(event) {
-    console.log('test calendarEvent', event);
     let index = this.workoutStore.findIndex(event.id);
     let workout = this.workoutStore.list.get(index);
-    // debugger;
     this.showTrainingForm(workout);
   }
 
@@ -533,23 +472,18 @@ export class TrainingListPage {
         {
           text: 'Usuń',
           role: 'destructive',
-          handler: () => {
-            console.log('Destructive clicked');
-          }
+          handler: () => {}
         },{
           text: 'Edytuj',
-          handler: () => {
-            console.log('Archive clicked');
-          }
+          handler: () => {}
         },{
           text: 'Anuluj',
           role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
+          handler: () => {}
         }
       ]
     });
+
     setTimeout(() => {
       this.nav.present(actionSheet);
     }, 500);
@@ -558,6 +492,10 @@ export class TrainingListPage {
   getEvents(start, end, timezone, callback) {
     var events = [];
     this.workoutStore.list.forEach(workout => {
+      if (workout.fixed || workout.placeKey !== this.place) {
+        return;
+      }
+
       switch (workout.trainerKey) {
         case '-KBN-fYLnmIQ_6pSwnV6': // adam
           let trainerColor = '#9b6127';
@@ -596,84 +534,164 @@ export class TrainingListPage {
       // events.push(eventPlace);
     });
 
-    var hours = [
-      { timeStart: '8:00', timeEnd: '09:00' },
-      { timeStart: '9:00', timeEnd: '10:00' },
-      { timeStart: '10:00', timeEnd: '11:00' },
-      { timeStart: '11:00', timeEnd: '12:00' },
-      { timeStart: '12:00', timeEnd: '13:00' },
-      { timeStart: '13:00', timeEnd: '14:00' },
-      { timeStart: '16:00', timeEnd: '17:00' },
-      { timeStart: '17:00', timeEnd: '18:00' },
-      { timeStart: '18:00', timeEnd: '19:00' },
-      { timeStart: '19:00', timeEnd: '20:00' },
-      { timeStart: '20:00', timeEnd: '21:00' },
-      { timeStart: '21:00', timeEnd: '22:00' }
-    ];
+    if (this.auth.isOwner) {
+      var hours = [
+        { timeStart: '8:00', timeEnd: '09:00' },
+        { timeStart: '9:00', timeEnd: '10:00' },
+        { timeStart: '10:00', timeEnd: '11:00' },
+        { timeStart: '11:00', timeEnd: '12:00' },
+        { timeStart: '12:00', timeEnd: '13:00' },
+        { timeStart: '13:00', timeEnd: '14:00' },
+        { timeStart: '16:00', timeEnd: '17:00' },
+        { timeStart: '17:00', timeEnd: '18:00' },
+        { timeStart: '18:00', timeEnd: '19:00' },
+        { timeStart: '19:00', timeEnd: '20:00' },
+        { timeStart: '20:00', timeEnd: '21:00' },
+        { timeStart: '21:00', timeEnd: '22:00' }
+      ];
 
-    this.workoutStore.trainerStore.list.forEach(trainer => {
-      // debugger;
-      for (let d = 4; d <= 31; d++) {
-        let date = new Date('2016-05-04');
-        date.setDate(d);
-        let day = date.getDate();
-        if (day < 10) {
-          day = '0' + day;
-        }
-        let weekDay = date.getDay()-1;
+      this.workoutStore.trainerStore.list.forEach(trainer => {
+        // debugger;
+        for (let d = 1; d <= 60; d++) {
+          let date = new Date('2016-06-01');
+          date.setDate(d);
+          let day = date.getDate();
+          if (day < 10) {
+            day = '0' + day;
+          }
+          let month = date.getMonth()+1;
+          if (month < 10) {
+            month = '0' + month;
+          }
+          let weekDay = date.getDay()-1;
 
-        if (trainer.hours[weekDay]) {
-          hours.forEach(hour => {
-            if (trainer.hours[weekDay][hour.timeStart]) {
-              let time = hour.timeStart;
-              if (time === '8:00' || time === '9:00') {
-                time = '0' + hour.timeStart;
+          if (trainer.hours[weekDay]) {
+            hours.forEach(hour => {
+              if (trainer.hours[weekDay][hour.timeStart]) {
+                let time = hour.timeStart;
+                if (time === '8:00' || time === '9:00') {
+                  time = '0' + hour.timeStart;
+                }
+                var working = {
+                  id: 'available',
+                  resourceId: trainer.key,
+                  start: '2016-' + month + '-' + day + 'T'+ time,
+                  end: '2016-' + month + '-' + day + 'T'+ hour.timeEnd,
+                  rendering: 'background'
+                };
+                events.push(working);
               }
-              var working = {
-                id: 'available',
-                resourceId: trainer.key,
-                start: '2016-05-' + day + 'T'+ time,
-                end: '2016-05-' + day + 'T'+ hour.timeEnd,
-                rendering: 'background'
-              };
-              events.push(working);
-            }
-          });
+            });
+          }
         }
-      }
+      });
 
-    //   // var eventPlace = {
-    //   //     id: workout.key,
-    //   //     resourceId: workout.placeKey,
-    //   //     title: workout.trainer,
-    //   //     start: workout.date + 'T' + workout.timeStart,
-    //   //     end: workout.date + 'T' + workout.timeEnd
-    //   // };
-    //   // events.push(eventPlace);
-    });
+      var w = [{
+        id: 'available',
+        resourceId: '-KGHHXLT2oypqidXcL2T',
+        start: '2016-06-01T08:00',
+        end: '2016-06-01T11:00',
+        rendering: 'background'
+      },{
+        id: 'available',
+        resourceId: '-KGHHXLT2oypqidXcL2T',
+        start: '2016-06-01T17:00',
+        end: '2016-06-01T21:00',
+        rendering: 'background'
+      },{
+        id: 'available',
+        resourceId: '-KGHHXLT2oypqidXcL2T',
+        start: '2016-06-02T08:00',
+        end: '2016-06-02T11:00',
+        rendering: 'background'
+      },{
+        id: 'available',
+        resourceId: '-KGHHXLT2oypqidXcL2T',
+        start: '2016-06-02T17:00',
+        end: '2016-06-02T21:00',
+        rendering: 'background'
+      },{
+        id: 'available',
+        resourceId: '-KGHHXLT2oypqidXcL2T',
+        start: '2016-06-03T08:00',
+        end: '2016-06-03T11:00',
+        rendering: 'background'
+      },{
+        id: 'available',
+        resourceId: '-KGHHXLT2oypqidXcL2T',
+        start: '2016-06-03T17:00',
+        end: '2016-06-03T21:00',
+        rendering: 'background'
+      }];
+      events.push(w[0]);
+      // events.push(w[1]);
+      events.push(w[2]);
+      events.push(w[3]);
+      events.push(w[4]);
+      events.push(w[5]);
 
-    let vacation = [{
-      start: '2016-05-09T07:00',
-      end: '2016-05-15T22:00',
-      overlap: false,
-      rendering: 'background',
-      color: '#ff9f89',
-      resourceId: '-KBN-noa5OGgfW2XYbvZ'
-    },{
-      start: '2016-05-06T16:00',
-      end: '2016-05-06T21:00',
-      overlap: false,
-      rendering: 'background',
-      color: '#ff9f89',
-      resourceId: '-KEiiHM34nL9fAhGCAC8'
-    }];
-    events.push(vacation[0]);
-    events.push(vacation[1]);
+      let vacation = [{
+        start: '2016-05-09T07:00',
+        end: '2016-05-15T22:00',
+        overlap: false,
+        rendering: 'background',
+        color: '#ff9f89',
+        resourceId: '-KBN-noa5OGgfW2XYbvZ'
+      },{
+        start: '2016-05-06T16:00',
+        end: '2016-05-06T21:00',
+        overlap: false,
+        rendering: 'background',
+        color: '#ff9f89',
+        resourceId: '-KEiiHM34nL9fAhGCAC8'
+      },{
+        start: '2016-05-16T07:00',
+        end: '2016-05-22T22:00',
+        overlap: false,
+        rendering: 'background',
+        color: '#ff9f89',
+        resourceId: '-KEiiHM34nL9fAhGCAC8'
+      },{
+        start: '2016-05-26T07:00',
+        end: '2016-06-03T22:00',
+        overlap: false,
+        rendering: 'background',
+        color: '#ff9f89',
+        resourceId: '-KBN-fYLnmIQ_6pSwnV6'
+      }];
+      events.push(vacation[0]);
+      events.push(vacation[1]);
+      events.push(vacation[2]);
+      events.push(vacation[3]);
+    }
+
     return callback ? callback(events) : events;
   }
 
   getResources(callback) {
-    console.log('test get resources');
+    var resources = [];
+
+    if (this.workoutStore.placeStore.size === 0) {
+      callback([]);
+      return false;
+    }
+
+    this.workoutStore.trainerStore.list.forEach(trainer => {
+      if (trainer.place !== this.place) {
+        return;
+      }
+
+      var resource = {
+        id: trainer.key,
+        title: trainer.title
+      };
+      resources.push(resource);
+    });
+
+    return callback ? callback(resources) : resources;
+  }
+
+  getResourcesWithPlaces(callback) {
     var resources = [];
 
     if (this.workoutStore.placeStore.size === 0) {
@@ -689,39 +707,39 @@ export class TrainingListPage {
       resources.push(resource);
     });
 
-    // var i = 0, childrens = [];
-    // this.workoutStore.trainerStore.list.forEach(trainer => {
-    //     if (i++ < 3) {
-    //         var resource = {
-    //             id: trainer.key,
-    //             title: trainer.title
-    //         };
-    //         childrens.push(resource);
-    //     }
-    // });
-    // var place1 = this.workoutStore.placeStore.list.get(0);
-    // resources.push({
-    //     id: place1.key,
-    //     title: place1.title,
-    //     children: childrens
-    // });
+    var i = 0, childrens = [];
+    this.workoutStore.trainerStore.list.forEach(trainer => {
+        if (i++ < 3) {
+            var resource = {
+                id: trainer.key,
+                title: trainer.title
+            };
+            childrens.push(resource);
+        }
+    });
+    var place1 = this.workoutStore.placeStore.list.get(0);
+    resources.push({
+        id: place1.key,
+        title: place1.title,
+        children: childrens
+    });
 
-    // i = 0, childrens = [];
-    // this.workoutStore.trainerStore.list.forEach(trainer => {
-    //     if (i++ >= 3) {
-    //         var resource = {
-    //             id: trainer.key,
-    //             title: trainer.title
-    //         };
-    //         childrens.push(resource);
-    //     }
-    // });
-    // var place2 = this.workoutStore.placeStore.list.get(1);
-    // resources.push({
-    //     id: place2.key,
-    //     title: place2.title,
-    //     children: childrens
-    // });
+    i = 0, childrens = [];
+    this.workoutStore.trainerStore.list.forEach(trainer => {
+        if (i++ >= 3) {
+            var resource = {
+                id: trainer.key,
+                title: trainer.title
+            };
+            childrens.push(resource);
+        }
+    });
+    var place2 = this.workoutStore.placeStore.list.get(1);
+    resources.push({
+        id: place2.key,
+        title: place2.title,
+        children: childrens
+    });
     return callback ? callback(resources) : resources;
   }
 }

@@ -1,4 +1,4 @@
-import { EventEmitter } from 'angular2/core';
+import { EventEmitter } from '@angular/core';
 
 
 export class AuthService {
@@ -66,6 +66,10 @@ export class AuthService {
 
   get title(): string {
     return this.authenticated && this.moreData ? this.moreData.title : '';
+  }
+
+  get place(): string {
+    return this.authenticated && this.moreData ? this.moreData.place : '';
   }
 
   get isTrainer(): boolean {

@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input } from 'angular2/core';
-import { RouterLink, RouteParams } from 'angular2/router';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { RouterLink, RouteParams } from '@angular/router';
 import { List } from 'immutable';
-import { ReplaySubject } from 'rxjs/subject/ReplaySubject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 // import { WorkoutItem } from '../workout-item/workout-item';
 // import { WorkoutListFilterPipe } from './workout-list-filter-pipe';

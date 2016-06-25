@@ -9,7 +9,7 @@ import {
   it,
   fit,
   xit
-} from 'angular2/testing';
+} from '@angular/testing';
 /* tslint:enable:no-unused-variable */
 
 import { ClientService } from './client-service';

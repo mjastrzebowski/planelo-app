@@ -23,11 +23,15 @@ module.exports = {
           useWebpackText: true
         },
         include: path.resolve('app'),
-        exclude: /node_modules/
+        exclude: /(node_modules)/
       },
       {
         test: /\.js$/,
-        include: path.resolve('node_modules/angular2'),
+        include: [
+          path.resolve('node_modules/rxjs'),
+          path.resolve('node_modules/angular2'),
+          path.resolve('node_modules/@angular')
+        ],
         loader: 'strip-sourcemap'
       }
     ],
@@ -39,8 +43,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'angular2': path.resolve('node_modules/angular2'),
-      'ionic': 'ionic-framework',
+      'rx$': require.resolve('rxjs')
     },
     extensions: ['', '.js']
   }

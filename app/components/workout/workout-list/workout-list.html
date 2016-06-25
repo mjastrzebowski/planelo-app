@@ -6,5 +6,5 @@
  -->
 <div class="workout-list pre-scrollable">
 test?
-  <div *ngFor="#workout of workouts | async">{{ workout.date }}</div>
+  <div *ngFor="let workout of workouts | async">{{ workout.date }}</div>
 </div>

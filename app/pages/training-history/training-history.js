@@ -1,6 +1,7 @@
-import {Page, NavParams, ViewController} from 'ionic/ionic';
+import { Component } from '@angular/core';
+import {NavParams, ViewController} from 'ionic-angular';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/training-history/training-history.html'
 })
 export class TrainingHistoryModal {

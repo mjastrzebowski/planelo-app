@@ -1,4 +1,4 @@
-import { provide } from 'angular2/core';
+import { provide } from '@angular/core';
 import { FIREBASE_CLIENTS_URL } from '../../config';
 import { AuthService } from '../auth/auth-service';
 import { ClientService } from './client-service';

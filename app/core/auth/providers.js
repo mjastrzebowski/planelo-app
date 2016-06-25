@@ -1,4 +1,4 @@
-import { provide } from 'angular2/core';
+import { provide } from '@angular/core';
 import { FIREBASE_URL } from '../../config';
 import { AuthRouteHelper } from './auth-route-helper';
 import { AuthService } from './auth-service';

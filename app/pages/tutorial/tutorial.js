@@ -1,13 +1,14 @@
-import {IonicApp, Page, NavController, Animation} from 'ionic/ionic';
+import { Component } from '@angular/core';
+import {App, NavController, Animation} from 'ionic-angular';
 import {TabsPage} from '../tabs/tabs';
 import {SignupPage} from '../signup/signup';
 
 
-@Page({
+@Component({
   templateUrl: 'build/pages/tutorial/tutorial.html',
 })
 export class TutorialPage {
-  constructor(nav: NavController, app: IonicApp) {
+  constructor(nav: NavController, app: App) {
     this.nav = nav;
     this.app = app;
 
@@ -51,12 +52,12 @@ export class TutorialPage {
     this.playImageAnimation(event.activeIndex);
   }
 
-  onPageDidEnter() {
+  ionViewDidEnter() {
     // the root left menu should be disabled on the tutorial page
     this.app.getComponent('leftMenu').enable(false);
   }
 
-  onPageWillLeave() {
+  ionViewWillLeave() {
     // enable the root left menu when leaving the tutorial page
     this.app.getComponent('leftMenu').enable(true);
   }

@@ -1,7 +1,7 @@
-import {Page, NavParams} from 'ionic/ionic';
+import { Component } from '@angular/core';
+import {NavParams} from 'ionic-angular';
 
-
-@Page({
+@Component({
   templateUrl: 'build/pages/session-detail/session-detail.html'
 })
 export class SessionDetailPage {

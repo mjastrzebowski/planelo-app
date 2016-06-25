@@ -11,6 +11,17 @@
 </ion-toolbar>
 
 <ion-content class="training-form has-header">
+  <div padding [hidden]="!auth || !auth.isClient">
+    <ion-segment [(ngModel)]="place" (ionChange)="onPlaceChanged($event)">
+      <ion-segment-button value="-KBHukjV0l8M-EkpTdI4">
+        Hermanowska
+      </ion-segment-button>
+      <ion-segment-button value="-KBHulP5PtV-dGxyXPWl">
+        Zwycięska
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
   <ion-list *ngIf="auth.isClient && available.length === 0">
     <ion-list-header>
       <ion-row center>
@@ -24,12 +35,12 @@
 
   <form #trainingForm="ngForm" novalidate>
     <ion-list *ngIf="auth.isClient">
-      <ion-item-group *ngFor="#w of available">
+      <ion-item-group *ngFor="let w of available">
         <ion-item-divider sticky>{{w.descDate}}</ion-item-divider>
-        <ion-item *ngFor="#hour of w.hours" (click)="selectHour(hour)">
+        <ion-item *ngFor="let hour of w.hours" (click)="selectHour(hour)">
           <h3>{{hour.timeStart}} - {{hour.timeEnd}}</h3>
           <button favorite item-right>{{hour.trainers.length}} dostępne</button>
-          <!-- <p *ngFor="#trainer of hour.trainers">{{trainer.title}}</p> -->
+          <!-- <p *ngFor="let trainer of hour.trainers">{{trainer.title}}</p> -->
         </ion-item>
       </ion-item-group>
     </ion-list>
@@ -39,11 +50,11 @@
         <ion-item>
           <ion-label>Klient</ion-label>
           <ion-select [(ngModel)]="trainings[0].client">
-            <ion-option *ngFor="#client of workoutStore.clientStore.clients | async" [value]="client.key">{{client.lastname}} {{client.name}}</ion-option>
+            <ion-option *ngFor="let client of workoutStore.clientStore.clients | async" [value]="client.key">{{client.lastname}} {{client.name}}</ion-option>
           </ion-select>
         </ion-item>
       </ion-list>
-      <ion-list *ngFor="#training of trainings; #t = index">
+      <ion-list *ngFor="let training of trainings; let t = index">
         <ion-list-header padding-v-0>
           <ion-row center padding-v-0>
             <ion-col width-80>Trening</ion-col>
@@ -56,16 +67,16 @@
         </ion-list-header>
         <ion-item>
           <ion-label>Termin</ion-label>
-          <ion-select [(ngModel)]="training.date" (change)="updateDateTime()">
-            <span *ngFor="#w of available">
-              <ion-option *ngFor="#hour of w.hours" [value]="hour">{{hour.timeStart}} {{w.descDate}}</ion-option>
+          <ion-select [(ngModel)]="training.date" (ionChange)="updateDateTime()">
+            <span *ngFor="let w of available">
+              <ion-option *ngFor="let hour of w.hours" [value]="hour">{{hour.timeStart}} {{w.descDate}}</ion-option>
             </span>
           </ion-select>
         </ion-item>
         <ion-item>
           <ion-label>Trener</ion-label>
           <ion-select [(ngModel)]="training.trainer">
-            <ion-option *ngFor="#trainer of training.date?.trainers" [value]="trainer.key">{{trainer.title}}</ion-option>
+            <ion-option *ngFor="let trainer of training.date?.trainers" [value]="trainer.key">{{trainer.title}}</ion-option>
           </ion-select>
         </ion-item>
         <ion-item [hidden]="training.completed || editing">
@@ -78,7 +89,7 @@
         </ion-item>
         <ion-item [hidden]="training.completed">
           Powtórzone: 
-          <p><span *ngFor="#rep of repeated">{{rep.startTime}} {{rep.fullDate}}<br></span></p>
+          <p><span *ngFor="let rep of repeated">{{rep.startTime}} {{rep.fullDate}}<br></span></p>
         </ion-item>
         <ion-item [hidden]="!training.completed">
           Powód odwołania: 

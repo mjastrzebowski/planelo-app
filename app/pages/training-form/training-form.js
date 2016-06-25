@@ -1,19 +1,19 @@
-import { Input } from 'angular2/core';
+import { Component, Input } from '@angular/core';
 
-import {IonicApp, Page, Alert, NavParams, NavController, ViewController} from 'ionic/ionic';
+import {App, Alert, NavParams, NavController, ViewController} from 'ionic-angular';
 
 import { AuthService } from '../../core/auth/auth-service';
 import { WorkoutFullStore } from '../../core/workout/workout-full-store';
 
 
-@Page({
+@Component({
   templateUrl: 'build/pages/training-form/training-form.html'
 })
 export class TrainingFormModal {
   @Input() trainings: Array;
   editing: boolean = false;
 
-  constructor(app: IonicApp, params: NavParams, nav: NavController, viewCtrl: ViewController, auth: AuthService, workoutStore: WorkoutFullStore) {
+  constructor(app: App, params: NavParams, nav: NavController, viewCtrl: ViewController, auth: AuthService, workoutStore: WorkoutFullStore) {
     this.app = app;
     this.params = params;
     this.nav = nav;
@@ -25,9 +25,15 @@ export class TrainingFormModal {
     this.available = [];
     this.repeated = [];
     // this.trainings = [];
+    this.place = '-KBHukjV0l8M-EkpTdI4';
   }
 
-  onPageLoaded() {
+  onPlaceChanged(event) {
+    // console.log('test onPlaceChanged', event.value);
+    this.getAvailableWorkouts();
+  }
+
+  ionViewLoaded() {
     // debugger;
     if (this.params.data.hasOwnProperty('date')) {
       let workout = Object.assign({}, this.params.data);
@@ -54,7 +60,7 @@ export class TrainingFormModal {
       // this.workouts.subscribe(() => {
       //   this.getAvailableWorkouts();
       // });
-      console.log('test trainForm auth sub', authenticated);
+      // console.log('test trainForm auth sub', authenticated);
       if (this.auth.isClient) {
         setTimeout(() => {
           this.getAvailableWorkouts();
@@ -66,11 +72,11 @@ export class TrainingFormModal {
   }
 
   updateDateTime() {
-    console.log('test updateDateTime');
+    // console.log('test updateDateTime');
   }
 
   getAvailableWorkouts() {
-    console.log('test getAvailableWorkouts start');
+    // console.log('test getAvailableWorkouts start');
     this.available = [];
     if (this.available.length > 0) {
       return false;
@@ -93,22 +99,32 @@ export class TrainingFormModal {
     var today = new Date().getDate();
     if (this.auth.isClient) {
       today++;
+      var hour = new Date().getHours();
+      if (hour >= 21) {
+        today++;
+      }
     } else if (this.auth.isOwner) {
+      today = 20;
+    }
+    if (today === 32) {
       today = 1;
     }
 
     // let lastDate = this.workoutStore.list.last().date;
-    for (let d = today; d <= 30; d++) {
-      let nextDay = new Date('2016-05-01');
+    for (let d = today; d <= today+20; d++) {
+      let nextDay = new Date('2016-06-01');
       nextDay.setDate(d);
       if (nextDay.getDay() !== 0) {
-        let date = '2016-05-';
-        if (d < 10) {
-          date += '0' + d;
-        } else {
-          date += d;
+        let day = nextDay.getDate();
+        if (day < 10) {
+          day = '0' + day;
         }
-
+        let month = nextDay.getMonth()+1;
+        if (month < 10) {
+          month = '0' + month;
+        }
+        let date = '2016-' + month + '-' + day;
+        
         var avHours = [];
         hours.forEach(hour => {
           // var size = this.workoutStore.trainerStore.size;
@@ -119,23 +135,29 @@ export class TrainingFormModal {
           }
 
           this.workoutStore.trainerStore.list.forEach(trainer => {
-            let thisDate = new Date(date);
-            let thisDay = thisDate.getDate();
-            if ((thisDay >= 9 && thisDay <= 15 && trainer.key === '-KBN-noa5OGgfW2XYbvZ') ||
-              (thisDay === 6 && trainer.key === '-KEiiHM34nL9fAhGCAC8' && time >= '16:00')) {
-              // console.log('urlop', trainer.username, thisDay, time);
-              return;
-            }
+            if (this.auth.isOwner || trainer.place === this.place) {
+              let thisDate = new Date(date);
+              let thisDay = thisDate.getDate();
+              if (!this.auth.isOwner && 
+                (thisDay <= 3 && trainer.key === '-KBN-fYLnmIQ_6pSwnV6')) {
+                // console.log('urlop', trainer.username, thisDay, time);
+                return;
+              }
 
-            let d = thisDate.getDay()-1;
-            if (trainer.hours[d] && trainer.hours[d][hour.timeStart]) {
-              if (!this.workoutStore.list.find(workout => {
-                if (!workout.completed && (date === workout.date && workout.timeStart === time && workout.trainerKey === trainer.key)
-                  && !(this.trainings[0] && workout.date === this.trainings[0].date && workout.timeStart === this.trainings[0].timeStart && trainer.key === this.trainings[0].trainer)) {
-                  return true;
+              let d = thisDate.getDay()-1;
+              if ((trainer.hours[d] && trainer.hours[d][hour.timeStart]) || 
+                (trainer.key === '-KGHHXLT2oypqidXcL2T' && 
+                  (date === '2016-06-01' || date === '2016-06-02' || date === '2016-06-03') &&
+                  (time === '08:00' || time === '09:00' || time === '10:00' || time === '17:00' || time === '18:00' || time === '19:00' || time === '20:00'))
+              ) {
+                if (!this.workoutStore.list.find(workout => {
+                  if (!workout.fixed && !workout.completed && (date === workout.date && workout.timeStart === time && workout.trainerKey === trainer.key)
+                    && !(this.trainings[0] && workout.date === this.trainings[0].date && workout.timeStart === this.trainings[0].timeStart && trainer.key === this.trainings[0].trainer)) {
+                    return true;
+                  }
+                })) {
+                  avTrainers.push(trainer);
                 }
-              })) {
-                avTrainers.push(trainer);
               }
             }
           });
@@ -157,7 +179,7 @@ export class TrainingFormModal {
         this.available.push(avDay);
       }
     }
-    console.log('test getAvailableWorkouts end');
+    // console.log('test getAvailableWorkouts end');
     // debugger;
   }
 
@@ -223,7 +245,7 @@ export class TrainingFormModal {
   changeRepeated() {
     if (this.auth.isOwner && this.editing && this.trainings[0].all) {
       this.repeated.forEach(repeat => {
-        console.log('test changeRepeated', this.trainings[0]);
+        // console.log('test changeRepeated', this.trainings[0]);
         let d = new Date(this.trainings[0].oldDate);
         let dd = new Date(this.trainings[0].date.date);
         let n = new Date(repeat.date);
@@ -295,6 +317,7 @@ export class TrainingFormModal {
   }
 
   selectHour(hour) {
+    this.trainings[0].place = this.place;
     this.trainings[0].date = hour;
     this.trainings[0].client = this.auth.key;
     this.trainings[0].trainer = hour.trainers[0].key;

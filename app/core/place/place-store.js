@@ -1,5 +1,5 @@
 import { List } from 'immutable';
-import { ReplaySubject } from 'rxjs/subject/ReplaySubject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { IPlace } from './place';
 
 

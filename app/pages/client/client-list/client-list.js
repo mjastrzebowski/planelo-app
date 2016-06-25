@@ -1,8 +1,8 @@
-import {IonicApp, Page, Modal, Alert, NavController} from 'ionic/ionic';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import {App, Modal, Alert, NavController} from 'ionic-angular';
 
-import { ChangeDetectionStrategy, Input } from 'angular2/core';
 import { List } from 'immutable';
-import { ReplaySubject } from 'rxjs/subject/ReplaySubject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { AuthService } from '../../../core/auth/auth-service';
 import { ClientStore } from '../../../core/client/client-store';
@@ -11,13 +11,13 @@ import { ClientService } from '../../../core/client/client-service';
 import {ClientFormModal} from '../client-form/client-form'
 import {ClientDetailPage} from '../client-detail/client-detail'
 
-@Page({
+@Component({
   templateUrl: 'build/pages/client/client-list/client-list.html'
 })
 export class ClientListPage {
   @Input() clients: ReplaySubject<List<any>>;
 
-  constructor(app: IonicApp, nav: NavController, auth: AuthService, clientStore: ClientStore, clientService: ClientService) {
+  constructor(app: App, nav: NavController, auth: AuthService, clientStore: ClientStore, clientService: ClientService) {
     this.app = app;
     this.nav = nav;
     this.auth = auth;
@@ -67,9 +67,9 @@ export class ClientListPage {
     this.nav.present(modal);
   }
 
-  // goToClientDetail(client) {
-  //   this.nav.push(ClientDetailPage, client.username);
-  // }
+  goToClientDetail(client) {
+    this.nav.push(ClientDetailPage, client);
+  }
 
   // getClients() {
   //   this.clientData.getClients().then(clients => {
@@ -103,7 +103,7 @@ export class ClientListPage {
     });
   }
 
-  onPageLoaded() {
+  ionViewLoaded() {
 
     this.auth.subscribe((authenticated: boolean) => {
       this.clients = this.clientStore.clients;

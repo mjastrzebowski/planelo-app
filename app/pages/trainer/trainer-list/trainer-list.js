@@ -1,8 +1,8 @@
-import {IonicApp, Page, Modal, Alert, NavController} from 'ionic/ionic';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import {App, Modal, Alert, NavController} from 'ionic-angular';
 
-import { ChangeDetectionStrategy, Input } from 'angular2/core';
 import { List } from 'immutable';
-import { ReplaySubject } from 'rxjs/subject/ReplaySubject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { AuthService } from '../../../core/auth/auth-service';
 import { TrainerStore } from '../../../core/trainer/trainer-store';
@@ -11,13 +11,13 @@ import { TrainerService } from '../../../core/trainer/trainer-service';
 import {TrainerFormModal} from '../trainer-form/trainer-form'
 import {TrainerDetailPage} from '../trainer-detail/trainer-detail'
 
-@Page({
+@Component({
   templateUrl: 'build/pages/trainer/trainer-list/trainer-list.html'
 })
 export class TrainerListPage {
   @Input() trainers: ReplaySubject<List<any>>;
 
-  constructor(app: IonicApp, nav: NavController, auth: AuthService, trainerStore: TrainerStore, trainerService: TrainerService) {
+  constructor(app: App, nav: NavController, auth: AuthService, trainerStore: TrainerStore, trainerService: TrainerService) {
     this.app = app;
     this.nav = nav;
     this.auth = auth;
@@ -64,7 +64,7 @@ export class TrainerListPage {
     this.nav.present(modal);
   }
 
-  onPageLoaded() {
+  ionViewLoaded() {
     this.auth.subscribe((authenticated: boolean) => {
       this.trainers = this.trainerStore.trainers;
 

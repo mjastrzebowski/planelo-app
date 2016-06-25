@@ -1,15 +1,16 @@
-import { IonicApp, Page, Alert, NavController } from 'ionic/ionic';
+import { Component } from '@angular/core';
+import { App, Alert, NavController } from 'ionic-angular';
 
 // import { AuthRouteHelper } from '../../core/auth/auth-route-helper';
 import { AuthService } from '../../core/auth/auth-service';
 
 
-@Page({
+@Component({
   templateUrl: 'build/pages/settings/settings.html'
 })
 
 export class SettingsPage {
-  constructor(app: IonicApp, nav: NavController, auth: AuthService) {
+  constructor(app: App, nav: NavController, auth: AuthService) {
     this.app = app;
     this.nav = nav;
     this.auth = auth;
@@ -29,7 +30,7 @@ export class SettingsPage {
     // });
   }
 
-  onPageLoaded() {
+  ionViewLoaded() {
     this.settings.email = this.auth.email;
   }
 

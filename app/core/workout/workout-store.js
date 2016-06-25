@@ -1,5 +1,5 @@
 import { List } from 'immutable';
-import { ReplaySubject } from 'rxjs/subject/ReplaySubject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { AuthService } from '../../core/auth/auth-service';
 
@@ -15,7 +15,8 @@ export class WorkoutStore {
 
   constructor(ref: Firebase, auth: AuthService, public clientStore: ClientStore, public placeStore: PlaceStore, public trainerStore: TrainerStore) {
     this.auth = auth;
-    ref = ref.orderByChild('dateTime'); //.startAt('2016-04-26 08:00').limitToFirst(300);
+    // ref = ref.orderByChild('dateTime').startAt('2016-05-31 08:00');
+    ref = ref.orderByChild('dateTime'); // .startAt('2016-06-20 08:00'); //.endAt('2016-06-27 08:00');
     ref.on('child_added', this.created.bind(this));
     ref.on('child_changed', this.updated.bind(this));
     ref.on('child_removed', this.deleted.bind(this));
@@ -74,23 +75,23 @@ export class WorkoutStore {
     workout.placeKey = workout.place;
     workout.trainerKey = workout.trainer;
 
-    this.updateClients();
-    this.clientStore.clients.subscribe(() => {
-      this.updateClients();
-      // this.emit();
-    });
+    // this.updateClients();
+    // this.clientStore.clients.subscribe(() => {
+    //   this.updateClients();
+    //   // this.emit();
+    // });
 
-    this.updatePlaces();
-    this.placeStore.places.subscribe(() => {
-      this.updatePlaces();
-      // this.emit();
-    });
+    // this.updatePlaces();
+    // this.placeStore.places.subscribe(() => {
+    //   this.updatePlaces();
+    //   // this.emit();
+    // });
 
-    this.updateTrainers();
-    this.trainerStore.trainers.subscribe(() => {
-      this.updateTrainers();
-      // this.emit();
-    });
+    // this.updateTrainers();
+    // this.trainerStore.trainers.subscribe(() => {
+    //   this.updateTrainers();
+    //   // this.emit();
+    // });
   }
 
   private emit(): void {
@@ -104,9 +105,22 @@ export class WorkoutStore {
       let val = snapshot.val();
       let workout: IWorkout = val;
       workout.key = key;
+      let sunday = '';
+
+      if (this.auth.isTrainer) {
+        let sun1 = '-KGr0KKyDpE2JpoOBsgz';
+        let sun2 = '-KJ3OEmcSe2FUq49ehA6';
+        let place1 = '-KBHukjV0l8M-EkpTdI4';
+        let place2 = '-KBHulP5PtV-dGxyXPWl';
+        if (this.auth.place === place1) {
+          sunday = sun1;
+        } else {
+          sunday = sun2;
+        }
+      }
 
       if (workout.date === '2099-12-31' || this.auth.isOwner
-        || (this.auth.isTrainer && (this.auth.key === workout.trainer || workout.trainer === '-KGr0KKyDpE2JpoOBsgz'))
+        || (this.auth.isTrainer && (this.auth.key === workout.trainer || workout.trainer === sunday))
         || (this.auth.isClient && this.auth.key === workout.client)) {
         this.list = this.list.push(workout);
         this.updateWorkoutDependencies(workout);

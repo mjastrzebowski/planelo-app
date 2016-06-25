@@ -13,27 +13,26 @@
 </ion-navbar>
 
 <ion-content class="trainings">
+  <div padding [hidden]="!auth || !auth.isOwner">
+    <ion-segment [(ngModel)]="place" (ionChange)="onPlaceChanged($event)">
+      <ion-segment-button value="-KBHukjV0l8M-EkpTdI4">
+        Hermanowska
+      </ion-segment-button>
+      <ion-segment-button value="-KBHulP5PtV-dGxyXPWl">
+        Zwycięska
+      </ion-segment-button>
+    </ion-segment>
+  </div>
   <!-- <ion-searchbar primary
                  [(ngModel)]="queryText"
-                 (input)="updateClients()"
+                 (ionInput)="updateClients()"
                  placeholder="Szukaj">
   </ion-searchbar> -->
-  <ion-list *ngIf="!loaded">
-    <ion-list-header>
-      <ion-row center>
-        <ion-col width-20>
-          <ion-spinner name="dots" class="spinner-dots"><svg viewBox="0 0 64 64" style="left: 9px; animation-delay: 0ms; animation-duration: 750ms;"><circle transform="translate(32,32)" r="6"></circle></svg><svg viewBox="0 0 64 64" style="left: 0px; animation-delay: -110ms; animation-duration: 750ms;"><circle transform="translate(32,32)" r="6"></circle></svg><svg viewBox="0 0 64 64" style="left: -9px; animation-delay: -220ms; animation-duration: 750ms;"><circle transform="translate(32,32)" r="6"></circle></svg></ion-spinner>
-        </ion-col>
-        <ion-col>Ładowanie treningów...</ion-col>
-      </ion-row>
-    </ion-list-header>
-  </ion-list>
-
   <div id="calendar" [hidden]="auth.isClient"></div>
 
-  <div *ngIf="auth.isClient" [hidden]="!loaded">
+  <div *ngIf="auth.isClient">
     <ion-list>
-      <ion-item-sliding *ngFor="#workout of workouts | async; #w = index" #slidingItem [attr.track]="workout.key" [hidden]="workout.completed || workout.date == '2099-12-31'">
+      <ion-item-sliding *ngFor="let workout of workouts | async; let w = index" #slidingItem [attr.track]="workout.key" [hidden]="workout.fixed || workout.completed || workout.date == '2099-12-31'">
         <ion-item>
           <h3><strong>{{workout.timeStart}} - {{workout.timeEnd}}</strong>, {{workout.descDate}}</h3>
           <p>{{workout.place}}, <strong>{{workout.trainer}}</strong></p>

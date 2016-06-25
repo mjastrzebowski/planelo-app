@@ -1,14 +1,13 @@
-import {Page} from 'ionic/ionic';
+import { Component, Input } from '@angular/core';
 import {SchedulePage} from '../schedule/schedule';
 import {SpeakerListPage} from '../speaker-list/speaker-list';
 import {ExerciseListPage} from '../exercise-list/exercise-list';
 import {TrainingListPage} from '../training-list/training-list';
 import {TrainingPage} from '../training/training';
 import {AboutPage} from '../about/about';
-import {Input} from 'angular2/core';
 
 
-@Page({
+@Component({
   templateUrl: 'build/pages/tabs/tabs.html'
 })
 export class TabsPage {

@@ -1,33 +1,23 @@
-import {IonicApp, Page, Modal, Alert, NavController, NavParams} from 'ionic/ionic';
-import {UserData} from '../../../providers/user-data';
-
-import {ClientData} from '../../../providers/client-data'
-import {CycleData} from '../../../providers/cycle-data'
-import {PlaceData} from '../../../providers/place-data'
+import { Component } from '@angular/core';
+import { App, Modal, Alert, NavController, NavParams } from 'ionic-angular';
 
 import {ClientFormModal} from '../client-form/client-form'
 
-@Page({
+@Component({
   templateUrl: 'build/pages/client/client-detail/client-detail.html'
 })
 export class ClientDetailPage {
-  constructor(app: IonicApp, nav: NavController, navParams: NavParams, user: UserData, clientData: ClientData, cycleData: CycleData, placeData: PlaceData) {
+  constructor(app: App, nav: NavController, navParams: NavParams) {
     this.app = app;
     this.nav = nav;
-    this.user = user;
-    this.clientData = clientData;
-    this.cycleData = cycleData;
-    this.placeData = placeData;
     this.navParams = navParams;
 
-    this.client = {};
-    this.cycles = {};
-    this.clientName = this.navParams.data;
+    this.client = this.navParams.data;
   }
 
   showClientForm(client) {
     if (client) {
-      let modal = Modal.create(ClientFormModal, client.username);
+      let modal = Modal.create(ClientFormModal, client);
     } else {
       let modal = Modal.create(ClientFormModal);
     }
@@ -38,92 +28,19 @@ export class ClientDetailPage {
     this.nav.present(modal);
   }
 
-  getClientDetail(username) {
-    this.clientData.getClientByUsername(username).then(client => {
-      if (client) {
-        this.client = Object.keys(client).map(key => client[key])[0];
-        this.cycleData.getCyclesByClient(username).then(cycles => {
-          this.cycles = Object.keys(cycles).map(key => cycles[key]);
-        })
-      }
-    });
+  getClientDetail(client) {
+    // this.clientData.getClientByUsername(username).then(client => {
+    //   if (client) {
+    //     this.client = Object.keys(client).map(key => client[key])[0];
+    //     this.cycleData.getCyclesByClient(username).then(cycles => {
+    //       this.cycles = Object.keys(cycles).map(key => cycles[key]);
+    //     })
+    //   }
+    // });
   }
 
-  loadCalendar() {
-    $(document).ready(function() {
-      console.log('test??!!');
-      // .draggable();
-      $('#calendar').fullCalendar({
-        header: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'month,basicWeek,basicDay'
-        },
-        defaultDate: '2016-01-12',
-        editable: true,
-        eventLimit: true, // allow "more" link when too many events
-        events: [
-          {
-            title: 'All Day Event',
-            start: '2016-01-01'
-          },
-          {
-            title: 'Long Event',
-            start: '2016-01-07',
-            end: '2016-01-10'
-          },
-          {
-            id: 999,
-            title: 'Repeating Event',
-            start: '2016-01-09T16:00:00'
-          },
-          {
-            id: 999,
-            title: 'Repeating Event',
-            start: '2016-01-16T16:00:00'
-          },
-          {
-            title: 'Conference',
-            start: '2016-01-11',
-            end: '2016-01-13'
-          },
-          {
-            title: 'Meeting',
-            start: '2016-01-12T10:30:00',
-            end: '2016-01-12T12:30:00'
-          },
-          {
-            title: 'Lunch',
-            start: '2016-01-12T12:00:00'
-          },
-          {
-            title: 'Meeting',
-            start: '2016-01-12T14:30:00'
-          },
-          {
-            title: 'Happy Hour',
-            start: '2016-01-12T17:30:00'
-          },
-          {
-            title: 'Dinner',
-            start: '2016-01-12T20:00:00'
-          },
-          {
-            title: 'Birthday Party',
-            start: '2016-01-13T07:00:00'
-          },
-          {
-            title: 'Click for Google',
-            url: 'http://google.com/',
-            start: '2016-01-28'
-          }
-        ]
-      });
-    });
-  }
-
-  onPageLoaded() {
-    this.getClientDetail(this.clientName);
+  ionViewLoaded() {
+    this.getClientDetail(this.client);
     // this.cycleData.addCycleByClient('mjastrzebowski', {
     //   id: 3,
     //   size: 16
@@ -132,7 +49,7 @@ export class ClientDetailPage {
     //   console.log('test promise', cycles);
     // });
     // let newId = this.clientData.addClient({ username: 'mjastrzebowski', name: 'Michał Jastrzębowski', age: 24 });
-    console.log('test newId', newId);
+    // console.log('test newId', newId);
 
   }
 }

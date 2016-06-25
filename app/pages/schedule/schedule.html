@@ -3,7 +3,7 @@
     <ion-icon name="menu"></ion-icon>
   </button>
 
-  <ion-segment [(ngModel)]="segment" (change)="updateSchedule()">
+  <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
     <ion-segment-button value="all">
       Bieżące
     </ion-segment-button>
@@ -23,18 +23,18 @@
 <ion-content class="schedule">
   <ion-searchbar primary
                  [(ngModel)]="queryText"
-                 (input)="updateSchedule()"
+                 (ionInput)="updateSchedule()"
                  placeholder="Szukaj">
   </ion-searchbar>
 
   <ion-list [hidden]="shownSessions === 0" show-reorder="true">
-    <ion-item-group *ngFor="#client of clients; #c = index" [hidden]="client.hide">
+    <ion-item-group *ngFor="let client of clients; let c = index" [hidden]="client.hide">
 
       <ion-item-divider sticky>
         Dzisiaj
       </ion-item-divider>
 
-      <ion-item-sliding *ngFor="#training of client.cycles[c].trainings; #t = index" #slidingItem [attr.track]="training.exercises[0].name | lowercase" [hidden]="training.hide">
+      <ion-item-sliding *ngFor="let training of client.cycles[c].trainings; let t = index" #slidingItem [attr.track]="training.exercises[0].name | lowercase" [hidden]="training.hide">
         <button ion-item (click)="goToTrainingDetail(client.cycles[c], t)">
           <h3>{{client.name}}</h3>
           <p>

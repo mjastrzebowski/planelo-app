@@ -11,8 +11,13 @@ export class WorkoutService {
     dateTime: string,
     timeStart: string,
     timeEnd: string,
-    repeat: boolean): void {
-    this.ref.push(new Workout(place, trainer, client, date, dateTime, timeStart, timeEnd, repeat), (error: Error) => {
+    repeat: boolean,
+    fixed: boolean): void {
+    if (!fixed) {
+      fixed = false;
+    }
+
+    this.ref.push(new Workout(place, trainer, client, date, dateTime, timeStart, timeEnd, repeat, fixed), (error: Error) => {
       if (error) {
         console.error('ERROR @ createWorkout :', error);
       }

@@ -14,12 +14,12 @@
 <!-- 
   <ion-searchbar primary
                  [(ngModel)]="queryText"
-                 (input)="updateTrainers()"
+                 (ionInput)="updateTrainers()"
                  placeholder="Szukaj">
   </ion-searchbar> -->
 
   <ion-list>
-      <button ion-item (click)="showTrainerForm(trainer)" *ngFor="#trainer of trainers | async; #t = index">
+      <button ion-item (click)="showTrainerForm(trainer)" *ngFor="let trainer of trainers | async; let t = index">
         <h3>{{trainer?.title}}</h3>
       </button>
   </ion-list>

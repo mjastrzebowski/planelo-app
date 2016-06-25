@@ -1,12 +1,13 @@
-import {IonicApp, Page, Modal, Alert, NavController, NavParams} from 'ionic/ionic';
+import { Component } from '@angular/core';
+import {App, Modal, Alert, NavController, NavParams} from 'ionic-angular';
 
 import {ClientFormModal} from '../client-form/client-form'
 
-@Page({
+@Component({
   templateUrl: 'build/pages/client/client-detail/client-detail.html'
 })
 export class ClientDetailPage {
-  constructor(app: IonicApp, nav: NavController, navParams: NavParams) {
+  constructor(app: App, nav: NavController, navParams: NavParams) {
     this.app = app;
     this.nav = nav;
     this.navParams = navParams;
@@ -113,7 +114,7 @@ export class ClientDetailPage {
     });
   }
 
-  onPageLoaded() {
+  ionViewLoaded() {
     this.getClientDetail(this.clientName);
     // this.cycleData.addCycleByClient('mjastrzebowski', {
     //   id: 3,

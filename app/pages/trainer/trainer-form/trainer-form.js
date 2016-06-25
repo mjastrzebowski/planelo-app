@@ -1,25 +1,25 @@
-import { Input } from 'angular2/core';
+import { Component, Input } from '@angular/core';
 
-import {IonicApp, Page, NavParams, ViewController} from 'ionic/ionic';
+import {App, NavParams, ViewController} from 'ionic-angular';
 
 import { ITrainer } from '../../../core/trainer/trainer';
 
 import {Utils} from '../../../providers/utils';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/trainer/trainer-form/trainer-form.html'
 })
 export class TrainerFormModal {
   @Input() trainer: ITrainer;
   editing: boolean = false;
 
-  constructor(app: IonicApp, params: NavParams, viewCtrl: ViewController) {
+  constructor(app: App, params: NavParams, viewCtrl: ViewController) {
     this.app = app;
     this.params = params;
     this.viewCtrl = viewCtrl;
   }
 
-  onPageLoaded() {
+  ionViewLoaded() {
     let hours = [ {
       "8:00" : true,
       "9:00" : true

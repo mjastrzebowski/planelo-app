@@ -1,7 +1,7 @@
-import {Page} from 'ionic/ionic';
+import { Component } from '@angular/core';
 // import {ExerciseData} from '../../providers/exercise-data';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/exercise-list/exercise-list.html'
 })
 export class ExerciseListPage {
@@ -32,7 +32,7 @@ export class ExerciseListPage {
     }, this);
   }
 
-  onPageLoaded() {
+  ionViewLoaded() {
     this.getExercises();
   }
 }

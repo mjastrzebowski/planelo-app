@@ -25,14 +25,14 @@
   </div>
 
   <ion-row responsive-sm padding-0 class="outer-content">
-    <ion-col *ngFor="#exercise of training.exercises; #e = index">
+    <ion-col *ngFor="let exercise of training.exercises; let e = index">
       <ion-card>
         <ion-card-header [hidden]="!exercise.sets">
           {{e+1}}. {{exercise.name}}
         </ion-card-header>
         <ion-card-header ion-item [hidden]="exercise.sets">
-          <ion-select [(ngModel)]="newExerciseKey" (change)="setExercise()" style="max-width: 100%; width: 100%">
-            <ion-option *ngFor="#newExercise of exerciseArray" value="{{newExercise.key}}">{{newExercise.name}}</ion-option>
+          <ion-select [(ngModel)]="newExerciseKey" (ionChange)="setExercise()" style="max-width: 100%; width: 100%">
+            <ion-option *ngFor="let newExercise of exerciseArray" value="{{newExercise.key}}">{{newExercise.name}}</ion-option>
           </ion-select>
         </ion-card-header>
         <ion-card-content text-center>
@@ -42,7 +42,7 @@
             <ion-col width-25>Przerwa</ion-col>
             <ion-col width-10></ion-col>
           </ion-row>
-          <ion-row center *ngFor="#set of exercise.sets; #s = index">
+          <ion-row center *ngFor="let set of exercise.sets; let s = index">
             <ion-col ion-item>
               <ion-input type="number" [(ngModel)]="set.weight"></ion-input>
             </ion-col>

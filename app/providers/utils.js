@@ -1,11 +1,37 @@
-import {Injectable} from 'angular2/core';
-// import {Storage, LocalStorage, Events} from 'ionic/ionic';
+import { Injectable, Component, ViewChild } from '@angular/core';
+import { App, Loading } from 'ionic-angular';
 
 @Injectable()
 export class Utils {
 
-  constructor() { }
+  constructor(app: App) {
+    // @Inject(Platform) platform
+    this.app = app;
+    this.nav = app.getActiveNav();
+  }
 
+  presentLoading(message, duration) {
+    let options = {
+      content: message || 'Proszę czekać...'
+    };
+
+    if (duration) {
+      options.duration = duration;
+    }
+
+    this.loading = Loading.create(options);
+    this.nav.present(this.loading);
+  }
+
+  stopLoading() {
+    this.loading.dismiss();
+  }
+
+
+
+
+
+  // deprecated
   static rewriteString(string) {
     let str = string.toLowerCase();
     let replaceChars = {

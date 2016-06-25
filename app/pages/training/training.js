@@ -1,8 +1,8 @@
-import {Page} from 'ionic/ionic';
+import { Component } from '@angular/core';
 import {ConferenceData} from '../../providers/conference-data';
 
 
-@Page({
+@Component({
   templateUrl: 'build/pages/training/training.html'
 })
 export class TrainingPage {
@@ -10,7 +10,7 @@ export class TrainingPage {
     this.confData = confData;
   }
 
-  onPageLoaded() {
+  ionViewLoaded() {
     this.confData.getClients().then(clientsData => {
       let clientsEle = document.getElementById('clients');
 

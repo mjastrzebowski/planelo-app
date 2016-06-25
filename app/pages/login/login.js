@@ -1,4 +1,5 @@
-import { IonicApp, Page, Alert, NavController } from 'ionic/ionic';
+import { Component } from '@angular/core';
+import { App, Alert, NavController } from 'ionic-angular';
 
 // import { AuthRouteHelper } from '../../core/auth/auth-route-helper';
 import { AuthService } from '../../core/auth/auth-service';
@@ -7,12 +8,12 @@ import { TrainerStore } from '../../core/trainer/trainer-store';
 
 import { TrainingListPage } from '../training-list/training-list';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/login/login.html'
 })
 
 export class LoginPage {
-  constructor(app: IonicApp, nav: NavController, auth: AuthService, clientStore: ClientStore, trainerStore: TrainerStore) {
+  constructor(app: App, nav: NavController, auth: AuthService, clientStore: ClientStore, trainerStore: TrainerStore) {
     this.app = app;
     this.nav = nav;
     this.auth = auth;
@@ -24,10 +25,10 @@ export class LoginPage {
     this.submitted = false;
 
     if (this.auth.authenticated) {
-      console.log('test login auth');
+      // console.log('test login auth');
       this.nav.setRoot(TrainingListPage);
     } else {
-      console.log('test login not');
+      // console.log('test login not');
     }
 
     // this.auth.subscribe((authenticated: boolean) => {
