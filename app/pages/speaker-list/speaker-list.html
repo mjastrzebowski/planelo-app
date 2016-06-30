@@ -1,13 +1,14 @@
-<ion-navbar *navbar>
-  <button menuToggle>
-    <ion-icon name="menu"></ion-icon>
-  </button>
-  <ion-title>Speakers</ion-title>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Speakers</ion-title>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="outer-content speaker-list">
   <ion-card *ngFor="let speaker of speakers" class="speaker">
-
     <ion-card-header>
       <button ion-item (click)="goToSpeakerDetail(speaker)">
         <ion-avatar item-left>
@@ -38,6 +39,5 @@
         Share
       </button>
     </ion-item>
-
   </ion-card>
 </ion-content>

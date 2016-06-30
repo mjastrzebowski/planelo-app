@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {NavParams, ViewController} from 'ionic-angular';
 
 @Component({
-  templateUrl: 'build/pages/training-history/training-history.html'
+  templateUrl: 'build/pages/training/training-history/training-history.html'
 })
 export class TrainingHistoryModal {
   constructor(params: NavParams, viewCtrl: ViewController) {

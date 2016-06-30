@@ -1,15 +1,16 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import {App, Modal, Alert, NavController} from 'ionic-angular';
+import { App, Modal, Alert, NavController } from 'ionic-angular';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
+import { Utils } from '../../../providers/utils';
+
 import { AuthService } from '../../../core/auth/auth-service';
 import { ClientStore } from '../../../core/client/client-store';
-import { ClientService } from '../../../core/client/client-service';
 
-import {ClientFormModal} from '../client-form/client-form'
-import {ClientDetailPage} from '../client-detail/client-detail'
+import { ClientCreateModal } from '../client-create/client-create';
+import { ClientDetailPage } from '../client-detail/client-detail';
 
 @Component({
   templateUrl: 'build/pages/client/client-list/client-list.html'
@@ -17,67 +18,38 @@ import {ClientDetailPage} from '../client-detail/client-detail'
 export class ClientListPage {
   @Input() clients: ReplaySubject<List<any>>;
 
-  constructor(app: App, nav: NavController, auth: AuthService, clientStore: ClientStore, clientService: ClientService) {
+  constructor(app: App, nav: NavController, utils: Utils, auth: AuthService, clientStore: ClientStore) {
     this.app = app;
     this.nav = nav;
+    this.utils = utils;
     this.auth = auth;
     this.clientStore = clientStore;
-    this.clientService = clientService;
 
     this.queryText = '';
-    this.hasSessions = false;
-  }
-
-
-  showClientForm(client) {
-    if (client) {
-      let modal = Modal.create(ClientFormModal, client);
-      this.editing = true;
-    } else {
-      let modal = Modal.create(ClientFormModal);
-      this.editing = false;
-    }
-
-    modal.onDismiss(data => {
-      console.log('closed client modal with data: ', data);
-      if (data) {
-        if (data.hasOwnProperty('delete')) {
-          this.clientService.deleteClient(data);
-          return;
-        }
-
-        if (this.editing) {
-          this.clientService.updateClient(data, {
-            name: data.name || '',
-            lastname: data.lastname || '',
-            email: data.email || '',
-            phone: data.phone || '',
-            comment: data.comment || ''
-          });
-        } else {
-          this.clientService.createClient(
-            data.name || '',
-            data.lastname || '',
-            data.email || '',
-            data.phone || '',
-            data.comment || '');
-        }
-      }
-    });
-    this.nav.present(modal);
   }
 
   goToClientDetail(client) {
     this.nav.push(ClientDetailPage, client);
   }
 
-  // getClients() {
-  //   this.clientData.getClients().then(clients => {
-  //     this.clients = Object.keys(clients).map(key => clients[key]);
-  //   });
-  // }
+  showClientCreate() {
+    let modal = Modal.create(ClientCreateModal);
+
+    modal.onDismiss(data => {
+      if (data) {
+        this.clientService.createClient(
+          data.name || '',
+          data.lastname || '',
+          data.email || '',
+          data.phone || '',
+          data.comment || '');
+      }
+    });
+    this.nav.present(modal);
+  }
 
   updateList() {
+    this.shownSessions = 0;
     let queryText = this.queryText.toLowerCase().replace(/,|\.|-/g,' ');
     let queryWords = queryText.split(' ').filter(w => w.trim().length);
 
@@ -99,61 +71,32 @@ export class ClientListPage {
 
       if (!matchesQueryText) {
         client.hide = true;
+      } else {
+        this.shownSessions++;
       }
     });
   }
 
   ionViewLoaded() {
+    this.utils.presentLoading('Ładowanie klientów...');
 
-    this.auth.subscribe((authenticated: boolean) => {
+    let authSub = this.auth.subscribe((authenticated: boolean) => {
       this.clients = this.clientStore.clients;
 
-      if (this.auth.isTrainer || this.auth.isOwner) {
-        this.clients.subscribe(() => {
-          this.shownSessions = true;
-          // if (!this.calendar) {
-          //   this.renderCalendar();
-          // } else {
-          //   this.refreshCalendar();
-          // }
-          // this.events = this.getEvents();
-        });
+      if (authenticated) {
+        if (authSub) {
+          authSub.unsubscribe();
+        }
+
+        if (this.auth.isTrainer || this.auth.isOwner) {
+          let clientSub = this.clients.subscribe(() => {
+            setTimeout(() => {
+              this.shownSessions = true;
+              this.utils.stopLoading();
+            }, 500);
+          });
+        }
       }
-
-      // if (this.auth.isClient) {
-      //   this.workouts.subscribe(() => {
-      //     this.trainings = this.workoutStore.workouts;
-      //   });
-      // }
     });
-
-    // this.getClients();
-    // this.cycleData.addCycleByClient('mjastrzebowski', {
-    //   id: 3,
-    //   size: 16
-    // });
-    // this.cycleData.getLastCycleByClient('mjastrzebowski').then(cycles => {
-    //   console.log('test promise', cycles);
-    // });
-    // let newId = this.clientData.addClient({ username: 'mjastrzebowski', name: 'Michał Jastrzębowski', age: 24 });
-    // console.log('test newId', newId);
   }
 }
-
-/*
-
-  Trainings: 
-  - get all, 
-  - get by trainer, 
-  - get by client, 
-  - get by cycle, 
-  - get by id, 
-
-  Clients: 
-  - get all, 
-  - get by id, 
-  - get by name, 
-
-  
-
-*/

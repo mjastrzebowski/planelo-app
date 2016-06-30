@@ -1,13 +1,15 @@
-<ion-toolbar class="android-attr">
-  <ion-title [hidden]="editing">Nowy trener</ion-title>
-  <ion-title [hidden]="!editing">Edycja trenera</ion-title>
-  <ion-buttons start>
-    <button (click)="dismiss()">
-      <span primary showWhen="ios">Zamknij</span>
-      <ion-icon name='close' showWhen="android,windows"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-toolbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title [hidden]="editing">Nowy trener</ion-title>
+    <ion-title [hidden]="!editing">Edycja trenera</ion-title>
+    <ion-buttons start>
+      <button (click)="dismiss()">
+        <span primary showWhen="ios">Zamknij</span>
+        <ion-icon name="close" hideWhen="ios"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="has-header">
   <form #trainerForm="ngForm" novalidate>

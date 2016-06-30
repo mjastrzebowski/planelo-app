@@ -1,24 +1,25 @@
-<ion-navbar *navbar>
-  <button menuToggle>
-    <ion-icon name="menu"></ion-icon>
-  </button>
-
-  <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
-    <ion-segment-button value="all">
-      Bieżące
-    </ion-segment-button>
-    <ion-segment-button value="favorites">
-      Odłożone
-    </ion-segment-button>
-  </ion-segment>
-
-  <ion-buttons end>
-    <button (click)="presentFilter()">
-      <ion-icon ios="ios-funnel-outline" md="md-funnel"></ion-icon>
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
     </button>
-  </ion-buttons>
-</ion-navbar>
 
+    <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
+      <ion-segment-button value="all">
+        Bieżące
+      </ion-segment-button>
+      <ion-segment-button value="favorites">
+        Odłożone
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-buttons end>
+      <button (click)="presentFilter()">
+        <ion-icon ios="ios-funnel-outline" md="md-funnel"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="schedule">
   <ion-searchbar primary
@@ -29,7 +30,6 @@
 
   <ion-list [hidden]="shownSessions === 0" show-reorder="true">
     <ion-item-group *ngFor="let client of clients; let c = index" [hidden]="client.hide">
-
       <ion-item-divider sticky>
         Dzisiaj
       </ion-item-divider>
@@ -46,16 +46,11 @@
           <button favorite (click)="leaveTraining(slidingItem, training)" *ngIf="segment === 'all'">Odłóż</button>
           <button danger (click)="editTraining(slidingItem, training)" *ngIf="segment === 'all'">Edytuj</button>
         </ion-item-options>
-
       </ion-item-sliding>
-
     </ion-item-group>
-
   </ion-list>
 
   <ion-list-header [hidden]="shownSessions > 0">
       Nie znaleziono treningów
   </ion-list-header>
-
-
 </ion-content>

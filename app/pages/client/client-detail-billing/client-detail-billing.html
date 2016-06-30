@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Rachunki klienta</ion-title>
+    <ion-buttons start>
+      <button (click)="dismiss()">
+        <span primary showWhen="ios">Zamknij</span>
+        <ion-icon name='close' hideWhen="ios"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="has-header">
+  <form #clientBillingForm="ngForm" novalidate>
+    <ion-list>
+      <ion-item>
+        <ion-label>Miesiąc rozliczeniowy</ion-label>
+        <ion-select [(ngModel)]="client.month" (ionChange)="updateMonth()">
+          <ion-option value="2016-05">maj 2016</ion-option>
+          <ion-option value="2016-06">czerwiec 2016</ion-option>
+          <ion-option value="2016-07">lipiec 2016</ion-option>
+        </ion-select>
+      </ion-item>
+
+        <ion-item>
+          <ion-label floating>Zaplanowane treningi na miesiąc {{ client.month }}</ion-label>
+          <ion-input type="text" [(ngModel)]="client.trainingsTodoCount" (change)="updateTotal()"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Treningi przechodzące z ubiegłego miesiąca ({{client.trainingsPlannedCount}} - {{client.trainingsDoneCount}})</ion-label>
+          <ion-input type="text" [(ngModel)]="client.trainingsMovedCount" (change)="updateTotal()"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Dopłata za poprzedni miesiąc</ion-label>
+          <ion-input type="text" [(ngModel)]="client.surcharge" (change)="updateTotal()"></ion-input>
+        </ion-item>
+        <ion-row responsive-sm>
+          <ion-col>
+            <ion-item>
+              <ion-label floating>Procent rabatu [%]</ion-label>
+              <ion-input type="text" [(ngModel)]="client.discount" (change)="updateTotal()"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col padding>
+            <ion-label>Do zapłaty</ion-label>
+            <strong>{{ client.total | number:'1.2-2' }} zł</strong>
+          </ion-col>
+        </ion-row>
+
+      <!-- wyślij email -->
+      <!-- rachunki: miesiąc, rabat, przechodzące, zaplanowane, generuj rachunek, wyślij mailem -->
+    </ion-list>
+
+    <ion-row responsive-sm>
+      <ion-col [hidden]="!client.active">
+        <button primary block type="submit" [hidden]="!client.send" (click)="save()">Zapisz i wyślij</button>
+        <button primary block type="submit" [hidden]="client.send" (click)="save()">Zapisz zmiany</button>
+      </ion-col>
+      <ion-col [hidden]="client.active">
+        <button primary block type="submit" (click)="save()">Generuj rachunek</button>
+      </ion-col>
+      <ion-col>
+        <button light block (click)="dismiss()">Anuluj</button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

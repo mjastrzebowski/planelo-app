@@ -4,7 +4,7 @@ import {NavParams, NavController, Modal} from 'ionic-angular';
 import {TrainingHistoryModal} from '../training-history/training-history'
 
 @Component({
-  templateUrl: 'build/pages/training-detail/training-detail.html'
+  templateUrl: 'build/pages/training/training-detail/training-detail.html'
 })
 export class TrainingDetailPage {
   constructor(nav: NavController, navParams: NavParams) {

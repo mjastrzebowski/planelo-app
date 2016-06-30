@@ -1,15 +1,12 @@
 import { Component, Input } from '@angular/core';
-
-import {App, NavParams, ViewController} from 'ionic-angular';
+import { App, NavParams, ViewController } from 'ionic-angular';
 
 import { IClient } from '../../../core/client/client';
 
-import {Utils} from '../../../providers/utils';
-
 @Component({
-  templateUrl: 'build/pages/client/client-form/client-form.html'
+  templateUrl: 'build/pages/client/client-detail-profile/client-detail-profile.html'
 })
-export class ClientFormModal {
+export class ClientDetailProfileModal {
   @Input() client: IClient;
   editing: boolean = false;
 

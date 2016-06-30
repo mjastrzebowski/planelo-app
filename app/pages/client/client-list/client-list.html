@@ -1,17 +1,18 @@
-<ion-navbar *navbar>
-  <button menuToggle>
-    <ion-icon name="menu"></ion-icon>
-  </button>
-  <ion-title>Klienci</ion-title>
-  <ion-buttons end>
-    <button (click)="showClientForm()">
-      <ion-icon name="add"></ion-icon>
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
     </button>
-  </ion-buttons>
-</ion-navbar>
+    <ion-title>Klienci</ion-title>
+    <ion-buttons end>
+      <button (click)="showClientCreate()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="client-list">
-
   <ion-searchbar primary
                  [(ngModel)]="queryText"
                  (ionInput)="updateList()"
@@ -20,7 +21,7 @@
 
   <ion-list [hidden]="shownSessions === 0">
     <!-- <ion-item > -->
-      <button ion-item (click)="showClientForm(client)" *ngFor="let client of clients | async; let c = index" [hidden]="client.hide">
+      <button ion-item (click)="goToClientDetail(client)" *ngFor="let client of clients | async; let c = index" [hidden]="client.hide">
         <h3>{{client?.lastname}} {{client?.name}}</h3>
         <!-- <p>Informacje o treningach</p> -->
       </button>

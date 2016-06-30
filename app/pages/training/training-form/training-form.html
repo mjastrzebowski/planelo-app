@@ -1,27 +1,32 @@
-<ion-toolbar class="android-attr">
-  <ion-title [hidden]="trainings[0].completed || editing">Nowy trening</ion-title>
-  <ion-title [hidden]="trainings[0].completed || !editing">Zmiana treningu</ion-title>
-  <ion-title [hidden]="!trainings[0].completed">Odwołany trening</ion-title>
-  <ion-buttons start>
-    <button (click)="dismiss()">
-      <span primary showWhen="ios">Zamknij</span>
-      <ion-icon name='close' showWhen="android,windows"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-toolbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title [hidden]="trainings[0].completed || editing">Nowy trening</ion-title>
+    <ion-title [hidden]="trainings[0].completed || !editing">Zmiana treningu</ion-title>
+    <ion-title [hidden]="!trainings[0].completed">Odwołany trening</ion-title>
 
-<ion-content class="training-form has-header">
-  <div padding [hidden]="!auth || !auth.isClient">
-    <ion-segment [(ngModel)]="place" (ionChange)="onPlaceChanged($event)">
-      <ion-segment-button value="-KBHukjV0l8M-EkpTdI4">
-        Hermanowska
-      </ion-segment-button>
-      <ion-segment-button value="-KBHulP5PtV-dGxyXPWl">
-        Zwycięska
-      </ion-segment-button>
-    </ion-segment>
-  </div>
+    <ion-buttons start>
+      <button (click)="dismiss()">
+        <span primary showWhen="ios">Zamknij</span>
+        <ion-icon name="close" hideWhen="ios"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
 
+  <ion-toolbar no-border-top [hidden]="!auth || !auth.isClient">
+    <div>
+      <ion-segment [(ngModel)]="place" (ionChange)="onPlaceChanged($event)">
+        <ion-segment-button value="-KBHukjV0l8M-EkpTdI4">
+          Hermanowska
+        </ion-segment-button>
+        <ion-segment-button value="-KBHulP5PtV-dGxyXPWl">
+          Zwycięska
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="training-form">
   <ion-list *ngIf="auth.isClient && available.length === 0">
     <ion-list-header>
       <ion-row center>

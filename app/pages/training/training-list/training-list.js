@@ -4,26 +4,34 @@ import {App, Modal, Alert, ActionSheet, Toast, NavController} from 'ionic-angula
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { Utils } from '../../providers/utils';
+import { Utils } from '../../../providers/utils';
 
-import { AuthService } from '../../core/auth/auth-service';
-import { WorkoutStore } from '../../core/workout/workout-store';
-import { WorkoutService } from '../../core/workout/workout-service';
+import { AuthService } from '../../../core/auth/auth-service';
+
+import { ClientStore } from '../../../core/client/client-store';
+import { PlaceStore } from '../../../core/place/place-store';
+import { TrainerStore } from '../../../core/trainer/trainer-store';
+import { WorkoutStore } from '../../../core/workout/workout-store';
+import { WorkoutService } from '../../../core/workout/workout-service';
 
 import {TrainingFormModal} from '../training-form/training-form'
 // import {TrainingDetailPage} from '../training-detail/training-detail';
 
 @Component({
-  templateUrl: 'build/pages/training-list/training-list.html'
+  templateUrl: 'build/pages/training/training-list/training-list.html'
 })
 export class TrainingListPage {
   @Input() workouts: ReplaySubject<List<any>>;
 
-  constructor(app: App, nav: NavController, utils: Utils, auth: AuthService, workoutStore: WorkoutStore, workoutService: WorkoutService) {
+  constructor(app: App, nav: NavController, utils: Utils, auth: AuthService, workoutStore: WorkoutStore, workoutService: WorkoutService, clientStore: ClientStore, placeStore: PlaceStore, trainerStore: TrainerStore) {
     this.app = app;
     this.nav = nav;
-    this.utils = utils; // new Utils(this.nav);
+    this.utils = utils;
     this.auth = auth;
+
+    this.clientStore = clientStore;
+    this.placeStore = placeStore;
+    this.trainerStore = trainerStore;
     this.workoutStore = workoutStore;
     this.workoutService = workoutService;
 
@@ -38,6 +46,7 @@ export class TrainingListPage {
 
     this.place = '-KBHukjV0l8M-EkpTdI4';
     this.events = [];
+    this.forceSub = false;
 
     this.loaded = false;
     let changeHour = 21;
@@ -152,19 +161,17 @@ export class TrainingListPage {
   }
 
   saveTraining(data) {
-    // console.log('closed training modal with data: ', data);
     if (data) {
+      this.utils.presentLoading('Zapisywanie zmian...');
+
       if (data[0].hasOwnProperty('delete')) {
         data.forEach(training => {
           this.workoutService.deleteWorkout(training);
         });
         this.deleteTrainingAlert(data[0]);
       } else if (this.editing) {
-        // console.log('saveTraining editing', data);
-        // debugger;
         data.forEach(training => {
-          this.workoutService.updateWorkout(training, {
-            // place: data.place || '-KBHukjV0l8M-EkpTdI4',
+          let changes = {
             trainer: training.trainer || '',
             client: training.client || '',
             date: training.date.date || '',
@@ -172,13 +179,16 @@ export class TrainingListPage {
             timeStart: training.date.timeStart || '',
             timeEnd: training.date.timeEnd || '',
             repeat: training.repeat || false
-          });
+          };
+          if (training.trainer) {
+            changes.place = this.trainerStore.getItem(training.trainer).place;
+          }
+          this.workoutService.updateWorkout(training, changes);
         });
       } else {
-        // console.log('saveTraining adding', data);
-        let place = data[0].place || this.place; //'-KBHukjV0l8M-EkpTdI4';
         let client = data[0].client || '';
         data.forEach(training => {
+          let place = this.trainerStore.getItem(training.trainer).place;
           this.workoutService.createWorkout(
             place,
             training.trainer || '',
@@ -193,6 +203,9 @@ export class TrainingListPage {
         this.saveTrainingAlert(data[0]);
       }
       this.refreshCalendar(true);
+      setTimeout(() => {
+        this.utils.stopLoading();
+      }, 500);
     }
   }
 
@@ -207,7 +220,6 @@ export class TrainingListPage {
         this.nav.present(alert);
       }, 1000);
     } else {
-      // debugger;
       // let toast = Toast.create({
       //   message: 'Trening zapisany',
       //   duration: 3000
@@ -232,7 +244,6 @@ export class TrainingListPage {
         this.nav.present(alert);
       }, 1000);
     } else {
-      // debugger;
       // let toast = Toast.create({
       //   message: 'Trening usunięty',
       //   duration: 3000
@@ -254,16 +265,14 @@ export class TrainingListPage {
       buttons: [
         {
           text: 'Anuluj',
-          handler: data => {
-            // console.log('Prompt cancel clicked');
-          }
+          handler: data => {}
         },
         {
           text: 'Odwołaj',
           handler: data => {
-            // console.log('Saved clicked');
+            let date = moment().format('DD.MM.YYYY, HH:mm');
             this.workoutService.updateWorkout(workout, {
-              completed: data.title
+              completed: '[' + date + '] ' + data.title
             });
             this.deleteTrainingAlert(workout);
           }
@@ -281,27 +290,31 @@ export class TrainingListPage {
 
   ionViewLoaded() {
     this.utils.presentLoading('Ładowanie treningów...');
-
     this.calendar = false;
 
     let authSub = this.auth.subscribe((authenticated: boolean) => {
       this.workouts = this.workoutStore.workouts;
       if (authenticated) {
-        authSub.unsubscribe();
+        if (authSub) {
+          authSub.unsubscribe();
+        }
 
         if (this.auth.isTrainer) {
           this.place = this.auth.place;
         }
         let workSub = this.workouts.subscribe((list) => {
-          if (list.get(-1).date === '2099-12-31') {
-            if (this.auth.isOwner || this.auth.isTrainer) {
-              if (!this.calendar) {
-                this.renderCalendar();
-              } else {
-                this.refreshCalendar();
+          if (this.forceSub || list.get(-1).date === '2099-12-31') {
+            setTimeout(() => {
+              if (this.auth.isOwner || this.auth.isTrainer) {
+                if (!this.calendar) {
+                  this.renderCalendar();
+                } else {
+                  this.refreshCalendar();
+                }
               }
-            }
-            this.utils.stopLoading();
+              this.forceSub = true;
+              this.utils.stopLoading();
+            }, 500);
           }
         });
       }
@@ -333,11 +346,13 @@ export class TrainingListPage {
         slotLabelFormat: 'HH:mm',
         scrollTime: '07:30',
         minTime: '07:00:00',
-        maxTime: '22:00:00',
+        maxTime: '23:00:00',
         firstDay: 1,
+        hiddenDays: [ 0 ],
+        nowIndicator: true,
         businessHours: {
           start: '08:00',
-          end: '21:00',
+          end: '22:00',
           dow: [ 1, 2, 3, 4, 5 ]
         },
 
@@ -366,11 +381,6 @@ export class TrainingListPage {
             groupByDateAndResource: true
           },
           agendaWeek: {
-            groupByResource: true
-          },
-          agendaWeek2: {
-            type: 'agenda',
-            duration: { days: 7 },
             groupByResource: true,
             groupByDateAndResource: true
           }
@@ -395,11 +405,13 @@ export class TrainingListPage {
         slotLabelFormat: 'HH:mm',
         scrollTime: '07:30',
         minTime: '07:00:00',
-        maxTime: '22:00:00',
+        maxTime: '23:00:00',
         firstDay: 1,
+        hiddenDays: [ 0 ],
+        nowIndicator: true,
         businessHours: {
           start: '08:00',
-          end: '21:00',
+          end: '22:00',
           dow: [ 1, 2, 3, 4, 5 ]
         },
 
@@ -490,38 +502,26 @@ export class TrainingListPage {
   }
 
   getEvents(start, end, timezone, callback) {
-    var events = [];
+    let events = [];
     this.workoutStore.list.forEach(workout => {
-      if (workout.fixed || workout.placeKey !== this.place) {
+      if (workout.fixed || workout.timeStart === '' || workout.placeKey !== this.place) {
         return;
       }
 
-      switch (workout.trainerKey) {
-        case '-KBN-fYLnmIQ_6pSwnV6': // adam
-          let trainerColor = '#9b6127';
-          break;
-        case '-KEiiFLK6kxKsJoTGjKU': // oskar
-          let trainerColor = '#c124ec';
-          break;
-        case '-KBN-noa5OGgfW2XYbvZ': // damian
-          let trainerColor = '#7e60ff';
-          break;
-        case '-KEiiHM34nL9fAhGCAC8': // pawel
-          let trainerColor = '#373293';
-          break;
-      }
-      if (workout.completed) {
-        trainerColor = 'red';
-      }
-      var event = {
+      let client = this.clientStore.getItem(workout.clientKey);
+      let title = client.name + ' ' + client.lastname;
+      let event = {
         id: workout.key,
         resourceId: workout.trainerKey,
-        title: this.auth.isClient ? workout.trainer : workout.client,
+        title: title,
         start: workout.date + 'T' + workout.timeStart,
         end: workout.date + 'T' + workout.timeEnd,
-        color: trainerColor,
         constraint: 'businessHours'
       };
+
+      if (workout.completed) {
+        event.color = 'red';
+      }
       events.push(event);
 
       // var eventPlace = {
@@ -550,7 +550,7 @@ export class TrainingListPage {
         { timeStart: '21:00', timeEnd: '22:00' }
       ];
 
-      this.workoutStore.trainerStore.list.forEach(trainer => {
+      this.trainerStore.list.forEach(trainer => {
         // debugger;
         for (let d = 1; d <= 60; d++) {
           let date = new Date('2016-06-01');
@@ -577,6 +577,7 @@ export class TrainingListPage {
                   resourceId: trainer.key,
                   start: '2016-' + month + '-' + day + 'T'+ time,
                   end: '2016-' + month + '-' + day + 'T'+ hour.timeEnd,
+                  color: '#8fdf82',
                   rendering: 'background'
                 };
                 events.push(working);
@@ -591,36 +592,42 @@ export class TrainingListPage {
         resourceId: '-KGHHXLT2oypqidXcL2T',
         start: '2016-06-01T08:00',
         end: '2016-06-01T11:00',
+        color: '#8fdf82',
         rendering: 'background'
       },{
         id: 'available',
         resourceId: '-KGHHXLT2oypqidXcL2T',
         start: '2016-06-01T17:00',
         end: '2016-06-01T21:00',
+        color: '#8fdf82',
         rendering: 'background'
       },{
         id: 'available',
         resourceId: '-KGHHXLT2oypqidXcL2T',
         start: '2016-06-02T08:00',
         end: '2016-06-02T11:00',
+        color: '#8fdf82',
         rendering: 'background'
       },{
         id: 'available',
         resourceId: '-KGHHXLT2oypqidXcL2T',
         start: '2016-06-02T17:00',
         end: '2016-06-02T21:00',
+        color: '#8fdf82',
         rendering: 'background'
       },{
         id: 'available',
         resourceId: '-KGHHXLT2oypqidXcL2T',
         start: '2016-06-03T08:00',
         end: '2016-06-03T11:00',
+        color: '#8fdf82',
         rendering: 'background'
       },{
         id: 'available',
         resourceId: '-KGHHXLT2oypqidXcL2T',
         start: '2016-06-03T17:00',
         end: '2016-06-03T21:00',
+        color: '#8fdf82',
         rendering: 'background'
       }];
       events.push(w[0]);
@@ -671,19 +678,20 @@ export class TrainingListPage {
   getResources(callback) {
     var resources = [];
 
-    if (this.workoutStore.placeStore.size === 0) {
+    if (this.placeStore.size === 0) {
       callback([]);
       return false;
     }
 
-    this.workoutStore.trainerStore.list.forEach(trainer => {
+    this.trainerStore.list.forEach(trainer => {
       if (trainer.place !== this.place) {
         return;
       }
 
       var resource = {
         id: trainer.key,
-        title: trainer.title
+        title: trainer.alias ? trainer.alias : trainer.title,
+        eventColor: trainer.color
       };
       resources.push(resource);
     });
@@ -694,30 +702,30 @@ export class TrainingListPage {
   getResourcesWithPlaces(callback) {
     var resources = [];
 
-    if (this.workoutStore.placeStore.size === 0) {
+    if (this.placeStore.size === 0) {
       callback([]);
       return false;
     }
 
-    this.workoutStore.trainerStore.list.forEach(trainer => {
+    this.trainerStore.list.forEach(trainer => {
       var resource = {
         id: trainer.key,
-        title: trainer.title
+        title: trainer.alias ? trainer.alias : trainer.title
       };
       resources.push(resource);
     });
 
     var i = 0, childrens = [];
-    this.workoutStore.trainerStore.list.forEach(trainer => {
+    this.trainerStore.list.forEach(trainer => {
         if (i++ < 3) {
             var resource = {
                 id: trainer.key,
-                title: trainer.title
+                title: trainer.alias ? trainer.alias : trainer.title
             };
             childrens.push(resource);
         }
     });
-    var place1 = this.workoutStore.placeStore.list.get(0);
+    var place1 = this.placeStore.list.get(0);
     resources.push({
         id: place1.key,
         title: place1.title,
@@ -725,16 +733,16 @@ export class TrainingListPage {
     });
 
     i = 0, childrens = [];
-    this.workoutStore.trainerStore.list.forEach(trainer => {
+    this.trainerStore.list.forEach(trainer => {
         if (i++ >= 3) {
             var resource = {
                 id: trainer.key,
-                title: trainer.title
+                title: trainer.alias ? trainer.alias : trainer.title
             };
             childrens.push(resource);
         }
     });
-    var place2 = this.workoutStore.placeStore.list.get(1);
+    var place2 = this.placeStore.list.get(1);
     resources.push({
         id: place2.key,
         title: place2.title,

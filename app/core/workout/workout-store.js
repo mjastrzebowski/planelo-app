@@ -3,20 +3,16 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { AuthService } from '../../core/auth/auth-service';
 
-import { ClientStore } from '../../core/client/client-store';
-import { PlaceStore } from '../../core/place/place-store';
-import { TrainerStore } from '../../core/trainer/trainer-store';
-
 import { IWorkout } from './workout';
 
 export class WorkoutStore {
   workouts: ReplaySubject<List<any>> = new ReplaySubject(1);
   public list: List<any> = List();
 
-  constructor(ref: Firebase, auth: AuthService, public clientStore: ClientStore, public placeStore: PlaceStore, public trainerStore: TrainerStore) {
+  constructor(ref: Firebase, auth: AuthService) {
     this.auth = auth;
     // ref = ref.orderByChild('dateTime').startAt('2016-05-31 08:00');
-    ref = ref.orderByChild('dateTime'); // .startAt('2016-06-20 08:00'); //.endAt('2016-06-27 08:00');
+    ref = ref.orderByChild('dateTime'); // .startAt('2016-05-01 08:00'); //.endAt('2016-06-27 08:00');
     ref.on('child_added', this.created.bind(this));
     ref.on('child_changed', this.updated.bind(this));
     ref.on('child_removed', this.deleted.bind(this));
@@ -27,28 +23,53 @@ export class WorkoutStore {
     return this.list.size;
   }
 
-  private updateClients(): void {
-    this.list.forEach((workout, index) => {
-      let client = this.clientStore.getItem(workout.clientKey);
-      workout.client = client.name + ' ' + client.lastname;
-      this.list = this.list.set(index, workout);
-    }, this);
+  public getItem(key: string): IWorkout {
+    let index = this.findIndex(key);
+    return this.list.get(index);
   }
 
-  private updatePlaces(): void {
-    this.list.forEach((workout, index) => {
-      let place = this.placeStore.getItem(workout.placeKey);
-      workout.place = place.title;
-      this.list = this.list.set(index, workout);
-    }, this);
+  public filterBy(filters: object): IWorkout {
+    return this.list.filter(workout => {
+      let check = true;
+      Object.keys(filters).forEach(function (key) {
+        switch (key) {
+          case 'dateBefore': {
+            if (workout.fullDate >= filters[key]) {
+              check = false;
+            }
+            break;
+          }
+          case 'dateAfter': {
+            if (workout.fullDate < filters[key]) {
+              check = false;
+            }
+            break;
+          }
+          case 'fixed': {
+            if ((filters[key] === true && workout[key] !== filters[key])
+              || (filters[key] === false && workout[key] && workout[key] !== filters[key])) {
+              check = false;
+            }
+            break;
+          }
+          default: {
+            if (workout[key] !== filters[key]) {
+              check = false;
+            }
+            break;
+          }
+        }
+
+        if (!check) {
+          return false;
+        }
+      });
+      return check;
+    });
   }
 
-  private updateTrainers(): void {
-    this.list.forEach((workout, index) => {
-      let trainer = this.trainerStore.getItem(workout.trainerKey);
-      workout.trainer = trainer.title;
-      this.list = this.list.set(index, workout);
-    }, this);
+  private emit(): void {
+    this.trainers.next(this.list);
   }
 
   private updateWorkoutDependencies(workout: IWorkout): void {
@@ -67,31 +88,15 @@ export class WorkoutStore {
     }
     // workout.descDate = workout.fullDate.toLocaleDateString('pl', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
     workout.descDate = moment(workout.fullDate).format('dddd, DD.MM.YYYY');
+    workout.weekDay = moment(workout.fullDate).format('dddd');
     if (workout.descDate == 'Invalid Date' || workout.descDate == 'Invalid date') {
       workout.descDate = workout.fullDate.toLocaleDateString('pl', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
+      workout.weekDay = workout.fullDate.toLocaleDateString('pl', { weekday: 'long' });
     }
 
     workout.clientKey = workout.client;
     workout.placeKey = workout.place;
     workout.trainerKey = workout.trainer;
-
-    // this.updateClients();
-    // this.clientStore.clients.subscribe(() => {
-    //   this.updateClients();
-    //   // this.emit();
-    // });
-
-    // this.updatePlaces();
-    // this.placeStore.places.subscribe(() => {
-    //   this.updatePlaces();
-    //   // this.emit();
-    // });
-
-    // this.updateTrainers();
-    // this.trainerStore.trainers.subscribe(() => {
-    //   this.updateTrainers();
-    //   // this.emit();
-    // });
   }
 
   private emit(): void {

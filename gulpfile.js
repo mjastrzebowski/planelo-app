@@ -42,8 +42,10 @@ gulp.task('watch', ['clean'], function(done){
       gulpWatch('app/**/*.html', function(){ gulp.start('html'); });
       buildBrowserify({
         watch: true,
+        debug: true,
+        devtool: 'source-map',
         statsOptions: {
-          'colors': false,
+          'colors': true,
           'errorDetails': true
         }
       });

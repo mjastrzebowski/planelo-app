@@ -1,26 +1,34 @@
-<ion-navbar *navbar>
-  <button menuToggle>
-    <ion-icon name="menu"></ion-icon>
-  </button>
-  <ion-title>Trenerzy</ion-title>
-  <ion-buttons end>
-    <button (click)="showTrainerForm()">
-      <ion-icon name="add"></ion-icon>
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
     </button>
-  </ion-buttons>
-</ion-navbar>
+    <ion-title>Trenerzy</ion-title>
+    <ion-buttons end>
+      <button (click)="showTrainerForm()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="trainer-list">
-<!-- 
   <ion-searchbar primary
                  [(ngModel)]="queryText"
-                 (ionInput)="updateTrainers()"
+                 (ionInput)="updateList()"
                  placeholder="Szukaj">
-  </ion-searchbar> -->
+  </ion-searchbar>
 
-  <ion-list>
-      <button ion-item (click)="showTrainerForm(trainer)" *ngFor="let trainer of trainers | async; let t = index">
+  <ion-list [hidden]="shownSessions === 0">
+      <button ion-item (click)="showTrainerForm(trainer)" *ngFor="let trainer of trainers | async; let t = index" [hidden]="trainer.hide">
+        <ion-avatar item-left *ngIf="trainer?.avatar">
+          <img [src]="trainer?.avatar" [alt]="trainer?.title">
+        </ion-avatar>
         <h3>{{trainer?.title}}</h3>
       </button>
   </ion-list>
+
+  <ion-list-header [hidden]="shownSessions > 0">
+      Nie znaleziono trenerów
+  </ion-list-header>
 </ion-content>

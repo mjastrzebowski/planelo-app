@@ -1,16 +1,17 @@
-<ion-toolbar class="android-attr">
-  <ion-title [hidden]="editing">Nowy klient</ion-title>
-  <ion-title [hidden]="!editing">Edycja klienta</ion-title>
-  <ion-buttons start>
-    <button (click)="dismiss()">
-      <span primary showWhen="ios">Zamknij</span>
-      <ion-icon name='close' showWhen="android,windows"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-toolbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>Profil klienta</ion-title>
+    <ion-buttons start>
+      <button (click)="dismiss()">
+        <span primary showWhen="ios">Zamknij</span>
+        <ion-icon name='close' hideWhen="ios"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="has-header">
-  <form #clientForm="ngForm" novalidate>
+  <form #clientProfileForm="ngForm" novalidate>
     <ion-list>
       <ion-item>
         <ion-label floating>Imię</ion-label>
@@ -21,7 +22,7 @@
         <ion-input type="text" [(ngModel)]="client.lastname"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Adres email</ion-label>
+        <ion-label floating>Adres e-mail</ion-label>
         <ion-input type="email" [(ngModel)]="client.email"></ion-input>
       </ion-item>
       <ion-item>
@@ -32,28 +33,22 @@
         <ion-label floating>Uwagi</ion-label>
         <ion-textarea [(ngModel)]="client.comment"></ion-textarea>
       </ion-item>
+    </ion-list>
+
 
       <!-- gender, height, weight, fitness level, activity level -->
 
-      <!-- <ion-item *ngFor="let item of character['items']">
-        {{item.title}}
-        <ion-note item-right>
-          {{item.note}}
-        </ion-note>
-      </ion-item> -->
-    </ion-list>
 
     <ion-row responsive-sm>
       <ion-col>
-        <button primary block type="submit" [hidden]="editing" (click)="save()">Dodaj klienta</button>
-        <button primary block type="submit" [hidden]="!editing" (click)="save()">Zapisz zmiany</button>
+        <button primary block type="submit" (click)="save()">Zapisz zmiany</button>
       </ion-col>
       <ion-col>
         <button light block (click)="dismiss()">Anuluj</button>
       </ion-col>
     </ion-row>
-    <ion-col center text-center [hidden]="!editing">
-      <button clear small danger center text-center (click)="delete()">Usuń</button>
-    </ion-col>
+    <!-- <ion-col center text-center>
+      <button clear small danger center text-center (click)="delete()">Usuń konto oraz wszystkie treningi</button>
+    </ion-col> -->
   </form>
 </ion-content>

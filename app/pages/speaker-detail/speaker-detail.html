@@ -1,10 +1,10 @@
-
-<ion-navbar *navbar>
-  <ion-title>{{speaker.name}}</ion-title>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{speaker.name}}</ion-title>
+  </ion-navbar>
+</ion-header>
 
 <ion-content padding>
-
   <p class="speaker-pic">
     <img [src]="speaker.profilePic" [alt]="speaker.name">
   </p>
@@ -18,5 +18,4 @@
       <p>{{session.description}}</p>
     </div>
   </div>
-
 </ion-content>

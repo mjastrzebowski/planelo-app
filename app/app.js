@@ -11,9 +11,10 @@ import { PLACE_PROVIDERS } from './core/place/providers';
 import { TRAINER_PROVIDERS } from './core/trainer/providers';
 import { WORKOUT_PROVIDERS } from './core/workout/providers';
 
-import { TrainerListPage } from './pages/trainer/trainer-list/trainer-list';
-import { TrainingListPage } from './pages/training-list/training-list';
 import { ClientListPage } from './pages/client/client-list/client-list';
+import { TrainerListPage } from './pages/trainer/trainer-list/trainer-list';
+import { TrainingListPage } from './pages/training/training-list/training-list';
+import { TrainingSchedulerPage } from './pages/training/training-scheduler/training-scheduler';
 
 import { LoginPage } from './pages/login/login';
 import { SettingsPage } from './pages/settings/settings';
@@ -49,7 +50,8 @@ class DavidApp {
     // the login page disables the left menu
     this.pages = [
       { title: 'Treningi', component: TrainingListPage, icon: 'clipboard', hide: true },
-      { title: 'Klienci', component: ClientListPage, icon: 'people', hide: true },
+      { title: 'Grafik', component: TrainingSchedulerPage, icon: 'calendar', hide: true },
+      { title: 'Klienci', component: ClientListPage, icon: 'contacts', hide: true },
       { title: 'Trenerzy', component: TrainerListPage, icon: 'people', hide: true },
       // { title: 'Baza ćwiczeń', component: ExerciseListPage, icon: 'folder', hide: true },
       // { title: 'Aktualności', component: AboutPage, icon: 'information-circle', hide: false },
@@ -118,14 +120,17 @@ class DavidApp {
       this.showUserBar = true;
       if (this.auth.isOwner) {
         this.findMenuItemByTitle('Treningi').hide = false;
+        this.findMenuItemByTitle('Grafik').hide = false;
         this.findMenuItemByTitle('Klienci').hide = false;
         this.findMenuItemByTitle('Trenerzy').hide = false;
       } else if (this.auth.isTrainer) {
         this.findMenuItemByTitle('Treningi').hide = false;
+        this.findMenuItemByTitle('Grafik').hide = true;
         this.findMenuItemByTitle('Klienci').hide = true;
         this.findMenuItemByTitle('Trenerzy').hide = true;
       } else if (this.auth.isClient) {
         this.findMenuItemByTitle('Treningi').hide = false;
+        this.findMenuItemByTitle('Grafik').hide = true;
         this.findMenuItemByTitle('Klienci').hide = true;
         this.findMenuItemByTitle('Trenerzy').hide = true;
       }
@@ -136,7 +141,9 @@ class DavidApp {
     } else {
       this.showUserBar = false;
       this.findMenuItemByTitle('Treningi').hide = true;
+      this.findMenuItemByTitle('Grafik').hide = true;
       this.findMenuItemByTitle('Klienci').hide = true;
+      this.findMenuItemByTitle('Trenerzy').hide = true;
       // this.findMenuItemByTitle('Baza ćwiczeń').hide = true;
       this.findMenuItemByTitle('Ustawienia').hide = true;
       this.findMenuItemByTitle('Zaloguj').hide = false;
@@ -154,16 +161,16 @@ class DavidApp {
 ionicBootstrap(DavidApp, [
   AUTH_PROVIDERS,
   CLIENT_PROVIDERS,
-  // PLACE_PROVIDERS,
+  PLACE_PROVIDERS,
   TRAINER_PROVIDERS,
   WORKOUT_PROVIDERS,
   Utils], {
-    statusbarPadding: true,
+    statusbarPadding: false,
     platforms: {
       android: {
         activator: 'ripple',
         backButtonIcon: 'md-arrow-back'
       }
     },
-    prodMode: true
+    prodMode: false
   });

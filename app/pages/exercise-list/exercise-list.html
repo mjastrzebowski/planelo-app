@@ -1,19 +1,21 @@
-<ion-navbar *navbar>
-  <button menuToggle>
-    <ion-icon name="menu"></ion-icon>
-  </button>
-
-  <ion-title>Baza ćwiczeń</ion-title>
-
-  <ion-buttons end>
-    <button>
-      <ion-icon ios="ios-funnel-outline" md="md-funnel"></ion-icon>
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
     </button>
-  </ion-buttons>
-</ion-navbar>
+
+    <ion-title>Baza ćwiczeń</ion-title>
+
+    <ion-buttons end>
+      <button>
+        <ion-icon ios="ios-funnel-outline" md="md-funnel"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
 
 <ion-content class="exercises">
-
   <ion-list *ngFor="let exercises of groups">
     <ion-list-header>
       {{exercises[0].category[0]}}
@@ -23,5 +25,4 @@
       {{exercise.name}}
     </ion-item>
   </ion-list>
-
 </ion-content>

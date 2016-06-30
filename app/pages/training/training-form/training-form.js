@@ -1,40 +1,47 @@
 import { Component, Input } from '@angular/core';
 
-import {App, Alert, NavParams, NavController, ViewController} from 'ionic-angular';
+import { App, Alert, NavParams, NavController, ViewController } from 'ionic-angular';
 
-import { AuthService } from '../../core/auth/auth-service';
-import { WorkoutFullStore } from '../../core/workout/workout-full-store';
+import { Utils } from '../../../providers/utils';
+
+import { AuthService } from '../../../core/auth/auth-service';
+
+import { TrainerStore } from '../../../core/trainer/trainer-store';
+import { WorkoutFullStore } from '../../../core/workout/workout-full-store';
 
 
 @Component({
-  templateUrl: 'build/pages/training-form/training-form.html'
+  templateUrl: 'build/pages/training/training-form/training-form.html'
 })
 export class TrainingFormModal {
   @Input() trainings: Array;
   editing: boolean = false;
 
-  constructor(app: App, params: NavParams, nav: NavController, viewCtrl: ViewController, auth: AuthService, workoutStore: WorkoutFullStore) {
+  constructor(app: App, params: NavParams, nav: NavController, viewCtrl: ViewController, utils: Utils, auth: AuthService, trainerStore: TrainerStore, workoutStore: WorkoutFullStore) {
     this.app = app;
     this.params = params;
     this.nav = nav;
     this.viewCtrl = viewCtrl;
 
+    this.utils = utils;
     this.auth = auth;
+    this.trainerStore = trainerStore;
     this.workoutStore = workoutStore;
 
     this.available = [];
     this.repeated = [];
     // this.trainings = [];
     this.place = '-KBHukjV0l8M-EkpTdI4';
+    this.forceSub = false;
   }
 
   onPlaceChanged(event) {
-    // console.log('test onPlaceChanged', event.value);
     this.getAvailableWorkouts();
   }
 
   ionViewLoaded() {
-    // debugger;
+    // this.utils.presentLoading('Sprawdzanie terminów...');
+
     if (this.params.data.hasOwnProperty('date')) {
       let workout = Object.assign({}, this.params.data);
       workout.client = workout.clientKey;
@@ -47,26 +54,18 @@ export class TrainingFormModal {
       this.trainings = [Object.assign({}, workout)];
     } else {
       this.trainings = [{}];
-      // this.workout.client = '-KEhA_5ii7SdqFoaywrX';
-      // this.workout.trainer = '-KBN-fYLnmIQ_6pSwnV6'; // Adam
-      // this.workout.trainer = '-KEiiFLK6kxKsJoTGjKU'; // Oskar
-      // this.workout.trainer = '-KBN-noa5OGgfW2XYbvZ'; // Damian
-      // this.workout.trainer = '-KEiiHM34nL9fAhGCAC8'; // Pawel
     }
 
-    let sub = this.auth.subscribe((authenticated: boolean) => {
-      sub.unsubscribe();
-      this.workouts = this.workoutStore.workouts;
-      // this.workouts.subscribe(() => {
-      //   this.getAvailableWorkouts();
-      // });
-      // console.log('test trainForm auth sub', authenticated);
-      if (this.auth.isClient) {
-        setTimeout(() => {
+    let authSub = this.auth.subscribe((authenticated: boolean) => {
+      if (authenticated) {
+        if (authSub) {
+          authSub.unsubscribe();
+        }
+
+        this.workouts = this.workoutStore.workouts;
+        let workSub = this.workouts.subscribe((list) => {
           this.getAvailableWorkouts();
-        }, 3000);
-      } else {
-        this.getAvailableWorkouts();
+        });
       }
     }
   }
@@ -111,7 +110,7 @@ export class TrainingFormModal {
     }
 
     // let lastDate = this.workoutStore.list.last().date;
-    for (let d = today; d <= today+20; d++) {
+    for (let d = today; d <= today+42; d++) {
       let nextDay = new Date('2016-06-01');
       nextDay.setDate(d);
       if (nextDay.getDay() !== 0) {
@@ -134,7 +133,7 @@ export class TrainingFormModal {
             time = '0' + time;
           }
 
-          this.workoutStore.trainerStore.list.forEach(trainer => {
+          this.trainerStore.list.forEach(trainer => {
             if (this.auth.isOwner || trainer.place === this.place) {
               let thisDate = new Date(date);
               let thisDay = thisDate.getDate();

@@ -27,8 +27,15 @@ export class Utils {
     this.loading.dismiss();
   }
 
-
-
+  generatePassword() {
+    let length = 6,
+        charset = 'abcdefghjkpqrstuxyz23456789',
+        retVal = '';
+    for (let i = 0, n = charset.length; i < length; ++i) {
+      retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+  }
 
 
   // deprecated

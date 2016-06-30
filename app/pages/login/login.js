@@ -6,7 +6,8 @@ import { AuthService } from '../../core/auth/auth-service';
 import { ClientStore } from '../../core/client/client-store';
 import { TrainerStore } from '../../core/trainer/trainer-store';
 
-import { TrainingListPage } from '../training-list/training-list';
+import { TrainingListPage } from '../training/training-list/training-list';
+import { ClientListPage } from '../client/client-list/client-list';
 
 @Component({
   templateUrl: 'build/pages/login/login.html'

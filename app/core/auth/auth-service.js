@@ -18,6 +18,9 @@ export class AuthService {
           this.emit();
           if (this.userData && this.key) {
             let userType = this.isClient ? 'cal_clients' : 'cal_trainers';
+            if (this.key === '-KBN-b7GjsB6FS8Opmx0') {
+              userType = 'cal_clients';
+            }
             this.ref.child(userType).child(this.key).once('value', function(snapshot) {
               this.moreData = snapshot.val();
               this.emit();
@@ -54,6 +57,10 @@ export class AuthService {
 
   get key(): string {
     return this.authenticated && this.userData ? this.userData.key : '';
+  }
+
+  get username(): string {
+    return this.authenticated && this.moreData ? this.moreData.username : '';
   }
 
   get name(): string {

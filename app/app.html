@@ -2,14 +2,14 @@
 <!-- left menu -->
 <ion-menu [content]="content">
   
-  <ion-item class="menu-userbar" padding [hidden]="!showUserBar || !auth.authenticated">
-    <h1 padding-top *ngIf="auth.name">{{auth.name}} {{auth.lastname}}</h1>
-    <h1 padding-top *ngIf="!auth.name && auth.title">{{auth.title}}</h1>
-    <h1 padding-top *ngIf="!auth.name && !auth.title">Jarosław Jakubowski</h1>
+  <ion-toolbar class="menu-userbar" padding [hidden]="!showUserBar || !auth.authenticated">
+    <h1 *ngIf="auth.name">{{auth.name}} {{auth.lastname}}</h1>
+    <h1 *ngIf="!auth.name && auth.title">{{auth.title}}</h1>
+    <h1 *ngIf="!auth.name && !auth.title">Jarosław Jakubowski</h1>
     <h2 *ngIf="auth.isOwner">Szef</h2>
     <h2 *ngIf="auth.isTrainer">Trener</h2>
     <h2 *ngIf="auth.isClient">Klient</h2>
-  </ion-item>
+  </ion-toolbar>
 
   <ion-toolbar [hidden]="showUserBar">
     <ion-title>Niezalogowany</ion-title>

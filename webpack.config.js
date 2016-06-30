@@ -1,5 +1,6 @@
 var path = require('path');
-
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -41,6 +42,24 @@ module.exports = {
       /zone\.js(\/|\\)dist(\/|\\)zone-microtask/
     ]
   },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      mangle: true,
+      compress: {
+        dead_code: true, // eslint-disable-line camelcase
+        screw_ie8: true, // eslint-disable-line camelcase
+        unused: true,
+        warnings: false
+      }
+    }),
+    new HtmlWebpackPlugin({
+      chunkSortMode: 'dependency',
+      filename: 'index.html',
+      hash: false,
+      inject: 'body',
+      template: './src/index.html'
+    })
+  ],
   resolve: {
     alias: {
       'rx$': require.resolve('rxjs')

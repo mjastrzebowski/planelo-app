@@ -1,12 +1,14 @@
-<ion-navbar *navbar>
-  <ion-title>Trening {{training.no}}/{{training.cycle*8}} ({{training.cycle*8 + training.no}})</ion-title>
+<ion-header>
+  <ion-navbar>
+    <ion-title>Trening {{training.no}}/{{training.cycle*8}} ({{training.cycle*8 + training.no}})</ion-title>
 
-  <ion-buttons end>
-    <button (click)="showHistory()">
-      <ion-icon name="archive"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-navbar>
+    <ion-buttons end>
+      <button (click)="showHistory()">
+        <ion-icon name="archive"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="training-detail">
   <div padding>
