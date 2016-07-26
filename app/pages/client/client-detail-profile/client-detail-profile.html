@@ -30,6 +30,20 @@
         <ion-input type="tel" [(ngModel)]="client.phone"></ion-input>
       </ion-item>
       <ion-item>
+        <ion-label floating>Płeć</ion-label>
+        <ion-select [(ngModel)]="client.gender">
+          <ion-option value="m">mężczyzna</ion-option>
+          <ion-option value="k">kobieta</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Preferowane miejsce</ion-label>
+        <ion-select [(ngModel)]="client.place">
+          <ion-option value="-KBHukjV0l8M-EkpTdI4">Hermanowska</ion-option>
+          <ion-option value="-KBHulP5PtV-dGxyXPWl">Zwycięska</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
         <ion-label floating>Uwagi</ion-label>
         <ion-textarea [(ngModel)]="client.comment"></ion-textarea>
       </ion-item>
@@ -47,8 +61,8 @@
         <button light block (click)="dismiss()">Anuluj</button>
       </ion-col>
     </ion-row>
-    <!-- <ion-col center text-center>
-      <button clear small danger center text-center (click)="delete()">Usuń konto oraz wszystkie treningi</button>
-    </ion-col> -->
+    <ion-col center text-center>
+      <button clear small danger center text-center (click)="delete()">Usuń klienta</button>
+    </ion-col>
   </form>
 </ion-content>

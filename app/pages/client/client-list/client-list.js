@@ -7,6 +7,7 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Utils } from '../../../providers/utils';
 
 import { AuthService } from '../../../core/auth/auth-service';
+import { ClientService } from '../../../core/client/client-service';
 import { ClientStore } from '../../../core/client/client-store';
 
 import { ClientCreateModal } from '../client-create/client-create';
@@ -18,11 +19,13 @@ import { ClientDetailPage } from '../client-detail/client-detail';
 export class ClientListPage {
   @Input() clients: ReplaySubject<List<any>>;
 
-  constructor(app: App, nav: NavController, utils: Utils, auth: AuthService, clientStore: ClientStore) {
+  constructor(app: App, nav: NavController, utils: Utils, auth: AuthService, clientService: ClientService, clientStore: ClientStore) {
     this.app = app;
     this.nav = nav;
     this.utils = utils;
     this.auth = auth;
+
+    this.clientService = clientService;
     this.clientStore = clientStore;
 
     this.queryText = '';
@@ -33,19 +36,30 @@ export class ClientListPage {
   }
 
   showClientCreate() {
-    let modal = Modal.create(ClientCreateModal);
+    this.modal = Modal.create(ClientCreateModal);
 
-    modal.onDismiss(data => {
+    this.modal.onDismiss(data => {
       if (data) {
         this.clientService.createClient(
           data.name || '',
           data.lastname || '',
           data.email || '',
           data.phone || '',
-          data.comment || '');
+          data.comment || '')
+          .then((res) => {
+            this.utils.createNotification('clientAdded', {
+              client: {
+                key: res.key(),
+                gender: data.gender || '',
+                name: data.name || '',
+                lastname: data.lastname || ''
+              },
+              owner: this.auth.key
+            });
+          });
       }
     });
-    this.nav.present(modal);
+    this.nav.present(this.modal);
   }
 
   updateList() {
@@ -77,7 +91,7 @@ export class ClientListPage {
     });
   }
 
-  ionViewLoaded() {
+  ionViewDidEnter() {
     this.utils.presentLoading('Ładowanie klientów...');
 
     let authSub = this.auth.subscribe((authenticated: boolean) => {

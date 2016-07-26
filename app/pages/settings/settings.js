@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { App, Alert, NavController } from 'ionic-angular';
 
 // import { AuthRouteHelper } from '../../core/auth/auth-route-helper';
+import { Utils } from '../../providers/utils';
+
 import { AuthService } from '../../core/auth/auth-service';
 
 
@@ -10,9 +12,10 @@ import { AuthService } from '../../core/auth/auth-service';
 })
 
 export class SettingsPage {
-  constructor(app: App, nav: NavController, auth: AuthService) {
+  constructor(app: App, nav: NavController, utils: Utils, auth: AuthService) {
     this.app = app;
     this.nav = nav;
+    this.utils = utils;
     this.auth = auth;
 
     this.settings = {};

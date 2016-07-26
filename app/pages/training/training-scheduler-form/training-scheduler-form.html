@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title [hidden]="trainings[0].completed || editing">Nowy trening</ion-title>
+    <ion-title [hidden]="trainings[0].completed || !editing">Zmiana treningu</ion-title>
+    <ion-title [hidden]="!trainings[0].completed">Odwołany trening</ion-title>
+
+    <ion-buttons start>
+      <button (click)="dismiss()">
+        <span primary showWhen="ios">Zamknij</span>
+        <ion-icon name="close" hideWhen="ios"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+  <ion-toolbar no-border-top [hidden]="!auth || !auth.isClient">
+    <div>
+      <ion-segment [(ngModel)]="place" (ionChange)="onPlaceChanged($event)">
+        <ion-segment-button value="-KBHukjV0l8M-EkpTdI4">
+          Hermanowska
+        </ion-segment-button>
+        <ion-segment-button value="-KBHulP5PtV-dGxyXPWl">
+          Zwycięska
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="training-form">
+  <form #trainingForm="ngForm" novalidate>
+    <div>
+      <ion-list>
+        <ion-item>
+          <ion-label>Klient</ion-label>
+          <ion-select [(ngModel)]="trainings[0].client">
+            <ion-option *ngFor="let client of workoutStore.clientStore.clients | async" [value]="client.key">{{client.lastname}} {{client.name}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <ion-list *ngFor="let training of trainings; let t = index">
+        <ion-list-header padding-v-0>
+          <ion-row center padding-v-0>
+            <ion-col width-80>Trening</ion-col>
+            <ion-col width-20>
+              <button clear danger small (click)="removeTraining(t)" [hidden]="t === 0">
+                <ion-icon name="remove-circle"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-list-header>
+        <ion-item>
+          <ion-label>Termin</ion-label>
+          <ion-select [(ngModel)]="training.date">
+            <span *ngFor="let w of available">
+              <ion-option *ngFor="let hour of w.hours" [value]="hour">{{hour.timeStart}} {{w.descDate}}</ion-option>
+            </span>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Trener</ion-label>
+          <ion-select [(ngModel)]="training.trainer">
+            <ion-option *ngFor="let trainer of training.date?.trainers" [value]="trainer.key">{{trainer.title}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <ion-buttons padding text-center [hidden]="editing">
+        <button outline small (click)="addTraining(exercise)"><ion-icon name="add"></ion-icon> dodaj kolejny</button>
+      </ion-buttons>
+    </div>
+
+    <ion-row responsive-sm>
+      <ion-col *ngIf="auth.isOwner">
+        <button primary block type="submit" (click)="save()">Zapisz</button>
+        <!-- <button primary block type="submit" [hidden]="!editing" (click)="save()">Zapisz zmiany</button> -->
+      </ion-col>
+      <ion-col>
+        <button light block (click)="dismiss()">Anuluj</button>
+      </ion-col>
+    </ion-row>
+    <ion-col center text-center [hidden]="!editing">
+      <button clear small danger center text-center (click)="delete()">Usuń</button>
+    </ion-col>
+  </form>
+</ion-content>

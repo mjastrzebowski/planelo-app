@@ -11,7 +11,7 @@ export class WorkoutFullStore {
 
   constructor(ref: Firebase, auth: AuthService, public clientStore: ClientStore) {
     this.auth = auth;
-    ref = ref.orderByChild('dateTime').startAt('2016-06-20 08:00');
+    ref = ref.orderByChild('dateTime').startAt('2016-06-01 08:00');
     // ref = ref.orderByChild('dateTime');// .endAt('2016-06-30 08:00');
     ref.on('child_added', this.created.bind(this));
     ref.on('child_changed', this.updated.bind(this));

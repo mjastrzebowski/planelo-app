@@ -14,7 +14,7 @@ import { TrainerStore } from '../../../core/trainer/trainer-store';
 import { WorkoutStore } from '../../../core/workout/workout-store';
 import { WorkoutService } from '../../../core/workout/workout-service';
 
-import {TrainingFormModal} from '../training-form/training-form'
+import { TrainingSchedulerFormModal } from '../training-scheduler-form/training-scheduler-form'
 // import {TrainingDetailPage} from '../training-detail/training-detail';
 
 @Component({
@@ -61,23 +61,24 @@ export class TrainingSchedulerPage {
   }
 
 
-  showTrainingForm(workout) {
+  showTrainingSchedulerForm(workout) {
     if (workout && workout.hasOwnProperty('key')) {
       this.editing = true;
     } else {
       this.editing = false;
     }
 
-    let modal = Modal.create(TrainingFormModal, workout);
+    let modal = Modal.create(TrainingSchedulerFormModal, workout);
     modal.onDismiss(this.saveTraining.bind(this));
-    // setTimeout(() => {
+    setTimeout(() => {
       this.nav.present(modal);
-    // }, 500);
+    }, 500);
   }
 
   saveTraining(data) {
-    this.utils.presentLoading('Zapisywanie zmian...');
     if (data) {
+      this.utils.presentLoading('Zapisywanie zmian...');
+
       if (data[0].hasOwnProperty('delete')) {
         data.forEach(training => {
           this.workoutService.deleteWorkout(training);
@@ -92,7 +93,8 @@ export class TrainingSchedulerPage {
             dateTime: training.date.dateTime || '',
             timeStart: training.date.timeStart || '',
             timeEnd: training.date.timeEnd || '',
-            repeat: training.repeat || false
+            repeat: training.repeat || false,
+            fixed: true
           };
           if (training.trainer) {
             changes.place = this.trainerStore.getItem(training.trainer).place;
@@ -111,16 +113,17 @@ export class TrainingSchedulerPage {
             training.date.dateTime || '',
             training.date.timeStart || '',
             training.date.timeEnd || '',
-            training.repeat || false);
+            training.repeat || false,
+            true);
         });
 
         this.saveTrainingAlert(data[0]);
       }
       this.refreshCalendar(true);
+      setTimeout(() => {
+        this.utils.stopLoading();
+      }, 500);
     }
-    setTimeout(() => {
-      this.utils.stopLoading();
-    }, 500);
   }
 
   saveTrainingAlert(workout) {
@@ -202,8 +205,8 @@ export class TrainingSchedulerPage {
     this.refreshCalendar(true);
   }
 
-  ionViewLoaded() {
-    this.utils.presentLoading('Ładowanie treningów...');
+  ionViewDidEnter() {
+    this.utils.presentLoading('Ładowanie stałych treningów...');
     this.calendar = false;
 
     let authSub = this.auth.subscribe((authenticated: boolean) => {
@@ -226,8 +229,8 @@ export class TrainingSchedulerPage {
                   this.refreshCalendar();
                 }
               }
-              this.utils.stopLoading();
               this.forceSub = true;
+              this.utils.stopLoading();
             }, 500);
           }
         });
@@ -273,12 +276,10 @@ export class TrainingSchedulerPage {
       },
 
       eventOverlap: true,
-      // editable: true,
-      editable: false,
+      editable: true,
       eventDurationEditable: false,
       eventLimit: true,
-      // selectable: true,
-      selectable: false,
+      selectable: true,
       selectHelper: false,
 
       header: {
@@ -298,9 +299,9 @@ export class TrainingSchedulerPage {
       resources: this.getResources.bind(this),
       events: this.getEvents.bind(this),
 
-      // eventClick: this.calendarEvent.bind(this),
-      // select: this.calendarSelect.bind(this),
-      // eventDrop: this.calendarDrag.bind(this)
+      eventClick: this.calendarEvent.bind(this),
+      select: this.calendarSelect.bind(this),
+      eventDrop: this.calendarDrag.bind(this)
     };
 
     $('#calendar').fullCalendar(calendarOptions);
@@ -318,7 +319,7 @@ export class TrainingSchedulerPage {
       timeEnd: event.start.add(1, 'hours').format('HH:00')
     };
 
-    if (confirm('Czy na pewno przenieść trening?')) {
+    if (confirm('Czy na pewno przenieść stały trening?')) {
       this.workoutService.updateWorkout(workout, changes);
     } else {
       // revertFunc();
@@ -335,13 +336,13 @@ export class TrainingSchedulerPage {
       timeEnd: start.add(1, 'hours').format('HH:00')
     };
 
-    this.showTrainingForm(workout);
+    this.showTrainingSchedulerForm(workout);
   }
 
   calendarEvent(event) {
     let index = this.workoutStore.findIndex(event.id);
     let workout = this.workoutStore.list.get(index);
-    this.showTrainingForm(workout);
+    this.showTrainingSchedulerForm(workout);
   }
 
   showActionSheet() {

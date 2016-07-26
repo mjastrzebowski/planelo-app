@@ -14,7 +14,7 @@
       Profil
     </button>
 
-    <button ion-item large disabled>
+    <ion-item large>
       <ion-icon name="clipboard" item-left></ion-icon>
       <h2>Treningi</h2>
       <p>• zrobione: {{ trainingsDone?.size }}
@@ -29,9 +29,9 @@
           {{ placeStore.getItem(trainingsTodoNext.place).title }},
           {{ trainerStore.getItem(trainingsTodoNext.trainer).alias }})
       </i></small></p>
-    </button>
+    </ion-item>
 
-    <button ion-item disabled>
+    <ion-item>
       <ion-icon name="calendar" item-left></ion-icon>
       <h2>Grafik</h2>
       <p *ngFor="let training of trainingsScheduled"> •
@@ -40,25 +40,25 @@
         {{ trainerStore.getItem(training.trainer).alias }}
       </p>
       <p *ngIf="!trainingsScheduled.size">
-        • brak treningów
+        • brak stałych treningów
       </p>
-    </button>
+    </ion-item>
 
     <button ion-item disabled>
       <ion-icon name="body" item-left></ion-icon>
       Pomiary
     </button>
-    <button ion-item (click)="showClientBilling(client)" *ngIf="auth.username === 'mjastrzebowski'">
+    <button ion-item (click)="showClientBilling(client)">
       <ion-icon name="cash" item-left></ion-icon>
       Rachunki
     </button>
 
-    <button ion-item (click)="showClientAccess(client)" *ngIf="auth.username === 'mjastrzebowski'">
+    <button ion-item (click)="showClientAccess(client)">
       <ion-icon name="key" item-left></ion-icon>
       Dostęp
       <ion-note item-right>
-        <span *ngIf="client.username">aktywny</span>
-        <span *ngIf="!client.username">nieaktywny</span>
+        <span *ngIf="client.active">aktywny</span>
+        <span *ngIf="!client.active">nieaktywny</span>
       </ion-note>
     </button>
   </ion-list>

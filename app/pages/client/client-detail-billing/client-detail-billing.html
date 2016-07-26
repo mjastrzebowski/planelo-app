@@ -14,50 +14,74 @@
   <form #clientBillingForm="ngForm" novalidate>
     <ion-list>
       <ion-item>
-        <ion-label>Miesiąc rozliczeniowy</ion-label>
+        <ion-label>Wybierz miesiąc rozliczeniowy</ion-label>
         <ion-select [(ngModel)]="client.month" (ionChange)="updateMonth()">
           <ion-option value="2016-05">maj 2016</ion-option>
           <ion-option value="2016-06">czerwiec 2016</ion-option>
           <ion-option value="2016-07">lipiec 2016</ion-option>
+          <ion-option value="2016-08">sierpień 2016</ion-option>
         </ion-select>
       </ion-item>
 
-        <ion-item>
-          <ion-label floating>Zaplanowane treningi na miesiąc {{ client.month }}</ion-label>
-          <ion-input type="text" [(ngModel)]="client.trainingsTodoCount" (change)="updateTotal()"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>Treningi przechodzące z ubiegłego miesiąca ({{client.trainingsPlannedCount}} - {{client.trainingsDoneCount}})</ion-label>
-          <ion-input type="text" [(ngModel)]="client.trainingsMovedCount" (change)="updateTotal()"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>Dopłata za poprzedni miesiąc</ion-label>
-          <ion-input type="text" [(ngModel)]="client.surcharge" (change)="updateTotal()"></ion-input>
-        </ion-item>
-        <ion-row responsive-sm>
-          <ion-col>
-            <ion-item>
-              <ion-label floating>Procent rabatu [%]</ion-label>
-              <ion-input type="text" [(ngModel)]="client.discount" (change)="updateTotal()"></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col padding>
-            <ion-label>Do zapłaty</ion-label>
-            <strong>{{ client.total | number:'1.2-2' }} zł</strong>
-          </ion-col>
-        </ion-row>
+      <ion-item>
+        <ion-label floating>Opłacone treningi w poprzednim miesiącu (zrobione: {{client.trainingsDoneCount}})</ion-label>
+        <ion-input type="text" [(ngModel)]="client.payed" (change)="updateAll()"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Zaplanowane treningi na nowy miesiąc {{ client.month }}</ion-label>
+        <ion-input type="text" [(ngModel)]="client.trainingsTodoCount" (change)="updateAll()"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Treningi przechodzące z ubiegłego miesiąca</ion-label>
+        <ion-input type="text" [(ngModel)]="client.trainingsMovedCount" (change)="updateAll()"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Dopłata za dodatkowe treningi w poprzednim miesiącu [zł]</ion-label>
+        <ion-input type="text" [(ngModel)]="client.trainingsSurcharge" (change)="updateDiscount()"></ion-input>
+      </ion-item>
+      <ion-row responsive-sm>
+        <ion-col>
+          <ion-item>
+            <ion-label floating>Procent rabatu [%]</ion-label>
+            <ion-input type="text" [(ngModel)]="client.discount" (change)="updateDiscount()"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label floating>Kwota rabatu [zł]</ion-label>
+            <ion-input type="text" [(ngModel)]="client.discountAmount" (change)="updateTotal()"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row responsive-sm>
+        <ion-col>
+          <ion-item>
+            <ion-label floating>Dodatkowa dopłata (bez rabatu) [zł]</ion-label>
+            <ion-input type="text" [(ngModel)]="client.surcharge" (change)="updateTotal()"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label floating>Opis dopłaty (np. kawiarnia)</ion-label>
+            <ion-input type="text" [(ngModel)]="client.surchargeDesc"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-item padding>
+        <ion-label>Do zapłaty: <strong>{{ client?.total }} zł</strong></ion-label>
+      </ion-item>
 
       <!-- wyślij email -->
       <!-- rachunki: miesiąc, rabat, przechodzące, zaplanowane, generuj rachunek, wyślij mailem -->
     </ion-list>
 
     <ion-row responsive-sm>
-      <ion-col [hidden]="!client.active">
+      <!-- <ion-col [hidden]="!client.active">
         <button primary block type="submit" [hidden]="!client.send" (click)="save()">Zapisz i wyślij</button>
         <button primary block type="submit" [hidden]="client.send" (click)="save()">Zapisz zmiany</button>
-      </ion-col>
-      <ion-col [hidden]="client.active">
-        <button primary block type="submit" (click)="save()">Generuj rachunek</button>
+      </ion-col> -->
+      <ion-col>
+        <button primary block type="submit" (click)="preview()" [disabled]="!client.month">Podgląd rachunku</button>
       </ion-col>
       <ion-col>
         <button light block (click)="dismiss()">Anuluj</button>

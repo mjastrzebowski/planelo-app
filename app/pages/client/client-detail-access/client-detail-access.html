@@ -41,7 +41,7 @@
           <ion-label>Wyślij do klienta</ion-label>
           <ion-toggle [(ngModel)]="client.send" (ionChange)="generateMessage()"></ion-toggle>
         </ion-item>
-        <ion-item [hidden]="!client.send">
+        <ion-item [hidden]="true">
           <ion-label floating>Wiadomość email</ion-label>
           <ion-textarea [(ngModel)]="client.message"></ion-textarea>
         </ion-item>

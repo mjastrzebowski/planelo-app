@@ -1,30 +1,56 @@
 import { Injectable, Component, ViewChild } from '@angular/core';
 import { App, Loading } from 'ionic-angular';
 
+import { NotificationStore } from '../core/notification/notification-store';
+import { NotificationService } from '../core/notification/notification-service';
+
 @Injectable()
 export class Utils {
 
-  constructor(app: App) {
+  constructor(app: App, notificationStore: NotificationStore, notificationService: NotificationService) {
     // @Inject(Platform) platform
     this.app = app;
     this.nav = app.getActiveNav();
+    this.active = false;
+
+    this.notificationStore = notificationStore;
+    this.notificationService = notificationService;
+  }
+
+  createNotification(type, data) {
+    this.notificationService.createNotification(type, data);
   }
 
   presentLoading(message, duration) {
+    // console.log('present loading', this.nav);
+    this.active = true;
+    if (this.loading) {
+      return;
+    }
+
     let options = {
-      content: message || 'Proszę czekać...'
+      content: message || 'Proszę czekać...' //,
+      // dismissOnPageChange: true
     };
 
     if (duration) {
       options.duration = duration;
     }
 
+    // console.log('present loading create');
     this.loading = Loading.create(options);
+    // console.log('present loading start');
     this.nav.present(this.loading);
+    
   }
 
-  stopLoading() {
-    this.loading.dismiss();
+  stopLoading(force) {
+    // console.log('test stop loading', this.nav.hasOverlay());
+    if (this.loading && (force || this.active)) {
+      this.loading.dismiss();
+    }
+    this.loading = null;
+    this.active = false;
   }
 
   generatePassword() {

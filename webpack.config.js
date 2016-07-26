@@ -1,6 +1,5 @@
 var path = require('path');
 var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -25,15 +24,6 @@ module.exports = {
         },
         include: path.resolve('app'),
         exclude: /(node_modules)/
-      },
-      {
-        test: /\.js$/,
-        include: [
-          path.resolve('node_modules/rxjs'),
-          path.resolve('node_modules/angular2'),
-          path.resolve('node_modules/@angular')
-        ],
-        loader: 'strip-sourcemap'
       }
     ],
     noParse: [
@@ -44,6 +34,7 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
+      sourceMap: false,
       mangle: true,
       compress: {
         dead_code: true, // eslint-disable-line camelcase
@@ -51,13 +42,6 @@ module.exports = {
         unused: true,
         warnings: false
       }
-    }),
-    new HtmlWebpackPlugin({
-      chunkSortMode: 'dependency',
-      filename: 'index.html',
-      hash: false,
-      inject: 'body',
-      template: './src/index.html'
     })
   ],
   resolve: {

@@ -6,11 +6,15 @@
 
     <ion-title>Stały grafik</ion-title>
 
-    <!-- <ion-buttons end>
-      <button [hidden]="auth.isTrainer" (click)="showTrainingForm()">
+    <ion-buttons end>
+      <button [hidden]="auth.isTrainer" (click)="showTrainingSchedulerForm()">
         <ion-icon name="add"></ion-icon>
       </button>
-    </ion-buttons> -->
+      <button class="notification-button" menuToggle="right" *ngIf="auth.isOwner">
+        <ion-icon name="notifications"></ion-icon>
+        <ion-badge class="notification-counter" item-right>{{ utils.notificationStore.size }}</ion-badge>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 

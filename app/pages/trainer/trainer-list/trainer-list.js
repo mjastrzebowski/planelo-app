@@ -96,7 +96,7 @@ export class TrainerListPage {
     });
   }
 
-  ionViewLoaded() {
+  ionViewDidEnter() {
     this.utils.presentLoading('Ładowanie trenerów...');
 
     let authSub = this.auth.subscribe((authenticated: boolean) => {

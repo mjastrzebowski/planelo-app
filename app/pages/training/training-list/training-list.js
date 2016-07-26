@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import {App, Modal, Alert, ActionSheet, Toast, NavController} from 'ionic-angular';
+import { App, Modal, Alert, ActionSheet, Toast, NavController } from 'ionic-angular';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -125,16 +125,51 @@ export class TrainingListPage {
 
   updateRepeat() {
     this.workoutStore.list.forEach(workout => {
-      if (workout.date === '2016-06-10' && workout.fixed) {
-        // this.workoutService.deleteWorkout(workout);
-        let newDate = '2016-07-01';
-        let newDateTime = newDate + ' ' + workout.timeStart;
+      if (workout.date === '2016-06-11' && workout.date !== '2099-12-31' && workout.fixed) {
+        let newDate1 = '2016-08-06';
+        let newDateTime1 = newDate1 + ' ' + workout.timeStart;
         this.workoutService.createWorkout(
           workout.placeKey,
           workout.trainerKey || '',
           workout.clientKey,
-          newDate || '',
-          newDateTime || '',
+          newDate1 || '',
+          newDateTime1 || '',
+          workout.timeStart || '',
+          workout.timeEnd || '',
+          true);
+
+        let newDate2 = '2016-08-13';
+        let newDateTime2 = newDate2 + ' ' + workout.timeStart;
+        this.workoutService.createWorkout(
+          workout.placeKey,
+          workout.trainerKey || '',
+          workout.clientKey,
+          newDate2 || '',
+          newDateTime2 || '',
+          workout.timeStart || '',
+          workout.timeEnd || '',
+          true);
+
+        let newDate3 = '2016-08-20';
+        let newDateTime3 = newDate3 + ' ' + workout.timeStart;
+        this.workoutService.createWorkout(
+          workout.placeKey,
+          workout.trainerKey || '',
+          workout.clientKey,
+          newDate3 || '',
+          newDateTime3 || '',
+          workout.timeStart || '',
+          workout.timeEnd || '',
+          true);
+
+        let newDate4 = '2016-08-27';
+        let newDateTime4 = newDate4 + ' ' + workout.timeStart;
+        this.workoutService.createWorkout(
+          workout.placeKey,
+          workout.trainerKey || '',
+          workout.clientKey,
+          newDate4 || '',
+          newDateTime4 || '',
           workout.timeStart || '',
           workout.timeEnd || '',
           true);
@@ -144,9 +179,6 @@ export class TrainingListPage {
 
 
   showTrainingForm(workout) {
-    // this.updateRepeat();
-    // console.log('koniec apdejtu');
-    // return;
     if (workout && workout.hasOwnProperty('key')) {
       this.editing = true;
     } else {
@@ -155,9 +187,9 @@ export class TrainingListPage {
 
     let modal = Modal.create(TrainingFormModal, workout);
     modal.onDismiss(this.saveTraining.bind(this));
-    // setTimeout(() => {
+    setTimeout(() => {
       this.nav.present(modal);
-    // }, 500);
+    }, 500);
   }
 
   saveTraining(data) {
@@ -166,7 +198,27 @@ export class TrainingListPage {
 
       if (data[0].hasOwnProperty('delete')) {
         data.forEach(training => {
-          this.workoutService.deleteWorkout(training);
+          this.workoutService.deleteWorkout(training)
+            .then((res) => {
+              let notification = {
+                workout: {
+                  key: training.key,
+                  trainer: training.trainerKey || '',
+                  client: training.clientKey || '',
+                  date: training.date.date || training.date || '',
+                  dateTime: training.date.dateTime || training.dateTime || '',
+                  timeStart: training.date.timeStart || training.timeStart || '',
+                  timeEnd: training.date.timeEnd || training.timeEnd || '',
+                  place: training.place || ''
+                }
+              };
+              if (this.auth.isOwner) {
+                notification.owner = this.auth.key;
+              } else if (this.auth.isClient) {
+                notification.client = this.auth.key;
+              }
+              this.utils.createNotification('workoutRemoved', notification);
+            });
         });
         this.deleteTrainingAlert(data[0]);
       } else if (this.editing) {
@@ -197,7 +249,27 @@ export class TrainingListPage {
             training.date.dateTime || '',
             training.date.timeStart || '',
             training.date.timeEnd || '',
-            training.repeat || false);
+            training.repeat || false)
+            .then((res) => {
+              let notification = {
+                workout: {
+                  key: res.key(),
+                  trainer: training.trainer || '',
+                  client: client || '',
+                  date: training.date.date || '',
+                  dateTime: training.date.dateTime || '',
+                  timeStart: training.date.timeStart || '',
+                  timeEnd: training.date.timeEnd || '',
+                  place: place || ''
+                }
+              };
+              if (this.auth.isOwner) {
+                notification.owner = this.auth.key;
+              } else if (this.auth.isClient) {
+                notification.client = this.auth.key;
+              }
+              this.utils.createNotification('workoutAdded', notification);
+            });
         });
 
         this.saveTrainingAlert(data[0]);
@@ -288,7 +360,7 @@ export class TrainingListPage {
     this.refreshCalendar(true);
   }
 
-  ionViewLoaded() {
+  ionViewDidEnter() {
     this.utils.presentLoading('Ładowanie treningów...');
     this.calendar = false;
 
@@ -392,7 +464,8 @@ export class TrainingListPage {
 
         eventClick: this.calendarEvent.bind(this),
         select: this.calendarSelect.bind(this),
-        eventDrop: this.calendarDrag.bind(this)
+        eventDrop: this.calendarDrag.bind(this),
+        eventRender: this.calendarTooltip.bind(this)
       };
     } else if (this.auth.isTrainer) {
       let calendarOptions = {
@@ -477,6 +550,21 @@ export class TrainingListPage {
     this.showTrainingForm(workout);
   }
 
+  calendarTooltip(event, element, view) {
+    if (view.type === 'agendaWeek') {
+      element.qtip({
+        content: event.description,
+        position: {
+          my: 'top center',
+          at: 'bottom center'
+        },
+        style: {
+          classes: 'qtip-light qtip-rounded qtip-shadow'
+        }
+      });
+    }
+  }
+
   showActionSheet() {
     let actionSheet = ActionSheet.create({
       title: 'Zmiana treningu',
@@ -504,7 +592,7 @@ export class TrainingListPage {
   getEvents(start, end, timezone, callback) {
     let events = [];
     this.workoutStore.list.forEach(workout => {
-      if (workout.fixed || workout.timeStart === '' || workout.placeKey !== this.place) {
+      if (workout.fixed || workout.timeStart === '' || (this.auth.isOwner && workout.placeKey !== this.place)) {
         return;
       }
 
@@ -516,11 +604,14 @@ export class TrainingListPage {
         title: title,
         start: workout.date + 'T' + workout.timeStart,
         end: workout.date + 'T' + workout.timeEnd,
-        constraint: 'businessHours'
+        constraint: 'businessHours',
+        description: client.name + ' ' + client.lastname
       };
 
       if (workout.completed) {
         event.color = 'red';
+      } else if (this.auth.isTrainer && workout.trainerKey === this.auth.key) {
+        event.color = this.auth.color;
       }
       events.push(event);
 
@@ -552,8 +643,8 @@ export class TrainingListPage {
 
       this.trainerStore.list.forEach(trainer => {
         // debugger;
-        for (let d = 1; d <= 60; d++) {
-          let date = new Date('2016-06-01');
+        for (let d = 1; d <= 62; d++) {
+          let date = new Date('2016-07-01');
           date.setDate(d);
           let day = date.getDate();
           if (day < 10) {
@@ -585,91 +676,105 @@ export class TrainingListPage {
             });
           }
         }
+
+        if (trainer.vacation) {
+          trainer.vacation.forEach(vacation => {
+            let event = {
+              start: vacation.start,
+              end: vacation.end,
+              overlap: false,
+              rendering: 'background',
+              color: '#ff9f89',
+              resourceId: trainer.key
+            };
+            events.push(event);
+          });
+        }
       });
 
-      var w = [{
-        id: 'available',
-        resourceId: '-KGHHXLT2oypqidXcL2T',
-        start: '2016-06-01T08:00',
-        end: '2016-06-01T11:00',
-        color: '#8fdf82',
-        rendering: 'background'
-      },{
-        id: 'available',
-        resourceId: '-KGHHXLT2oypqidXcL2T',
-        start: '2016-06-01T17:00',
-        end: '2016-06-01T21:00',
-        color: '#8fdf82',
-        rendering: 'background'
-      },{
-        id: 'available',
-        resourceId: '-KGHHXLT2oypqidXcL2T',
-        start: '2016-06-02T08:00',
-        end: '2016-06-02T11:00',
-        color: '#8fdf82',
-        rendering: 'background'
-      },{
-        id: 'available',
-        resourceId: '-KGHHXLT2oypqidXcL2T',
-        start: '2016-06-02T17:00',
-        end: '2016-06-02T21:00',
-        color: '#8fdf82',
-        rendering: 'background'
-      },{
-        id: 'available',
-        resourceId: '-KGHHXLT2oypqidXcL2T',
-        start: '2016-06-03T08:00',
-        end: '2016-06-03T11:00',
-        color: '#8fdf82',
-        rendering: 'background'
-      },{
-        id: 'available',
-        resourceId: '-KGHHXLT2oypqidXcL2T',
-        start: '2016-06-03T17:00',
-        end: '2016-06-03T21:00',
-        color: '#8fdf82',
-        rendering: 'background'
-      }];
-      events.push(w[0]);
-      // events.push(w[1]);
-      events.push(w[2]);
-      events.push(w[3]);
-      events.push(w[4]);
-      events.push(w[5]);
+      // var w = [{
+      //   id: 'available',
+      //   resourceId: '-KGHHXLT2oypqidXcL2T',
+      //   start: '2016-06-01T08:00',
+      //   end: '2016-06-01T11:00',
+      //   color: '#8fdf82',
+      //   rendering: 'background'
+      // },{
+      //   id: 'available',
+      //   resourceId: '-KGHHXLT2oypqidXcL2T',
+      //   start: '2016-06-01T17:00',
+      //   end: '2016-06-01T21:00',
+      //   color: '#8fdf82',
+      //   rendering: 'background'
+      // },{
+      //   id: 'available',
+      //   resourceId: '-KGHHXLT2oypqidXcL2T',
+      //   start: '2016-06-02T08:00',
+      //   end: '2016-06-02T11:00',
+      //   color: '#8fdf82',
+      //   rendering: 'background'
+      // },{
+      //   id: 'available',
+      //   resourceId: '-KGHHXLT2oypqidXcL2T',
+      //   start: '2016-06-02T17:00',
+      //   end: '2016-06-02T21:00',
+      //   color: '#8fdf82',
+      //   rendering: 'background'
+      // },{
+      //   id: 'available',
+      //   resourceId: '-KGHHXLT2oypqidXcL2T',
+      //   start: '2016-06-03T08:00',
+      //   end: '2016-06-03T11:00',
+      //   color: '#8fdf82',
+      //   rendering: 'background'
+      // },{
+      //   id: 'available',
+      //   resourceId: '-KGHHXLT2oypqidXcL2T',
+      //   start: '2016-06-03T17:00',
+      //   end: '2016-06-03T21:00',
+      //   color: '#8fdf82',
+      //   rendering: 'background'
+      // }];
+      // events.push(w[0]);
+      // // events.push(w[1]);
+      // events.push(w[2]);
+      // events.push(w[3]);
+      // events.push(w[4]);
+      // events.push(w[5]);
 
-      let vacation = [{
-        start: '2016-05-09T07:00',
-        end: '2016-05-15T22:00',
-        overlap: false,
-        rendering: 'background',
-        color: '#ff9f89',
-        resourceId: '-KBN-noa5OGgfW2XYbvZ'
-      },{
-        start: '2016-05-06T16:00',
-        end: '2016-05-06T21:00',
-        overlap: false,
-        rendering: 'background',
-        color: '#ff9f89',
-        resourceId: '-KEiiHM34nL9fAhGCAC8'
-      },{
-        start: '2016-05-16T07:00',
-        end: '2016-05-22T22:00',
-        overlap: false,
-        rendering: 'background',
-        color: '#ff9f89',
-        resourceId: '-KEiiHM34nL9fAhGCAC8'
-      },{
-        start: '2016-05-26T07:00',
-        end: '2016-06-03T22:00',
-        overlap: false,
-        rendering: 'background',
-        color: '#ff9f89',
-        resourceId: '-KBN-fYLnmIQ_6pSwnV6'
-      }];
-      events.push(vacation[0]);
-      events.push(vacation[1]);
-      events.push(vacation[2]);
-      events.push(vacation[3]);
+      // let vacation = [{
+      //   start: '2016-05-09T07:00',
+      //   end: '2016-05-15T22:00',
+      //   overlap: false,
+      //   rendering: 'background',
+      //   color: '#ff9f89',
+      //   resourceId: '-KBN-noa5OGgfW2XYbvZ'
+      // },{
+      //   start: '2016-05-06T16:00',
+      //   end: '2016-05-06T21:00',
+      //   overlap: false,
+      //   rendering: 'background',
+      //   color: '#ff9f89',
+      //   resourceId: '-KEiiHM34nL9fAhGCAC8'
+      // },{
+      //   start: '2016-05-16T07:00',
+      //   end: '2016-05-22T22:00',
+      //   overlap: false,
+      //   rendering: 'background',
+      //   color: '#ff9f89',
+      //   resourceId: '-KEiiHM34nL9fAhGCAC8'
+      // },{
+      //   start: '2016-05-26T07:00',
+      //   end: '2016-06-03T22:00',
+      //   overlap: false,
+      //   rendering: 'background',
+      //   color: '#ff9f89',
+      //   resourceId: '-KBN-fYLnmIQ_6pSwnV6'
+      // }];
+      // events.push(vacation[0]);
+      // events.push(vacation[1]);
+      // events.push(vacation[2]);
+      // events.push(vacation[3]);
     }
 
     return callback ? callback(events) : events;

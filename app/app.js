@@ -1,15 +1,28 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Input, Pipe } from '@angular/core';
+import { HTTP_PROVIDERS } from '@angular/http';
+
 import { App, Events, Nav, Platform, ionicBootstrap } from 'ionic-angular';
+
+import { List } from 'immutable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { Utils } from './providers/utils';
 import { AuthService } from './core/auth/auth-service';
 
+import { PlaceStore } from './core/place/place-store';
+import { ClientStore } from './core/client/client-store';
+import { TrainerStore } from './core/trainer/trainer-store';
+import { NotificationStore } from './core/notification/notification-store';
+
 // core
 import { AUTH_PROVIDERS } from './core/auth/providers';
+import { USER_PROVIDERS } from './core/user/providers';
 import { CLIENT_PROVIDERS } from './core/client/providers';
 import { PLACE_PROVIDERS } from './core/place/providers';
 import { TRAINER_PROVIDERS } from './core/trainer/providers';
 import { WORKOUT_PROVIDERS } from './core/workout/providers';
+import { BILL_PROVIDERS } from './core/bill/providers';
+import { NOTIFICATION_PROVIDERS } from './core/notification/providers';
 
 import { ClientListPage } from './pages/client/client-list/client-list';
 import { TrainerListPage } from './pages/trainer/trainer-list/trainer-list';
@@ -19,9 +32,20 @@ import { TrainingSchedulerPage } from './pages/training/training-scheduler/train
 import { LoginPage } from './pages/login/login';
 import { SettingsPage } from './pages/settings/settings';
 
+@Pipe({
+  name: 'reverse'
+})
+export class ReversePipe {
+  transform(value) {
+    if (value) {
+      return value.slice().reverse();
+    }
+  }
+}
 
 @Component({
-  templateUrl: 'build/app.html'
+  templateUrl: 'build/app.html',
+  pipes: [ReversePipe]
 })
 // @RouteConfig([
 //   // { path: '/', component: HomeComponent, name: 'Home', useAsDefault: true },
@@ -30,12 +54,19 @@ import { SettingsPage } from './pages/settings/settings';
 //   // { path: '/', component: DavidApp, as: 'Home', useAsDefault: true },
 //   // { path: '/about', component: AboutPage, as: 'About' }
 // ])
-class DavidApp {
+export class DavidApp {
+  @Input() notifications: ReplaySubject<List<any>>;
   @ViewChild(Nav) nav: Nav;
 
-  constructor(app: App, auth: AuthService) {
+  constructor(app: App, auth: AuthService, placeStore: PlaceStore, clientStore: ClientStore, trainerStore: TrainerStore, notificationStore: NotificationStore) {
     this.app = app;
     this.auth = auth;
+
+    this.placeStore = placeStore;
+    this.clientStore = clientStore;
+    this.trainerStore = trainerStore;
+    this.notificationStore = notificationStore;
+    this.notifications = this.notificationStore.notifications;
     // this.utils = utils;
 
     // load the conference data
@@ -82,6 +113,21 @@ class DavidApp {
     // this.listenToLoginEvents();
   }
 
+  // TEMP solution!
+  getOwnerAlias(key) {
+    switch (key) {
+      case '-KBN-b7GjsB6FS8Opmx0': {
+        return 'Michał';
+      }
+      case '-KBN-fYLnmIQ_6pSwnV6': {
+        return 'Adam';
+      }
+      default: {
+        return 'Jarek';
+      }
+    }
+  }
+
   signOut(): void {
     // console.log('test app signout');
     this.auth.signOut();
@@ -98,7 +144,14 @@ class DavidApp {
     // find the nav component and set what the root page should be
     // reset the nav to remove previous pages and only have this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    // console.log('test setroot', Utils);
+    // let utils = new Utils(this.app);
+    // debugger;
+    // utils.stopLoading().then(() => {
+    //   console.log('test');
+      this.nav.setRoot(page.component);
+    // });
+    // this.utils.stopLoading();
   }
 
   // listenToLoginEvents() {
@@ -159,11 +212,15 @@ class DavidApp {
 }
 
 ionicBootstrap(DavidApp, [
+  HTTP_PROVIDERS,
   AUTH_PROVIDERS,
+  USER_PROVIDERS,
   CLIENT_PROVIDERS,
   PLACE_PROVIDERS,
   TRAINER_PROVIDERS,
   WORKOUT_PROVIDERS,
+  BILL_PROVIDERS,
+  NOTIFICATION_PROVIDERS,
   Utils], {
     statusbarPadding: false,
     platforms: {

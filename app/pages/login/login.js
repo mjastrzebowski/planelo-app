@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { App, Alert, NavController } from 'ionic-angular';
 
 // import { AuthRouteHelper } from '../../core/auth/auth-route-helper';
+import { Utils } from '../../providers/utils';
+
 import { AuthService } from '../../core/auth/auth-service';
 import { ClientStore } from '../../core/client/client-store';
 import { TrainerStore } from '../../core/trainer/trainer-store';
@@ -14,9 +16,10 @@ import { ClientListPage } from '../client/client-list/client-list';
 })
 
 export class LoginPage {
-  constructor(app: App, nav: NavController, auth: AuthService, clientStore: ClientStore, trainerStore: TrainerStore) {
+  constructor(app: App, nav: NavController, utils: Utils, auth: AuthService, clientStore: ClientStore, trainerStore: TrainerStore) {
     this.app = app;
     this.nav = nav;
+    this.utils = utils;
     this.auth = auth;
 
     this.clientStore = clientStore;
@@ -26,22 +29,8 @@ export class LoginPage {
     this.submitted = false;
 
     if (this.auth.authenticated) {
-      // console.log('test login auth');
       this.nav.setRoot(TrainingListPage);
-    } else {
-      // console.log('test login not');
     }
-
-    // this.auth.subscribe((authenticated: boolean) => {
-    //   this.authenticated = authenticated;
-    //   console.log('test login sub', this.nav.root.name);
-    //   if (this.authenticated && this.nav.root.name === 'LoginPage') {
-    //     // this.nav.setRoot(TrainingListPage);
-    //   } else {
-    //     // this.nav.setRoot(LoginPage);
-    //   }
-    //   // this.userData.login();
-    // });
   }
 
   signInWithGithub(): void {
@@ -60,6 +49,7 @@ export class LoginPage {
   }
 
   signInWithPassword(form): void {
+    this.utils.presentLoading('Logowanie...');
     this.submitted = true;
     if (form.valid) {
       let client = this.clientStore.getItemByUsername(form.value.email);
@@ -75,12 +65,13 @@ export class LoginPage {
       this.auth.signInWithPassword(form.value)
         .then(() => this.postSignIn(),
           (error) => {
-            let alert = Alert.create({
-              title: 'Błąd',
-              message: 'Nieprawidłowy login lub hasło.',
-              buttons: ['Ok']
-            });
+            this.utils.stopLoading();
             setTimeout(() => {
+              let alert = Alert.create({
+                title: 'Błąd',
+                message: 'Nieprawidłowy login lub hasło.',
+                buttons: ['Ok']
+              });
               this.nav.present(alert);
             }, 500);
           });
@@ -100,7 +91,10 @@ export class LoginPage {
   }
 
   private postSignIn(): void {
+    this.utils.stopLoading();
     // this.router.navigate(['/Workouts']);
-    this.nav.setRoot(TrainingListPage);
+    setTimeout(() => {
+      this.nav.setRoot(TrainingListPage);
+    }, 500);
   }
 }

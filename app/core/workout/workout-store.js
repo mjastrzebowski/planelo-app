@@ -12,7 +12,7 @@ export class WorkoutStore {
   constructor(ref: Firebase, auth: AuthService) {
     this.auth = auth;
     // ref = ref.orderByChild('dateTime').startAt('2016-05-31 08:00');
-    ref = ref.orderByChild('dateTime'); // .startAt('2016-05-01 08:00'); //.endAt('2016-06-27 08:00');
+    ref = ref.orderByChild('dateTime').startAt('2016-06-01 08:00'); //.endAt('2016-06-27 08:00');
     ref.on('child_added', this.created.bind(this));
     ref.on('child_changed', this.updated.bind(this));
     ref.on('child_removed', this.deleted.bind(this));
@@ -68,18 +68,15 @@ export class WorkoutStore {
     });
   }
 
-  private emit(): void {
-    this.trainers.next(this.list);
-  }
-
   private updateWorkoutDependencies(workout: IWorkout): void {
-    var timeArray = workout.timeStart.split(':');
-    var time = timeArray[0];
-    var dateArray = workout.date.split('-');
-    var year = dateArray[0];
-    var month = parseInt(dateArray[1], 10) - 1;
-    var date = dateArray[2];
-    // var _entryDate = new Date(year, month, date, time);
+    let timeArray = workout.timeStart.split(':');
+    let time = timeArray[0];
+    let dateArray = workout.date.split('-');
+    let year = dateArray[0];
+    let monthStr = dateArray[1];
+    let month = parseInt(monthStr, 10) - 1;
+    let date = dateArray[2];
+    // let _entryDate = new Date(year, month, date, time);
 
     // workout.fullDate = new Date(workout.date + ' ' + workout.timeStart);
     workout.fullDate = new Date(year, month, date, time);
@@ -87,12 +84,12 @@ export class WorkoutStore {
       workout.fullDate = new Date(year, month, date);
     }
     // workout.descDate = workout.fullDate.toLocaleDateString('pl', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
-    workout.descDate = moment(workout.fullDate).format('dddd, DD.MM.YYYY');
+    moment.locale('pl');
     workout.weekDay = moment(workout.fullDate).format('dddd');
-    if (workout.descDate == 'Invalid Date' || workout.descDate == 'Invalid date') {
-      workout.descDate = workout.fullDate.toLocaleDateString('pl', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
+    if (!workout.weekDay || workout.weekDay == 'Invalid Date' || workout.weekDay == 'Invalid date') {
       workout.weekDay = workout.fullDate.toLocaleDateString('pl', { weekday: 'long' });
     }
+    workout.descDate = workout.weekDay + ', ' + date + '.' + monthStr + '.' + year + ' r.';
 
     workout.clientKey = workout.client;
     workout.placeKey = workout.place;

@@ -1,10 +1,15 @@
 <ion-header>
   <ion-navbar>
-    <button menuToggle>
+    <button menuToggle="left">
       <ion-icon name="menu"></ion-icon>
     </button>
 
     <ion-title>Ustawienia</ion-title>
+
+    <button end class="notification-button" menuToggle="right" *ngIf="auth.isOwner">
+      <ion-icon name="notifications"></ion-icon>
+      <ion-badge class="notification-counter" item-right>{{ utils.notificationStore.size }}</ion-badge>
+    </button>
   </ion-navbar>
 </ion-header>
 

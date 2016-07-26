@@ -1,29 +1,92 @@
+<div [ngClass]="{'logged': auth.loaded, 'logged-owner': auth.isOwner, 'logged-trainer': auth.isTrainer, 'logged-client': auth.isClient}">
+  <!-- left menu -->
+  <ion-menu [content]="content" id="menuLeft" side="left" *ngIf="auth.loaded">
+    <ion-toolbar class="menu-userbar" padding [hidden]="!showUserBar">
+      <h1 *ngIf="auth.name">{{auth.name}} {{auth.lastname}}</h1>
+      <h1 *ngIf="!auth.name && auth?.title">{{auth?.title}}</h1>
+      <h1 *ngIf="!auth.name && !auth?.title">Jarosław Jakubowski</h1>
+      <h2 *ngIf="auth.isOwner">Szef</h2>
+      <h2 *ngIf="auth.isTrainer">Trener</h2>
+      <h2 *ngIf="auth.isClient">Klient</h2>
+    </ion-toolbar>
 
-<!-- left menu -->
-<ion-menu [content]="content">
-  
-  <ion-toolbar class="menu-userbar" padding [hidden]="!showUserBar || !auth.authenticated">
-    <h1 *ngIf="auth.name">{{auth.name}} {{auth.lastname}}</h1>
-    <h1 *ngIf="!auth.name && auth.title">{{auth.title}}</h1>
-    <h1 *ngIf="!auth.name && !auth.title">Jarosław Jakubowski</h1>
-    <h2 *ngIf="auth.isOwner">Szef</h2>
-    <h2 *ngIf="auth.isTrainer">Trener</h2>
-    <h2 *ngIf="auth.isClient">Klient</h2>
-  </ion-toolbar>
+    <ion-toolbar [hidden]="showUserBar">
+      <ion-title>Niezalogowany</ion-title>
+    </ion-toolbar>
 
-  <ion-toolbar [hidden]="showUserBar">
-    <ion-title>Niezalogowany</ion-title>
-  </ion-toolbar>
+    <ion-content class="menu">
+      <ion-list>
+        <button ion-item menuClose="menuLeft" *ngFor="let p of pages" (click)="openPage(p)" [hidden]="p.hide">
+          <ion-icon item-left [name]="p.icon"></ion-icon>
+          {{p?.title}}
+        </button>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
 
-  <ion-content class="menu">
-    <ion-list>
-      <button ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)" [hidden]="p.hide">
-        <ion-icon item-left [name]="p.icon"></ion-icon>
-        {{p.title}}
-      </button>
-    </ion-list>
-  </ion-content>
-</ion-menu>
+  <!-- right menu -->
+  <ion-menu [content]="content" id="menuRight" side="right" type="push" *ngIf="auth.loaded && auth.isOwner">
+    <ion-toolbar>
+      <ion-title>Powiadomienia</ion-title>
+    </ion-toolbar>
 
-<!-- main navigation -->
-<ion-nav id="nav" [root]="root" #content swipe-back-enabled="false"></ion-nav>
+    <ion-content class="menu">
+      <ion-list class="notifications">
+        <ion-item menuClose="menuRight" *ngFor="let notification of notifications | async | reverse">
+          <div [ngSwitch]="notification.type">
+            <div *ngSwitchCase="'clientAdded'">
+              <h3>
+                <strong><u>{{ getOwnerAlias(notification?.owner) }}</u></strong>
+                dodał klienta 
+                <strong>{{ notification?.client.name }} {{ notification?.client.lastname }}</strong>
+              </h3>
+              <p><small><i>{{ notification?.fromNow }}</i></small></p>
+            </div>
+
+            <div *ngSwitchCase="'clientRemoved'">
+              <h3>
+                <strong *ngIf="notification?.owner"><u>{{ getOwnerAlias(notification?.owner) }}</u></strong>
+                usunął klienta 
+                <strong>{{ notification?.client.name }} {{ notification?.client.lastname }}</strong>
+              </h3>
+              <p><small><i>{{ notification?.fromNow }}</i></small></p>
+            </div>
+
+            <div *ngSwitchCase="'workoutAdded'">
+              <h3 *ngIf="notification?.owner">
+                <strong><u>{{ getOwnerAlias(notification?.owner) }}</u></strong>
+                dodał trening 
+                <strong>{{ clientStore.getItem(notification?.workout.client).name }} {{ clientStore.getItem(notification?.workout.client).lastname }} &bull; {{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
+              </h3>
+              <h3 *ngIf="!notification?.owner">
+                <strong>{{ clientStore.getItem(notification?.client).name }} {{ clientStore.getItem(notification?.client).lastname }}</strong>
+                zarezerwował/a trening 
+                <strong>{{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
+              </h3>
+              <p><small><i>{{ notification?.fromNow }}</i></small></p>
+            </div>
+
+            <div *ngSwitchCase="'workoutRemoved'">
+              <h3 *ngIf="notification?.owner">
+                <strong><u>{{ getOwnerAlias(notification?.owner) }}</u></strong>
+                usunął trening 
+                <strong>{{ clientStore.getItem(notification?.workout.client).name }} {{ clientStore.getItem(notification?.workout.client).lastname }} &bull; {{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
+              </h3>
+              <h3 *ngIf="!notification?.owner">
+                <strong>{{ clientStore.getItem(notification?.client).name }} {{ clientStore.getItem(notification?.client).lastname }}</strong>
+                odwołał/a trening 
+                <strong>{{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
+              </h3>
+              <p><small><i>{{ notification?.fromNow }}</i></small></p>
+            </div>
+          </div>
+
+            <!-- <p>{{ placeStore.getItem(workout.place)?.title}}, <strong>{{ trainerStore.getItem(workout.trainer)?.title }}</strong></p> -->
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <!-- main navigation -->
+  <ion-nav id="nav" [root]="root" #content swipe-back-enabled="false"></ion-nav>
+</div>

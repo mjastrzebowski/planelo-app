@@ -17,7 +17,7 @@ export class WorkoutService {
       fixed = false;
     }
 
-    this.ref.push(new Workout(place, trainer, client, date, dateTime, timeStart, timeEnd, repeat, fixed), (error: Error) => {
+    return this.ref.push(new Workout(place, trainer, client, date, dateTime, timeStart, timeEnd, repeat, fixed), (error: Error) => {
       if (error) {
         console.error('ERROR @ createWorkout :', error);
       }
@@ -25,7 +25,7 @@ export class WorkoutService {
   }
 
   deleteWorkout(workout: IWorkout): void {
-    this.ref.child(workout.key).remove((error: Error) => {
+    return this.ref.child(workout.key).remove((error: Error) => {
       if (error) {
         console.error('ERROR @ deleteWorkout :', error);
       }
@@ -33,7 +33,7 @@ export class WorkoutService {
   }
 
   updateWorkout(workout: IWorkout, changes: any): void {
-    this.ref.child(workout.key).update(changes, (error: Error) => {
+    return this.ref.child(workout.key).update(changes, (error: Error) => {
       if (error) {
         console.error('ERROR @ updateWorkout :', error);
       }

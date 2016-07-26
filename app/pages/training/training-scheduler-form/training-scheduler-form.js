@@ -11,9 +11,9 @@ import { WorkoutFullStore } from '../../../core/workout/workout-full-store';
 
 
 @Component({
-  templateUrl: 'build/pages/training/training-form/training-form.html'
+  templateUrl: 'build/pages/training/training-scheduler-form/training-scheduler-form.html'
 })
-export class TrainingFormModal {
+export class TrainingSchedulerFormModal {
   @Input() trainings: Array;
   editing: boolean = false;
 
@@ -33,8 +33,6 @@ export class TrainingFormModal {
     // this.trainings = [];
     this.place = '-KBHukjV0l8M-EkpTdI4';
     this.forceSub = false;
-
-    this.filter = {};
   }
 
   onPlaceChanged(event) {
@@ -73,10 +71,6 @@ export class TrainingFormModal {
     }
   }
 
-  updateDateTime() {
-    // console.log('test updateDateTime');
-  }
-
   getAvailableWorkouts() {
     // console.log('test getAvailableWorkouts start');
     this.available = [];
@@ -98,25 +92,11 @@ export class TrainingFormModal {
       { timeStart: '21:00', timeEnd: '22:00' }
     ];
 
-    var days = 30;
-    var today = new Date().getDate();
-    if (this.auth.isClient) {
-      today++;
-      var hour = new Date().getHours();
-      if (hour >= 21) {
-        today++;
-      }
-    } else if (this.auth.isOwner) {
-      today = 18;
-      days = 45;
-    }
-    if (today === 32) {
-      today = 1;
-    }
+    today = 6;
 
     // let lastDate = this.workoutStore.list.last().date;
-    for (let d = today; d <= today+days; d++) {
-      let nextDay = new Date('2016-07-18');
+    for (let d = today; d <= today+6; d++) {
+      let nextDay = new Date('2016-06-01');
       nextDay.setDate(d);
       if (nextDay.getDay() !== 0) {
         let day = nextDay.getDate();
@@ -129,18 +109,10 @@ export class TrainingFormModal {
         }
         let date = '2016-' + month + '-' + day;
         
-        let avHours = [];
-        let avTrainerWorkouts = {
-          '-KBN-noa5OGgfW2XYbvZ': 0, // damian
-          '-KEiiFLK6kxKsJoTGjKU': 0, // oskar
-          '-KEiiHM34nL9fAhGCAC8': 0, // pawel
-          '-KJ2syzrtgQiky2qFlGb': 0, // przemek
-          '-KJ2tA8ChSdvCtXgGps4': 0, // grzesiek
-          '-KJ2tLDl_lljvvl48TMW': 0  // mateusz
-        };
+        var avHours = [];
         hours.forEach(hour => {
           // var size = this.workoutStore.trainerStore.size;
-          let avTrainers = [];
+          var avTrainers = [];
           let time = hour.timeStart;
           if (time === '8:00' || time === '9:00') {
             time = '0' + time;
@@ -150,36 +122,22 @@ export class TrainingFormModal {
             if (this.auth.isOwner || trainer.place === this.place) {
               let thisDate = new Date(date);
               let thisDay = thisDate.getDate();
-              if (!this.auth.isOwner && trainer.vacation) {
-                let vacationDateStart = new Date(trainer.vacation[0].dateStart);
-                let vacationDateEnd = new Date(trainer.vacation[0].dateEnd);
-                if (thisDate >= vacationDateStart && thisDate <= vacationDateEnd) {
-                  // console.log('jakiś urlop', trainer.username, vacationDateStart, vacationDateEnd);
-                  return;
-                }
-              }
 
               let d = thisDate.getDay()-1;
               if ((trainer.hours[d] && trainer.hours[d][hour.timeStart])) {
-                let find = this.workoutStore.list.filter(workout => {
-                  if (!workout.fixed && !workout.completed && (date === workout.date && workout.timeStart === time && (workout.trainerKey === trainer.key || (this.auth.isClient && workout.clientKey === this.auth.key)))
-                    && !(this.trainings[0] && workout.date === this.trainings[0].date && workout.timeStart === this.trainings[0].timeStart && (trainer.key === this.trainings[0].trainer || (this.auth.isClient && this.auth.key === this.trainings[0].client)))) {
+                if (!this.workoutStore.list.find(workout => {
+                  if (workout.fixed && (date === workout.date && workout.timeStart === time && workout.trainerKey === trainer.key)
+                    && !(this.trainings[0] && workout.date === this.trainings[0].date && workout.timeStart === this.trainings[0].timeStart && trainer.key === this.trainings[0].trainer)) {
                     return true;
                   }
-                });
-                // console.log('test find', find);
-                if (find.size === 0) {
+                })) {
                   avTrainers.push(trainer);
-                } else if (find.size > 1 || find.size === 1 && find.get(0).trainerKey === trainer.key) {
-                  if (avTrainerWorkouts.hasOwnProperty(trainer.key)) {
-                    avTrainerWorkouts[trainer.key]++;
-                  }
                 }
               }
             }
           });
-          let dateTime = date + ' ' + time;
-          let avHour = { date: date, dateTime: dateTime, timeStart: time, timeEnd: hour.timeEnd, trainers: avTrainers };
+          var dateTime = date + ' ' + time;
+          var avHour = { date: date, dateTime: dateTime, timeStart: time, timeEnd: hour.timeEnd, trainers: avTrainers };
           if (this.trainings[0] && avHour.date === this.trainings[0].date && avHour.timeStart === this.trainings[0].timeStart) {
             this.trainings[0].date = avHour;
           }
@@ -188,17 +146,9 @@ export class TrainingFormModal {
           }
         });
 
-        avHours.forEach(avHour => {
-          if (avHour.trainers.length > 1) {
-            avHour.trainers.sort((t1, t2) => {
-              return avTrainerWorkouts[t1.key] - avTrainerWorkouts[t2.key];
-            });
-          }
-        });
-
         // descDate: nextDay.toLocaleDateString('pl', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
-        let avDay = {
-          descDate: moment(nextDay).format('dddd, DD.MM.YYYY'),
+        var avDay = {
+          descDate: moment(nextDay).format('dddd'),
           hours: avHours
         };
         this.available.push(avDay);
@@ -346,25 +296,31 @@ export class TrainingFormModal {
     this.trainings[0].date = hour;
     this.trainings[0].client = this.auth.key;
     this.trainings[0].trainer = hour.trainers[0].key;
+    // debugger;
+    // this.save();
     this.viewCtrl.dismiss(this.trainings);
   }
 
   save() {
+    console.log('test modal close save', this.trainings);
     this.repeatTrainings();
     this.changeRepeated();
     this.viewCtrl.dismiss(this.trainings);
   }
 
   dismiss() {
+    console.log('test modal close dismiss');
     this.viewCtrl.dismiss();
   }
 
   delete() {
+    console.log('test modal close delete');
     this.trainings[0].delete = true;
     this.viewCtrl.dismiss(this.trainings);
   }
 
   deleteAll() {
+    console.log('test modal close delete all');
     this.trainings[0].delete = true;
     this.repeated.unshift(this.trainings[0]);
     this.viewCtrl.dismiss(this.repeated);
