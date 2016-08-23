@@ -12,7 +12,7 @@
     </ion-buttons>
   </ion-navbar>
 
-  <ion-toolbar no-border-top [hidden]="!auth || !auth.isClient || auth.username === 'mjastrzebowski'">
+  <ion-toolbar no-border-top [hidden]="!auth || !auth.isClient || auth.username === 'mjastrzebowskix'">
     <div>
       <ion-segment [(ngModel)]="place" (ionChange)="onPlaceChanged($event)">
         <ion-segment-button value="-KBHukjV0l8M-EkpTdI4">
@@ -39,7 +39,7 @@
   </ion-list>
 
   <form #trainingForm="ngForm" novalidate>
-    <div *ngIf="auth.isClient && auth.username === 'mjastrzebowski'">
+    <div *ngIf="auth.isClient && auth.username === 'mjastrzebowskix'">
       <ion-list>
         <ion-item>
           <ion-label floating>Rodzaj rezerwacji</ion-label>
@@ -106,7 +106,7 @@
       </ion-card>
     </div>
 
-    <ion-list *ngIf="auth.isClient && auth.username !== 'mjastrzebowski'">
+    <ion-list *ngIf="auth.isClient && auth.username !== 'mjastrzebowskix'">
       <ion-item-group *ngFor="let w of available">
         <ion-item-divider sticky>{{ w.descDate }}</ion-item-divider>
         <ion-item *ngFor="let hour of w.hours" (click)="selectHour(hour)">
@@ -163,7 +163,7 @@
           Powtórzone: 
           <p><span *ngFor="let rep of repeated">{{rep.startTime}} {{rep.fullDate}}<br></span></p>
         </ion-item>
-        <ion-item [hidden]="!training.completed">
+        <ion-item class="training-rejected" [hidden]="!training.completed">
           Powód odwołania: 
           <p><span>{{training.completed}}</span></p>
         </ion-item>

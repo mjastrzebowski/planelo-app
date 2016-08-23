@@ -229,5 +229,5 @@ ionicBootstrap(DavidApp, [
         backButtonIcon: 'md-arrow-back'
       }
     },
-    prodMode: false
+    prodMode: true
   });

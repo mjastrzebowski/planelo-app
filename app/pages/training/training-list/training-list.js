@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, Pipe } from '@angular/core';
 import { App, Modal, Alert, ActionSheet, Toast, NavController } from 'ionic-angular';
 
 import { List } from 'immutable';
@@ -17,8 +17,31 @@ import { WorkoutService } from '../../../core/workout/workout-service';
 import {TrainingFormModal} from '../training-form/training-form'
 // import {TrainingDetailPage} from '../training-detail/training-detail';
 
+
+@Pipe({
+  name: 'groupWorkouts'
+})
+export class GroupWorkoutsPipe {
+  transform(workouts) {
+    if (workouts) {
+      let lastMonth = null;
+      moment.locale('pl');
+      workouts.forEach((workout) => {
+        workout.monthId = moment(workout.date).format('YYYYMM');
+        if (lastMonth !== workout.monthId) {
+          lastMonth = workout.monthId;
+          workout.nextMonth = true;
+          workout.month = moment(workout.date).format('MMMM').toUpperCase();
+        }
+      });
+      return workouts;
+    }
+  }
+}
+
 @Component({
-  templateUrl: 'build/pages/training/training-list/training-list.html'
+  templateUrl: 'build/pages/training/training-list/training-list.html',
+  pipes: [GroupWorkoutsPipe]
 })
 export class TrainingListPage {
   @Input() workouts: ReplaySubject<List<any>>;
@@ -60,6 +83,9 @@ export class TrainingListPage {
     // this.lastDate = new Date('2016-05-01');
   }
 
+  showMonth(monthId) {
+    $('.workouts-hidden.month-' + monthId).slideToggle();
+  }
   // updateTrainings() {
   //   this.shownSessions = this.trainings.length;
   //   this.groupTrainings();
@@ -125,60 +151,76 @@ export class TrainingListPage {
 
   updateRepeat() {
     this.workoutStore.list.forEach(workout => {
-      if (workout.date === '2016-06-11' && workout.date !== '2099-12-31' && workout.fixed) {
-        let newDate1 = '2016-08-06';
-        let newDateTime1 = newDate1 + ' ' + workout.timeStart;
-        this.workoutService.createWorkout(
-          workout.placeKey,
-          workout.trainerKey || '',
-          workout.clientKey,
-          newDate1 || '',
-          newDateTime1 || '',
-          workout.timeStart || '',
-          workout.timeEnd || '',
-          true);
+      if (workout.date !== '2099-12-31' && workout.date === '2016-06-11' && workout.fixed) {
+        // console.log('test cover', workout.date);
+        // this.workoutService.deleteWorkout(workout);
 
-        let newDate2 = '2016-08-13';
-        let newDateTime2 = newDate2 + ' ' + workout.timeStart;
-        this.workoutService.createWorkout(
-          workout.placeKey,
-          workout.trainerKey || '',
-          workout.clientKey,
-          newDate2 || '',
-          newDateTime2 || '',
-          workout.timeStart || '',
-          workout.timeEnd || '',
-          true);
+        // let newDate0 = '2016-09-03';
+        // let newDateTime0 = newDate0 + ' ' + workout.timeStart;
+        // this.workoutService.createWorkout(
+        //   workout.placeKey,
+        //   workout.trainerKey || '',
+        //   workout.clientKey,
+        //   newDate0 || '',
+        //   newDateTime0 || '',
+        //   workout.timeStart || '',
+        //   workout.timeEnd || '',
+        //   true);
 
-        let newDate3 = '2016-08-20';
-        let newDateTime3 = newDate3 + ' ' + workout.timeStart;
-        this.workoutService.createWorkout(
-          workout.placeKey,
-          workout.trainerKey || '',
-          workout.clientKey,
-          newDate3 || '',
-          newDateTime3 || '',
-          workout.timeStart || '',
-          workout.timeEnd || '',
-          true);
+        // let newDate1 = '2016-09-10';
+        // let newDateTime1 = newDate1 + ' ' + workout.timeStart;
+        // this.workoutService.createWorkout(
+        //   workout.placeKey,
+        //   workout.trainerKey || '',
+        //   workout.clientKey,
+        //   newDate1 || '',
+        //   newDateTime1 || '',
+        //   workout.timeStart || '',
+        //   workout.timeEnd || '',
+        //   true);
 
-        let newDate4 = '2016-08-27';
-        let newDateTime4 = newDate4 + ' ' + workout.timeStart;
-        this.workoutService.createWorkout(
-          workout.placeKey,
-          workout.trainerKey || '',
-          workout.clientKey,
-          newDate4 || '',
-          newDateTime4 || '',
-          workout.timeStart || '',
-          workout.timeEnd || '',
-          true);
+        // let newDate2 = '2016-09-17';
+        // let newDateTime2 = newDate2 + ' ' + workout.timeStart;
+        // this.workoutService.createWorkout(
+        //   workout.placeKey,
+        //   workout.trainerKey || '',
+        //   workout.clientKey,
+        //   newDate2 || '',
+        //   newDateTime2 || '',
+        //   workout.timeStart || '',
+        //   workout.timeEnd || '',
+        //   true);
+
+        // let newDate3 = '2016-09-24';
+        // let newDateTime3 = newDate3 + ' ' + workout.timeStart;
+        // this.workoutService.createWorkout(
+        //   workout.placeKey,
+        //   workout.trainerKey || '',
+        //   workout.clientKey,
+        //   newDate3 || '',
+        //   newDateTime3 || '',
+        //   workout.timeStart || '',
+        //   workout.timeEnd || '',
+        //   true);
+
+        // let newDate4 = '2016-09-31';
+        // let newDateTime4 = newDate4 + ' ' + workout.timeStart;
+        // this.workoutService.createWorkout(
+        //   workout.placeKey,
+        //   workout.trainerKey || '',
+        //   workout.clientKey,
+        //   newDate4 || '',
+        //   newDateTime4 || '',
+        //   workout.timeStart || '',
+        //   workout.timeEnd || '',
+        //   true);
       }
     });
   }
 
 
   showTrainingForm(workout) {
+    // this.updateRepeat();
     if (workout && workout.hasOwnProperty('key')) {
       this.editing = true;
     } else {
@@ -213,7 +255,7 @@ export class TrainingListPage {
                 }
               };
               if (this.auth.isOwner) {
-                notification.owner = this.auth.key;
+                notification.owner = this.auth.key || true;
               } else if (this.auth.isClient) {
                 notification.client = this.auth.key;
               }
@@ -264,7 +306,7 @@ export class TrainingListPage {
                 }
               };
               if (this.auth.isOwner) {
-                notification.owner = this.auth.key;
+                notification.owner = this.auth.key || true;
               } else if (this.auth.isClient) {
                 notification.client = this.auth.key;
               }
@@ -604,7 +646,7 @@ export class TrainingListPage {
         title: title,
         start: workout.date + 'T' + workout.timeStart,
         end: workout.date + 'T' + workout.timeEnd,
-        constraint: 'businessHours',
+        // constraint: 'businessHours',
         description: client.name + ' ' + client.lastname
       };
 
@@ -644,7 +686,7 @@ export class TrainingListPage {
       this.trainerStore.list.forEach(trainer => {
         // debugger;
         for (let d = 1; d <= 62; d++) {
-          let date = new Date('2016-07-01');
+          let date = new Date('2016-08-01');
           date.setDate(d);
           let day = date.getDate();
           if (day < 10) {
@@ -692,89 +734,15 @@ export class TrainingListPage {
         }
       });
 
-      // var w = [{
-      //   id: 'available',
-      //   resourceId: '-KGHHXLT2oypqidXcL2T',
-      //   start: '2016-06-01T08:00',
-      //   end: '2016-06-01T11:00',
-      //   color: '#8fdf82',
-      //   rendering: 'background'
-      // },{
-      //   id: 'available',
-      //   resourceId: '-KGHHXLT2oypqidXcL2T',
-      //   start: '2016-06-01T17:00',
-      //   end: '2016-06-01T21:00',
-      //   color: '#8fdf82',
-      //   rendering: 'background'
-      // },{
-      //   id: 'available',
-      //   resourceId: '-KGHHXLT2oypqidXcL2T',
-      //   start: '2016-06-02T08:00',
-      //   end: '2016-06-02T11:00',
-      //   color: '#8fdf82',
-      //   rendering: 'background'
-      // },{
-      //   id: 'available',
-      //   resourceId: '-KGHHXLT2oypqidXcL2T',
-      //   start: '2016-06-02T17:00',
-      //   end: '2016-06-02T21:00',
-      //   color: '#8fdf82',
-      //   rendering: 'background'
-      // },{
-      //   id: 'available',
-      //   resourceId: '-KGHHXLT2oypqidXcL2T',
-      //   start: '2016-06-03T08:00',
-      //   end: '2016-06-03T11:00',
-      //   color: '#8fdf82',
-      //   rendering: 'background'
-      // },{
-      //   id: 'available',
-      //   resourceId: '-KGHHXLT2oypqidXcL2T',
-      //   start: '2016-06-03T17:00',
-      //   end: '2016-06-03T21:00',
-      //   color: '#8fdf82',
-      //   rendering: 'background'
-      // }];
-      // events.push(w[0]);
-      // // events.push(w[1]);
-      // events.push(w[2]);
-      // events.push(w[3]);
-      // events.push(w[4]);
-      // events.push(w[5]);
-
-      // let vacation = [{
-      //   start: '2016-05-09T07:00',
-      //   end: '2016-05-15T22:00',
-      //   overlap: false,
-      //   rendering: 'background',
-      //   color: '#ff9f89',
-      //   resourceId: '-KBN-noa5OGgfW2XYbvZ'
-      // },{
-      //   start: '2016-05-06T16:00',
-      //   end: '2016-05-06T21:00',
-      //   overlap: false,
-      //   rendering: 'background',
-      //   color: '#ff9f89',
-      //   resourceId: '-KEiiHM34nL9fAhGCAC8'
-      // },{
-      //   start: '2016-05-16T07:00',
-      //   end: '2016-05-22T22:00',
-      //   overlap: false,
-      //   rendering: 'background',
-      //   color: '#ff9f89',
-      //   resourceId: '-KEiiHM34nL9fAhGCAC8'
-      // },{
-      //   start: '2016-05-26T07:00',
-      //   end: '2016-06-03T22:00',
-      //   overlap: false,
-      //   rendering: 'background',
-      //   color: '#ff9f89',
-      //   resourceId: '-KBN-fYLnmIQ_6pSwnV6'
-      // }];
-      // events.push(vacation[0]);
-      // events.push(vacation[1]);
-      // events.push(vacation[2]);
-      // events.push(vacation[3]);
+      var w = [{
+        id: 'available',
+        resourceId: '-KJ2tA8ChSdvCtXgGps4',
+        start: '2016-08-15T08:00',
+        end: '2016-08-15T14:00',
+        color: '#8fdf82',
+        rendering: 'background'
+      }];
+      events.push(w[0]);
     }
 
     return callback ? callback(events) : events;

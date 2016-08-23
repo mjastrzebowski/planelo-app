@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { App, NavParams, ViewController } from 'ionic-angular';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+
+import { App, NavParams, ViewController, Alert } from 'ionic-angular';
 
 import { IClient } from '../../../core/client/client';
 
@@ -16,10 +18,11 @@ export class ClientDetailBillingModal {
   @Input() client: IClient;
   editing: boolean = false;
 
-  constructor(app: App, params: NavParams, viewCtrl: ViewController, utils: Utils, billStore: BillStore, billService: BillService, workoutStore: WorkoutStore, clientService: ClientService) {
+  constructor(app: App, params: NavParams, viewCtrl: ViewController, http: Http, utils: Utils, billStore: BillStore, billService: BillService, workoutStore: WorkoutStore, clientService: ClientService) {
     this.app = app;
     this.params = params;
     this.viewCtrl = viewCtrl;
+    this.http = http;
     this.utils = utils;
 
     this.billStore = billStore;
@@ -102,6 +105,10 @@ export class ClientDetailBillingModal {
 
   updateAll() {
     this.client.trainingsMovedCount = (this.client.payed - this.client.trainingsDoneCount) || '0';
+    this.updateTrainings();
+  }
+
+  updateTrainings() {
     if (this.client.trainingsMovedCount < 0) {
       this.client.trainingsSurcharge = this.client.trainingsMovedCount * -this.trainingPrice;
       this.client.trainingsMovedCount = 0;
@@ -135,7 +142,7 @@ export class ClientDetailBillingModal {
     this.client.total = parseFloat((this.subtotal - parseFloat(this.client.discountAmount) + parseFloat(this.client.surcharge)) || 0).toFixed(2);
   }
 
-  preview() {
+  generatePDF() {
     this.updateTotal();
     let surchargeBill = '';
     if (this.client.trainingsSurcharge > 0) {
@@ -150,22 +157,6 @@ export class ClientDetailBillingModal {
     if (this.client.surchargeDesc) {
       surchargeBill += ' (' + this.client.surchargeDesc + ')';
     }
-
-    this.billService.updateBill(this.bill, {
-      payed: parseFloat(this.client.payed),
-      discount: parseFloat(this.client.discount)
-    });
-
-    // let place = '-KBHukjV0l8M-EkpTdI4';
-    // if (this.client.place === 'z') {
-    //   place = '-KBHulP5PtV-dGxyXPWl';
-    // }
-    // this.clientService.updateClient(this.client, {
-    //   gender: this.client.gender,
-    //   active: true,
-    //   place: place
-    // });
-    // return;
 
     let dd = {
       content: [
@@ -187,7 +178,7 @@ export class ClientDetailBillingModal {
             margin: [0, 20],
             ul: [{
                         text: [
-                            'Liczba treningów zaplanowana w miesiącu lipiec: ',
+                            'Liczba treningów zaplanowana w miesiącu sierpień: ',
                             { text: parseInt(this.client.trainingsTodoCount || 0) + '', style: 'field' }
                         ]
                     },{
@@ -265,11 +256,50 @@ export class ClientDetailBillingModal {
           }
       }
     };
-    let pdf = pdfMake.createPdf(dd);
-    pdf.open(this.client.month + ' - ' + this.client.lastname + ' ' + this.client.name + '.pdf');
+    return pdfMake.createPdf(dd);
+  }
+
+  preview() {
+    this.generatePDF().open(this.client.month + ' - ' + this.client.lastname + ' ' + this.client.name + '.pdf');
+  }
+
+  send() {
+    this.client.billSent = true;
+    this.generatePDF().getBase64((pdf) => {
+      let body = JSON.stringify({
+        email: this.client.email,
+        name: this.client.name + ' ' + this.client.lastname,
+        file: pdf,
+        fileName: this.client.month + ' - ' + this.client.lastname + ' ' + this.client.name + '.pdf'
+      });
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      this.http.post('http://treningi.egobody.pl/bill.php', body, options)
+        .toPromise()
+        .then((res: Response) => {
+          let result = res.json() || {};
+          console.log(result);
+          this.client.billSendStatus = 'Rachunek został wysłany do klienta na adres:';
+        })
+        .catch((error: any) => {
+          // In a real world app, we might use a remote logging infrastructure
+          // We'd also dig deeper into the error to get a better message
+          let errMsg = (error.message) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+          console.error(errMsg); // log to console instead
+          this.client.billSendError = 'Wystąpił błąd podczas wysyłania rachunku na adres:';
+          this.client.billSent = false;
+          return Promise.reject(errMsg);
+        });
+    });
+    // pdf.open(this.client.month + ' - ' + this.client.lastname + ' ' + this.client.name + '.pdf');
   }
 
   save() {
+    this.billService.updateBill(this.bill, {
+      payed: parseFloat(this.client.payed),
+      discount: parseFloat(this.client.discount)
+    });
     this.viewCtrl.dismiss(this.client);
   }
 

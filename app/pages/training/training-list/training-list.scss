@@ -1,0 +1,8 @@
+.trainings {
+  .workouts-hidden {
+    display: none;
+    &.month-201608, &.month-201609 {
+      display: block;
+    }
+  }
+}

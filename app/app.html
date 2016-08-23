@@ -21,6 +21,10 @@
           {{p?.title}}
         </button>
       </ion-list>
+
+      <!-- <code padding *ngIf="auth.isOwner">
+        <small>Wersja: 1.0.16 (18.08.2016 r.)</small>
+      </code> -->
     </ion-content>
   </ion-menu>
 
@@ -76,6 +80,16 @@
                 <strong>{{ clientStore.getItem(notification?.client).name }} {{ clientStore.getItem(notification?.client).lastname }}</strong>
                 odwołał/a trening 
                 <strong>{{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
+              </h3>
+              <p><small><i>{{ notification?.fromNow }}</i></small></p>
+            </div>
+
+            <div *ngSwitchCase="'workoutRejected'">
+              <h3>
+                <strong>{{ clientStore.getItem(notification?.client).name }} {{ clientStore.getItem(notification?.client).lastname }}</strong>
+                nie będzie obecny/a na treningu 
+                <strong>{{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
+                z powodu <i>{{ notification?.reason }}</i>
               </h3>
               <p><small><i>{{ notification?.fromNow }}</i></small></p>
             </div>

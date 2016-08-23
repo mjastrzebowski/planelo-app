@@ -24,6 +24,7 @@ export class PlaceStore {
   }
 
   private emit(): void {
+    this.loaded = true;
     this.places.next(this.list);
   }
 

@@ -90,6 +90,7 @@ export class TrainingFormModal {
       { timeStart: '11:00', timeEnd: '12:00' },
       { timeStart: '12:00', timeEnd: '13:00' },
       { timeStart: '13:00', timeEnd: '14:00' },
+      { timeStart: '14:00', timeEnd: '15:00' },
       { timeStart: '16:00', timeEnd: '17:00' },
       { timeStart: '17:00', timeEnd: '18:00' },
       { timeStart: '18:00', timeEnd: '19:00' },
@@ -98,7 +99,7 @@ export class TrainingFormModal {
       { timeStart: '21:00', timeEnd: '22:00' }
     ];
 
-    var days = 30;
+    var days = 40;
     var today = new Date().getDate();
     if (this.auth.isClient) {
       today++;
@@ -107,8 +108,8 @@ export class TrainingFormModal {
         today++;
       }
     } else if (this.auth.isOwner) {
-      today = 18;
-      days = 45;
+      today = 1;
+      days = 60;
     }
     if (today === 32) {
       today = 1;
@@ -116,8 +117,11 @@ export class TrainingFormModal {
 
     // let lastDate = this.workoutStore.list.last().date;
     for (let d = today; d <= today+days; d++) {
-      let nextDay = new Date('2016-07-18');
+      let nextDay = new Date('2016-08-01');
       nextDay.setDate(d);
+      if (this.auth.isClient && (nextDay.getMonth()+1) === 10) {
+        break;
+      }
       if (nextDay.getDay() !== 0) {
         let day = nextDay.getDate();
         if (day < 10) {
@@ -150,17 +154,35 @@ export class TrainingFormModal {
             if (this.auth.isOwner || trainer.place === this.place) {
               let thisDate = new Date(date);
               let thisDay = thisDate.getDate();
-              if (!this.auth.isOwner && trainer.vacation) {
-                let vacationDateStart = new Date(trainer.vacation[0].dateStart);
-                let vacationDateEnd = new Date(trainer.vacation[0].dateEnd);
-                if (thisDate >= vacationDateStart && thisDate <= vacationDateEnd) {
-                  // console.log('jakiś urlop', trainer.username, vacationDateStart, vacationDateEnd);
-                  return;
+
+              if (!this.auth.isOwner && trainer.vacation && !(trainer.key === '-KJ2tA8ChSdvCtXgGps4' && date === '2016-08-15')) {
+                if (trainer.vacation[0]) {
+                  let vacationDateStart = new Date(trainer.vacation[0].dateStart);
+                  let vacationDateEnd = new Date(trainer.vacation[0].dateEnd);
+                  if (thisDate >= vacationDateStart && thisDate <= vacationDateEnd) {
+                    return;
+                  }
+                }
+                if (trainer.vacation[1]) {
+                  let vacationDateStart = new Date(trainer.vacation[1].dateStart);
+                  let vacationDateEnd = new Date(trainer.vacation[1].dateEnd);
+                  if (thisDate >= vacationDateStart && thisDate <= vacationDateEnd) {
+                    return;
+                  }
+                }
+                if (trainer.vacation[2]) {
+                  let vacationDateStart = new Date(trainer.vacation[2].dateStart);
+                  let vacationDateEnd = new Date(trainer.vacation[2].dateEnd);
+                  if (thisDate >= vacationDateStart && thisDate <= vacationDateEnd) {
+                    return;
+                  }
                 }
               }
 
               let d = thisDate.getDay()-1;
-              if ((trainer.hours[d] && trainer.hours[d][hour.timeStart])) {
+              if ((trainer.hours[d] && trainer.hours[d][hour.timeStart]) ||
+                (trainer.key === '-KJ2tA8ChSdvCtXgGps4' && date === '2016-08-15' && 
+                  (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00' || time === '13:00'))) {
                 let find = this.workoutStore.list.filter(workout => {
                   if (!workout.fixed && !workout.completed && (date === workout.date && workout.timeStart === time && (workout.trainerKey === trainer.key || (this.auth.isClient && workout.clientKey === this.auth.key)))
                     && !(this.trainings[0] && workout.date === this.trainings[0].date && workout.timeStart === this.trainings[0].timeStart && (trainer.key === this.trainings[0].trainer || (this.auth.isClient && this.auth.key === this.trainings[0].client)))) {

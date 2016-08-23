@@ -38,14 +38,17 @@
 
   <div *ngIf="auth.isClient">
     <ion-list>
-      <ion-item-sliding *ngFor="let workout of workouts | async; let w = index" #slidingItem [attr.track]="workout.key" [hidden]="workout.fixed || workout.completed || workout.timeStart == '' || workout.date == '2099-12-31'">
-        <ion-item>
-          <h3><strong>{{workout?.timeStart}} - {{workout?.timeEnd}}</strong>, {{workout?.descDate}}</h3>
-          <p>{{placeStore.getItem(workout.place)?.title}}, <strong>{{trainerStore.getItem(workout.trainer)?.title}}</strong></p>
-          <button favorite item-right *ngIf="workout.fullDate > changeDate" (click)="deleteTraining(workout)">Odwołaj</button>
-          <button danger item-right *ngIf="workout.fullDate < changeDate && workout.fullDate > currentDate" (click)="deleteTrainingLate(workout)">Odwołaj</button>
-        </ion-item>
-      </ion-item-sliding>
+      <div *ngFor="let workout of workouts | async | groupWorkouts; let w = index" [attr.track]="workout.key">
+        <ion-item-divider light *ngIf="workout.nextMonth" (click)="showMonth(workout.monthId)" [hidden]="workout.fixed || workout.timeStart == '' || workout.date == '2099-12-31'">{{ workout.month }}</ion-item-divider>
+        <ion-item-sliding class="workouts-hidden month-{{ workout.monthId }}" [hidden]="workout.fixed || workout.completed || workout.timeStart == '' || workout.date == '2099-12-31'">
+          <ion-item>
+            <h3><strong>{{workout?.timeStart}} - {{workout?.timeEnd}}</strong>, {{workout?.descDate}}</h3>
+            <p>{{placeStore.getItem(workout.place)?.title}}, <strong>{{trainerStore.getItem(workout.trainer)?.title}}</strong></p>
+            <button favorite item-right *ngIf="workout.fullDate > changeDate" (click)="deleteTraining(workout)">Odwołaj</button>
+            <button danger item-right *ngIf="workout.fullDate < changeDate && workout.fullDate > currentDate" (click)="deleteTrainingLate(workout)">Odwołaj</button>
+          </ion-item>
+        </ion-item-sliding>
+      </div>
     </ion-list>
 
     <ion-buttons padding>

@@ -54,7 +54,7 @@ export class ClientListPage {
                 name: data.name || '',
                 lastname: data.lastname || ''
               },
-              owner: this.auth.key
+              owner: this.auth.key || true
             });
           });
       }

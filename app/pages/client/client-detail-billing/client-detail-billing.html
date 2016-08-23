@@ -23,6 +23,10 @@
         </ion-select>
       </ion-item>
 
+      <ion-item [hidden]="true">
+        <ion-label>Wystaw rachunek ręcznie (nie aktualizuj wartości)</ion-label>
+        <ion-toggle [(ngModel)]="client.manual"></ion-toggle>
+      </ion-item>
       <ion-item>
         <ion-label floating>Opłacone treningi w poprzednim miesiącu (zrobione: {{client.trainingsDoneCount}})</ion-label>
         <ion-input type="text" [(ngModel)]="client.payed" (change)="updateAll()"></ion-input>
@@ -33,7 +37,7 @@
       </ion-item>
       <ion-item>
         <ion-label floating>Treningi przechodzące z ubiegłego miesiąca</ion-label>
-        <ion-input type="text" [(ngModel)]="client.trainingsMovedCount" (change)="updateAll()"></ion-input>
+        <ion-input type="text" [(ngModel)]="client.trainingsMovedCount" (change)="updateTrainings()"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Dopłata za dodatkowe treningi w poprzednim miesiącu [zł]</ion-label>
@@ -68,12 +72,22 @@
         </ion-col>
       </ion-row>
       <ion-item padding>
-        <ion-label>Do zapłaty: <strong>{{ client?.total }} zł</strong></ion-label>
+        <ion-label text-center>Do zapłaty: <strong>{{ client?.total }} zł</strong></ion-label>
       </ion-item>
-
-      <!-- wyślij email -->
-      <!-- rachunki: miesiąc, rabat, przechodzące, zaplanowane, generuj rachunek, wyślij mailem -->
     </ion-list>
+
+    <ion-buttons padding text-center>
+      <button outline (click)="preview()" [disabled]="!client.month">
+        <ion-icon name="eye"></ion-icon>
+        Podgląd rachunku
+      </button>
+      <button outline [disabled]="!client.month || client.billSent" (click)="send()">
+        <ion-icon name="send"></ion-icon>
+        Wyślij do klienta
+      </button>
+      <p favorite *ngIf="client.billSendStatus">{{ client.billSendStatus }}<br><strong>{{ client.email }}</strong></p>
+      <p danger *ngIf="client.billSendError">{{ client.billSendError }}<br><strong>{{ client.email }}</strong></p>
+    </ion-buttons>
 
     <ion-row responsive-sm>
       <!-- <ion-col [hidden]="!client.active">
@@ -81,7 +95,7 @@
         <button primary block type="submit" [hidden]="client.send" (click)="save()">Zapisz zmiany</button>
       </ion-col> -->
       <ion-col>
-        <button primary block type="submit" (click)="preview()" [disabled]="!client.month">Podgląd rachunku</button>
+        <button primary block type="submit" [disabled]="!client.month" (click)="save()">Zapisz zmiany</button>
       </ion-col>
       <ion-col>
         <button light block (click)="dismiss()">Anuluj</button>
