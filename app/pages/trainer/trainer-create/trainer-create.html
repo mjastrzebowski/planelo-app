@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Nowy trener</ion-title>
+    <ion-buttons start>
+      <button (click)="dismiss()">
+        <span primary showWhen="ios">Zamknij</span>
+        <ion-icon name="close" hideWhen="ios"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="has-header">
+  <form #trainerForm="ngForm" novalidate>
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Imię i nazwisko</ion-label>
+        <ion-input type="text" [(ngModel)]="trainer.title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Adres email</ion-label>
+        <ion-input type="text" [(ngModel)]="trainer.email"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <!-- <ion-grid>
+      <ion-row>
+        <ion-col width-10>8:00 - 9:00</ion-col>
+        <ion-col width-10>9:00 - 10:00</ion-col>
+        <ion-col width-10>10:00 - 11:00</ion-col>
+        <ion-col width-10>11:00 - 12:00</ion-col>
+
+        <ion-col width-10>16:00 - 17:00</ion-col>
+        <ion-col width-10>17:00 - 18:00</ion-col>
+        <ion-col width-10>18:00 - 19:00</ion-col>
+        <ion-col width-10>19:00 - 20:00</ion-col>
+        <ion-col width-10>20:00 - 21:00</ion-col>
+        <ion-col width-10>21:00 - 22:00</ion-col>
+      </ion-row>
+    </ion-grid> -->
+
+    <ion-row responsive-sm>
+      <ion-col>
+        <button primary block type="submit" (click)="save()">Dodaj trenera</button>
+      </ion-col>
+      <ion-col>
+        <button light block (click)="dismiss()">Anuluj</button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
