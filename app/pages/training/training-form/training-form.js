@@ -177,15 +177,36 @@ export class TrainingFormModal {
                     return;
                   }
                 }
+                if (trainer.vacation[3]) {
+                  let vacationDateStart = new Date(trainer.vacation[3].dateStart);
+                  let vacationDateEnd = new Date(trainer.vacation[3].dateEnd);
+                  if (thisDate >= vacationDateStart && thisDate <= vacationDateEnd) {
+                    return;
+                  }
+                }
+                if (trainer.vacation[4]) {
+                  let vacationDateStart = new Date(trainer.vacation[4].dateStart);
+                  let vacationDateEnd = new Date(trainer.vacation[4].dateEnd);
+                  if (thisDate >= vacationDateStart && thisDate <= vacationDateEnd) {
+                    return;
+                  }
+                }
+                if (trainer.vacation[5]) {
+                  let vacationDateStart = new Date(trainer.vacation[5].dateStart);
+                  let vacationDateEnd = new Date(trainer.vacation[5].dateEnd);
+                  if (thisDate >= vacationDateStart && thisDate <= vacationDateEnd) {
+                    return;
+                  }
+                }
               }
 
               let d = thisDate.getDay()-1;
-              if ((trainer.hours[d] && trainer.hours[d][hour.timeStart]) ||
+              if (this.auth.isOwner || (trainer.hours[d] && trainer.hours[d][hour.timeStart]) ||
                 (trainer.key === '-KJ2tA8ChSdvCtXgGps4' && date === '2016-08-15' && 
                   (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00' || time === '13:00'))) {
                 let find = this.workoutStore.list.filter(workout => {
-                  if (!workout.fixed && !workout.completed && (date === workout.date && workout.timeStart === time && (workout.trainerKey === trainer.key || (this.auth.isClient && workout.clientKey === this.auth.key)))
-                    && !(this.trainings[0] && workout.date === this.trainings[0].date && workout.timeStart === this.trainings[0].timeStart && (trainer.key === this.trainings[0].trainer || (this.auth.isClient && this.auth.key === this.trainings[0].client)))) {
+                  if (!this.auth.isOwner && (!workout.fixed && !workout.completed && (date === workout.date && workout.timeStart === time && (workout.trainerKey === trainer.key || (this.auth.isClient && workout.clientKey === this.auth.key)))
+                    && !(this.trainings[0] && workout.date === this.trainings[0].date && workout.timeStart === this.trainings[0].timeStart && (trainer.key === this.trainings[0].trainer || (this.auth.isClient && this.auth.key === this.trainings[0].client))))) {
                     return true;
                   }
                 });

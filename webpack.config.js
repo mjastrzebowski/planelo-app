@@ -32,18 +32,18 @@ module.exports = {
       /zone\.js(\/|\\)dist(\/|\\)zone-microtask/
     ]
   },
-  // plugins: [
-  //   new webpack.optimize.UglifyJsPlugin({
-  //     sourceMap: false,
-  //     mangle: true,
-  //     compress: {
-  //       dead_code: true, // eslint-disable-line camelcase
-  //       screw_ie8: true, // eslint-disable-line camelcase
-  //       unused: true,
-  //       warnings: false
-  //     }
-  //   })
-  // ],
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: false,
+      mangle: true,
+      compress: {
+        dead_code: true, // eslint-disable-line camelcase
+        screw_ie8: true, // eslint-disable-line camelcase
+        unused: true,
+        warnings: false
+      }
+    })
+  ],
   resolve: {
     alias: {
       'rx$': require.resolve('rxjs')

@@ -15,6 +15,16 @@ export class Utils {
 
     this.notificationStore = notificationStore;
     this.notificationService = notificationService;
+
+    this.weekdays = [
+      'poniedziałek',
+      'wtorek',
+      'środa',
+      'czwartek',
+      'piątek',
+      'sobota',
+      'niedziela'
+    ];
   }
 
   createNotification(type, data) {
@@ -62,7 +72,6 @@ export class Utils {
     }
     return retVal;
   }
-
 
   // deprecated
   static rewriteString(string) {

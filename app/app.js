@@ -29,6 +29,8 @@ import { TrainerListPage } from './pages/trainer/trainer-list/trainer-list';
 import { TrainingListPage } from './pages/training/training-list/training-list';
 import { TrainingSchedulerPage } from './pages/training/training-scheduler/training-scheduler';
 
+import { ClientDetailPage } from './pages/client/client-detail/client-detail';
+
 import { LoginPage } from './pages/login/login';
 import { SettingsPage } from './pages/settings/settings';
 
@@ -209,6 +211,12 @@ export class DavidApp {
       return menuItem.title === title
     })
   }
+
+
+  goToClientDetail(client) {
+    this.nav.push(ClientDetailPage, client);
+  }
+
 }
 
 ionicBootstrap(DavidApp, [

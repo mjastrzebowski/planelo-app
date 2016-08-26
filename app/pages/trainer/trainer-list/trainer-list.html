@@ -5,7 +5,7 @@
     </button>
     <ion-title>Trenerzy</ion-title>
     <ion-buttons end>
-      <button (click)="showTrainerForm()">
+      <button (click)="showTrainerCreate()">
         <ion-icon name="add"></ion-icon>
       </button>
       <button class="notification-button" menuToggle="right" *ngIf="auth.isOwner">
@@ -24,7 +24,7 @@
   </ion-searchbar>
 
   <ion-list [hidden]="shownSessions === 0">
-      <button ion-item (click)="showTrainerForm(trainer)" *ngFor="let trainer of trainers | async; let t = index" [hidden]="trainer.hide">
+      <button ion-item (click)="goToTrainerDetail(trainer)" *ngFor="let trainer of trainers | async; let t = index" [hidden]="trainer.hide">
         <ion-avatar item-left *ngIf="trainer?.avatar">
           <img [src]="trainer?.avatar" [alt]="trainer?.title">
         </ion-avatar>

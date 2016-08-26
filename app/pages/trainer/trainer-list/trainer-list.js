@@ -10,8 +10,8 @@ import { AuthService } from '../../../core/auth/auth-service';
 import { TrainerStore } from '../../../core/trainer/trainer-store';
 import { TrainerService } from '../../../core/trainer/trainer-service';
 
-import {TrainerFormModal} from '../trainer-form/trainer-form'
-import {TrainerDetailPage} from '../trainer-detail/trainer-detail'
+import { TrainerCreateModal } from '../trainer-create/trainer-create'
+import { TrainerDetailPage } from '../trainer-detail/trainer-detail'
 
 @Component({
   templateUrl: 'build/pages/trainer/trainer-list/trainer-list.html'
@@ -32,36 +32,18 @@ export class TrainerListPage {
     this.queryText = '';
   }
 
+  goToTrainerDetail(trainer) {
+    this.nav.push(TrainerDetailPage, trainer);
+  }
 
-  showTrainerForm(trainer) {
-    if (trainer) {
-      let modal = Modal.create(TrainerFormModal, trainer);
-      this.editing = true;
-    } else {
-      let modal = Modal.create(TrainerFormModal);
-      this.editing = false;
-    }
-
+  showTrainerCreate() {
+    let modal = Modal.create(TrainerCreateModal);
     modal.onDismiss(data => {
-      console.log('closed trainer modal with data: ', data);
       if (data) {
-        if (data.hasOwnProperty('delete')) {
-          this.trainerService.deleteTrainer(data);
-          return;
-        }
-
-        if (this.editing) {
-          this.trainerService.updateTrainer(data, {
-            title: data.title || '',
-            email: data.email || '',
-            hours: data.hours || [[]]
-          });
-        } else {
-          this.trainerService.createTrainer(
-            data.title || '',
-            data.email || '',
-            data.hours || '');
-        }
+        this.trainerService.createTrainer(
+          data.title || '',
+          data.email || '',
+          data.hours || '');
       }
     });
     this.nav.present(modal);

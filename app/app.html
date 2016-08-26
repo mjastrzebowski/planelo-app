@@ -63,7 +63,7 @@
                 <strong>{{ clientStore.getItem(notification?.workout.client).name }} {{ clientStore.getItem(notification?.workout.client).lastname }} &bull; {{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
               </h3>
               <h3 *ngIf="!notification?.owner">
-                <strong>{{ clientStore.getItem(notification?.client).name }} {{ clientStore.getItem(notification?.client).lastname }}</strong>
+                <strong (click)="goToClientDetail(clientStore.getItem(notification?.client))">{{ clientStore.getItem(notification?.client).name }} {{ clientStore.getItem(notification?.client).lastname }}</strong>
                 zarezerwował/a trening 
                 <strong>{{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
               </h3>
@@ -77,7 +77,7 @@
                 <strong>{{ clientStore.getItem(notification?.workout.client).name }} {{ clientStore.getItem(notification?.workout.client).lastname }} &bull; {{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
               </h3>
               <h3 *ngIf="!notification?.owner">
-                <strong>{{ clientStore.getItem(notification?.client).name }} {{ clientStore.getItem(notification?.client).lastname }}</strong>
+                <strong (click)="goToClientDetail(clientStore.getItem(notification?.client))">{{ clientStore.getItem(notification?.client).name }} {{ clientStore.getItem(notification?.client).lastname }}</strong>
                 odwołał/a trening 
                 <strong>{{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
               </h3>

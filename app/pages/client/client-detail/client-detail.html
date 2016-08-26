@@ -20,14 +20,14 @@
       <p>• zrobione: {{ trainingsDone?.size }}
         <small *ngIf="trainingsDoneLast"> (ostatni: <i>
           {{ trainingsDoneLast?.dateTime }},
-          {{ placeStore.getItem(trainingsDoneLast.place).title }},
-          {{ trainerStore.getItem(trainingsDoneLast.trainer).alias }})
+          {{ placeStore.getItem(trainingsDoneLast.place)?.title }},
+          {{ trainerStore.getItem(trainingsDoneLast.trainer)?.alias }})
       </i></small></p>
       <p>• zaplanowane: {{ trainingsTodo?.size }}
         <small *ngIf="trainingsTodoNext"> (następny: <i>
           {{ trainingsTodoNext?.dateTime }},
-          {{ placeStore.getItem(trainingsTodoNext.place).title }},
-          {{ trainerStore.getItem(trainingsTodoNext.trainer).alias }})
+          {{ placeStore.getItem(trainingsTodoNext.place)?.title }},
+          {{ trainerStore.getItem(trainingsTodoNext.trainer)?.alias }})
       </i></small></p>
     </ion-item>
 
@@ -36,8 +36,8 @@
       <h2>Grafik</h2>
       <p *ngFor="let training of trainingsScheduled"> •
         {{ training?.weekDay }} {{ training?.timeStart }},
-        {{ placeStore.getItem(training.place).title }},
-        {{ trainerStore.getItem(training.trainer).alias }}
+        {{ placeStore.getItem(training.place)?.title }},
+        {{ trainerStore.getItem(training.trainer)?.alias }}
       </p>
       <p *ngIf="!trainingsScheduled.size">
         • brak stałych treningów
