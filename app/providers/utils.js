@@ -1,20 +1,14 @@
 import { Injectable, Component, ViewChild } from '@angular/core';
 import { App, Loading } from 'ionic-angular';
 
-import { NotificationStore } from '../core/notification/notification-store';
 import { NotificationService } from '../core/notification/notification-service';
 
 @Injectable()
 export class Utils {
 
-  constructor(app: App, notificationStore: NotificationStore, notificationService: NotificationService) {
-    // @Inject(Platform) platform
-    this.app = app;
+  constructor(public app: App, public notificationService: NotificationService) {
     this.nav = app.getActiveNav();
     this.active = false;
-
-    this.notificationStore = notificationStore;
-    this.notificationService = notificationService;
 
     this.weekdays = [
       'poniedziałek',

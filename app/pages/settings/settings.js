@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { App, Alert, NavController } from 'ionic-angular';
 
-// import { AuthRouteHelper } from '../../core/auth/auth-route-helper';
 import { Utils } from '../../providers/utils';
-
 import { AuthService } from '../../core/auth/auth-service';
 
+import { NotificationCounter } from '../../components/notification/notification-counter/notification-counter';
 
 @Component({
-  templateUrl: 'build/pages/settings/settings.html'
+  templateUrl: 'build/pages/settings/settings.html',
+  directives: [
+    NotificationCounter
+  ]
 })
 
 export class SettingsPage {

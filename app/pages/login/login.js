@@ -49,9 +49,9 @@ export class LoginPage {
   }
 
   signInWithPassword(form): void {
-    this.utils.presentLoading('Logowanie...');
     this.submitted = true;
     if (form.valid) {
+      this.utils.presentLoading('Logowanie...');
       let client = this.clientStore.getItemByUsername(form.value.email);
       if (client) {
         form.value.email = client.email;
@@ -76,6 +76,7 @@ export class LoginPage {
             }, 500);
           });
     }
+    // this.utils.stopLoading();
   }
 
   signUpWithPassword(form): void {

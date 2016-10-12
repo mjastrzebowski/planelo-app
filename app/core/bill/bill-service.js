@@ -3,8 +3,8 @@ import { IBill, Bill } from './bill';
 export class BillService {
   constructor(private ref: Firebase) {}
 
-  createBill(client: string, month: string) {
-    return this.ref.push(new Bill(client, month), (error: Error) => {
+  createBill(client: string, month: string, discount: number) {
+    return this.ref.push(new Bill(client, month, discount || 0), (error: Error) => {
       if (error) {
         console.error('ERROR @ createBill :', error);
       }

@@ -1,0 +1,24 @@
+<ion-list class="bill-list">
+  <ion-grid>
+    <ion-row center>
+      <ion-col width-10></ion-col>
+      <ion-col width-10><strong>Miesiąc</strong></ion-col>
+      <ion-col width-30><strong>Klient</strong></ion-col>
+      <ion-col width-10><strong>Kwota</strong></ion-col>
+      <ion-col width-10><strong>Utworzone</strong></ion-col>
+      <ion-col width-10><strong>Wysłane</strong></ion-col>
+      <ion-col width-10><strong>Opłacone</strong></ion-col>
+      <ion-col width-10><strong>Opcje</strong></ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="bill-list-frame">
+    <bill-item #bills [model]="bill" *ngFor="let bill of billStore.bills | async | filterBills:filter:limit"></bill-item>
+  </div>
+</ion-list>
+
+<ion-buttons padding text-center *ngIf="isMore">
+  <button outline (click)="showMore()">
+    <ion-icon name="more"></ion-icon>
+    pokaż więcej
+  </button>
+</ion-buttons>

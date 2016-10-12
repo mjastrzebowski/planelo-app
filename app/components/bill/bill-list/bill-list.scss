@@ -1,0 +1,13 @@
+.bill-list {
+  overflow-x: auto;
+  overflow-y: hidden;
+  .bill-list-frame {
+    min-width: 1000px;
+    max-height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  ion-grid {
+    min-width: 1000px;
+  }
+}

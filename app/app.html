@@ -18,13 +18,13 @@
       <ion-list>
         <button ion-item menuClose="menuLeft" *ngFor="let p of pages" (click)="openPage(p)" [hidden]="p.hide">
           <ion-icon item-left [name]="p.icon"></ion-icon>
-          {{p?.title}}
+          {{ p?.title }}
         </button>
       </ion-list>
 
-      <!-- <code padding *ngIf="auth.isOwner">
-        <small>Wersja: 1.0.16 (18.08.2016 r.)</small>
-      </code> -->
+      <code padding *ngIf="auth.isOwner">
+        <small>Wersja: 1.3.52 (z dnia 11.10.2016 r.)</small>
+      </code>
     </ion-content>
   </ion-menu>
 
@@ -34,70 +34,14 @@
       <ion-title>Powiadomienia</ion-title>
     </ion-toolbar>
 
-    <ion-content class="menu">
-      <ion-list class="notifications">
-        <ion-item menuClose="menuRight" *ngFor="let notification of notifications | async | reverse">
-          <div [ngSwitch]="notification.type">
-            <div *ngSwitchCase="'clientAdded'">
-              <h3>
-                <strong><u>{{ getOwnerAlias(notification?.owner) }}</u></strong>
-                dodał klienta 
-                <strong>{{ notification?.client.name }} {{ notification?.client.lastname }}</strong>
-              </h3>
-              <p><small><i>{{ notification?.fromNow }}</i></small></p>
-            </div>
-
-            <div *ngSwitchCase="'clientRemoved'">
-              <h3>
-                <strong *ngIf="notification?.owner"><u>{{ getOwnerAlias(notification?.owner) }}</u></strong>
-                usunął klienta 
-                <strong>{{ notification?.client.name }} {{ notification?.client.lastname }}</strong>
-              </h3>
-              <p><small><i>{{ notification?.fromNow }}</i></small></p>
-            </div>
-
-            <div *ngSwitchCase="'workoutAdded'">
-              <h3 *ngIf="notification?.owner">
-                <strong><u>{{ getOwnerAlias(notification?.owner) }}</u></strong>
-                dodał trening 
-                <strong>{{ clientStore.getItem(notification?.workout.client).name }} {{ clientStore.getItem(notification?.workout.client).lastname }} &bull; {{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
-              </h3>
-              <h3 *ngIf="!notification?.owner">
-                <strong (click)="goToClientDetail(clientStore.getItem(notification?.client))">{{ clientStore.getItem(notification?.client).name }} {{ clientStore.getItem(notification?.client).lastname }}</strong>
-                zarezerwował/a trening 
-                <strong>{{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
-              </h3>
-              <p><small><i>{{ notification?.fromNow }}</i></small></p>
-            </div>
-
-            <div *ngSwitchCase="'workoutRemoved'">
-              <h3 *ngIf="notification?.owner">
-                <strong><u>{{ getOwnerAlias(notification?.owner) }}</u></strong>
-                usunął trening 
-                <strong>{{ clientStore.getItem(notification?.workout.client).name }} {{ clientStore.getItem(notification?.workout.client).lastname }} &bull; {{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
-              </h3>
-              <h3 *ngIf="!notification?.owner">
-                <strong (click)="goToClientDetail(clientStore.getItem(notification?.client))">{{ clientStore.getItem(notification?.client).name }} {{ clientStore.getItem(notification?.client).lastname }}</strong>
-                odwołał/a trening 
-                <strong>{{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
-              </h3>
-              <p><small><i>{{ notification?.fromNow }}</i></small></p>
-            </div>
-
-            <div *ngSwitchCase="'workoutRejected'">
-              <h3>
-                <strong>{{ clientStore.getItem(notification?.client).name }} {{ clientStore.getItem(notification?.client).lastname }}</strong>
-                nie będzie obecny/a na treningu 
-                <strong>{{ notification?.workout.date }} {{ notification?.workout.timeStart }} &bull; {{ placeStore.getItem(notification?.workout.place)?.title }} &bull; {{ trainerStore.getItem(notification?.workout.trainer)?.alias }}</strong>
-                z powodu <i>{{ notification?.reason }}</i>
-              </h3>
-              <p><small><i>{{ notification?.fromNow }}</i></small></p>
-            </div>
-          </div>
-
-            <!-- <p>{{ placeStore.getItem(workout.place)?.title}}, <strong>{{ trainerStore.getItem(workout.trainer)?.title }}</strong></p> -->
-        </ion-item>
-      </ion-list>
+    <ion-content class="menu" menuClose="menuRight">
+      <notification-list class="notifications" limit="10"></notification-list>
+      <ion-buttons padding text-center>
+        <button outline (click)="openPage('NotificationListPage')">
+          <ion-icon name="more"></ion-icon>
+          zobacz więcej
+        </button>
+      </ion-buttons>
     </ion-content>
   </ion-menu>
 

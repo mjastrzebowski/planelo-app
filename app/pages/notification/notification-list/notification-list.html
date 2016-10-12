@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Powiadomienia</ion-title>
+
+    <ion-buttons end>
+      <notification-counter></notification-counter>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="notifications-list">
+  <div padding>
+    <notification-filter class="notifications-filter" [filter]="filter"></notification-filter>
+  </div>
+
+  <notification-list class="notifications" [filter]="filter"></notification-list>
+</ion-content>

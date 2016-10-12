@@ -8,6 +8,8 @@ import { Utils } from '../../../providers/utils';
 
 import { AuthService } from '../../../core/auth/auth-service';
 
+import { NotificationCounter } from '../../../components/notification/notification-counter/notification-counter';
+
 import { ClientStore } from '../../../core/client/client-store';
 import { PlaceStore } from '../../../core/place/place-store';
 import { TrainerStore } from '../../../core/trainer/trainer-store';
@@ -18,7 +20,10 @@ import { TrainingSchedulerFormModal } from '../training-scheduler-form/training-
 // import {TrainingDetailPage} from '../training-detail/training-detail';
 
 @Component({
-  templateUrl: 'build/pages/training/training-scheduler/training-scheduler.html'
+  templateUrl: 'build/pages/training/training-scheduler/training-scheduler.html',
+  directives: [
+    NotificationCounter
+  ]
 })
 export class TrainingSchedulerPage {
   @Input() workouts: ReplaySubject<List<any>>;

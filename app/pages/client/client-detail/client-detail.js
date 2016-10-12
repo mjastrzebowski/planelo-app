@@ -23,6 +23,7 @@ import { WorkoutStore } from '../../../core/workout/workout-store';
 import { ClientDetailProfileModal } from '../client-detail-profile/client-detail-profile';
 import { ClientDetailAccessModal } from '../client-detail-access/client-detail-access';
 import { ClientDetailBillingModal } from '../client-detail-billing/client-detail-billing';
+import { ClientDetailWorkoutsModal } from '../client-detail-workouts/client-detail-workouts';
 
 @Component({
   templateUrl: 'build/pages/client/client-detail/client-detail.html'
@@ -35,6 +36,7 @@ export class ClientDetailPage {
     this.http = http;
 
     this.client = this.navParams.data;
+    console.log('test ', this.client);
     this.utils = utils;
     this.auth = auth;
     this.user = user;
@@ -179,45 +181,14 @@ export class ClientDetailPage {
   }
 
   showClientBilling(client) {
-    if (client) {
-      let clientObject = Object.assign({}, client);
-      let modal = Modal.create(ClientDetailBillingModal, clientObject);
-      this.editing = true;
-    } else {
-      let modal = Modal.create(ClientDetailBillingModal);
-      this.editing = false;
-    }
-
-    modal.onDismiss(data => {
-      console.log('closed client billing modal with data: ', data);
-      // if (data) {
-      //   if (data.hasOwnProperty('delete')) {
-      //     this.clientService.deleteClient(data);
-      //     return;
-      //   }
-
-      //   // this.clientService.updateClient(data, {
-      //   //   username: data.username || '',
-      //   //   email: data.email || '',
-      //   //   phone: data.phone || '',
-      //   //   comment: data.comment || ''
-      //   // });
-      // }
-    });
+    let clientObject = Object.assign({}, client);
+    let modal = Modal.create(ClientDetailBillingModal, clientObject);
     this.nav.present(modal);
   }
 
-  ionViewLoaded() {
-    // this.getClientDetail(this.client);
-    // this.cycleData.addCycleByClient('mjastrzebowski', {
-    //   id: 3,
-    //   size: 16
-    // });
-    // this.cycleData.getLastCycleByClient('mjastrzebowski').then(cycles => {
-    //   console.log('test promise', cycles);
-    // });
-    // let newId = this.clientData.addClient({ username: 'mjastrzebowski', name: 'Michał Jastrzębowski', age: 24 });
-    // console.log('test newId', newId);
-
+  showClientWorkouts(client) {
+    let clientObject = Object.assign({}, client);
+    let modal = Modal.create(ClientDetailWorkoutsModal, clientObject);
+    this.nav.present(modal);
   }
 }

@@ -11,7 +11,7 @@ export class NotificationStore {
 
   constructor(ref: Firebase, auth: AuthService) {
     this.auth = auth;
-    // ref = ref.orderByChild('createdAt');
+    ref = ref.orderByChild('createdAt').startAt(1472491061323);
     ref.on('child_added', this.created.bind(this));
     ref.on('child_changed', this.updated.bind(this));
     ref.on('child_removed', this.deleted.bind(this));
@@ -27,16 +27,17 @@ export class NotificationStore {
     return this.list.get(index);
   }
 
-  private updateNotificationDependencies(notification: INotification): void {
-    moment.locale('pl');
-    let created = moment(notification.createdAt);
-    notification.fromNow = created.fromNow();
+  public count(timer: number): number {
+    if (!timer) {
+      return this.size;
+    }
 
-    // if (!workout.weekDay || workout.weekDay == 'Invalid Date' || workout.weekDay == 'Invalid date') {
-    //   workout.weekDay = workout.fullDate.toLocaleDateString('pl', { weekday: 'long' });
-    // }
-    // workout.descDate = workout.weekDay + ', ' + date + '.' + monthStr + '.' + year + ' r.';
+    let filtered = this.list.filter(notification => {
+      return notification.createdAt > timer;
+    });
+    return filtered.size;
   }
+
   private emit(): void {
     this.notifications.next(this.list);
   }
@@ -49,7 +50,6 @@ export class NotificationStore {
       let notification: INotification = val;
       notification.key = key;
       this.list = this.list.push(notification);
-      this.updateNotificationDependencies(notification);
       this.emit();
     }
   }
@@ -69,7 +69,6 @@ export class NotificationStore {
       let notification: INotification = snapshot.val();
       notification.key = key;
       this.list = this.list.set(index, notification);
-      this.updateNotificationDependencies(notification);
       this.emit();
     }
   }

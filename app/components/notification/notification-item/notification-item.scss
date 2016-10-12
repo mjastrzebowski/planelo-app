@@ -1,0 +1,8 @@
+.notification-item {
+  &.unread {
+    background: #eee;
+  }
+  ion-label {
+    white-space: normal;
+  }
+}

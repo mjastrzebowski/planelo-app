@@ -11,6 +11,11 @@ export class AuthService {
     this.authData = this.ref.getAuth();
 
     this.ref.onAuth((authData: FirebaseAuthData) => {
+      if (this.loaded && (!authData || authData === null)) {
+        console.log('test onAuth', authData);
+        location.reload();
+      }
+
       this.authData = authData;
       if (this.authData) {
         this.ref.child('users').child(authData.uid).once('value', function(snapshot) {

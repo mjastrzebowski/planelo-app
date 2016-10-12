@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Rachunki</ion-title>
+
+    <ion-buttons end>
+      <notification-counter></notification-counter>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="bills-list">
+  <div padding>
+    <bill-filter class="bills-filter" [filter]="filter"></bill-filter>
+  </div>
+
+  <bill-list class="bills" [filter]="filter"></bill-list>
+</ion-content>

@@ -31,6 +31,39 @@ export class TrainerStore {
     return this.list.get(index);
   }
 
+  public filterBy(filters: object): ITrainer {
+    return this.list.filter(trainer => {
+      let check = true;
+      Object.keys(filters).forEach(function (key) {
+        switch (key) {
+          case 'availableFrom': {
+            if (trainer.fullDate >= filters[key]) {
+              check = false;
+            }
+            break;
+          }
+          case 'availableTo': {
+            if (trainer.fullDate < filters[key]) {
+              check = false;
+            }
+            break;
+          }
+          default: {
+            if (trainer[key] !== filters[key]) {
+              check = false;
+            }
+            break;
+          }
+        }
+
+        if (!check) {
+          return false;
+        }
+      });
+      return check;
+    });
+  }
+
   private emit(): void {
     this.trainers.next(this.list);
   }

@@ -1,0 +1,8 @@
+<ion-item-sliding class="workouts-hidden month-{{ model.monthId }}" [hidden]="model.fixed || model.completed || model.timeStart == '' || model.date == '2099-12-31'">
+  <ion-item>
+    <h3><strong>{{model?.timeStart}} - {{model?.timeEnd}}</strong>, {{model?.descDate}}</h3>
+    <p>{{placeStore.getItem(model.place)?.title}}, <strong>{{trainerStore.getItem(model.trainer)?.title}}</strong></p>
+    <button favorite item-right *ngIf="model.fullDate > changeDate" (click)="deleteTraining(model)">Odwołaj</button>
+    <button danger item-right *ngIf="model.fullDate < changeDate && model.fullDate > currentDate" (click)="deleteTrainingLate(model)">Odwołaj</button>
+  </ion-item>
+</ion-item-sliding>

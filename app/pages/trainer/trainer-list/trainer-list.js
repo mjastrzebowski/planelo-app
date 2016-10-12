@@ -6,6 +6,8 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { Utils } from '../../../providers/utils';
 
+import { NotificationCounter } from '../../../components/notification/notification-counter/notification-counter';
+
 import { AuthService } from '../../../core/auth/auth-service';
 import { TrainerStore } from '../../../core/trainer/trainer-store';
 import { TrainerService } from '../../../core/trainer/trainer-service';
@@ -14,7 +16,10 @@ import { TrainerCreateModal } from '../trainer-create/trainer-create'
 import { TrainerDetailPage } from '../trainer-detail/trainer-detail'
 
 @Component({
-  templateUrl: 'build/pages/trainer/trainer-list/trainer-list.html'
+  templateUrl: 'build/pages/trainer/trainer-list/trainer-list.html',
+  directives: [
+    NotificationCounter
+  ]
 })
 export class TrainerListPage {
   @Input() trainers: ReplaySubject<List<any>>;

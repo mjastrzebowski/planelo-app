@@ -78,6 +78,7 @@ export class TrainerDetailPage {
     this.http = http;
 
     this.trainer = this.navParams.data;
+    console.log(this.trainer);
     this.utils = utils;
     this.auth = auth;
     this.user = user;

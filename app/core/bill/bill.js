@@ -22,11 +22,14 @@ export class Bill implements IBill {
   createdAt: number = Firebase.ServerValue.TIMESTAMP;
   client: string;
   month: string;
+  discount: number;
 
   constructor(
     client: string,
-    month: string) {
+    month: string,
+    discount: number) {
     this.client = client;
     this.month = month;
+    this.discount = discount;
   }
 }

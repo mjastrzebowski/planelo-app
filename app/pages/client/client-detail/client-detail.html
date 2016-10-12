@@ -14,7 +14,7 @@
       Profil
     </button>
 
-    <ion-item large>
+    <button ion-item large (click)="showClientWorkouts(client)">
       <ion-icon name="clipboard" item-left></ion-icon>
       <h2>Treningi</h2>
       <p>• zrobione: {{ trainingsDone?.size }}
@@ -29,7 +29,7 @@
           {{ placeStore.getItem(trainingsTodoNext.place)?.title }},
           {{ trainerStore.getItem(trainingsTodoNext.trainer)?.alias }})
       </i></small></p>
-    </ion-item>
+    </button>
 
     <ion-item>
       <ion-icon name="calendar" item-left></ion-icon>

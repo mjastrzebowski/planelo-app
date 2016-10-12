@@ -1,21 +1,23 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Pipe } from '@angular/core';
 import { RouterLink, RouteParams } from '@angular/router';
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-// import { WorkoutItem } from '../workout-item/workout-item';
-// import { WorkoutListFilterPipe } from './workout-list-filter-pipe';
-
-// const styles: string = require('./workout-list.scss');
-// const template: string = require('./workout-list.html');
+import { WorkoutItem } from '../workout-item/workout-item';
+import { WorkoutListGroupPipe } from './workout-list-group-pipe';
+import { WorkoutListFilterPipe } from './workout-list-filter-pipe';
 
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  directives: [WorkoutItem],
+  pipes: [
+    WorkoutListGroupPipe,
+    WorkoutListFilterPipe
+  ],
   selector: 'workout-list',
   templateUrl: 'build/components/workout/workout-list/workout-list.html'
 })
-
 export class WorkoutList {
   @Input() workouts: ReplaySubject<List<any>>;
 
@@ -25,6 +27,10 @@ export class WorkoutList {
     // this.filter = params.get('filter');
   }
   onChanges(inputChanges) {
-    console.log('test onchange', inputChanges);
+    // console.log('test onchange', inputChanges);
+  }
+
+  showMonth(monthId) {
+    $('.workouts-hidden.month-' + monthId).slideToggle();
   }
 }

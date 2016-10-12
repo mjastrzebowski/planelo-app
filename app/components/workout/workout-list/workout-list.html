@@ -1,10 +1,6 @@
-<!-- <ul class="workout-filters">
-  <li><a [class.active]="!filter" [routerLink]="['/Workouts']">Zobacz wszystkie</a></li>
-  <li><a [class.active]="filter == 'active'" [routerLink]="['/Workouts', {filter: 'active'}]">Wolni</a></li>
-  <li><a [class.active]="filter == 'completed'" [routerLink]="['/Workouts', {filter: 'completed'}]">Zajęci</a></li>
-</ul>
- -->
-<div class="workout-list pre-scrollable">
-test?
-  <div *ngFor="let workout of workouts | async">{{ workout.date }}</div>
-</div>
+<ion-list class="workout-list">
+  <div *ngFor="let workout of workouts | groupWorkouts">
+    <ion-item-divider light *ngIf="workout.nextMonth" (click)="showMonth(workout.monthId)" [hidden]="workout.fixed || workout.timeStart == '' || workout.date == '2099-12-31'">{{ workout.month }}</ion-item-divider>
+    <workout-item [model]="workout"></workout-item>
+  </div>
+</ion-list>

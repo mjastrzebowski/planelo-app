@@ -10,10 +10,7 @@
       <button [hidden]="auth.isTrainer" (click)="showTrainingSchedulerForm()">
         <ion-icon name="add"></ion-icon>
       </button>
-      <button class="notification-button" menuToggle="right" *ngIf="auth.isOwner">
-        <ion-icon name="notifications"></ion-icon>
-        <ion-badge class="notification-counter" item-right>{{ utils.notificationStore.size }}</ion-badge>
-      </button>
+      <notification-counter></notification-counter>
     </ion-buttons>
   </ion-navbar>
 </ion-header>

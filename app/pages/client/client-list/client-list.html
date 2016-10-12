@@ -8,66 +8,13 @@
       <button (click)="showClientCreate()">
         <ion-icon name="add"></ion-icon>
       </button>
-      <button class="notification-button" menuToggle="right" *ngIf="auth.isOwner">
-        <ion-icon name="notifications"></ion-icon>
-        <ion-badge class="notification-counter" item-right>{{ utils.notificationStore.size }}</ion-badge>
-      </button>
+      <notification-counter></notification-counter>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="client-list">
-  <ion-searchbar primary
-                 [(ngModel)]="queryText"
-                 (ionInput)="updateList()"
-                 placeholder="Szukaj">
-  </ion-searchbar>
+  <ion-searchbar primary [(ngModel)]="filter" placeholder="Szukaj"></ion-searchbar>
 
-  <ion-list [hidden]="shownSessions === 0">
-    <!-- <ion-item > -->
-      <button ion-item (click)="goToClientDetail(client)" *ngFor="let client of clients | async; let c = index" [hidden]="client.hide">
-        <h3>{{client?.lastname}} {{client?.name}}</h3>
-        <!-- <p>Informacje o treningach</p> -->
-      </button>
-    <!-- </ion-item> -->
-  </ion-list>
-
-  <ion-list-header [hidden]="shownSessions > 0">
-      Nie znaleziono klientów
-  </ion-list-header>
-
-  <!-- 
-
-
-  <ion-list>
-    <ion-item *ngFor="let client of clients" class="client">
-      <button (click)="goToClientDetail(client)">
-        {{client.name}}
-      </button>
-    </ion-item>
-  </ion-list> -->
-
-    <!-- <ion-card-content class="outer-content">
-      <ion-list>
-        <ion-list-header>
-          Treningi
-        </ion-list-header>
-        <button ion-item *ngFor="let cycle of client.cycles" (click)="goToCycleDetail(cycle)">
-          <h3>{{cycle.name}}</h3>
-        </button>
-      </ion-list>
-    </ion-card-content> -->
-
-    <!-- <ion-item>
-      <button (click)="goToClientTwitter(client)" clear item-left>
-        <ion-icon name="logo-twitter"></ion-icon>
-        Tweet
-      </button>
-      <button (click)="openClientShare(client)" clear item-right>
-        <ion-icon name="share"></ion-icon>
-        Share
-      </button>
-    </ion-item> -->
-
-  <!-- </ion-card> -->
+  <client-list class="clients" [filter]="filter"></client-list>
 </ion-content>

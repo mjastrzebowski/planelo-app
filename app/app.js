@@ -1,20 +1,20 @@
-import { Component, ViewChild, Input, Pipe } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
 
-import { App, Events, Nav, Platform, ionicBootstrap } from 'ionic-angular';
+import { App, Events, Nav, Platform, ionicBootstrap, MenuController } from 'ionic-angular';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { Utils } from './providers/utils';
+
+// services
 import { AuthService } from './core/auth/auth-service';
 
-import { PlaceStore } from './core/place/place-store';
-import { ClientStore } from './core/client/client-store';
-import { TrainerStore } from './core/trainer/trainer-store';
+// stores
 import { NotificationStore } from './core/notification/notification-store';
 
-// core
+// providers
 import { AUTH_PROVIDERS } from './core/auth/providers';
 import { USER_PROVIDERS } from './core/user/providers';
 import { CLIENT_PROVIDERS } from './core/client/providers';
@@ -24,30 +24,25 @@ import { WORKOUT_PROVIDERS } from './core/workout/providers';
 import { BILL_PROVIDERS } from './core/bill/providers';
 import { NOTIFICATION_PROVIDERS } from './core/notification/providers';
 
+// pages
 import { ClientListPage } from './pages/client/client-list/client-list';
 import { TrainerListPage } from './pages/trainer/trainer-list/trainer-list';
 import { TrainingListPage } from './pages/training/training-list/training-list';
 import { TrainingSchedulerPage } from './pages/training/training-scheduler/training-scheduler';
-
-import { ClientDetailPage } from './pages/client/client-detail/client-detail';
+import { NotificationListPage } from './pages/notification/notification-list/notification-list';
+import { BillListPage } from './pages/bill/bill-list/bill-list';
 
 import { LoginPage } from './pages/login/login';
 import { SettingsPage } from './pages/settings/settings';
 
-@Pipe({
-  name: 'reverse'
-})
-export class ReversePipe {
-  transform(value) {
-    if (value) {
-      return value.slice().reverse();
-    }
-  }
-}
+// components
+import { NotificationList } from './components/notification/notification-list/notification-list';
 
 @Component({
   templateUrl: 'build/app.html',
-  pipes: [ReversePipe]
+  directives: [
+    NotificationList
+  ]
 })
 // @RouteConfig([
 //   // { path: '/', component: HomeComponent, name: 'Home', useAsDefault: true },
@@ -60,15 +55,8 @@ export class DavidApp {
   @Input() notifications: ReplaySubject<List<any>>;
   @ViewChild(Nav) nav: Nav;
 
-  constructor(app: App, auth: AuthService, placeStore: PlaceStore, clientStore: ClientStore, trainerStore: TrainerStore, notificationStore: NotificationStore) {
-    this.app = app;
-    this.auth = auth;
-
-    this.placeStore = placeStore;
-    this.clientStore = clientStore;
-    this.trainerStore = trainerStore;
-    this.notificationStore = notificationStore;
-    this.notifications = this.notificationStore.notifications;
+  constructor(public app: App, public menu: MenuController, public auth: AuthService, public notificationStore: NotificationStore) {
+    // this.notificationStore = notificationStore;
     // this.utils = utils;
 
     // load the conference data
@@ -85,10 +73,11 @@ export class DavidApp {
       { title: 'Treningi', component: TrainingListPage, icon: 'clipboard', hide: true },
       { title: 'Grafik', component: TrainingSchedulerPage, icon: 'calendar', hide: true },
       { title: 'Klienci', component: ClientListPage, icon: 'contacts', hide: true },
+      // { title: 'Rachunki', component: BillListPage, icon: 'cash', hide: true },
       { title: 'Trenerzy', component: TrainerListPage, icon: 'people', hide: true },
       // { title: 'Baza ćwiczeń', component: ExerciseListPage, icon: 'folder', hide: true },
       // { title: 'Aktualności', component: AboutPage, icon: 'information-circle', hide: false },
-      // { title: 'Tutorial', component: TutorialPage, icon: 'information-circle', hide: false },
+      // { title: 'Powiadomienia', component: NotificationListPage, icon: 'notifications', hide: true },
       { title: 'Ustawienia', component: SettingsPage, icon: 'settings', hide: true },
       { title: 'Zaloguj', component: LoginPage, icon: 'log-in', hide: false },
       // { title: 'Rejestracja', component: SignupPage, icon: 'person-add', hide: true },
@@ -115,21 +104,6 @@ export class DavidApp {
     // this.listenToLoginEvents();
   }
 
-  // TEMP solution!
-  getOwnerAlias(key) {
-    switch (key) {
-      case '-KBN-b7GjsB6FS8Opmx0': {
-        return 'Michał';
-      }
-      case '-KBN-fYLnmIQ_6pSwnV6': {
-        return 'Adam';
-      }
-      default: {
-        return 'Jarek';
-      }
-    }
-  }
-
   signOut(): void {
     // console.log('test app signout');
     this.auth.signOut();
@@ -138,10 +112,16 @@ export class DavidApp {
     location.reload();
   }
 
-  openPage(page) {
-    if (page.title === 'Wyloguj') {
+  openPage(page, data) {
+    if (typeof page === 'string') {
+      switch (page) {
+        case 'NotificationListPage':
+          this.nav.push(NotificationListPage, data);
+          break;
+      }
+    } else if (page.title === 'Wyloguj') {
       this.signOut();
-    }
+    } else {
 
     // find the nav component and set what the root page should be
     // reset the nav to remove previous pages and only have this page
@@ -154,6 +134,8 @@ export class DavidApp {
       this.nav.setRoot(page.component);
     // });
     // this.utils.stopLoading();
+    }
+    this.menu.close('right');
   }
 
   // listenToLoginEvents() {
@@ -177,16 +159,19 @@ export class DavidApp {
         this.findMenuItemByTitle('Treningi').hide = false;
         this.findMenuItemByTitle('Grafik').hide = false;
         this.findMenuItemByTitle('Klienci').hide = false;
+        // this.findMenuItemByTitle('Rachunki').hide = false;
         this.findMenuItemByTitle('Trenerzy').hide = false;
       } else if (this.auth.isTrainer) {
         this.findMenuItemByTitle('Treningi').hide = false;
         this.findMenuItemByTitle('Grafik').hide = true;
         this.findMenuItemByTitle('Klienci').hide = true;
+        // this.findMenuItemByTitle('Rachunki').hide = true;
         this.findMenuItemByTitle('Trenerzy').hide = true;
       } else if (this.auth.isClient) {
         this.findMenuItemByTitle('Treningi').hide = false;
         this.findMenuItemByTitle('Grafik').hide = true;
         this.findMenuItemByTitle('Klienci').hide = true;
+        // this.findMenuItemByTitle('Rachunki').hide = true;
         this.findMenuItemByTitle('Trenerzy').hide = true;
       }
       // this.findMenuItemByTitle('Baza ćwiczeń').hide = true;
@@ -198,6 +183,7 @@ export class DavidApp {
       this.findMenuItemByTitle('Treningi').hide = true;
       this.findMenuItemByTitle('Grafik').hide = true;
       this.findMenuItemByTitle('Klienci').hide = true;
+      // this.findMenuItemByTitle('Rachunki').hide = true;
       this.findMenuItemByTitle('Trenerzy').hide = true;
       // this.findMenuItemByTitle('Baza ćwiczeń').hide = true;
       this.findMenuItemByTitle('Ustawienia').hide = true;
@@ -211,12 +197,6 @@ export class DavidApp {
       return menuItem.title === title
     })
   }
-
-
-  goToClientDetail(client) {
-    this.nav.push(ClientDetailPage, client);
-  }
-
 }
 
 ionicBootstrap(DavidApp, [

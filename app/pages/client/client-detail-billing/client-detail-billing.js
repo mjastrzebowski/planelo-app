@@ -53,7 +53,7 @@ export class ClientDetailBillingModal {
   }
 
   ionViewDidEnter() {
-    this.client.month = '2016-08';
+    this.client.month = '2016-10';
     this.updateMonth();
   }
 
@@ -81,7 +81,7 @@ export class ClientDetailBillingModal {
     let year = date.getFullYear();
     let month = date.getMonth();
     let firstDay = new Date(year, month, 1);
-    let lastDay = new Date(year, month + 1, 0);
+    let lastDay = new Date(year, month + 1, 1);
     this.trainingsTodo = this.workoutStore.filterBy({
       client: this.client.key,
       fixed: false,
@@ -91,7 +91,7 @@ export class ClientDetailBillingModal {
     this.client.trainingsTodoCount = this.trainingsTodo.size;
 
     firstDay = new Date(year, --month, 1);
-    lastDay = new Date(year, month + 1, 0);
+    lastDay = new Date(year, month + 1, 1);
     this.trainingsDone = this.workoutStore.filterBy({
       client: this.client.key,
       fixed: false,
@@ -178,7 +178,7 @@ export class ClientDetailBillingModal {
             margin: [0, 20],
             ul: [{
                         text: [
-                            'Liczba treningów zaplanowana w miesiącu sierpień: ',
+                            'Liczba treningów zaplanowana w miesiącu październik: ',
                             { text: parseInt(this.client.trainingsTodoCount || 0) + '', style: 'field' }
                         ]
                     },{
@@ -224,7 +224,7 @@ export class ClientDetailBillingModal {
             style: 'content',
             columns: [[
                     'Płatność gotówką lub przelewem: \r\n',
-                    { text: 'TRENINGI PERSONALNE \r\nSIERPIEŃ', bold: true },
+                    { text: 'TRENINGI PERSONALNE \r\nPAŹDZIERNIK', bold: true },
                     { text: '\r\n\r\nTermin płatności do 5-go każdego miesiąca.', style: 'small' }
                 ],[
                     {

@@ -1,0 +1,35 @@
+<ion-grid class="notification-filter">
+  <ion-row responsive-sm>
+    <ion-col>
+      <ion-item>
+        <ion-label stacked>Miesiąc</ion-label>
+        <ion-select [(ngModel)]="filter.month">
+          <ion-option value="" selected="true">- wszystkie -</ion-option>
+          <ion-option value="2016-06">czerwiec 2016</ion-option>
+          <ion-option value="2016-07">lipiec 2016</ion-option>
+          <ion-option value="2016-08">sierpień 2016</ion-option>
+          <ion-option value="2016-09">wrzesień 2016</ion-option>
+          <ion-option value="2016-10">październik 2016</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+    <ion-col>
+      <ion-item>
+        <ion-label stacked>Miejsce</ion-label>
+        <ion-select [(ngModel)]="filter.place">
+          <ion-option value="" selected="true">- wszystkie -</ion-option>
+          <ion-option *ngFor="let place of placeStore.places | async" [value]="place.key">{{ place.title }}</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+    <ion-col>
+      <ion-item>
+        <ion-label stacked>Klient</ion-label>
+        <ion-select [(ngModel)]="filter.client">
+          <ion-option value="" selected="true">- wszyscy -</ion-option>
+          <ion-option *ngFor="let client of clientStore.clients | async" [value]="client.key">{{ client.lastname }} {{ client.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+</ion-grid>

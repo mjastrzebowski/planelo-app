@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy, Pipe } from '@angular/core';
-import { App, Modal, Alert, ActionSheet, Toast, NavController } from 'ionic-angular';
+import { App, Modal, Alert, ActionSheet, Toast, NavController, Platform } from 'ionic-angular';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -8,13 +8,20 @@ import { Utils } from '../../../providers/utils';
 
 import { AuthService } from '../../../core/auth/auth-service';
 
+import { NotificationCounter } from '../../../components/notification/notification-counter/notification-counter';
+
+import { BillStore } from '../../../core/bill/bill-store';
+import { BillService } from '../../../core/bill/bill-service';
+
 import { ClientStore } from '../../../core/client/client-store';
 import { PlaceStore } from '../../../core/place/place-store';
 import { TrainerStore } from '../../../core/trainer/trainer-store';
 import { WorkoutStore } from '../../../core/workout/workout-store';
 import { WorkoutService } from '../../../core/workout/workout-service';
 
-import {TrainingFormModal} from '../training-form/training-form'
+import { TrainingCreateModal } from '../training-create/training-create';
+import { TrainingReserveModal } from '../training-reserve/training-reserve';
+
 // import {TrainingDetailPage} from '../training-detail/training-detail';
 
 
@@ -41,22 +48,17 @@ export class GroupWorkoutsPipe {
 
 @Component({
   templateUrl: 'build/pages/training/training-list/training-list.html',
-  pipes: [GroupWorkoutsPipe]
+  directives: [
+    NotificationCounter
+  ],
+  pipes: [
+    GroupWorkoutsPipe
+  ]
 })
 export class TrainingListPage {
   @Input() workouts: ReplaySubject<List<any>>;
 
-  constructor(app: App, nav: NavController, utils: Utils, auth: AuthService, workoutStore: WorkoutStore, workoutService: WorkoutService, clientStore: ClientStore, placeStore: PlaceStore, trainerStore: TrainerStore) {
-    this.app = app;
-    this.nav = nav;
-    this.utils = utils;
-    this.auth = auth;
-
-    this.clientStore = clientStore;
-    this.placeStore = placeStore;
-    this.trainerStore = trainerStore;
-    this.workoutStore = workoutStore;
-    this.workoutService = workoutService;
+  constructor(public platform: Platform, public app: App, public nav: NavController, public utils: Utils, public auth: AuthService, public workoutStore: WorkoutStore, public workoutService: WorkoutService, public clientStore: ClientStore, public placeStore: PlaceStore, public trainerStore: TrainerStore, public billStore: BillStore, public billService: BillService) {
 
     this.dates = [];
     this.trainings = [];
@@ -86,76 +88,21 @@ export class TrainingListPage {
   showMonth(monthId) {
     $('.workouts-hidden.month-' + monthId).slideToggle();
   }
-  // updateTrainings() {
-  //   this.shownSessions = this.trainings.length;
-  //   this.groupTrainings();
-  // }
-
-  // groupTrainings() {
-  //   this.dates = [];
-  //   this.trainings.map(training => {
-  //     if (!this.dates[training.date]) {
-  //       this.dates[training.date] = [];
-  //     }
-  //     this.dates[training.date].push(training);
-  //   });
-  //   this.dates = Object.keys(this.dates).map(key => this.dates[key]);
-  // }
-
-  // updateClients() {
-  //   this.shownSessions = 0;
-  //   this.trainings.map(training => {
-  //     // if (!training.client.hasOwnProperty('name')) {
-  //       // let username = training.client;
-  //       training.client = this.clients[training.client];
-  //       // training.client.username = username;
-  //     // }
-
-  //     training.hide = false;
-  //     if (this.queryText) {
-  //       let clientName = training.client.name.toLowerCase();
-  //       let filter = this.queryText.toLowerCase();
-  //       training.hide = (clientName.indexOf(filter) === -1);
-  //     }
-
-  //     if (!training.hide) {
-  //       this.shownSessions++;
-  //     }
-  //   });
-  // }
-
-  // goToTrainingDetail(training) {
-  //   // go to the training detail page
-  //   // and pass in the training data
-  //   this.nav.push(TrainingDetailPage, training);
-  // }
-
-  // getTrainings() {
-  //   this.trainingData.getTrainings().then(trainings => {
-  //     this.trainings = trainings;
-  //     this.updateTrainings();
-  //     if (!this.clients || this.clients.length === 0) {
-  //       this.getClients();
-  //     }
-  //   });
-  // }
-
-  // getClients() {
-  //   this.clientData.getClients().then(clients => {
-  //     this.clients = clients;
-  //     this.updateClients();
-  //   });
-  // }
-
-
 
   updateRepeat() {
-    this.workoutStore.list.forEach(workout => {
-      if (workout.date !== '2099-12-31' && workout.date === '2016-06-11' && workout.fixed) {
+    this.billStore.list.forEach(bill => {
+      if (bill.month === '2016-09') {
+
+        this.billService.createBill(
+          bill.client,
+          '2016-10',
+          bill.discount);
+
+
         // console.log('test cover', workout.date);
         // this.workoutService.deleteWorkout(workout);
 
-        // let newDate0 = '2016-09-03';
+        // let newDate0 = '2016-10-01';
         // let newDateTime0 = newDate0 + ' ' + workout.timeStart;
         // this.workoutService.createWorkout(
         //   workout.placeKey,
@@ -167,7 +114,7 @@ export class TrainingListPage {
         //   workout.timeEnd || '',
         //   true);
 
-        // let newDate1 = '2016-09-10';
+        // let newDate1 = '2016-10-15';
         // let newDateTime1 = newDate1 + ' ' + workout.timeStart;
         // this.workoutService.createWorkout(
         //   workout.placeKey,
@@ -179,7 +126,7 @@ export class TrainingListPage {
         //   workout.timeEnd || '',
         //   true);
 
-        // let newDate2 = '2016-09-17';
+        // let newDate2 = '2016-10-22';
         // let newDateTime2 = newDate2 + ' ' + workout.timeStart;
         // this.workoutService.createWorkout(
         //   workout.placeKey,
@@ -191,7 +138,7 @@ export class TrainingListPage {
         //   workout.timeEnd || '',
         //   true);
 
-        // let newDate3 = '2016-09-24';
+        // let newDate3 = '2016-10-29';
         // let newDateTime3 = newDate3 + ' ' + workout.timeStart;
         // this.workoutService.createWorkout(
         //   workout.placeKey,
@@ -203,7 +150,7 @@ export class TrainingListPage {
         //   workout.timeEnd || '',
         //   true);
 
-        // let newDate4 = '2016-09-31';
+        // let newDate4 = '2016-10-31';
         // let newDateTime4 = newDate4 + ' ' + workout.timeStart;
         // this.workoutService.createWorkout(
         //   workout.placeKey,
@@ -227,7 +174,13 @@ export class TrainingListPage {
       this.editing = false;
     }
 
-    let modal = Modal.create(TrainingFormModal, workout);
+    let modal = null;
+    if (this.auth.isOwner) {
+      modal = Modal.create(TrainingCreateModal, workout);
+    } else {
+      modal = Modal.create(TrainingReserveModal, workout);
+    }
+
     modal.onDismiss(this.saveTraining.bind(this));
     setTimeout(() => {
       this.nav.present(modal);
@@ -589,7 +542,11 @@ export class TrainingListPage {
   calendarEvent(event) {
     let index = this.workoutStore.findIndex(event.id);
     let workout = this.workoutStore.list.get(index);
-    this.showTrainingForm(workout);
+    let title = event.title + ' • ' + event.start.format('DD.MM.YYYY, HH:mm');
+    if (workout.completed) {
+      title += ' • Powód odwołania: ' + workout.completed;
+    }
+    this.showActionSheet(workout, title);
   }
 
   calendarTooltip(event, element, view) {
@@ -607,20 +564,27 @@ export class TrainingListPage {
     }
   }
 
-  showActionSheet() {
+  showActionSheet(workout, title) {
     let actionSheet = ActionSheet.create({
-      title: 'Zmiana treningu',
+      title: title,
       buttons: [
         {
           text: 'Usuń',
           role: 'destructive',
-          handler: () => {}
+          icon: !this.platform.is('ios') ? 'trash' : null,
+          handler: () => {
+            this.deleteTraining(workout);
+          }
         },{
           text: 'Edytuj',
-          handler: () => {}
+          icon: !this.platform.is('ios') ? 'create' : null,
+          handler: () => {
+            this.showTrainingForm(workout);
+          }
         },{
           text: 'Anuluj',
           role: 'cancel',
+          icon: !this.platform.is('ios') ? 'close' : null,
           handler: () => {}
         }
       ]
@@ -634,7 +598,8 @@ export class TrainingListPage {
   getEvents(start, end, timezone, callback) {
     let events = [];
     this.workoutStore.list.forEach(workout => {
-      if (workout.fixed || workout.timeStart === '' || (this.auth.isOwner && workout.placeKey !== this.place)) {
+      if (workout.fixed || workout.timeStart === '' || (this.auth.isOwner && workout.placeKey !== this.place) || 
+        (start && workout.date < start.format('YYYY-MM-DD')) || (end && moment(workout.date) >= end.format('YYYY-MM-DD'))) {
         return;
       }
 
@@ -686,7 +651,7 @@ export class TrainingListPage {
       this.trainerStore.list.forEach(trainer => {
         // debugger;
         for (let d = 1; d <= 62; d++) {
-          let date = new Date('2016-08-01');
+          let date = new Date('2016-09-01');
           date.setDate(d);
           let day = date.getDate();
           if (day < 10) {
@@ -742,6 +707,7 @@ export class TrainingListPage {
         color: '#8fdf82',
         rendering: 'background'
       }];
+
       events.push(w[0]);
     }
 
