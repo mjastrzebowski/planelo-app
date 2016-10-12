@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NavParams, NavController, Modal} from 'ionic-angular';
+import { NavParams, NavController, ModalController } from 'ionic-angular';
 
 import {TrainingHistoryModal} from '../training-history/training-history'
 
@@ -7,9 +7,8 @@ import {TrainingHistoryModal} from '../training-history/training-history'
   templateUrl: 'build/pages/training/training-detail/training-detail.html'
 })
 export class TrainingDetailPage {
-  constructor(nav: NavController, navParams: NavParams) {
-    this.nav = nav;
-    this.navParams = navParams;
+  constructor(public nav: NavController, public modalCtrl: ModalController, public navParams: NavParams) {
+
     this.training = navParams.data;
     this.user.username = this.training.client.username;
     this.ex = this.training.exercises;
@@ -23,8 +22,8 @@ export class TrainingDetailPage {
   }
 
   showHistory() {
-    let modal = Modal.create(TrainingHistoryModal, this.training);
-    this.nav.present(modal);
+    let modal = this.modalCtrl.create(TrainingHistoryModal, this.training);
+    modal.present();
   }
 
   removeLastSet(exercise) {

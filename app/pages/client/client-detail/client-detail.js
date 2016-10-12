@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
-import { App, Modal, Alert, NavController, NavParams } from 'ionic-angular';
+import { App, ModalController, NavController, NavParams } from 'ionic-angular';
 
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
@@ -29,23 +29,9 @@ import { ClientDetailWorkoutsModal } from '../client-detail-workouts/client-deta
   templateUrl: 'build/pages/client/client-detail/client-detail.html'
 })
 export class ClientDetailPage {
-  constructor(app: App, nav: NavController, navParams: NavParams, http: Http, utils: Utils, auth: AuthService, user: UserService, clientService: ClientService, clientStore: ClientStore, placeStore: PlaceStore, trainerStore: TrainerStore, workoutStore: WorkoutStore) {
-    this.app = app;
-    this.nav = nav;
-    this.navParams = navParams;
-    this.http = http;
+  constructor(public app: App, public nav: NavController, public modalCtrl: ModalController, public navParams: NavParams, public http: Http, public utils: Utils, public auth: AuthService, public user: UserService, public clientService: ClientService, public clientStore: ClientStore, public placeStore: PlaceStore, public trainerStore: TrainerStore, public workoutStore: WorkoutStore) {
 
     this.client = this.navParams.data;
-    console.log('test ', this.client);
-    this.utils = utils;
-    this.auth = auth;
-    this.user = user;
-    this.clientService = clientService;
-
-    this.clientStore = clientStore;
-    this.placeStore = placeStore;
-    this.trainerStore = trainerStore;
-    this.workoutStore = workoutStore;
 
     this.trainingsDone = this.workoutStore.filterBy({ client: this.client.key, fixed: false, completed: false, dateBefore: new Date() });
     this.trainingsDoneLast = this.trainingsDone.get(-1);
@@ -57,14 +43,14 @@ export class ClientDetailPage {
   showClientProfile(client) {
     if (client) {
       let clientObject = Object.assign({}, client);
-      let modal = Modal.create(ClientDetailProfileModal, clientObject);
+      let modal = this.modalCtrl.create(ClientDetailProfileModal, clientObject);
       this.editing = true;
     } else {
-      let modal = Modal.create(ClientDetailProfileModal);
+      let modal = this.modalCtrl.create(ClientDetailProfileModal);
       this.editing = false;
     }
 
-    modal.onDismiss(data => {
+    modal.onDidDismiss(data => {
       console.log('closed client profile modal with data: ', data);
       if (data) {
         if (data.hasOwnProperty('delete')) {
@@ -95,20 +81,20 @@ export class ClientDetailPage {
         this.client = data;
       }
     });
-    this.nav.present(modal);
+    modal.present();
   }
 
   showClientAccess(client) {
     if (client) {
       let clientObject = Object.assign({}, client);
-      let modal = Modal.create(ClientDetailAccessModal, clientObject);
+      let modal = this.modalCtrl.create(ClientDetailAccessModal, clientObject);
       this.editing = true;
     } else {
-      let modal = Modal.create(ClientDetailAccessModal);
+      let modal = this.modalCtrl.create(ClientDetailAccessModal);
       this.editing = false;
     }
 
-    modal.onDismiss(data => {
+    modal.onDidDismiss(data => {
       console.log('closed client access modal with data: ', data);
       if (data) {
         let changes = {};
@@ -177,18 +163,18 @@ export class ClientDetailPage {
         this.client = data;
       }
     });
-    this.nav.present(modal);
+    modal.present();
   }
 
   showClientBilling(client) {
     let clientObject = Object.assign({}, client);
-    let modal = Modal.create(ClientDetailBillingModal, clientObject);
-    this.nav.present(modal);
+    let modal = this.modalCtrl.create(ClientDetailBillingModal, clientObject);
+    modal.present();
   }
 
   showClientWorkouts(client) {
     let clientObject = Object.assign({}, client);
-    let modal = Modal.create(ClientDetailWorkoutsModal, clientObject);
-    this.nav.present(modal);
+    let modal = this.modalCtrl.create(ClientDetailWorkoutsModal, clientObject);
+    modal.present();
   }
 }

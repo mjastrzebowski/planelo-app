@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
-import { App, NavParams, ViewController, Alert } from 'ionic-angular';
+import { App, NavParams, ViewController } from 'ionic-angular';
 
 import { IClient } from '../../../core/client/client';
 

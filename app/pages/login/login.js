@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { App, Alert, NavController } from 'ionic-angular';
+import { App, AlertController, NavController } from 'ionic-angular';
 
 // import { AuthRouteHelper } from '../../core/auth/auth-route-helper';
 import { Utils } from '../../providers/utils';
@@ -16,14 +16,7 @@ import { ClientListPage } from '../client/client-list/client-list';
 })
 
 export class LoginPage {
-  constructor(app: App, nav: NavController, utils: Utils, auth: AuthService, clientStore: ClientStore, trainerStore: TrainerStore) {
-    this.app = app;
-    this.nav = nav;
-    this.utils = utils;
-    this.auth = auth;
-
-    this.clientStore = clientStore;
-    this.trainerStore = trainerStore;
+  constructor(public app: App, public nav: NavController, public alertCtrl: AlertController, public utils: Utils, public auth: AuthService, public clientStore: ClientStore, public trainerStore: TrainerStore) {
 
     this.login = {};
     this.submitted = false;
@@ -67,12 +60,12 @@ export class LoginPage {
           (error) => {
             this.utils.stopLoading();
             setTimeout(() => {
-              let alert = Alert.create({
+              let alert = this.alertCtrl.create({
                 title: 'Błąd',
                 message: 'Nieprawidłowy login lub hasło.',
                 buttons: ['Ok']
               });
-              this.nav.present(alert);
+              alert.present(present);
             }, 500);
           });
     }

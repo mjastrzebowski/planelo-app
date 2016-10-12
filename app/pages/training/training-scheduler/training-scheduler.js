@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import {App, Modal, Alert, ActionSheet, Toast, NavController} from 'ionic-angular';
+import {App, ModalController, AlertController, ActionSheetController, NavController} from 'ionic-angular';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -28,17 +28,7 @@ import { TrainingSchedulerFormModal } from '../training-scheduler-form/training-
 export class TrainingSchedulerPage {
   @Input() workouts: ReplaySubject<List<any>>;
 
-  constructor(app: App, nav: NavController, utils: Utils, auth: AuthService, workoutStore: WorkoutStore, workoutService: WorkoutService, clientStore: ClientStore, placeStore: PlaceStore, trainerStore: TrainerStore) {
-    this.app = app;
-    this.nav = nav;
-    this.utils = utils;
-    this.auth = auth;
-
-    this.clientStore = clientStore;
-    this.placeStore = placeStore;
-    this.trainerStore = trainerStore;
-    this.workoutStore = workoutStore;
-    this.workoutService = workoutService;
+  constructor(public app: App, public nav: NavController, public modalCtrl: ModalController, public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, public utils: Utils, public auth: AuthService, public workoutStore: WorkoutStore, public workoutService: WorkoutService, public clientStore: ClientStore, public placeStore: PlaceStore, public trainerStore: TrainerStore) {
 
     this.dates = [];
     this.trainings = [];
@@ -73,10 +63,10 @@ export class TrainingSchedulerPage {
       this.editing = false;
     }
 
-    let modal = Modal.create(TrainingSchedulerFormModal, workout);
-    modal.onDismiss(this.saveTraining.bind(this));
+    let modal = this.modalCtrl.create(TrainingSchedulerFormModal, workout);
+    modal.onDidDismiss(this.saveTraining.bind(this));
     setTimeout(() => {
-      this.nav.present(modal);
+      modal.present();
     }, 500);
   }
 
@@ -133,13 +123,13 @@ export class TrainingSchedulerPage {
 
   saveTrainingAlert(workout) {
     if (this.auth.isClient) {
-      let alert = Alert.create({
+      let alert = this.alertCtrl.create({
         title: 'Dodano',
         message: 'Twój trening w terminie <strong>' + workout.date.dateTime + '</strong> został dodany.',
         buttons: ['Ok']
       });
       setTimeout(() => {
-        this.nav.present(alert);
+        alert.present();
       }, 1000);
     } else {
       // let toast = Toast.create({
@@ -157,13 +147,13 @@ export class TrainingSchedulerPage {
 
   deleteTrainingAlert(workout) {
     if (this.auth.isClient) {
-      let alert = Alert.create({
+      let alert = this.alertCtrl.create({
         title: 'Odwołano',
         message: 'Twój trening został odwołany.',
         buttons: ['Ok']
       });
       setTimeout(() => {
-        this.nav.present(alert);
+        alert.present();
       }, 1000);
     } else {
       // let toast = Toast.create({
@@ -175,7 +165,7 @@ export class TrainingSchedulerPage {
   }
 
   deleteTrainingLate(workout) {
-    let prompt = Alert.create({
+    let prompt = this.alertCtrl.create({
       title: 'Podaj powód',
       message: "Trening można odwołać do godz. 21:00 dnia poprzedzającego termin. Po tym czasie należy podać powód, a zwrot zostanie indywidualnie rozpatrzony zgodnie z zasadami studia.",
       inputs: [
@@ -202,7 +192,7 @@ export class TrainingSchedulerPage {
       ]
     });
     setTimeout(() => {
-      this.nav.present(prompt);
+      prompt.present();
     }, 500);
   }
 
@@ -351,7 +341,7 @@ export class TrainingSchedulerPage {
   }
 
   showActionSheet() {
-    let actionSheet = ActionSheet.create({
+    let actionSheet = this.actionSheetCtrl.create({
       title: 'Zmiana treningu',
       buttons: [
         {
@@ -370,7 +360,7 @@ export class TrainingSchedulerPage {
     });
 
     setTimeout(() => {
-      this.nav.present(actionSheet);
+      actionSheet.present();
     }, 500);
   }
 

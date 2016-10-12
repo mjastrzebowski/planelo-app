@@ -1,7 +1,7 @@
 import { Component, Pipe, PipeTransform } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
-import { App, Modal, Alert, NavController, NavParams } from 'ionic-angular';
+import { App, ModalController, NavController, NavParams } from 'ionic-angular';
 
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
@@ -71,24 +71,9 @@ export class GroupHoursPipe implements PipeTransform {
   pipes: [GroupHoursPipe]
 })
 export class TrainerDetailPage {
-  constructor(app: App, nav: NavController, navParams: NavParams, http: Http, utils: Utils, auth: AuthService, user: UserService, trainerService: TrainerService, clientStore: ClientStore, placeStore: PlaceStore, trainerStore: TrainerStore, workoutStore: WorkoutStore) {
-    this.app = app;
-    this.nav = nav;
-    this.navParams = navParams;
-    this.http = http;
+  constructor(public app: App, public nav: NavController, public modalCtrl: ModalController, public navParams: NavParams, public http: Http, public utils: Utils, public auth: AuthService, public user: UserService, public trainerService: TrainerService, public clientStore: ClientStore, public placeStore: PlaceStore, public trainerStore: TrainerStore, public workoutStore: WorkoutStore) {
 
     this.trainer = this.navParams.data;
-    console.log(this.trainer);
-    this.utils = utils;
-    this.auth = auth;
-    this.user = user;
-    this.trainerService = trainerService;
-
-    this.clientStore = clientStore;
-    this.placeStore = placeStore;
-    this.trainerStore = trainerStore;
-    this.workoutStore = workoutStore;
-
     this.trainingsDone = this.workoutStore.filterBy({ trainer: this.trainer.key, fixed: false, completed: false, dateBefore: new Date() });
     this.trainingsDoneLast = this.trainingsDone.get(-1);
     this.trainingsTodo = this.workoutStore.filterBy({ trainer: this.trainer.key, fixed: false, completed: false, dateAfter: new Date() });
@@ -98,9 +83,9 @@ export class TrainerDetailPage {
 
   showTrainerProfile(trainer) {
     let trainerObject = Object.assign({}, trainer);
-    let modal = Modal.create(TrainerDetailProfileModal, trainerObject);
+    let modal = this.modalCtrl.create(TrainerDetailProfileModal, trainerObject);
 
-    modal.onDismiss(data => {
+    modal.onDidDismiss(data => {
       console.log('closed trainer profile modal with data: ', data);
       if (data) {
         if (data.hasOwnProperty('delete')) {
@@ -130,14 +115,14 @@ export class TrainerDetailPage {
         this.trainer = data;
       }
     });
-    this.nav.present(modal);
+    modal.present();
   }
 
   showTrainerHours(trainer) {
     let trainerObject = Object.assign({}, trainer);
-    let modal = Modal.create(TrainerDetailHoursModal, trainerObject);
+    let modal = this.modalCtrl.create(TrainerDetailHoursModal, trainerObject);
 
-    modal.onDismiss(data => {
+    modal.onDidDismiss(data => {
       console.log('closed trainer hours modal with data: ', data);
       if (data) {
         this.trainerService.updateTrainer(data, {
@@ -146,14 +131,14 @@ export class TrainerDetailPage {
         this.trainer = data;
       }
     });
-    this.nav.present(modal);
+    modal.present();
   }
 
   showTrainerVacation(trainer) {
     let trainerObject = Object.assign({}, trainer);
-    let modal = Modal.create(TrainerDetailVacationModal, trainerObject);
+    let modal = this.modalCtrl.create(TrainerDetailVacationModal, trainerObject);
 
-    modal.onDismiss(data => {
+    modal.onDidDismiss(data => {
       console.log('closed trainer vacation modal with data: ', data);
       if (data) {
         data.vacation.forEach(vacation => {
@@ -168,20 +153,20 @@ export class TrainerDetailPage {
         this.trainer = data;
       }
     });
-    this.nav.present(modal);
+    modal.present();
   }
 
   // showClientAccess(client) {
   //   if (client) {
   //     let clientObject = Object.assign({}, client);
-  //     let modal = Modal.create(ClientDetailAccessModal, clientObject);
+  //     let modal = this.modalCtrl.create(ClientDetailAccessModal, clientObject);
   //     this.editing = true;
   //   } else {
-  //     let modal = Modal.create(ClientDetailAccessModal);
+  //     let modal = this.modalCtrl.create(ClientDetailAccessModal);
   //     this.editing = false;
   //   }
 
-  //   modal.onDismiss(data => {
+  //   modal.onDidDismiss(data => {
   //     console.log('closed client access modal with data: ', data);
   //     if (data) {
   //       let changes = {};
@@ -250,20 +235,20 @@ export class TrainerDetailPage {
   //       this.client = data;
   //     }
   //   });
-  //   this.nav.present(modal);
+  //   modal.present();
   // }
 
   // showClientBilling(client) {
   //   if (client) {
   //     let clientObject = Object.assign({}, client);
-  //     let modal = Modal.create(ClientDetailBillingModal, clientObject);
+  //     let modal = this.modalCtrl.create(ClientDetailBillingModal, clientObject);
   //     this.editing = true;
   //   } else {
-  //     let modal = Modal.create(ClientDetailBillingModal);
+  //     let modal = this.modalCtrl.create(ClientDetailBillingModal);
   //     this.editing = false;
   //   }
 
-  //   modal.onDismiss(data => {
+  //   modal.onDidDismiss(data => {
   //     console.log('closed client billing modal with data: ', data);
   //     // if (data) {
   //     //   if (data.hasOwnProperty('delete')) {
@@ -279,7 +264,7 @@ export class TrainerDetailPage {
   //     //   // });
   //     // }
   //   });
-  //   this.nav.present(modal);
+  //   modal.present();
   // }
 
   ionViewLoaded() {

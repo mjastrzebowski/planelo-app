@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy, Pipe } from '@angular/core';
-import { App, Modal, Alert, ActionSheet, Toast, NavController, Platform } from 'ionic-angular';
+import { App, ModalController, AlertController, ActionSheetController, NavController, Platform } from 'ionic-angular';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -58,7 +58,7 @@ export class GroupWorkoutsPipe {
 export class TrainingListPage {
   @Input() workouts: ReplaySubject<List<any>>;
 
-  constructor(public platform: Platform, public app: App, public nav: NavController, public utils: Utils, public auth: AuthService, public workoutStore: WorkoutStore, public workoutService: WorkoutService, public clientStore: ClientStore, public placeStore: PlaceStore, public trainerStore: TrainerStore, public billStore: BillStore, public billService: BillService) {
+  constructor(public platform: Platform, public app: App, public nav: NavController, public modalCtrl: ModalController, public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, public utils: Utils, public auth: AuthService, public workoutStore: WorkoutStore, public workoutService: WorkoutService, public clientStore: ClientStore, public placeStore: PlaceStore, public trainerStore: TrainerStore, public billStore: BillStore, public billService: BillService) {
 
     this.dates = [];
     this.trainings = [];
@@ -176,14 +176,14 @@ export class TrainingListPage {
 
     let modal = null;
     if (this.auth.isOwner) {
-      modal = Modal.create(TrainingCreateModal, workout);
+      modal = this.modalCtrl.create(TrainingCreateModal, workout);
     } else {
-      modal = Modal.create(TrainingReserveModal, workout);
+      modal = this.modalCtrl.create(TrainingReserveModal, workout);
     }
 
-    modal.onDismiss(this.saveTraining.bind(this));
+    modal.onDidDismiss(this.saveTraining.bind(this));
     setTimeout(() => {
-      this.nav.present(modal);
+      modal.present();
     }, 500);
   }
 
@@ -278,13 +278,13 @@ export class TrainingListPage {
 
   saveTrainingAlert(workout) {
     if (this.auth.isClient) {
-      let alert = Alert.create({
+      let alert = this.alertCtrl.create({
         title: 'Dodano',
         message: 'Twój trening w terminie <strong>' + workout.date.dateTime + '</strong> został dodany.',
         buttons: ['Ok']
       });
       setTimeout(() => {
-        this.nav.present(alert);
+        alert.present();
       }, 1000);
     } else {
       // let toast = Toast.create({
@@ -302,13 +302,13 @@ export class TrainingListPage {
 
   deleteTrainingAlert(workout) {
     if (this.auth.isClient) {
-      let alert = Alert.create({
+      let alert = this.alertCtrl.create({
         title: 'Odwołano',
         message: 'Twój trening został odwołany.',
         buttons: ['Ok']
       });
       setTimeout(() => {
-        this.nav.present(alert);
+        alert.present();
       }, 1000);
     } else {
       // let toast = Toast.create({
@@ -320,7 +320,7 @@ export class TrainingListPage {
   }
 
   deleteTrainingLate(workout) {
-    let prompt = Alert.create({
+    let prompt = this.alertCtrl.create({
       title: 'Podaj powód',
       message: "Trening można odwołać do godz. 21:00 dnia poprzedzającego termin. Po tym czasie należy podać powód, a zwrot zostanie indywidualnie rozpatrzony zgodnie z zasadami studia.",
       inputs: [
@@ -347,7 +347,7 @@ export class TrainingListPage {
       ]
     });
     setTimeout(() => {
-      this.nav.present(prompt);
+      prompt.present();
     }, 500);
   }
 
@@ -565,7 +565,7 @@ export class TrainingListPage {
   }
 
   showActionSheet(workout, title) {
-    let actionSheet = ActionSheet.create({
+    let actionSheet = this.actionSheetCtrl.create({
       title: title,
       buttons: [
         {
@@ -591,7 +591,7 @@ export class TrainingListPage {
     });
 
     setTimeout(() => {
-      this.nav.present(actionSheet);
+      actionSheet.present();
     }, 500);
   }
 

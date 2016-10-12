@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { App, Modal, NavController } from 'ionic-angular';
+import { App, ModalController, NavController } from 'ionic-angular';
 
 import { Utils } from '../../../providers/utils';
 
@@ -20,14 +20,14 @@ import { ClientCreateModal } from '../client-create/client-create';
 })
 export class ClientListPage {
 
-  constructor(public app: App, public nav: NavController, public utils: Utils, public auth: AuthService, public clientService: ClientService) {
+  constructor(public app: App, public nav: NavController, public modalCtrl: ModalController, public utils: Utils, public auth: AuthService, public clientService: ClientService) {
     this.filter = '';
   }
 
   showClientCreate() {
-    this.modal = Modal.create(ClientCreateModal);
+    this.modal = this.modalCtrl.create(ClientCreateModal);
 
-    this.modal.onDismiss(data => {
+    this.modal.onDidDismiss(data => {
       if (data) {
         this.clientService.createClient(
           data.name || '',
@@ -48,6 +48,6 @@ export class ClientListPage {
           });
       }
     });
-    this.nav.present(this.modal);
+    this.modal.present();
   }
 }

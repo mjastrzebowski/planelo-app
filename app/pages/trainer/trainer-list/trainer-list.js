@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { App, Modal, Alert, NavController } from 'ionic-angular';
+import { App, ModalController, NavController } from 'ionic-angular';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -24,16 +24,8 @@ import { TrainerDetailPage } from '../trainer-detail/trainer-detail'
 export class TrainerListPage {
   @Input() trainers: ReplaySubject<List<any>>;
 
-  constructor(app: App, nav: NavController, utils: Utils, auth: AuthService, trainerStore: TrainerStore, trainerService: TrainerService) {
-    this.app = app;
-    this.nav = nav;
-    this.utils = utils;
-    this.auth = auth;
+  constructor(public app: App, public nav: NavController, public modalCtrl: ModalController, public utils: Utils, public auth: AuthService, public trainerStore: TrainerStore, public trainerService: TrainerService) {
 
-    this.trainerStore = trainerStore;
-    this.trainerService = trainerService;
-
-    // this.trainers = [];
     this.queryText = '';
   }
 
@@ -42,8 +34,8 @@ export class TrainerListPage {
   }
 
   showTrainerCreate() {
-    let modal = Modal.create(TrainerCreateModal);
-    modal.onDismiss(data => {
+    let modal = this.modalCtrl.create(TrainerCreateModal);
+    modal.onDidDismiss(data => {
       if (data) {
         this.trainerService.createTrainer(
           data.title || '',
@@ -51,7 +43,7 @@ export class TrainerListPage {
           data.hours || '');
       }
     });
-    this.nav.present(modal);
+    modal.present();
   }
 
   updateList() {

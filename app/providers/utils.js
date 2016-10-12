@@ -1,12 +1,12 @@
 import { Injectable, Component, ViewChild } from '@angular/core';
-import { App, Loading } from 'ionic-angular';
+import { App, LoadingController } from 'ionic-angular';
 
 import { NotificationService } from '../core/notification/notification-service';
 
 @Injectable()
 export class Utils {
 
-  constructor(public app: App, public notificationService: NotificationService) {
+  constructor(public app: App, public loadingCtrl: LoadingController, public notificationService: NotificationService) {
     this.nav = app.getActiveNav();
     this.active = false;
 
@@ -42,9 +42,9 @@ export class Utils {
     }
 
     // console.log('present loading create');
-    this.loading = Loading.create(options);
+    this.loading = this.loadingCtrl.create(options);
     // console.log('present loading start');
-    this.nav.present(this.loading);
+    this.loading.present();
     
   }
 

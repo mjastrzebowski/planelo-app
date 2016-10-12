@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { App, Alert, NavController } from 'ionic-angular';
+import { App, AlertController, NavController } from 'ionic-angular';
 
 import { Utils } from '../../providers/utils';
 import { AuthService } from '../../core/auth/auth-service';
@@ -14,11 +14,7 @@ import { NotificationCounter } from '../../components/notification/notification-
 })
 
 export class SettingsPage {
-  constructor(app: App, nav: NavController, utils: Utils, auth: AuthService) {
-    this.app = app;
-    this.nav = nav;
-    this.utils = utils;
-    this.auth = auth;
+  constructor(public app: App, public nav: NavController, public alertCtrl: AlertController, public utils: Utils, public auth: AuthService) {
 
     this.settings = {};
     this.submitted = false;
@@ -48,11 +44,11 @@ export class SettingsPage {
   }
 
   private postChangePassword(): void {
-    let alert = Alert.create({
+    let alert = this.alertCtrl.create({
       title: 'Zmieniono',
       message: 'Twoje hasło zostało zmienione.',
       buttons: ['Ok']
     });
-    this.nav.present(alert);
+    alert.present();
   }
 }

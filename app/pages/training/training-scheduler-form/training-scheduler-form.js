@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { App, Alert, NavParams, NavController, ViewController } from 'ionic-angular';
+import { App, NavParams, NavController, ViewController } from 'ionic-angular';
 
 import { Utils } from '../../../providers/utils';
 
@@ -17,16 +17,7 @@ export class TrainingSchedulerFormModal {
   @Input() trainings: Array;
   editing: boolean = false;
 
-  constructor(app: App, params: NavParams, nav: NavController, viewCtrl: ViewController, utils: Utils, auth: AuthService, trainerStore: TrainerStore, workoutStore: WorkoutFullStore) {
-    this.app = app;
-    this.params = params;
-    this.nav = nav;
-    this.viewCtrl = viewCtrl;
-
-    this.utils = utils;
-    this.auth = auth;
-    this.trainerStore = trainerStore;
-    this.workoutStore = workoutStore;
+  constructor(public app: App, public params: NavParams, public nav: NavController, public viewCtrl: ViewController, public utils: Utils, public auth: AuthService, public trainerStore: TrainerStore, public workoutStore: WorkoutFullStore) {
 
     this.available = [];
     this.repeated = [];
