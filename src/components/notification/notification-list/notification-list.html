@@ -1,0 +1,10 @@
+<ion-list class="notification-list">
+  <notification-item #notifications [model]="notification" *ngFor="let notification of notificationStore.notifications | async | filterNotifications:filter:limit"></notification-item>
+</ion-list>
+
+<ion-buttons padding text-center *ngIf="isMore">
+  <button ion-button outline (click)="showMore()">
+    <ion-icon name="more"></ion-icon>
+    pokaż więcej
+  </button>
+</ion-buttons>
