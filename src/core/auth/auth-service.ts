@@ -1,16 +1,16 @@
 import { EventEmitter } from '@angular/core';
 
-
 export class AuthService {
-  private authData: FirebaseAuthData;
-  private userData: Object;
-  private moreData: Object;
+  private authData: any;
+  private userData: any;
+  private moreData: any;
   private emitter: EventEmitter<any> = new EventEmitter();
+  public loaded: boolean;
 
   constructor(private ref: Firebase) {
     this.authData = this.ref.getAuth();
 
-    this.ref.onAuth((authData: FirebaseAuthData) => {
+    this.ref.onAuth((authData: any) => {
       if (this.loaded && (!authData || authData === null)) {
         console.log('test onAuth', authData);
         location.reload();
@@ -115,7 +115,7 @@ export class AuthService {
     return this.authWithOAuth('twitter');
   }
 
-  signInWithPassword(credentials: Object): Promise<any> {
+  signInWithPassword(credentials: any): Promise<any> {
     return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
       this.ref.authWithPassword(credentials, (error: Error) => {
         if (error) {
@@ -128,34 +128,34 @@ export class AuthService {
     });
   }
 
-  signUpWithPassword(credentials: Object): Promise<any> {
+  signUpWithPassword(credentials: any): Promise<any> {
     return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
-      this.ref.createUser(credentials, (error: Error, userData) => {
+      this.ref.createUser(credentials, (error: Error) => {
         if (error) {
           console.error('ERROR @ AuthService#createUser :', error);
           reject(error);
         } else {
-          resolve(userData);
+          resolve();
         }
       });
     });
   }
 
-  removeUser(credentials: Object): Promise<any> {
+  removeUser(credentials: any): Promise<any> {
     return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
       credentials = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhZG1pbiI6ZmFsc2UsImRlYnVnIjpmYWxzZSwiZCI6eyJ1aWQiOiI4ZGMxMDY3Mi1mZmRhLTQyZWUtODVhZi0zY2VmNTY2MzQ5OGMifSwidiI6MCwiaWF0IjoxNDY3OTkyNjEyfQ._P4tB79HEZgf2oxa7QdR39_zlqfxeSYTVw5KfD18ExI';
-      this.ref.removeUser(credentials, (error: Error, userData) => {
+      this.ref.removeUser(credentials, (error: Error) => {
         if (error) {
           console.error('ERROR @ AuthService#removeUser :', error);
           reject(error);
         } else {
-          resolve(userData);
+          resolve();
         }
       });
     });
   }
 
-  changePassword(credentials: Object): Promise<any> {
+  changePassword(credentials: any): Promise<any> {
     return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
       this.ref.changePassword(credentials, (error: Error) => {
         if (error) {

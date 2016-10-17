@@ -13,8 +13,14 @@ import { WorkoutFullStore } from '../../../core/workout/workout-full-store';
   templateUrl: 'training-create.html'
 })
 export class TrainingCreateModal {
-  @Input() trainings: Array = [{}];
-  editing: boolean = false;
+  @Input() trainings: Array = [{}]; 
+  public editing: boolean = false;
+  public available;
+  public repeated;
+  public place;
+  public forceSub;
+  public filter;
+  public workouts;
 
   constructor(
     private params: NavParams,
@@ -62,7 +68,7 @@ export class TrainingCreateModal {
     });
   }
 
-  getAvailableWorkouts(): void {
+  getAvailableWorkouts(): any {
     this.available = [];
     if (this.available.length > 0) {
       return false;

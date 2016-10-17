@@ -3,6 +3,13 @@ import { AuthService } from '../auth/auth-service';
 import { UserService } from './user-service';
 import { UserStore } from './user-store';
 
+export function userServiceFactory(auth: AuthService): UserService {
+  return new UserService(new Firebase(`${FIREBASE_USERS_URL}`));
+}
+export function userStoreFactory(auth: AuthService): UserStore {
+  return new UserStore(new Firebase(`${FIREBASE_USERS_URL}`));
+}
+
 
 export const USER_PROVIDERS: any[] = [
   {
@@ -10,16 +17,12 @@ export const USER_PROVIDERS: any[] = [
     deps: [
       AuthService
     ],
-    useFactory: (auth: AuthService): UserService => {
-      return new UserService(new Firebase(`${FIREBASE_USERS_URL}`));
-    }
+    useFactory: userServiceFactory
   }, {
     provide: UserStore,
     deps: [
       AuthService
     ],
-    useFactory: (auth: AuthService): UserStore => {
-      return new UserStore(new Firebase(`${FIREBASE_USERS_URL}`));
-    }
+    useFactory: userStoreFactory
   }
 ];

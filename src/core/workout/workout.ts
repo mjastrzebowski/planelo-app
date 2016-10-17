@@ -14,6 +14,9 @@ export class IWorkout {
   timeEnd?: string;
   repeat?: boolean;
   fixed?: boolean;
+  weekDay?: any;
+  fullDate?: any;
+  descDate?: any;
 }
 
 export class Workout implements IWorkout {

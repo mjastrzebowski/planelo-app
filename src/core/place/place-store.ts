@@ -6,8 +6,11 @@ import { IPlace } from './place';
 export class PlaceStore {
   places: ReplaySubject<List<any>> = new ReplaySubject(1);
   public list: List<any> = List();
+  public loaded: boolean;
 
-  constructor(ref: Firebase) {
+  constructor(
+    private ref: Firebase
+  ) {
     ref.on('child_added', this.created.bind(this));
     ref.on('child_changed', this.updated.bind(this));
     ref.on('child_removed', this.deleted.bind(this));

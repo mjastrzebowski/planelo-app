@@ -5,6 +5,10 @@ import { NotificationService } from '../core/notification/notification-service';
 
 @Injectable()
 export class Utils {
+  private nav;
+  private active;
+  private weekdays;
+  private loading;
 
   constructor(
     private app: App,
@@ -36,7 +40,8 @@ export class Utils {
     }
 
     let options = {
-      content: message || 'Proszę czekać...'
+      content: message || 'Proszę czekać...',
+      duration: undefined
     };
 
     if (duration) {

@@ -72,12 +72,12 @@ export class WorkoutStore {
 
   private updateWorkoutDependencies(workout: IWorkout): void {
     let timeArray = workout.timeStart.split(':');
-    let time = timeArray[0];
+    let time = parseInt(timeArray[0], 10);
     let dateArray = workout.date.split('-');
-    let year = dateArray[0];
+    let year = parseInt(dateArray[0], 10);
     let monthStr = dateArray[1];
     let month = parseInt(monthStr, 10) - 1;
-    let date = dateArray[2];
+    let date = parseInt(dateArray[2], 10);
 
     workout.fullDate = new Date(year, month, date, time);
     if (workout.fullDate == 'Invalid Date' || workout.fullDate == 'Invalid date') {
@@ -113,7 +113,7 @@ export class WorkoutStore {
         let sun1 = '-KGr0KKyDpE2JpoOBsgz';
         let sun2 = '-KJ3OEmcSe2FUq49ehA6';
         let place1 = '-KBHukjV0l8M-EkpTdI4';
-        let place2 = '-KBHulP5PtV-dGxyXPWl';
+        // let place2 = '-KBHulP5PtV-dGxyXPWl';
         if (this.auth.place === place1) {
           sunday = sun1;
         } else {

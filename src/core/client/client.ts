@@ -7,6 +7,7 @@ export class IClient {
   email: string;
   phone: string;
   comment: string;
+  username?: string;
 }
 
 export class Client implements IClient {

@@ -1,15 +1,9 @@
-import { Component, ViewChild, Input } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import { App, Events, Nav, Platform, ionicBootstrap, MenuController } from 'ionic-angular';
-
-import { List } from 'immutable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Nav, MenuController } from 'ionic-angular';
 
 // services
 import { AuthService } from '../core/auth/auth-service';
-
-// stores
-import { NotificationStore } from '../core/notification/notification-store';
 
 // pages
 import { BillListPage } from '../pages/bill/bill-list/bill-list';
@@ -20,9 +14,6 @@ import { TrainerListPage } from '../pages/trainer/trainer-list/trainer-list';
 import { TrainingListPage } from '../pages/training/training-list/training-list';
 import { TrainingSchedulerPage } from '../pages/training/training-scheduler/training-scheduler';
 import { SettingsPage } from '../pages/settings/settings';
-
-// components
-import { NotificationList } from '../components/notification/notification-list/notification-list';
 
 @Component({
   templateUrl: 'app.html'
@@ -35,16 +26,12 @@ import { NotificationList } from '../components/notification/notification-list/n
 //   // { path: '/about', component: AboutPage, as: 'About' }
 // ])
 export class DavidApp {
-  @Input() notifications: ReplaySubject<List<any>>;
   @ViewChild(Nav) nav: Nav;
 
-  constructor(public app: App, public menu: MenuController, public auth: AuthService, public notificationStore: NotificationStore) {
-    // this.notificationStore = notificationStore;
-    // this.utils = utils;
-
-    // load the conference data
-    // confData.load();
-
+  constructor(
+    public menu: MenuController,
+    public auth: AuthService
+  ) {
     // We plan to add auth to only show the login page if not logged in
     // this.root = TutorialPage;
     this.root = LoginPage;

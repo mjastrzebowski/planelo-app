@@ -5,6 +5,7 @@ export class ITrainer {
   title: string;
   email: string;
   hours: array;
+  username?: string;
 }
 
 

@@ -3,14 +3,16 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { AuthService } from '../../core/auth/auth-service';
 
-import { IBIll } from './bill';
+import { IBill } from './bill';
 
 export class BillStore {
   bills: ReplaySubject<List<any>> = new ReplaySubject(1);
   public list: List<any> = List();
 
-  constructor(ref: Firebase, auth: AuthService) {
-    this.auth = auth;
+  constructor(
+    private ref: Firebase,
+    private auth: AuthService
+  ) {
     ref = ref.orderByChild('month');
     ref.on('child_added', this.created.bind(this));
     ref.on('child_changed', this.updated.bind(this));
@@ -22,7 +24,7 @@ export class BillStore {
     return this.list.size;
   }
 
-  public getItem(key: string): IBIll {
+  public getItem(key: string): IBill {
     let index = this.findIndex(key);
     return this.list.get(index);
   }
@@ -35,11 +37,7 @@ export class BillStore {
     return this.list.get(index);
   }
 
-  private emit(): void {
-    this.bills.next(this.list);
-  }
-
-  private updateBillDependencies(bill: IBIll): void {
+  private updateBillDependencies(bill: IBill): void {
     // let dateArray = bill.month.split('-');
     // let year = dateArray[0];
     // let monthStr = dateArray[1];
@@ -66,7 +64,7 @@ export class BillStore {
     let index: number = this.findIndex(key);
     if (index === -1) {
       let val = snapshot.val();
-      let bill: IBIll = val;
+      let bill: IBill = val;
       bill.key = key;
       this.list = this.list.push(bill);
       this.updateBillDependencies(bill);
@@ -86,7 +84,7 @@ export class BillStore {
     let key: string = snapshot.key();
     let index: number = this.findIndex(key);
     if (index !== -1) {
-      let bill: IBIll = snapshot.val();
+      let bill: IBill = snapshot.val();
       bill.key = key;
       this.list = this.list.set(index, bill);
       this.updateBillDependencies(bill);
@@ -95,7 +93,7 @@ export class BillStore {
   }
 
   private findIndex(key: string): number {
-    return this.list.findIndex((bill: IBIll) => {
+    return this.list.findIndex((bill: IBill) => {
       return bill.key === key;
     });
   }

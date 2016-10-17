@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+
+// import { Firebase } from 'firebase';
 
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { DavidApp } from './app.component';

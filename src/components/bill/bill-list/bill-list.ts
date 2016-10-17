@@ -11,6 +11,8 @@ export class BillList {
   @Input() filter: any;
   @Input() limit: any;
   @ViewChildren('bills') bills: any;
+  private isMore: boolean;
+  private baseLimit: number;
 
   constructor(
     public billStore: BillStore

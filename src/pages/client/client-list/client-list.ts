@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController } from 'ionic-angular';
 
 import { Utils } from '../../../providers/utils';
@@ -12,6 +12,8 @@ import { ClientCreateModal } from '../client-create/client-create';
   templateUrl: 'client-list.html'
 })
 export class ClientListPage {
+  private modal;
+  public filter;
 
   constructor(
     private modalCtrl: ModalController,

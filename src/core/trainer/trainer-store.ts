@@ -7,7 +7,9 @@ export class TrainerStore {
   trainers: ReplaySubject<List<any>> = new ReplaySubject(1);
   public list: List<any> = List();
 
-  constructor(ref: Firebase) {
+  constructor(
+    private ref: Firebase
+  ) {
     ref.on('child_added', this.created.bind(this));
     ref.on('child_changed', this.updated.bind(this));
     ref.on('child_removed', this.deleted.bind(this));
@@ -31,7 +33,7 @@ export class TrainerStore {
     return this.list.get(index);
   }
 
-  public filterBy(filters: object): ITrainer {
+  public filterBy(filters: any): any {
     return this.list.filter(trainer => {
       let check = true;
       Object.keys(filters).forEach(function (key) {

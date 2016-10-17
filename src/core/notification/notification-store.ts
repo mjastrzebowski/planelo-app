@@ -9,8 +9,10 @@ export class NotificationStore {
   notifications: ReplaySubject<List<any>> = new ReplaySubject(1);
   public list: List<any> = List();
 
-  constructor(ref: Firebase, auth: AuthService) {
-    this.auth = auth;
+  constructor(
+    private ref: Firebase,
+    private auth: AuthService
+  ) {
     ref = ref.orderByChild('createdAt').startAt(1472491061323);
     ref.on('child_added', this.created.bind(this));
     ref.on('child_changed', this.updated.bind(this));

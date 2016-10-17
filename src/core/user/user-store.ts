@@ -7,7 +7,9 @@ export class UserStore {
   users: ReplaySubject<List<any>> = new ReplaySubject(1);
   private list: List<any> = List();
 
-  constructor(ref: Firebase) {
+  constructor(
+    private ref: Firebase
+  ) {
     // ref = ref.orderByChild('lastname');
     ref.on('child_added', this.created.bind(this));
     ref.on('child_changed', this.updated.bind(this));

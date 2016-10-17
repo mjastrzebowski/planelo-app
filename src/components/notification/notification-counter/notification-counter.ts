@@ -10,6 +10,7 @@ import { NotificationStore } from '../../../core/notification/notification-store
   templateUrl: 'notification-counter.html'
 })
 export class NotificationCounter {
+  private timer;
 
   constructor(
     public auth: AuthService,
