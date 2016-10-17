@@ -1,10 +1,8 @@
 import { Component, Input } from '@angular/core';
 
-import { App, NavParams, ViewController } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 
 import { ITrainer } from '../../../core/trainer/trainer';
-
-import { Utils } from '../../../providers/utils';
 
 @Component({
   templateUrl: 'trainer-detail-hours.html'
@@ -12,13 +10,12 @@ import { Utils } from '../../../providers/utils';
 export class TrainerDetailHoursModal {
   @Input() trainer: ITrainer;
 
-  constructor(app: App, params: NavParams, viewCtrl: ViewController) {
-    this.app = app;
-    this.params = params;
-    this.viewCtrl = viewCtrl;
-  }
+  constructor(
+    private params: NavParams,
+    private viewCtrl: ViewController
+  ) {}
 
-  ionViewLoaded() {
+  ngOnInit(): void {
     let hours = [ {
       "8:00" : true,
       "9:00" : true,
@@ -79,11 +76,11 @@ export class TrainerDetailHoursModal {
     }
   }
 
-  save() {
+  save(): void {
     this.viewCtrl.dismiss(this.trainer);
   }
 
-  dismiss() {
+  dismiss(): void {
     this.viewCtrl.dismiss();
   }
 }

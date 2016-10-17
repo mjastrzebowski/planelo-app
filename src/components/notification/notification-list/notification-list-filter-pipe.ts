@@ -23,7 +23,7 @@ export class NotificationListFilterPipe implements PipeTransform {
     return list.slice().reverse().slice(0, limit);
   }
 
-  filter(list, key, value) {
+  filter(list, key, value): INotification[] {
     if (!value) {
       return list;
     }

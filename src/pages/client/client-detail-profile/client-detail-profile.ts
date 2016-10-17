@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { App, NavParams, ViewController } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 
 import { IClient } from '../../../core/client/client';
 
@@ -10,13 +10,12 @@ export class ClientDetailProfileModal {
   @Input() client: IClient;
   editing: boolean = false;
 
-  constructor(app: App, params: NavParams, viewCtrl: ViewController) {
-    this.app = app;
-    this.params = params;
-    this.viewCtrl = viewCtrl;
-  }
+  constructor(
+    private params: NavParams,
+    private viewCtrl: ViewController
+  ) {}
 
-  ionViewLoaded() {
+  ngOnInit(): void {
     if (this.params.data.hasOwnProperty('key')) {
       this.editing = true;
       this.client = this.params.data;
@@ -25,15 +24,15 @@ export class ClientDetailProfileModal {
     }
   }
 
-  save() {
+  save(): void {
     this.viewCtrl.dismiss(this.client);
   }
 
-  dismiss() {
+  dismiss(): void {
     this.viewCtrl.dismiss();
   }
 
-  delete() {
+  delete(): void {
     this.client.delete = true;
     this.viewCtrl.dismiss(this.client);
   }

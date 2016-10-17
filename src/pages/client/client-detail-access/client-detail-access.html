@@ -2,8 +2,8 @@
   <ion-navbar>
     <ion-title>Dostęp do aplikacji</ion-title>
     <ion-buttons start>
-      <button (click)="dismiss()">
-        <span primary showWhen="ios">Zamknij</span>
+      <button ion-button (click)="dismiss()">
+        <span color="primary" showWhen="ios">Zamknij</span>
         <ion-icon name='close' hideWhen="ios"></ion-icon>
       </button>
     </ion-buttons>
@@ -15,49 +15,49 @@
     <ion-list>
       <ion-item>
         <ion-label>Konto aktywne</ion-label>
-        <ion-toggle [(ngModel)]="client.active" (ionChange)="generateMessage()"></ion-toggle>
+        <ion-toggle [(ngModel)]="client.active" name="active" (ionChange)="generateMessage()"></ion-toggle>
       </ion-item>
       <div [hidden]="!client.active">
         <ion-item>
           <ion-label floating>Użytkownik</ion-label>
-          <ion-input type="text" [(ngModel)]="client.username" (change)="generateMessage()"></ion-input>
+          <ion-input type="text" [(ngModel)]="client.username" name="username" (change)="generateMessage()"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label floating>Adres email</ion-label>
-          <ion-input type="email" [(ngModel)]="client.email"></ion-input>
+          <ion-input type="email" [(ngModel)]="client.email" name="email"></ion-input>
         </ion-item>
         <ion-row responsive-sm>
           <ion-col>
             <ion-item>
               <ion-label floating>Hasło</ion-label>
-              <ion-input type="password" #clientPassword [(ngModel)]="client.password" (change)="generateMessage()"></ion-input>
+              <ion-input type="password" #clientPassword [(ngModel)]="client.password" name="password" (change)="generateMessage()"></ion-input>
             </ion-item>
           </ion-col>
           <ion-col padding>
-            <button outline (click)="generatePassword(clientPassword)">Generuj hasło</button>
+            <button ion-button outline (click)="generatePassword(clientPassword)">Generuj hasło</button>
           </ion-col>
         </ion-row>
         <ion-item>
           <ion-label>Wyślij do klienta</ion-label>
-          <ion-toggle [(ngModel)]="client.send" (ionChange)="generateMessage()"></ion-toggle>
+          <ion-toggle [(ngModel)]="client.send" (ionChange)="generateMessage()" name="send"></ion-toggle>
         </ion-item>
         <ion-item [hidden]="true">
           <ion-label floating>Wiadomość email</ion-label>
-          <ion-textarea [(ngModel)]="client.message"></ion-textarea>
+          <ion-textarea [(ngModel)]="client.message" name="message"></ion-textarea>
         </ion-item>
       </div>
     </ion-list>
 
     <ion-row responsive-sm>
       <ion-col [hidden]="!client.active">
-        <button primary block type="submit" [hidden]="!client.send" (click)="save()">Zapisz i wyślij</button>
-        <button primary block type="submit" [hidden]="client.send" (click)="save()">Zapisz zmiany</button>
+        <button ion-button color="primary" block type="submit" [hidden]="!client.send" (click)="save()">Zapisz i wyślij</button>
+        <button ion-button color="primary" block type="submit" [hidden]="client.send" (click)="save()">Zapisz zmiany</button>
       </ion-col>
       <ion-col [hidden]="client.active">
-        <button primary block type="submit" (click)="save()">Wyłącz dostęp</button>
+        <button ion-button color="primary" block type="submit" (click)="save()">Wyłącz dostęp</button>
       </ion-col>
       <ion-col>
-        <button light block (click)="dismiss()">Anuluj</button>
+        <button ion-button color="light" block (click)="dismiss()">Anuluj</button>
       </ion-col>
     </ion-row>
   </form>

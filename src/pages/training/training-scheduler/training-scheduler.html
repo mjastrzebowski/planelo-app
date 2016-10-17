@@ -1,13 +1,13 @@
 <ion-header>
   <ion-navbar>
-    <button menuToggle>
+    <button ion-button icon-only menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
 
     <ion-title>Stały grafik</ion-title>
 
     <ion-buttons end>
-      <button [hidden]="auth.isTrainer" (click)="showTrainingSchedulerForm()">
+      <button ion-button icon-only [hidden]="auth.isTrainer" (click)="showTrainingSchedulerForm()">
         <ion-icon name="add"></ion-icon>
       </button>
       <notification-counter></notification-counter>
@@ -26,5 +26,6 @@
       </ion-segment-button>
     </ion-segment>
   </div>
+
   <div id="calendar"></div>
 </ion-content>

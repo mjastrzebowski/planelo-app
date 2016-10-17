@@ -1,5 +1,5 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import {App, ModalController, AlertController, ActionSheetController, NavController} from 'ionic-angular';
+import { Component, Input } from '@angular/core';
+import { ModalController, AlertController, ActionSheetController } from 'ionic-angular';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -8,8 +8,6 @@ import { Utils } from '../../../providers/utils';
 
 import { AuthService } from '../../../core/auth/auth-service';
 
-import { NotificationCounter } from '../../../components/notification/notification-counter/notification-counter';
-
 import { ClientStore } from '../../../core/client/client-store';
 import { PlaceStore } from '../../../core/place/place-store';
 import { TrainerStore } from '../../../core/trainer/trainer-store';
@@ -17,19 +15,26 @@ import { WorkoutStore } from '../../../core/workout/workout-store';
 import { WorkoutService } from '../../../core/workout/workout-service';
 
 import { TrainingSchedulerFormModal } from '../training-scheduler-form/training-scheduler-form'
-// import {TrainingDetailPage} from '../training-detail/training-detail';
+
 
 @Component({
-  templateUrl: 'training-scheduler.html',
-  directives: [
-    NotificationCounter
-  ]
+  templateUrl: 'training-scheduler.html'
 })
 export class TrainingSchedulerPage {
   @Input() workouts: ReplaySubject<List<any>>;
 
-  constructor(public app: App, public nav: NavController, public modalCtrl: ModalController, public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, public utils: Utils, public auth: AuthService, public workoutStore: WorkoutStore, public workoutService: WorkoutService, public clientStore: ClientStore, public placeStore: PlaceStore, public trainerStore: TrainerStore) {
-
+  constructor(
+    private modalCtrl: ModalController,
+    private alertCtrl: AlertController,
+    private actionSheetCtrl: ActionSheetController,
+    private utils: Utils,
+    private workoutStore: WorkoutStore,
+    private workoutService: WorkoutService,
+    private clientStore: ClientStore,
+    private placeStore: PlaceStore,
+    private trainerStore: TrainerStore,
+    public auth: AuthService
+  ) {
     this.dates = [];
     this.trainings = [];
     this.clients = [];
@@ -52,11 +57,10 @@ export class TrainingSchedulerPage {
     if (this.currentDate.getHours() >= changeHour) {
       this.changeDate.setTime(this.changeDate.getTime() + 24*60*60*1000);
     }
-    // this.lastDate = new Date('2016-05-01');
   }
 
 
-  showTrainingSchedulerForm(workout) {
+  showTrainingSchedulerForm(workout): void {
     if (workout && workout.hasOwnProperty('key')) {
       this.editing = true;
     } else {
@@ -70,7 +74,7 @@ export class TrainingSchedulerPage {
     }, 500);
   }
 
-  saveTraining(data) {
+  saveTraining(data): void {
     if (data) {
       this.utils.presentLoading('Zapisywanie zmian...');
 
@@ -121,7 +125,7 @@ export class TrainingSchedulerPage {
     }
   }
 
-  saveTrainingAlert(workout) {
+  saveTrainingAlert(workout): void {
     if (this.auth.isClient) {
       let alert = this.alertCtrl.create({
         title: 'Dodano',
@@ -131,21 +135,15 @@ export class TrainingSchedulerPage {
       setTimeout(() => {
         alert.present();
       }, 1000);
-    } else {
-      // let toast = Toast.create({
-      //   message: 'Trening zapisany',
-      //   duration: 3000
-      // });
-      // this.nav.present(toast);
     }
   }
 
-  deleteTraining(workout) {
+  deleteTraining(workout): void {
     workout.delete = true;
     this.saveTraining([workout]);
   }
 
-  deleteTrainingAlert(workout) {
+  deleteTrainingAlert(workout): void {
     if (this.auth.isClient) {
       let alert = this.alertCtrl.create({
         title: 'Odwołano',
@@ -155,19 +153,13 @@ export class TrainingSchedulerPage {
       setTimeout(() => {
         alert.present();
       }, 1000);
-    } else {
-      // let toast = Toast.create({
-      //   message: 'Trening usunięty',
-      //   duration: 3000
-      // });
-      // this.nav.present(toast);
     }
   }
 
-  deleteTrainingLate(workout) {
+  deleteTrainingLate(workout): void {
     let prompt = this.alertCtrl.create({
       title: 'Podaj powód',
-      message: "Trening można odwołać do godz. 21:00 dnia poprzedzającego termin. Po tym czasie należy podać powód, a zwrot zostanie indywidualnie rozpatrzony zgodnie z zasadami studia.",
+      message: 'Trening można odwołać do godz. 21:00 dnia poprzedzającego termin. Po tym czasie należy podać powód, a zwrot zostanie indywidualnie rozpatrzony zgodnie z zasadami studia.',
       inputs: [
         {
           name: 'title',
@@ -196,11 +188,11 @@ export class TrainingSchedulerPage {
     }, 500);
   }
 
-  onPlaceChanged(event) {
+  onPlaceChanged(event): void {
     this.refreshCalendar(true);
   }
 
-  ionViewDidEnter() {
+  ionViewDidEnter(): void {
     this.utils.presentLoading('Ładowanie stałych treningów...');
     this.calendar = false;
 
@@ -233,8 +225,8 @@ export class TrainingSchedulerPage {
     });
   }
 
-  refreshCalendar(force) {
-    var events = this.getEvents();
+  refreshCalendar(force): void {
+    let events = this.getEvents();
 
     if (!force && events.length === this.events.length) {
       return;
@@ -246,7 +238,7 @@ export class TrainingSchedulerPage {
     $('#calendar').fullCalendar('refetchResources');
   }
 
-  renderCalendar() {
+  renderCalendar(): void {
     let baseDate = new Date('2016-06-05');
     let weekDay = (new Date()).getDay() || 7;
     baseDate.setDate(baseDate.getDate() + weekDay);
@@ -289,7 +281,6 @@ export class TrainingSchedulerPage {
           groupByDateAndResource: true
         }
       },
-      // resourceGroupField: 'place',
       resourceLabelText: 'Trenerzy',
       resources: this.getResources.bind(this),
       events: this.getEvents.bind(this),
@@ -303,7 +294,7 @@ export class TrainingSchedulerPage {
     this.calendar = true;
   }
 
-  calendarDrag(event, delta, revertFunc) {
+  calendarDrag(event, delta, revertFunc): void {
     let index = this.workoutStore.findIndex(event.id);
     let workout = this.workoutStore.list.get(index);
     let changes = {
@@ -316,13 +307,11 @@ export class TrainingSchedulerPage {
 
     if (confirm('Czy na pewno przenieść stały trening?')) {
       this.workoutService.updateWorkout(workout, changes);
-    } else {
-      // revertFunc();
     }
     this.refreshCalendar(true);
   }
 
-  calendarSelect(start, end, event, view, resource) {
+  calendarSelect(start, end, event, view, resource): void {
     let workout = {
       trainerKey: resource.id,
       date: start.format('YYYY-MM-DD'),
@@ -330,17 +319,16 @@ export class TrainingSchedulerPage {
       timeStart: start.format('HH:00'),
       timeEnd: start.add(1, 'hours').format('HH:00')
     };
-
     this.showTrainingSchedulerForm(workout);
   }
 
-  calendarEvent(event) {
+  calendarEvent(event): void {
     let index = this.workoutStore.findIndex(event.id);
     let workout = this.workoutStore.list.get(index);
     this.showTrainingSchedulerForm(workout);
   }
 
-  showActionSheet() {
+  showActionSheet(): void {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Zmiana treningu',
       buttons: [
@@ -364,7 +352,7 @@ export class TrainingSchedulerPage {
     }, 500);
   }
 
-  getEvents(start, end, timezone, callback) {
+  getEvents(start, end, timezone, callback): any {
     let events = [];
     this.workoutStore.list.forEach(workout => {
       if (!workout.fixed || workout.placeKey !== this.place) {
@@ -387,19 +375,10 @@ export class TrainingSchedulerPage {
         event.color = 'red';
       }
       events.push(event);
-
-      // var eventPlace = {
-      //     id: workout.key,
-      //     resourceId: workout.placeKey,
-      //     title: workout.trainer,
-      //     start: workout.date + 'T' + workout.timeStart,
-      //     end: workout.date + 'T' + workout.timeEnd
-      // };
-      // events.push(eventPlace);
     });
 
     if (this.auth.isOwner) {
-      var hours = [
+      let hours = [
         { timeStart: '8:00', timeEnd: '09:00' },
         { timeStart: '9:00', timeEnd: '10:00' },
         { timeStart: '10:00', timeEnd: '11:00' },
@@ -435,7 +414,7 @@ export class TrainingSchedulerPage {
                 if (time === '8:00' || time === '9:00') {
                   time = '0' + hour.timeStart;
                 }
-                var working = {
+                let working = {
                   id: 'available',
                   resourceId: trainer.key,
                   start: '2016-' + month + '-' + day + 'T'+ time,
@@ -454,8 +433,8 @@ export class TrainingSchedulerPage {
     return callback ? callback(events) : events;
   }
 
-  getResources(callback) {
-    var resources = [];
+  getResources(callback): any {
+    let resources = [];
 
     if (this.placeStore.size === 0) {
       callback([]);
@@ -467,7 +446,7 @@ export class TrainingSchedulerPage {
         return;
       }
 
-      var resource = {
+      let resource = {
         id: trainer.key,
         title: trainer.alias ? trainer.alias : trainer.title,
         eventColor: trainer.color
@@ -478,8 +457,8 @@ export class TrainingSchedulerPage {
     return callback ? callback(resources) : resources;
   }
 
-  getResourcesWithPlaces(callback) {
-    var resources = [];
+  getResourcesWithPlaces(callback): any {
+    let resources = [];
 
     if (this.placeStore.size === 0) {
       callback([]);
@@ -487,45 +466,45 @@ export class TrainingSchedulerPage {
     }
 
     this.trainerStore.list.forEach(trainer => {
-      var resource = {
+      let resource = {
         id: trainer.key,
         title: trainer.alias ? trainer.alias : trainer.title
       };
       resources.push(resource);
     });
 
-    var i = 0, childrens = [];
+    let i = 0, childrens = [];
     this.trainerStore.list.forEach(trainer => {
-        if (i++ < 3) {
-            var resource = {
-                id: trainer.key,
-                title: trainer.alias ? trainer.alias : trainer.title
-            };
-            childrens.push(resource);
-        }
+      if (i++ < 3) {
+        let resource = {
+          id: trainer.key,
+          title: trainer.alias ? trainer.alias : trainer.title
+        };
+        childrens.push(resource);
+      }
     });
-    var place1 = this.placeStore.list.get(0);
+    let place1 = this.placeStore.list.get(0);
     resources.push({
-        id: place1.key,
-        title: place1.title,
-        children: childrens
+      id: place1.key,
+      title: place1.title,
+      children: childrens
     });
 
     i = 0, childrens = [];
     this.trainerStore.list.forEach(trainer => {
-        if (i++ >= 3) {
-            var resource = {
-                id: trainer.key,
-                title: trainer.alias ? trainer.alias : trainer.title
-            };
-            childrens.push(resource);
-        }
+      if (i++ >= 3) {
+        let resource = {
+          id: trainer.key,
+          title: trainer.alias ? trainer.alias : trainer.title
+        };
+        childrens.push(resource);
+      }
     });
-    var place2 = this.placeStore.list.get(1);
+    let place2 = this.placeStore.list.get(1);
     resources.push({
-        id: place2.key,
-        title: place2.title,
-        children: childrens
+      id: place2.key,
+      title: place2.title,
+      children: childrens
     });
     return callback ? callback(resources) : resources;
   }

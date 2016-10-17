@@ -9,10 +9,12 @@ export class WorkoutStore {
   workouts: ReplaySubject<List<any>> = new ReplaySubject(1);
   public list: List<any> = List();
 
-  constructor(ref: Firebase, auth: AuthService) {
+  constructor(
+    private ref: Firebase,
+    private auth: AuthService
+  ) {
     this.auth = auth;
-    // ref = ref.orderByChild('dateTime').startAt('2016-05-31 08:00');
-    ref = ref.orderByChild('dateTime').startAt('2016-06-01 08:00'); //.endAt('2016-06-27 08:00');
+    ref = ref.orderByChild('dateTime').startAt('2016-06-01 08:00');
     ref.on('child_added', this.created.bind(this));
     ref.on('child_changed', this.updated.bind(this));
     ref.on('child_removed', this.deleted.bind(this));
@@ -23,12 +25,12 @@ export class WorkoutStore {
     return this.list.size;
   }
 
-  public getItem(key: string): IWorkout {
+  getItem(key: string): IWorkout {
     let index = this.findIndex(key);
     return this.list.get(index);
   }
 
-  public filterBy(filters: object): IWorkout {
+  filterBy(filters: any): any {
     return this.list.filter(workout => {
       let check = true;
       Object.keys(filters).forEach(function (key) {
@@ -76,14 +78,12 @@ export class WorkoutStore {
     let monthStr = dateArray[1];
     let month = parseInt(monthStr, 10) - 1;
     let date = dateArray[2];
-    // let _entryDate = new Date(year, month, date, time);
 
-    // workout.fullDate = new Date(workout.date + ' ' + workout.timeStart);
     workout.fullDate = new Date(year, month, date, time);
     if (workout.fullDate == 'Invalid Date' || workout.fullDate == 'Invalid date') {
       workout.fullDate = new Date(year, month, date);
     }
-    // workout.descDate = workout.fullDate.toLocaleDateString('pl', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
+    
     moment.locale('pl');
     workout.weekDay = moment(workout.fullDate).format('dddd');
     if (!workout.weekDay || workout.weekDay == 'Invalid Date' || workout.weekDay == 'Invalid date') {
@@ -151,7 +151,7 @@ export class WorkoutStore {
     }
   }
 
-  private findIndex(key: string): number {
+  findIndex(key: string): number {
     return this.list.findIndex((workout: IWorkout) => {
       return workout.key === key;
     });

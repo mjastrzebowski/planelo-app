@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
-import { App, ModalController, NavController, NavParams } from 'ionic-angular';
+import { ModalController, NavParams } from 'ionic-angular';
 
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
@@ -12,7 +11,6 @@ import { Utils } from '../../../providers/utils';
 
 import { AuthService } from '../../../core/auth/auth-service';
 import { UserService } from '../../../core/user/user-service';
-
 import { ClientService } from '../../../core/client/client-service';
 
 import { ClientStore } from '../../../core/client/client-store';
@@ -29,8 +27,18 @@ import { ClientDetailWorkoutsModal } from '../client-detail-workouts/client-deta
   templateUrl: 'client-detail.html'
 })
 export class ClientDetailPage {
-  constructor(public app: App, public nav: NavController, public modalCtrl: ModalController, public navParams: NavParams, public http: Http, public utils: Utils, public auth: AuthService, public user: UserService, public clientService: ClientService, public clientStore: ClientStore, public placeStore: PlaceStore, public trainerStore: TrainerStore, public workoutStore: WorkoutStore) {
-
+  constructor(
+    private modalCtrl: ModalController,
+    private navParams: NavParams,
+    private utils: Utils,
+    private auth: AuthService,
+    private user: UserService,
+    private clientService: ClientService,
+    private clientStore: ClientStore,
+    private workoutStore: WorkoutStore,
+    public placeStore: PlaceStore,
+    public trainerStore: TrainerStore
+  ) {
     this.client = this.navParams.data;
 
     this.trainingsDone = this.workoutStore.filterBy({ client: this.client.key, fixed: false, completed: false, dateBefore: new Date() });
@@ -40,7 +48,7 @@ export class ClientDetailPage {
     this.trainingsScheduled = this.workoutStore.filterBy({ client: this.client.key, fixed: true });
   }
 
-  showClientProfile(client) {
+  showClientProfile(client): void {
     if (client) {
       let clientObject = Object.assign({}, client);
       let modal = this.modalCtrl.create(ClientDetailProfileModal, clientObject);
@@ -51,7 +59,6 @@ export class ClientDetailPage {
     }
 
     modal.onDidDismiss(data => {
-      console.log('closed client profile modal with data: ', data);
       if (data) {
         if (data.hasOwnProperty('delete')) {
           this.clientService.deleteClient(data)
@@ -84,7 +91,7 @@ export class ClientDetailPage {
     modal.present();
   }
 
-  showClientAccess(client) {
+  showClientAccess(client): void {
     if (client) {
       let clientObject = Object.assign({}, client);
       let modal = this.modalCtrl.create(ClientDetailAccessModal, clientObject);
@@ -95,7 +102,6 @@ export class ClientDetailPage {
     }
 
     modal.onDidDismiss(data => {
-      console.log('closed client access modal with data: ', data);
       if (data) {
         let changes = {};
         if (data.active !== this.client.active) {
@@ -121,7 +127,6 @@ export class ClientDetailPage {
         if (changes.active === true) {
           this.auth.signUpWithPassword(credentials).then((userData) => {
             this.user.createUser(userData.uid, this.client.key, 'client');
-            console.log('test user created, sending mail');
 
             if (data.send) {
               let body = JSON.stringify({
@@ -158,7 +163,6 @@ export class ClientDetailPage {
 
         // this.auth.signUpWithPassword({ email: changes. }).then(() => this.postSignIn());
 
-        // console.log('test update client', changes);
         this.clientService.updateClient(data, changes);
         this.client = data;
       }
@@ -166,13 +170,13 @@ export class ClientDetailPage {
     modal.present();
   }
 
-  showClientBilling(client) {
+  showClientBilling(client): void {
     let clientObject = Object.assign({}, client);
     let modal = this.modalCtrl.create(ClientDetailBillingModal, clientObject);
     modal.present();
   }
 
-  showClientWorkouts(client) {
+  showClientWorkouts(client): void {
     let clientObject = Object.assign({}, client);
     let modal = this.modalCtrl.create(ClientDetailWorkoutsModal, clientObject);
     modal.present();

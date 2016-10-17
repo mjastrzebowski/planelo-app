@@ -3,9 +3,7 @@ import { Component, Input } from '@angular/core';
 import { IBill } from '../../../core/bill/bill';
 import { BillService } from '../../../core/bill/bill-service';
 
-import { PlaceStore } from '../../../core/place/place-store';
 import { ClientStore } from '../../../core/client/client-store';
-import { TrainerStore } from '../../../core/trainer/trainer-store';
 
 
 @Component({
@@ -16,10 +14,8 @@ export class BillItem {
   @Input() model: IBill;
 
   constructor(
-    public billService: BillService, 
-    public placeStore: PlaceStore, 
-    public clientStore: ClientStore, 
-    public trainerStore: TrainerStore
+    private billService: BillService,
+    public clientStore: ClientStore,
   ) {}
 
   ngAfterContentChecked(): void {

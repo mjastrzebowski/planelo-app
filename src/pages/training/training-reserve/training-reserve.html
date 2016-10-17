@@ -41,7 +41,7 @@
       <ion-list>
         <ion-item>
           <ion-label floating>Rodzaj rezerwacji</ion-label>
-          <ion-select [(ngModel)]="filter.type">
+          <ion-select [(ngModel)]="filter.type" name="type">
             <ion-option value="workout">Trening</ion-option>
             <ion-option value="boxing">Boks</ion-option>
             <ion-option value="massage">Masaż</ion-option>
@@ -50,7 +50,7 @@
         <div *ngIf="filter.type === 'massage'">
           <ion-item>
             <ion-label floating>Rodzaj masażu</ion-label>
-            <ion-select [(ngModel)]="filter.massage">
+            <ion-select [(ngModel)]="filter.massage" name="massage">
               <ion-option value="klasyczny">klasyczny</ion-option>
               <ion-option value="odchudzająco - ujędrniający">odchudzająco - ujędrniający</ion-option>
               <ion-option value="bańką chińską - pośladki, uda, brzuch">bańką chińską - pośladki, uda, brzuch</ion-option>
@@ -67,7 +67,7 @@
           </ion-item>
           <ion-item *ngIf="filter.massage">
             <ion-label floating>Czas trwania</ion-label>
-            <ion-select [(ngModel)]="filter.duration">
+            <ion-select [(ngModel)]="filter.duration" name="duration">
               <ion-option value="30">30 min</ion-option>
               <ion-option value="45">45 min</ion-option>
               <ion-option value="60">60 min</ion-option>
@@ -77,7 +77,7 @@
         </div>
         <ion-item *ngIf="filter.type">
           <ion-label floating>Miejsce</ion-label>
-          <ion-select [(ngModel)]="filter.place">
+          <ion-select [(ngModel)]="filter.place" name="place">
             <ion-option value="-KBHukjV0l8M-EkpTdI4" *ngIf="filter.type !== 'boxing'">Hermanowska</ion-option>
             <ion-option value="-KBHulP5PtV-dGxyXPWl">Zwycięska</ion-option>
           </ion-select>
@@ -86,7 +86,7 @@
       <ion-card *ngIf="filter.place">
         <ion-card-header>
           <strong>Dostępne terminy:</strong>
-          <button ion-button class="refresh-button" item-right small outline>
+          <button ion-button icon-left class="refresh-button" item-right small outline>
             <ion-icon name="refresh"></ion-icon>
             Odśwież
           </button>
@@ -97,7 +97,6 @@
             <ion-item *ngFor="let hour of w.hours" (click)="selectHour(hour)">
               <h3>{{ hour.timeStart }} - {{ hour.timeEnd }}</h3>
               <button ion-button color="favorite" item-right>{{ hour.trainers.length }} dostępne</button>
-              <!-- <p *ngFor="let trainer of hour.trainers">{{ trainer.title }}</p> -->
             </ion-item>
           </ion-item-group>
         </ion-list>
@@ -110,7 +109,6 @@
         <ion-item *ngFor="let hour of w.hours" (click)="selectHour(hour)">
           <h3>{{ hour.timeStart }} - {{ hour.timeEnd }}</h3>
           <button ion-button color="favorite" item-right>{{ hour.trainers.length }} dostępne</button>
-          <!-- <p *ngFor="let trainer of hour.trainers">{{ trainer.title }}</p> -->
         </ion-item>
       </ion-item-group>
     </ion-list>

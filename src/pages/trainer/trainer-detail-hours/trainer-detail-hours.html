@@ -2,8 +2,8 @@
   <ion-navbar>
     <ion-title>Godziny pracy trenera</ion-title>
     <ion-buttons start>
-      <button (click)="dismiss()">
-        <span primary showWhen="ios">Zamknij</span>
+      <button ion-button (click)="dismiss()">
+        <span color="primary" showWhen="ios">Zamknij</span>
         <ion-icon name="close" hideWhen="ios"></ion-icon>
       </button>
     </ion-buttons>
@@ -16,43 +16,43 @@
       <ion-list-header padding-v-0>poniedziałek</ion-list-header>
       <ion-item>
         <ion-label>8:00 - 9:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[0]['8:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[0]['8:00']" name="hours00"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>9:00 - 10:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[0]['9:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[0]['9:00']" name="hours01"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>10:00 - 11:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[0]['10:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[0]['10:00']" name="hours02"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>11:00 - 12:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[0]['11:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[0]['11:00']" name="hours03"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>16:00 - 17:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[0]['16:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[0]['16:00']" name="hours04"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>17:00 - 18:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[0]['17:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[0]['17:00']" name="hours05"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>18:00 - 19:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[0]['18:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[0]['18:00']" name="hours06"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>19:00 - 20:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[0]['19:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[0]['19:00']" name="hours07"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>20:00 - 21:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[0]['20:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[0]['20:00']" name="hours08"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>21:00 - 22:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[0]['21:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[0]['21:00']" name="hours09"></ion-toggle>
       </ion-item>
     </ion-list>
 
@@ -60,43 +60,43 @@
       <ion-list-header padding-v-0>wtorek</ion-list-header>
       <ion-item>
         <ion-label>8:00 - 9:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[1]['8:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[1]['8:00']" name="hours10"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>9:00 - 10:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[1]['9:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[1]['9:00']" name="hours11"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>10:00 - 11:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[1]['10:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[1]['10:00']" name="hours12"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>11:00 - 12:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[1]['11:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[1]['11:00']" name="hours13"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>16:00 - 17:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[1]['16:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[1]['16:00']" name="hours14"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>17:00 - 18:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[1]['17:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[1]['17:00']" name="hours15"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>18:00 - 19:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[1]['18:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[1]['18:00']" name="hours16"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>19:00 - 20:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[1]['19:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[1]['19:00']" name="hours17"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>20:00 - 21:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[1]['20:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[1]['20:00']" name="hours18"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>21:00 - 22:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[1]['21:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[1]['21:00']" name="hours19"></ion-toggle>
       </ion-item>
     </ion-list>
 
@@ -104,43 +104,43 @@
       <ion-list-header padding-v-0>środa</ion-list-header>
       <ion-item>
         <ion-label>8:00 - 9:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[2]['8:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[2]['8:00']" name="hours20"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>9:00 - 10:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[2]['9:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[2]['9:00']" name="hours21"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>10:00 - 11:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[2]['10:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[2]['10:00']" name="hours22"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>11:00 - 12:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[2]['11:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[2]['11:00']" name="hours23"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>16:00 - 17:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[2]['16:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[2]['16:00']" name="hours24"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>17:00 - 18:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[2]['17:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[2]['17:00']" name="hours25"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>18:00 - 19:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[2]['18:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[2]['18:00']" name="hours26"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>19:00 - 20:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[2]['19:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[2]['19:00']" name="hours27"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>20:00 - 21:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[2]['20:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[2]['20:00']" name="hours28"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>21:00 - 22:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[2]['21:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[2]['21:00']" name="hours29"></ion-toggle>
       </ion-item>
     </ion-list>
 
@@ -148,43 +148,43 @@
       <ion-list-header padding-v-0>czwartek</ion-list-header>
       <ion-item>
         <ion-label>8:00 - 9:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[3]['8:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[3]['8:00']" name="hours30"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>9:00 - 10:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[3]['9:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[3]['9:00']" name="hours31"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>10:00 - 11:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[3]['10:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[3]['10:00']" name="hours32"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>11:00 - 12:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[3]['11:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[3]['11:00']" name="hours33"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>16:00 - 17:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[3]['16:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[3]['16:00']" name="hours34"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>17:00 - 18:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[3]['17:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[3]['17:00']" name="hours35"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>18:00 - 19:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[3]['18:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[3]['18:00']" name="hours36"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>19:00 - 20:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[3]['19:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[3]['19:00']" name="hours37"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>20:00 - 21:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[3]['20:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[3]['20:00']" name="hours38"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>21:00 - 22:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[3]['21:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[3]['21:00']" name="hours39"></ion-toggle>
       </ion-item>
     </ion-list>
 
@@ -192,43 +192,43 @@
       <ion-list-header padding-v-0>piątek</ion-list-header>
       <ion-item>
         <ion-label>8:00 - 9:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[4]['8:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[4]['8:00']" name="hours40"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>9:00 - 10:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[4]['9:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[4]['9:00']" name="hours41"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>10:00 - 11:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[4]['10:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[4]['10:00']" name="hours42"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>11:00 - 12:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[4]['11:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[4]['11:00']" name="hours43"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>16:00 - 17:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[4]['16:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[4]['16:00']" name="hours44"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>17:00 - 18:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[4]['17:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[4]['17:00']" name="hours45"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>18:00 - 19:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[4]['18:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[4]['18:00']" name="hours46"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>19:00 - 20:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[4]['19:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[4]['19:00']" name="hours47"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>20:00 - 21:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[4]['20:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[4]['20:00']" name="hours48"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>21:00 - 22:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[4]['21:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[4]['21:00']" name="hours49"></ion-toggle>
       </ion-item>
     </ion-list>
 
@@ -236,56 +236,56 @@
       <ion-list-header padding-v-0>sobota</ion-list-header>
       <ion-item>
         <ion-label>8:00 - 9:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[5]['8:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[5]['8:00']" name="hours50"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>9:00 - 10:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[5]['9:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[5]['9:00']" name="hours51"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>10:00 - 11:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[5]['10:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[5]['10:00']" name="hours52"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>11:00 - 12:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[5]['11:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[5]['11:00']" name="hours53"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>12:00 - 13:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[5]['12:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[5]['12:00']" name="hours54"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>13:00 - 14:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[5]['13:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[5]['13:00']" name="hours55"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>14:00 - 15:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[5]['14:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[5]['14:00']" name="hours56"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>15:00 - 16:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[5]['15:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[5]['15:00']" name="hours57"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>16:00 - 17:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[5]['16:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[5]['16:00']" name="hours58"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>17:00 - 18:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[5]['17:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[5]['17:00']" name="hours59"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>18:00 - 19:00</ion-label>
-        <ion-toggle [(ngModel)]="trainer.hours[5]['18:00']"></ion-toggle>
+        <ion-toggle [(ngModel)]="trainer.hours[5]['18:00']" name="hours510"></ion-toggle>
       </ion-item>
     </ion-list>
 
     <ion-row responsive-sm>
       <ion-col>
-        <button primary block type="submit" (click)="save()">Zapisz godziny</button>
+        <button ion-button color="primary" block type="submit" (click)="save()">Zapisz godziny</button>
       </ion-col>
       <ion-col>
-        <button light block (click)="dismiss()">Anuluj</button>
+        <button ion-button color="light" block (click)="dismiss()">Anuluj</button>
       </ion-col>
     </ion-row>
   </form>

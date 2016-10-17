@@ -2,9 +2,9 @@
   <ion-navbar>
     <ion-title>Rachunki klienta</ion-title>
     <ion-buttons start>
-      <button (click)="dismiss()">
-        <span primary showWhen="ios">Zamknij</span>
-        <ion-icon name='close' hideWhen="ios"></ion-icon>
+      <button ion-button (click)="dismiss()">
+        <span color="primary" showWhen="ios">Zamknij</span>
+        <ion-icon name="close" hideWhen="ios"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -15,7 +15,7 @@
     <ion-list>
       <ion-item>
         <ion-label>Wybierz miesiąc rozliczeniowy</ion-label>
-        <ion-select [(ngModel)]="client.month" (ionChange)="updateMonth()">
+        <ion-select [(ngModel)]="client.month" name="month" (ionChange)="updateMonth()">
           <ion-option value="2016-05">maj 2016</ion-option>
           <ion-option value="2016-06">czerwiec 2016</ion-option>
           <ion-option value="2016-07">lipiec 2016</ion-option>
@@ -27,35 +27,35 @@
 
       <ion-item [hidden]="true">
         <ion-label>Wystaw rachunek ręcznie (nie aktualizuj wartości)</ion-label>
-        <ion-toggle [(ngModel)]="client.manual"></ion-toggle>
+        <ion-toggle [(ngModel)]="client.manual" name="manual"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label floating>Opłacone treningi w poprzednim miesiącu (zrobione: {{client.trainingsDoneCount}})</ion-label>
-        <ion-input type="text" [(ngModel)]="client.payed" (change)="updateAll()"></ion-input>
+        <ion-input type="text" [(ngModel)]="client.payed" name="payed" (change)="updateAll()"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Zaplanowane treningi na nowy miesiąc {{ client.month }}</ion-label>
-        <ion-input type="text" [(ngModel)]="client.trainingsTodoCount" (change)="updateAll()"></ion-input>
+        <ion-input type="text" [(ngModel)]="client.trainingsTodoCount" name="trainingsTodoCount" (change)="updateAll()"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Treningi przechodzące z ubiegłego miesiąca</ion-label>
-        <ion-input type="text" [(ngModel)]="client.trainingsMovedCount" (change)="updateTrainings()"></ion-input>
+        <ion-input type="text" [(ngModel)]="client.trainingsMovedCount" name="trainingsMovedCount" (change)="updateTrainings()"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Dopłata za dodatkowe treningi w poprzednim miesiącu [zł]</ion-label>
-        <ion-input type="text" [(ngModel)]="client.trainingsSurcharge" (change)="updateDiscount()"></ion-input>
+        <ion-input type="text" [(ngModel)]="client.trainingsSurcharge" name="trainingsSurcharge" (change)="updateDiscount()"></ion-input>
       </ion-item>
       <ion-row responsive-sm>
         <ion-col>
           <ion-item>
             <ion-label floating>Procent rabatu [%]</ion-label>
-            <ion-input type="text" [(ngModel)]="client.discount" (change)="updateDiscount()"></ion-input>
+            <ion-input type="text" [(ngModel)]="client.discount" name="discount" (change)="updateDiscount()"></ion-input>
           </ion-item>
         </ion-col>
         <ion-col>
           <ion-item>
             <ion-label floating>Kwota rabatu [zł]</ion-label>
-            <ion-input type="text" [(ngModel)]="client.discountAmount" (change)="updateTotal()"></ion-input>
+            <ion-input type="text" [(ngModel)]="client.discountAmount" name="discountAmount" (change)="updateTotal()"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -63,13 +63,13 @@
         <ion-col>
           <ion-item>
             <ion-label floating>Dodatkowa dopłata (bez rabatu) [zł]</ion-label>
-            <ion-input type="text" [(ngModel)]="client.surcharge" (change)="updateTotal()"></ion-input>
+            <ion-input type="text" [(ngModel)]="client.surcharge" name="surcharge" (change)="updateTotal()"></ion-input>
           </ion-item>
         </ion-col>
         <ion-col>
           <ion-item>
             <ion-label floating>Opis dopłaty (np. kawiarnia)</ion-label>
-            <ion-input type="text" [(ngModel)]="client.surchargeDesc"></ion-input>
+            <ion-input type="text" [(ngModel)]="client.surchargeDesc" name="surchargeDesc"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -79,16 +79,16 @@
     </ion-list>
 
     <ion-buttons padding text-center>
-      <button outline (click)="preview()" [disabled]="!client.month">
+      <button ion-button icon-left outline (click)="preview()" [disabled]="!client.month">
         <ion-icon name="eye"></ion-icon>
         Podgląd rachunku
       </button>
-      <button outline [disabled]="!client.month || client.billSent" (click)="send()">
+      <button ion-button icon-left outline [disabled]="!client.month || client.billSent" (click)="send()">
         <ion-icon name="send"></ion-icon>
         Wyślij do klienta
       </button>
-      <p favorite *ngIf="client.billSendStatus">{{ client.billSendStatus }}<br><strong>{{ client.email }}</strong></p>
-      <p danger *ngIf="client.billSendError">{{ client.billSendError }}<br><strong>{{ client.email }}</strong></p>
+      <p color="favorite" *ngIf="client.billSendStatus">{{ client.billSendStatus }}<br><strong>{{ client.email }}</strong></p>
+      <p color="danger" *ngIf="client.billSendError">{{ client.billSendError }}<br><strong>{{ client.email }}</strong></p>
     </ion-buttons>
 
     <ion-row responsive-sm>
@@ -97,10 +97,10 @@
         <button primary block type="submit" [hidden]="client.send" (click)="save()">Zapisz zmiany</button>
       </ion-col> -->
       <ion-col>
-        <button primary block type="submit" [disabled]="!client.month" (click)="save()">Zapisz zmiany</button>
+        <button ion-button color="primary" block type="submit" [disabled]="!client.month" (click)="save()">Zapisz zmiany</button>
       </ion-col>
       <ion-col>
-        <button light block (click)="dismiss()">Anuluj</button>
+        <button ion-button color="light" block (click)="dismiss()">Anuluj</button>
       </ion-col>
     </ion-row>
   </form>

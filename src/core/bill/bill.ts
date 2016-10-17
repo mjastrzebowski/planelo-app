@@ -2,7 +2,7 @@ export class IBill {
   completed: boolean;
   createdAt: number;
   key?: string;
-  client: string;
+  client: any;
   clientKey?: string;
   month: string;
   payed?: number;
@@ -15,6 +15,7 @@ export class IBill {
   surchargeDesc?: string;
   subtotal?: number;
   total?: number;
+  workout?: any;
 }
 
 export class Bill implements IBill {

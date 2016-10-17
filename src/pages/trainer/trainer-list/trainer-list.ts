@@ -1,12 +1,10 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { App, ModalController, NavController } from 'ionic-angular';
+import { Component, Input } from '@angular/core';
+import { ModalController, NavController } from 'ionic-angular';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { Utils } from '../../../providers/utils';
-
-import { NotificationCounter } from '../../../components/notification/notification-counter/notification-counter';
 
 import { AuthService } from '../../../core/auth/auth-service';
 import { TrainerStore } from '../../../core/trainer/trainer-store';
@@ -16,24 +14,27 @@ import { TrainerCreateModal } from '../trainer-create/trainer-create'
 import { TrainerDetailPage } from '../trainer-detail/trainer-detail'
 
 @Component({
-  templateUrl: 'trainer-list.html',
-  directives: [
-    NotificationCounter
-  ]
+  templateUrl: 'trainer-list.html'
 })
 export class TrainerListPage {
   @Input() trainers: ReplaySubject<List<any>>;
 
-  constructor(public app: App, public nav: NavController, public modalCtrl: ModalController, public utils: Utils, public auth: AuthService, public trainerStore: TrainerStore, public trainerService: TrainerService) {
-
+  constructor(
+    private nav: NavController,
+    private modalCtrl: ModalController,
+    private utils: Utils,
+    private auth: AuthService,
+    private trainerStore: TrainerStore,
+    private trainerService: TrainerService
+  ) {
     this.queryText = '';
   }
 
-  goToTrainerDetail(trainer) {
+  goToTrainerDetail(trainer): void {
     this.nav.push(TrainerDetailPage, trainer);
   }
 
-  showTrainerCreate() {
+  showTrainerCreate(): void {
     let modal = this.modalCtrl.create(TrainerCreateModal);
     modal.onDidDismiss(data => {
       if (data) {
@@ -46,7 +47,7 @@ export class TrainerListPage {
     modal.present();
   }
 
-  updateList() {
+  updateList(): void {
     this.shownSessions = 0;
     let queryText = this.queryText.toLowerCase().replace(/,|\.|-/g,' ');
     let queryWords = queryText.split(' ').filter(w => w.trim().length);
@@ -75,7 +76,7 @@ export class TrainerListPage {
     });
   }
 
-  ionViewDidEnter() {
+  ionViewDidEnter(): void {
     this.utils.presentLoading('Ładowanie trenerów...');
 
     let authSub = this.auth.subscribe((authenticated: boolean) => {

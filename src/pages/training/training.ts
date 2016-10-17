@@ -10,7 +10,7 @@ export class TrainingPage {
     this.confData = confData;
   }
 
-  ionViewLoaded() {
+  ngOnInit(): void {
     this.confData.getClients().then(clientsData => {
       let clientsEle = document.getElementById('clients');
 

@@ -11,7 +11,10 @@ import { NotificationStore } from '../../../core/notification/notification-store
 })
 export class NotificationCounter {
 
-  constructor(public auth: AuthService, public notificationStore: NotificationStore) {
+  constructor(
+    public auth: AuthService,
+    public notificationStore: NotificationStore
+  ) {
     this.timer = localStorage.getItem('notification-counter-timer') || 0;
   }
 

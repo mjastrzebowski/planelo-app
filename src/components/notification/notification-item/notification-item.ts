@@ -19,12 +19,15 @@ import { ClientDetailPage } from '../../../pages/client/client-detail/client-det
 export class NotificationItem {
   @Input() model: INotification;
 
-  editing: boolean = false;
-  // title: string = '';
+  constructor(
+    private app: App,
+    private notificationService: NotificationService,
+    public placeStore: PlaceStore,
+    public clientStore: ClientStore,
+    public trainerStore: TrainerStore
+  ) {}
 
-  constructor(private app: App, notificationService: NotificationService, public placeStore: PlaceStore, public clientStore: ClientStore, public trainerStore: TrainerStore) {}
-
-  ngAfterContentChecked() {
+  ngAfterContentChecked(): void {
     let created = moment(this.model.createdAt);
     this.model.fromNow = created.fromNow();
     this.model.descDate = created.format('DD.MM.YYYY, HH:mm');
@@ -37,33 +40,8 @@ export class NotificationItem {
     this.notificationService.deleteNotification(this.model);
   }
 
-  editTitle(): void {
-    this.editing = true;
-    // this.title = this.model.title;
-  }
-
-  // saveTitle(): void {
-  //   if (this.editing) {
-  //     const title: string = this.title.trim();
-  //     if (title.length && title !== this.model.title) {
-  //       this.workoutService.updateWorkout(this.model, {title});
-  //     }
-  //     this.stopEditing();
-  //   }
-  // }
-
-  stopEditing(): void {
-    this.editing = false;
-  }
-
-  toggleStatus(): void {
-    this.notificationService.updateNotification(this.model, {
-      completed: !this.model.completed
-    });
-  }
-
   // TEMP solution!
-  getOwnerAlias(key) {
+  getOwnerAlias(key): string {
     switch (key) {
       case '-KBN-b7GjsB6FS8Opmx0':
       case '-KNSsNzm8WH_t_lwASAz': {
@@ -78,7 +56,7 @@ export class NotificationItem {
     }
   }
 
-  goToClientDetail(client) {
+  goToClientDetail(client): void {
     this.nav = this.app.getActiveNav();
     this.nav.push(ClientDetailPage, client);
   }

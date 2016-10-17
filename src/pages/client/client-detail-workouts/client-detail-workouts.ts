@@ -1,26 +1,24 @@
 import { Component, Input } from '@angular/core';
-import { App, NavParams, ViewController } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 
 import { IClient } from '../../../core/client/client';
 
 import { WorkoutStore } from '../../../core/workout/workout-store';
-import { WorkoutList } from '../../../components/workout/workout-list/workout-list';
 
 @Component({
-  directives: [WorkoutList],
   templateUrl: 'client-detail-workouts.html'
 })
 export class ClientDetailWorkoutsModal {
   @Input() client: IClient;
   editing: boolean = false;
 
-  constructor(app: App, params: NavParams, viewCtrl: ViewController, public workoutStore: WorkoutStore) {
-    this.app = app;
-    this.params = params;
-    this.viewCtrl = viewCtrl;
-  }
+  constructor(
+    private params: NavParams,
+    private viewCtrl: ViewController,
+    private workoutStore: WorkoutStore
+  ) {}
 
-  ionViewLoaded() {
+  ngOnInit(): void {
     if (this.params.data.hasOwnProperty('key')) {
       this.editing = true;
       this.client = this.params.data;
@@ -28,10 +26,9 @@ export class ClientDetailWorkoutsModal {
       this.client = {};
     }
     this.clientWorkouts = this.workoutStore.filterBy({ client: this.client.key });
-    debugger;
   }
 
-  dismiss() {
+  dismiss(): void {
     this.viewCtrl.dismiss();
   }
 }

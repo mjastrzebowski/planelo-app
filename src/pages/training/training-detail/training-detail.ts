@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
-import { NavParams, NavController, ModalController } from 'ionic-angular';
+import { NavParams, ModalController } from 'ionic-angular';
 
-import {TrainingHistoryModal} from '../training-history/training-history'
+import { TrainingHistoryModal } from '../training-history/training-history'
 
 @Component({
   templateUrl: 'training-detail.html'
 })
 export class TrainingDetailPage {
-  constructor(public nav: NavController, public modalCtrl: ModalController, public navParams: NavParams) {
-
+  constructor(
+    private navParams: NavParams,
+    private modalCtrl: ModalController
+  ) {
     this.training = navParams.data;
     this.user.username = this.training.client.username;
     this.ex = this.training.exercises;
@@ -21,16 +23,16 @@ export class TrainingDetailPage {
     }
   }
 
-  showHistory() {
+  showHistory(): void {
     let modal = this.modalCtrl.create(TrainingHistoryModal, this.training);
     modal.present();
   }
 
-  removeLastSet(exercise) {
+  removeLastSet(exercise): void {
     exercise.sets.pop();
   }
 
-  addSet(exercise) {
+  addSet(exercise): void {
     let newSet = {};
     if (exercise.sets) {
       newSet = Object.assign({}, exercise.sets[exercise.sets.length-1]);
@@ -46,7 +48,7 @@ export class TrainingDetailPage {
     exercise.sets.push(newSet);
   }
 
-  addExercise() {
+  addExercise(): void {
     let ex = {};
     if (!this.training.exercises || this.training.exercises.length === 0) {
       this.training.exercises = [];
@@ -54,13 +56,12 @@ export class TrainingDetailPage {
     this.training.exercises.push(ex);
   }
 
-  setExercise() {
+  setExercise(): void {
     let newEx = this.exercises[this.newExerciseKey];
     this.training.exercises[this.training.exercises.length-1] = newEx;
-    console.log('test?!', this.newExerciseKey, newEx);
   }
 
-  joinExercises() {
+  joinExercises(): void {
     if (this.training.exercises) {
       Object.keys(this.ex).map(exercise => {
         this.ex[exercise].name = this.exercises[exercise].name;
@@ -71,7 +72,7 @@ export class TrainingDetailPage {
     }
   }
 
-  getExercises() {
+  getExercises(): any {
     this.exerciseData.getExercises().then(exercises => {
       this.exercises = exercises;
       this.exerciseArray = Object.keys(this.exercises).map(key => {
@@ -82,7 +83,7 @@ export class TrainingDetailPage {
     });
   }
 
-  ionViewLoaded() {
+  ngOnInit(): void {
     this.getExercises();
   }
 }

@@ -1,10 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { App, ModalController, NavController } from 'ionic-angular';
+import { ModalController } from 'ionic-angular';
 
 import { Utils } from '../../../providers/utils';
-
-import { NotificationCounter } from '../../../components/notification/notification-counter/notification-counter';
-import { ClientList } from '../../../components/client/client-list/client-list';
 
 import { AuthService } from '../../../core/auth/auth-service';
 import { ClientService } from '../../../core/client/client-service';
@@ -12,15 +9,16 @@ import { ClientService } from '../../../core/client/client-service';
 import { ClientCreateModal } from '../client-create/client-create';
 
 @Component({
-  templateUrl: 'client-list.html',
-  directives: [
-    NotificationCounter,
-    ClientList
-  ]
+  templateUrl: 'client-list.html'
 })
 export class ClientListPage {
 
-  constructor(public app: App, public nav: NavController, public modalCtrl: ModalController, public utils: Utils, public auth: AuthService, public clientService: ClientService) {
+  constructor(
+    private modalCtrl: ModalController,
+    private utils: Utils,
+    private auth: AuthService,
+    private clientService: ClientService
+  ) {
     this.filter = '';
   }
 

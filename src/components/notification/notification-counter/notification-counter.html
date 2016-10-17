@@ -1,4 +1,4 @@
-<button ion-button class="notification-button" menuToggle="right" *ngIf="auth.isOwner" (click)="clear()">
+<button ion-button icon-only class="notification-button" menuToggle="right" *ngIf="auth.isOwner" (click)="clear()">
   <ion-icon name="notifications"></ion-icon>
   <ion-badge class="notification-counter" item-right>{{ notificationStore.count(timer) }}</ion-badge>
 </button>

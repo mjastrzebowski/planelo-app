@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { App, NavParams, ViewController } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 
 import { IClient } from '../../../core/client/client';
 
@@ -12,14 +12,13 @@ export class ClientDetailAccessModal {
   @Input() client: IClient;
   editing: boolean = false;
 
-  constructor(app: App, params: NavParams, viewCtrl: ViewController, utils: Utils) {
-    this.app = app;
-    this.params = params;
-    this.viewCtrl = viewCtrl;
-    this.utils = utils;
-  }
+  constructor(
+    private params: NavParams,
+    private viewCtrl: ViewController,
+    private utils: Utils
+  ) {}
 
-  ionViewLoaded() {
+  ngOnInit(): void {
     if (this.params.data.hasOwnProperty('key')) {
       this.editing = true;
       this.client = this.params.data;
@@ -28,14 +27,14 @@ export class ClientDetailAccessModal {
     }
   }
 
-  generatePassword(field) {
+  generatePassword(field): void {
     field.value = '';
     field.type = 'text';
     this.client.password = this.utils.generatePassword();
     this.generateMessage();
   }
 
-  generateMessage() {
+  generateMessage(): void {
     this.client.message = "Witaj!\r\n"
       + "Konto w systemie do zarządzania terminami Twoich treningów zostało utworzone.\r\n"
       + "\r\n"
@@ -49,15 +48,15 @@ export class ClientDetailAccessModal {
       + "Zespół Egobody";
   }
 
-  save() {
+  save(): void {
     this.viewCtrl.dismiss(this.client);
   }
 
-  dismiss() {
+  dismiss(): void {
     this.viewCtrl.dismiss();
   }
 
-  delete() {
+  delete(): void {
     this.client.delete = true;
     this.viewCtrl.dismiss(this.client);
   }

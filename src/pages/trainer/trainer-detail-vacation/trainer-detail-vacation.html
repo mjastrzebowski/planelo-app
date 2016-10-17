@@ -2,8 +2,8 @@
   <ion-navbar>
     <ion-title>Urlopy trenera</ion-title>
     <ion-buttons start>
-      <button (click)="dismiss()">
-        <span primary showWhen="ios">Zamknij</span>
+      <button ion-button (click)="dismiss()">
+        <span color="primary" showWhen="ios">Zamknij</span>
         <ion-icon name="close" hideWhen="ios"></ion-icon>
       </button>
     </ion-buttons>
@@ -17,7 +17,7 @@
         <ion-row center padding-v-0>
           <ion-col width-80>Urlop</ion-col>
           <ion-col width-20>
-            <button clear danger small (click)="removeVacation(v)">
+            <button ion-button icon-only clear color="danger" small (click)="removeVacation(v)">
               <ion-icon name="remove-circle"></ion-icon>
             </button>
           </ion-col>
@@ -25,24 +25,24 @@
       </ion-list-header>
       <ion-item>
         <ion-label>Początek</ion-label>
-        <ion-datetime displayFormat="DD.MM.YYYY" pickerFormat="DD.MM.YYYY" [(ngModel)]="vacation.dateStart"></ion-datetime>
+        <ion-datetime displayFormat="DD.MM.YYYY" pickerFormat="DD.MM.YYYY" [(ngModel)]="vacation.dateStart" name="dateStart{{ v }}"></ion-datetime>
       </ion-item>
       <ion-item>
         <ion-label>Koniec</ion-label>
-        <ion-datetime displayFormat="DD.MM.YYYY" pickerFormat="DD.MM.YYYY" [(ngModel)]="vacation.dateEnd"></ion-datetime>
+        <ion-datetime displayFormat="DD.MM.YYYY" pickerFormat="DD.MM.YYYY" [(ngModel)]="vacation.dateEnd" name="dateEnd{{ v }}"></ion-datetime>
       </ion-item>
     </ion-list>
 
     <ion-buttons padding text-center>
-      <button outline small (click)="addVacation()"><ion-icon name="add"></ion-icon> dodaj kolejny</button>
+      <button ion-button icon-left outline small (click)="addVacation()"><ion-icon name="add"></ion-icon> dodaj kolejny</button>
     </ion-buttons>
 
     <ion-row responsive-sm>
       <ion-col>
-        <button primary block type="submit" (click)="save()">Zapisz zmiany</button>
+        <button ion-button color="primary" block type="submit" (click)="save()">Zapisz zmiany</button>
       </ion-col>
       <ion-col>
-        <button light block (click)="dismiss()">Anuluj</button>
+        <button ion-button color="light" block (click)="dismiss()">Anuluj</button>
       </ion-col>
     </ion-row>
   </form>

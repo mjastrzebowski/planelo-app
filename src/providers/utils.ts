@@ -1,4 +1,4 @@
-import { Injectable, Component, ViewChild } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { App, LoadingController } from 'ionic-angular';
 
 import { NotificationService } from '../core/notification/notification-service';
@@ -6,7 +6,11 @@ import { NotificationService } from '../core/notification/notification-service';
 @Injectable()
 export class Utils {
 
-  constructor(public app: App, public loadingCtrl: LoadingController, public notificationService: NotificationService) {
+  constructor(
+    private app: App,
+    private loadingCtrl: LoadingController,
+    private notificationService: NotificationService
+  ) {
     this.nav = app.getActiveNav();
     this.active = false;
 
@@ -21,35 +25,29 @@ export class Utils {
     ];
   }
 
-  createNotification(type, data) {
+  createNotification(type: string, data: any): void {
     this.notificationService.createNotification(type, data);
   }
 
-  presentLoading(message, duration) {
-    // console.log('present loading', this.nav);
+  presentLoading(message: string, duration?: number): void {
     this.active = true;
     if (this.loading) {
       return;
     }
 
     let options = {
-      content: message || 'Proszę czekać...' //,
-      // dismissOnPageChange: true
+      content: message || 'Proszę czekać...'
     };
 
     if (duration) {
       options.duration = duration;
     }
 
-    // console.log('present loading create');
     this.loading = this.loadingCtrl.create(options);
-    // console.log('present loading start');
-    this.loading.present();
-    
+    this.loading.present();    
   }
 
-  stopLoading(force) {
-    // console.log('test stop loading', this.nav.hasOverlay());
+  stopLoading(force?: boolean): void {
     if (this.loading && (force || this.active)) {
       this.loading.dismiss();
     }
@@ -57,10 +55,11 @@ export class Utils {
     this.active = false;
   }
 
-  generatePassword() {
-    let length = 6,
-        charset = 'abcdefghjkpqrstuxyz23456789',
-        retVal = '';
+  generatePassword(): string {
+    let length = 6;
+    let charset = 'abcdefghjkpqrstuxyz23456789';
+    let retVal = '';
+
     for (let i = 0, n = charset.length; i < length; ++i) {
       retVal += charset.charAt(Math.floor(Math.random() * n));
     }
@@ -68,7 +67,7 @@ export class Utils {
   }
 
   // deprecated
-  static rewriteString(string) {
+  static rewriteString(string: string): string {
     let str = string.toLowerCase();
     let replaceChars = {
       'ę': 'e',

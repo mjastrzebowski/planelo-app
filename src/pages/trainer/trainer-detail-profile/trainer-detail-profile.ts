@@ -1,10 +1,8 @@
 import { Component, Input } from '@angular/core';
 
-import { App, NavParams, ViewController } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 
 import { ITrainer } from '../../../core/trainer/trainer';
-
-import { Utils } from '../../../providers/utils';
 
 @Component({
   templateUrl: 'trainer-detail-profile.html'
@@ -12,13 +10,12 @@ import { Utils } from '../../../providers/utils';
 export class TrainerDetailProfileModal {
   @Input() trainer: ITrainer;
 
-  constructor(app: App, params: NavParams, viewCtrl: ViewController) {
-    this.app = app;
-    this.params = params;
-    this.viewCtrl = viewCtrl;
-  }
+  constructor(
+    private params: NavParams,
+    private viewCtrl: ViewController
+  ) {}
 
-  ionViewLoaded() {
+  ngOnInit(): void {
     if (this.params.data.hasOwnProperty('key')) {
       this.trainer = this.params.data;
       if (!this.trainer.hasOwnProperty('hours')) {
@@ -33,15 +30,15 @@ export class TrainerDetailProfileModal {
     }
   }
 
-  save() {
+  save(): void {
     this.viewCtrl.dismiss(this.trainer);
   }
 
-  dismiss() {
+  dismiss(): void {
     this.viewCtrl.dismiss();
   }
 
-  delete() {
+  delete(): void {
     this.trainer.delete = true;
     this.viewCtrl.dismiss(this.trainer);
   }

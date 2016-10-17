@@ -16,14 +16,14 @@
 
     <ion-content class="menu">
       <ion-list>
-        <button ion-item menuClose="menuLeft" *ngFor="let p of pages" (click)="openPage(p)" [hidden]="p.hide">
+        <button ion-item icon-left menuClose="menuLeft" *ngFor="let p of pages" (click)="openPage(p)" [hidden]="p.hide">
           <ion-icon item-left [name]="p.icon"></ion-icon>
           {{ p?.title }}
         </button>
       </ion-list>
 
       <code padding *ngIf="auth.isOwner">
-        <small>Wersja: 1.3.52 (z dnia 11.10.2016 r.)</small>
+        <small>Wersja: 1.5.0 (z dnia 17.10.2016 r.)</small>
       </code>
     </ion-content>
   </ion-menu>
@@ -37,7 +37,7 @@
     <ion-content class="menu" menuClose="menuRight">
       <notification-list class="notifications" limit="10"></notification-list>
       <ion-buttons padding text-center>
-        <button outline (click)="openPage('NotificationListPage')">
+        <button ion-button icon-left outline (click)="openPage('NotificationListPage')">
           <ion-icon name="more"></ion-icon>
           zobacz więcej
         </button>

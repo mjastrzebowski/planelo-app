@@ -32,7 +32,7 @@ export class ExerciseListPage {
     }, this);
   }
 
-  ionViewLoaded() {
+  ngOnInit(): void {
     this.getExercises();
   }
 }

@@ -23,7 +23,7 @@ export class BillListFilterPipe implements PipeTransform {
     return list.slice().reverse().slice(0, limit);
   }
 
-  filter(list, key, value) {
+  filter(list, key, value): IBill[] {
     if (!value) {
       return list;
     }

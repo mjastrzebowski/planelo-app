@@ -2,8 +2,8 @@
   <ion-navbar>
     <ion-title>Nowy trener</ion-title>
     <ion-buttons start>
-      <button (click)="dismiss()">
-        <span primary showWhen="ios">Zamknij</span>
+      <button ion-button (click)="dismiss()">
+        <span color="primary" showWhen="ios">Zamknij</span>
         <ion-icon name="close" hideWhen="ios"></ion-icon>
       </button>
     </ion-buttons>
@@ -15,11 +15,11 @@
     <ion-list>
       <ion-item>
         <ion-label floating>Imię i nazwisko</ion-label>
-        <ion-input type="text" [(ngModel)]="trainer.title"></ion-input>
+        <ion-input type="text" [(ngModel)]="trainer.title" name="title"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Adres email</ion-label>
-        <ion-input type="text" [(ngModel)]="trainer.email"></ion-input>
+        <ion-input type="text" [(ngModel)]="trainer.email" name="email"></ion-input>
       </ion-item>
     </ion-list>
 
@@ -41,10 +41,10 @@
 
     <ion-row responsive-sm>
       <ion-col>
-        <button primary block type="submit" (click)="save()">Dodaj trenera</button>
+        <button ion-button color="primary" block type="submit" (click)="save()">Dodaj trenera</button>
       </ion-col>
       <ion-col>
-        <button light block (click)="dismiss()">Anuluj</button>
+        <button ion-button color="light" block (click)="dismiss()">Anuluj</button>
       </ion-col>
     </ion-row>
   </form>

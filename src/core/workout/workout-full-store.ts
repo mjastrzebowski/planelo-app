@@ -9,10 +9,12 @@ export class WorkoutFullStore {
   workouts: ReplaySubject<List<any>> = new ReplaySubject(1);
   public list: List<any> = List();
 
-  constructor(ref: Firebase, auth: AuthService, public clientStore: ClientStore) {
+  constructor(
+    private ref: Firebase,
+    private auth: AuthService
+  ) {
     this.auth = auth;
     ref = ref.orderByChild('dateTime').startAt('2016-06-01 08:00');
-    // ref = ref.orderByChild('dateTime');// .endAt('2016-06-30 08:00');
     ref.on('child_added', this.created.bind(this));
     ref.on('child_changed', this.updated.bind(this));
     ref.on('child_removed', this.deleted.bind(this));
@@ -40,7 +42,6 @@ export class WorkoutFullStore {
       let val = snapshot.val();
       let workout: IWorkout = val;
       workout.key = key;
-      // workout.fullDate = new Date(workout.date).toLocaleDateString('pl', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
       workout.fullDate = moment(new Date(workout.date)).format('dddd, DD.MM.YYYY');
       this.list = this.list.push(workout);
       this.updateWorkoutDependencies(workout);
@@ -68,7 +69,7 @@ export class WorkoutFullStore {
     }
   }
 
-  private findIndex(key: string): number {
+  findIndex(key: string): number {
     return this.list.findIndex((workout: IWorkout) => {
       return workout.key === key;
     });

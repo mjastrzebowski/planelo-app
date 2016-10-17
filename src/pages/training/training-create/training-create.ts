@@ -1,11 +1,10 @@
 import { Component, Input } from '@angular/core';
 
-import { App, NavParams, NavController, ViewController } from 'ionic-angular';
-
-import { Utils } from '../../../providers/utils';
+import { NavParams, ViewController } from 'ionic-angular';
 
 import { AuthService } from '../../../core/auth/auth-service';
 
+import { ClientStore } from '../../../core/client/client-store';
 import { TrainerStore } from '../../../core/trainer/trainer-store';
 import { WorkoutFullStore } from '../../../core/workout/workout-full-store';
 
@@ -14,17 +13,21 @@ import { WorkoutFullStore } from '../../../core/workout/workout-full-store';
   templateUrl: 'training-create.html'
 })
 export class TrainingCreateModal {
-  @Input() trainings: Array;
+  @Input() trainings: Array = [{}];
   editing: boolean = false;
 
-  constructor(public app: App, public params: NavParams, public nav: NavController, public viewCtrl: ViewController, public utils: Utils, public auth: AuthService, public trainerStore: TrainerStore, public workoutStore: WorkoutFullStore) {
-
+  constructor(
+    private params: NavParams,
+    private viewCtrl: ViewController,
+    private auth: AuthService,
+    private trainerStore: TrainerStore,
+    private workoutStore: WorkoutFullStore,
+    public clientStore: ClientStore
+  ) {
     this.available = [];
     this.repeated = [];
-    // this.trainings = [];
     this.place = '-KBHukjV0l8M-EkpTdI4';
     this.forceSub = false;
-
     this.filter = {};
   }
 
@@ -32,9 +35,7 @@ export class TrainingCreateModal {
     this.getAvailableWorkouts();
   }
 
-  ionViewLoaded() {
-    // this.utils.presentLoading('Sprawdzanie terminów...');
-
+  ngOnInit() {
     if (this.params.data.hasOwnProperty('date')) {
       let workout = Object.assign({}, this.params.data);
       workout.client = workout.clientKey;
@@ -56,45 +57,17 @@ export class TrainingCreateModal {
         } else {
           this.workouts = this.workoutStore.workouts;
           this.getAvailableWorkouts();
-        // console.log('TESSSSSSST - ', this.workoutStore.size);
-        // if (!this.workouts) {
-        //   let workSub = this.workouts.subscribe((list) => {
-        //     if (workSub) {
-        //       workSub.unsubscribe();
-        //     }
-            
-        //   });
-        // }
         }
       }
     });
   }
 
-  updateDateTime() {
-    // console.log('test updateDateTime');
-  }
-
-  getAvailableWorkouts() {
-    console.log('test getAvailableWorkouts start');
-    // this.availableTrainers = this.trainerStore.filterBy({
-    //   place: this.place,
-    //   // availableFrom: firstDay,
-    //   // dateBefore: lastDay
-    // });
-    // console.log('test avTrainers', this.place, this.availableTrainers);
-
-
-
-
-
-
-    // console.log('test getAvailableWorkouts end');
-    // return false;
+  getAvailableWorkouts(): void {
     this.available = [];
     if (this.available.length > 0) {
       return false;
     }
-    var hours = [
+    let hours = [
       { timeStart: '8:00', timeEnd: '09:00' },
       { timeStart: '9:00', timeEnd: '10:00' },
       { timeStart: '10:00', timeEnd: '11:00' },
@@ -110,11 +83,11 @@ export class TrainingCreateModal {
       { timeStart: '21:00', timeEnd: '22:00' }
     ];
 
-    var days = 40;
-    var today = new Date().getDate();
+    let days = 40;
+    let today = new Date().getDate();
     if (this.auth.isClient) {
       today++;
-      var hour = new Date().getHours();
+      let hour = new Date().getHours();
       if (hour >= 21) {
         today++;
       }
@@ -128,13 +101,9 @@ export class TrainingCreateModal {
 
     let avTrainers = [];
     this.trainerStore.list.forEach(trainer => {
-      // if (trainer.place === this.place) {
-        avTrainers.push(trainer);
-      // }
+      avTrainers.push(trainer);
     });
-    // console.log('test avTrainers', this.place, avTrainers);
 
-    // let lastDate = this.workoutStore.list.last().date;
     for (let d = today; d <= today+days; d++) {
       let nextDay = new Date('2016-09-01');
       nextDay.setDate(d);
@@ -162,8 +131,6 @@ export class TrainingCreateModal {
           '-KJ2tLDl_lljvvl48TMW': 0  // mateusz
         };
         hours.forEach(hour => {
-          // var size = this.workoutStore.trainerStore.size;
-          
           let time = hour.timeStart;
           if (time === '8:00' || time === '9:00') {
             time = '0' + time;
@@ -187,7 +154,6 @@ export class TrainingCreateModal {
           }
         });
 
-        // descDate: nextDay.toLocaleDateString('pl', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
         let avDay = {
           descDate: moment(nextDay).format('dddd, DD.MM.YYYY'),
           hours: avHours
@@ -195,60 +161,37 @@ export class TrainingCreateModal {
         this.available.push(avDay);
       }
     }
-    console.log('test getAvailableWorkouts end');
-    // debugger;
   }
 
-  addTraining() {
+  addTraining(): void {
     this.trainings.push({});
   }
 
-  removeTraining(trainingId) {
+  removeTraining(trainingId): void {
     this.trainings.splice(trainingId, 1);
   }
 
-  // selectTrainer(hour) {
-  //   var alert = Alert.create();
-  //   alert.setTitle('Dostępni trenerzy');
-
-  //   hour.trainers.forEach(trainer => {
-  //     alert.addInput({
-  //       type: 'radio',
-  //       label: trainer.title,
-  //       value: trainer.key
-  //     });
-  //   });
-  //   alert.addButton('Anuluj');
-  //   alert.addButton({
-  //     text: 'Wybierz',
-  //     handler: data => {
-  //       console.log('radio data:', data);
-  //     }
-  //   });
-  //   this.nav.present(alert);
-  // }
-
-  leadingZero(number) {
+  leadingZero(number): string {
     if (number < 10) {
       return '0' + number;
     }
     return number;
   }
 
-  repeatTrainings() {
+  repeatTrainings(): void {
     if (this.auth.isOwner && !this.editing) {
       this.trainings.forEach(training => {
         if (training.hasOwnProperty('repeat')) {
           let firstDate = new Date(training.date.date);
           let firstMonth = firstDate.getMonth();
           for (let d = 1; d < 7; d++) {
-            var nextDate = new Date(training.date.date);
+            let nextDate = new Date(training.date.date);
             nextDate.setDate(firstDate.getDate() + 7 * d);
-            var nextMonth = nextDate.getMonth();
+            let nextMonth = nextDate.getMonth();
             if (nextMonth !== firstMonth) {
               return false;
             }
-            var newTraining = {
+            let newTraining = {
               client: training.client,
               trainer: training.trainer,
               date: Object.assign({}, training.date),
@@ -263,10 +206,9 @@ export class TrainingCreateModal {
     }
   }
 
-  changeRepeated() {
+  changeRepeated(): void {
     if (this.auth.isOwner && this.editing && this.trainings[0].all) {
       this.repeated.forEach(repeat => {
-        // console.log('test changeRepeated', this.trainings[0]);
         let d = new Date(this.trainings[0].oldDate);
         let dd = new Date(this.trainings[0].date.date);
         let n = new Date(repeat.date);
@@ -287,33 +229,15 @@ export class TrainingCreateModal {
         };
         this.trainings.push(Object.assign({}, newTraining));
       });
-      // this.trainings.forEach(training => {
-      //   if (training.hasOwnProperty('repeat')) {
-      //     let firstDate = new Date(training.date.date);
-      //     for (let d = 1; d < 7; d++) {
-      //       var nextDate = new Date(training.date.date);
-      //       nextDate.setDate(firstDate.getDate() + 7 * d);
-      //       var newTraining = {
-      //         client: training.client,
-      //         trainer: training.trainer,
-      //         date: Object.assign({}, training.date),
-      //         repeat: true
-      //       };
-      //       newTraining.date.date = '2016-' + this.leadingZero(nextDate.getMonth()+1) + '-' + this.leadingZero(nextDate.getDate());
-      //       newTraining.date.dateTime = newTraining.date.date + ' ' + newTraining.date.timeStart;
-      //       this.trainings.push(Object.assign({}, newTraining));
-      //     }
-      //   }
-      // });
     }
   }
 
-  findRepeat(workout) {
+  findRepeat(workout): void {
     let training = workout;
     if (training.hasOwnProperty('repeat')) {
       let firstDate = new Date(training.date);
       for (let d = 1; d < 7; d++) {
-        var nextDate = new Date(training.date);
+        let nextDate = new Date(training.date);
         nextDate.setDate(firstDate.getDate() + 7 * d);
         let nextFormat = '2016-' + this.leadingZero(nextDate.getMonth()+1) + '-' + this.leadingZero(nextDate.getDate());
         let index = this.workoutStore.findClientWorkoutIndex(training.clientKey, nextFormat, training.timeStart);
@@ -321,21 +245,11 @@ export class TrainingCreateModal {
           let rep = Object.assign({}, this.workoutStore.list.get(index));
           this.repeated.push(rep);
         }
-        // var newTraining = {
-        //   client: training.client,
-        //   trainer: training.trainer,
-        //   date: Object.assign({}, training.date),
-        //   repeat: true
-        // };
-        // newTraining.date.date = '2016-' + this.leadingZero(nextDate.getMonth()+1) + '-' + this.leadingZero(nextDate.getDate());
-        // newTraining.date.dateTime = newTraining.date.date + ' ' + newTraining.date.timeStart;
-        // this.trainings.push(Object.assign({}, newTraining));
       }
     }
-    // return;
   }
 
-  selectHour(hour) {
+  selectHour(hour): void {
     this.trainings[0].place = this.place;
     this.trainings[0].date = hour;
     this.trainings[0].client = this.auth.key;
@@ -343,22 +257,22 @@ export class TrainingCreateModal {
     this.viewCtrl.dismiss(this.trainings);
   }
 
-  save() {
+  save(): void {
     this.repeatTrainings();
     this.changeRepeated();
     this.viewCtrl.dismiss(this.trainings);
   }
 
-  dismiss() {
+  dismiss(): void {
     this.viewCtrl.dismiss();
   }
 
-  delete() {
+  delete(): void {
     this.trainings[0].delete = true;
     this.viewCtrl.dismiss(this.trainings);
   }
 
-  deleteAll() {
+  deleteAll(): void {
     this.trainings[0].delete = true;
     this.repeated.unshift(this.trainings[0]);
     this.viewCtrl.dismiss(this.repeated);

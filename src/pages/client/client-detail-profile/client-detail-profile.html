@@ -2,9 +2,9 @@
   <ion-navbar>
     <ion-title>Profil klienta</ion-title>
     <ion-buttons start>
-      <button (click)="dismiss()">
-        <span primary showWhen="ios">Zamknij</span>
-        <ion-icon name='close' hideWhen="ios"></ion-icon>
+      <button ion-button (click)="dismiss()">
+        <span color="primary" showWhen="ios">Zamknij</span>
+        <ion-icon name="close" hideWhen="ios"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -15,37 +15,37 @@
     <ion-list>
       <ion-item>
         <ion-label floating>Imię</ion-label>
-        <ion-input type="text" [(ngModel)]="client.name"></ion-input>
+        <ion-input type="text" [(ngModel)]="client.name" name="name"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Nazwisko</ion-label>
-        <ion-input type="text" [(ngModel)]="client.lastname"></ion-input>
+        <ion-input type="text" [(ngModel)]="client.lastname" name="lastname"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Adres e-mail</ion-label>
-        <ion-input type="email" [(ngModel)]="client.email"></ion-input>
+        <ion-input type="email" [(ngModel)]="client.email" name="email"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Telefon</ion-label>
-        <ion-input type="tel" [(ngModel)]="client.phone"></ion-input>
+        <ion-input type="tel" [(ngModel)]="client.phone" name="phone"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Płeć</ion-label>
-        <ion-select [(ngModel)]="client.gender">
+        <ion-select [(ngModel)]="client.gender" name="gender">
           <ion-option value="m">mężczyzna</ion-option>
           <ion-option value="k">kobieta</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-label floating>Preferowane miejsce</ion-label>
-        <ion-select [(ngModel)]="client.place">
+        <ion-select [(ngModel)]="client.place" name="place">
           <ion-option value="-KBHukjV0l8M-EkpTdI4">Hermanowska</ion-option>
           <ion-option value="-KBHulP5PtV-dGxyXPWl">Zwycięska</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-label floating>Uwagi</ion-label>
-        <ion-textarea [(ngModel)]="client.comment"></ion-textarea>
+        <ion-textarea [(ngModel)]="client.comment" name="comment"></ion-textarea>
       </ion-item>
     </ion-list>
 
@@ -55,14 +55,14 @@
 
     <ion-row responsive-sm>
       <ion-col>
-        <button primary block type="submit" (click)="save()">Zapisz zmiany</button>
+        <button ion-button color="primary" block type="submit" (click)="save()">Zapisz zmiany</button>
       </ion-col>
       <ion-col>
-        <button light block (click)="dismiss()">Anuluj</button>
+        <button ion-button color="light" block (click)="dismiss()">Anuluj</button>
       </ion-col>
     </ion-row>
     <ion-col center text-center>
-      <button clear small danger center text-center (click)="delete()">Usuń klienta</button>
+      <button ion-button color="danger" small clear center text-center (click)="delete()">Usuń klienta</button>
     </ion-col>
   </form>
 </ion-content>

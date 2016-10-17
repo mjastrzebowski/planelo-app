@@ -12,7 +12,8 @@ export class WorkoutService {
     timeStart: string,
     timeEnd: string,
     repeat: boolean,
-    fixed: boolean): void {
+    fixed: boolean
+   ): void {
     if (!fixed) {
       fixed = false;
     }
