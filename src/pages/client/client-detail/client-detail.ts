@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { ModalController, NavParams } from 'ionic-angular';
 
@@ -30,6 +31,7 @@ export class ClientDetailPage {
   constructor(
     private modalCtrl: ModalController,
     private navParams: NavParams,
+    private http: Http,
     private utils: Utils,
     private auth: AuthService,
     private user: UserService,
@@ -155,10 +157,10 @@ export class ClientDetailPage {
 
           });
         } else if (changes.active === false) {
-          // console.log('test deactivate');
-          // this.auth.removeUser(credentials).then((userData) => {
-          //   console.log('test removed user', userData);
-          // });
+          console.log('test deactivate');
+          this.auth.removeUser(credentials).then((userData) => {
+            console.log('test removed user', userData);
+          });
         }
 
         // this.auth.signUpWithPassword({ email: changes. }).then(() => this.postSignIn());

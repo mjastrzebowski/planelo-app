@@ -40,7 +40,23 @@
   <script src="build/polyfills.js"></script>
 
   <!-- firebase api -->
-  <script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
+  <!-- <script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script> -->
+  <!-- <script src="https://www.gstatic.com/firebasejs/3.5.0/firebase.js"></script> -->
+  <script src="https://www.gstatic.com/firebasejs/3.5.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.5.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.5.0/firebase-database.js"></script>
+  <script>
+    // Initialize Firebase
+    // TODO: Replace with your project's customized code snippet
+    var config = {
+      apiKey: "AIzaSyBI8EMg_VgzTJeAQD9XJuCWKWrUQ7VFHJk",
+      authDomain: "fiery-heat-1991.firebaseapp.com",
+      databaseURL: "https://fiery-heat-1991.firebaseio.com",
+      storageBucket: "fiery-heat-1991.appspot.com",
+      messagingSenderId: "153269445746"
+    };
+    firebase.initializeApp(config);
+  </script>
 
   <!-- external scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -54,7 +70,7 @@
   <script src="https://npmcdn.com/angular2@2.0.0-beta.17/es6/dev/src/testing/shims_for_IE.js"></script>
 
   <!-- The bundle js is generated during the build process -->
-  <script src="build/main.js?refresh=1961112100001"></script>
+  <script src="build/main.js?refresh=1961112100002"></script>
 
 </body>
 </html>

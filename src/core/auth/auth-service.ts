@@ -7,7 +7,7 @@ export class AuthService {
   private emitter: EventEmitter<any> = new EventEmitter();
   public loaded: boolean;
 
-  constructor(private ref: Firebase) {
+  constructor(private ref: Firebase, private fb: Firebase) {
     this.authData = this.ref.getAuth();
 
     this.ref.onAuth((authData: any) => {
@@ -130,12 +130,12 @@ export class AuthService {
 
   signUpWithPassword(credentials: any): Promise<any> {
     return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
-      this.ref.createUser(credentials, (error: Error) => {
+      this.ref.createUser(credentials, (error: Error, userData?: any) => {
         if (error) {
           console.error('ERROR @ AuthService#createUser :', error);
           reject(error);
         } else {
-          resolve();
+          resolve(userData);
         }
       });
     });
@@ -143,15 +143,43 @@ export class AuthService {
 
   removeUser(credentials: any): Promise<any> {
     return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
-      credentials = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhZG1pbiI6ZmFsc2UsImRlYnVnIjpmYWxzZSwiZCI6eyJ1aWQiOiI4ZGMxMDY3Mi1mZmRhLTQyZWUtODVhZi0zY2VmNTY2MzQ5OGMifSwidiI6MCwiaWF0IjoxNDY3OTkyNjEyfQ._P4tB79HEZgf2oxa7QdR39_zlqfxeSYTVw5KfD18ExI';
-      this.ref.removeUser(credentials, (error: Error) => {
+      let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvc2VjdXJldG9rZW4uZ29vZ2xlLmNvbVwvIiwic3ViIjoiMjBmNjVlNTYtYzcwMy00MjA4LWI2MDctMDcxMTg4NzFmMDY2IiwiYXVkIjpudWxsLCJpYXQiOjE0NzY3Nzk4NzIsImV4cCI6MTQ3Njc4MzQ3MiwidWlkIjoiMjBmNjVlNTYtYzcwMy00MjA4LWI2MDctMDcxMTg4NzFmMDY2In0.QBkiSMz1oXxqCWvZGxCk2LmyBETdI0qG1DEZ9SThoZ6xi17Lv_AcO6p0O2PRkGTSo52fbSFsuM3cUeYm3QqfTAgdOZ5gibeFSXKJ1FthNt2Hw5_08BeMvUnGj36QZOGUNtZ6V-aQOomRDjpvQMe9CXKFK1_BVPVh4ai5_Rn9HSYQG9M4E_4KA6QPM2gcz2GM3QDk-DSygOd4ke6XCg-x1R-_gmUO7bGrWTiqQ-4jJZCjYGVH0oCI-xs511R9zkvvRn7cjdqIc5ssw6SCLyhNzpQ3uC5OxoUL4Omku6IFnBCyuNOJDnVlGY_57tfJS7soFbUjUCAPExXsUvxZsppZQg';
+
+      // credentials = {
+      //   email: 'michal+12345@jastrzebowski.pl',
+      //   oldPassword: token,
+      //   newPassword: 'nowe'
+      // };
+      debugger;
+      this.fb.authWithCustomToken(token, (error: Error, userData?: any) => {
         if (error) {
-          console.error('ERROR @ AuthService#removeUser :', error);
+          console.error('ERROR @ AuthService#authWithCustomToken :', error);
           reject(error);
         } else {
+          console.log('sukces zmiany?', userData);
           resolve();
         }
       });
+
+      // this.ref.signInWithCustomToken(token).then(function(success) {
+      //   console.log(success);
+      //   // var user = firebase.auth().currentUser;
+      //   // console.log(user);
+      // }).catch(function(error) {
+      //   console.log(error);
+      // });
+
+
+      // credentials = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhZG1pbiI6ZmFsc2UsImRlYnVnIjpmYWxzZSwiZCI6eyJ1aWQiOiI4ZGMxMDY3Mi1mZmRhLTQyZWUtODVhZi0zY2VmNTY2MzQ5OGMifSwidiI6MCwiaWF0IjoxNDY3OTkyNjEyfQ._P4tB79HEZgf2oxa7QdR39_zlqfxeSYTVw5KfD18ExI';
+      // this.ref.removeUser(credentials, (error: Error, userData?: any) => {
+      //   if (error) {
+      //     console.error('ERROR @ AuthService#removeUser :', error);
+      //     reject(error);
+      //   } else {
+      //     console.log('okej?');
+      //     resolve(userData);
+      //   }
+      // });
     });
   }
 
