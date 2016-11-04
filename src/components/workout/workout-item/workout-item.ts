@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { IWorkout } from '../../../core/workout/workout';
-import { WorkoutService } from '../../../core/workout/workout-service';
+import { WorkoutStore } from '../../../core/workout/workout-store';
 
 import { PlaceStore } from '../../../core/place/place-store';
 import { TrainerStore } from '../../../core/trainer/trainer-store';
@@ -15,12 +15,12 @@ export class WorkoutItem {
   @Input() model: IWorkout;
 
   constructor(
-    private workoutService: WorkoutService,
+    private workoutStore: WorkoutStore,
     public placeStore: PlaceStore,
     public trainerStore: TrainerStore
   ) {}
 
   delete(): void {
-    this.workoutService.deleteWorkout(this.model);
+    this.workoutStore.removeWorkout(this.model);
   }
 }

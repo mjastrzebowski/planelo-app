@@ -8,11 +8,12 @@ import { Utils } from '../../../providers/utils';
 
 import { AuthService } from '../../../core/auth/auth-service';
 
+import { BillStore } from '../../../core/bill/bill-store';
 import { ClientStore } from '../../../core/client/client-store';
+import { NotificationStore } from '../../../core/notification/notification-store';
 import { PlaceStore } from '../../../core/place/place-store';
 import { TrainerStore } from '../../../core/trainer/trainer-store';
 import { WorkoutStore } from '../../../core/workout/workout-store';
-import { WorkoutService } from '../../../core/workout/workout-service';
 
 import { TrainingCreateModal } from '../training-create/training-create';
 import { TrainingReserveModal } from '../training-reserve/training-reserve';
@@ -51,9 +52,10 @@ export class TrainingListPage {
     private alertCtrl: AlertController,
     private actionSheetCtrl: ActionSheetController,
     private utils: Utils,
+    private billStore: BillStore,
     private clientStore: ClientStore,
-    private workoutStore: WorkoutStore,
-    private workoutService: WorkoutService,
+    private notificationStore: NotificationStore,
+    public workoutStore: WorkoutStore,
     public auth: AuthService,
     public placeStore: PlaceStore,
     public trainerStore: TrainerStore
@@ -71,7 +73,11 @@ export class TrainingListPage {
     this.events = [];
     this.forceSub = false;
 
-    this.loaded = false;
+    this.loaded = {
+      places: false,
+      trainers: false,
+      workouts: false
+    };
     let changeHour = 21;
     this.changeDate = new Date();
     this.changeDate.setHours(changeHour);
@@ -82,85 +88,149 @@ export class TrainingListPage {
     }
   }
 
+  onPlaceChanged(event?): void {
+    this.refreshCalendar(true);
+  }
+
+  ngOnInit(): void {
+    this.utils.presentLoading('Ładowanie treningów...');
+    this.calendar = false;
+
+    if (this.auth.isTrainer) {
+      this.place = this.auth.place;
+    }
+
+    this.sub = this.workoutStore.subscribe(loaded => {
+      if (!loaded) {
+        return;
+      }
+      this.loaded.workouts = true;
+      this.init();
+    });
+    this.subTrainers = this.trainerStore.subscribe(loaded => {
+      if (!loaded) {
+        return;
+      }
+      this.loaded.trainers = true;
+      this.init();
+    });
+    this.subPlaces = this.placeStore.subscribe(loaded => {
+      if (!loaded) {
+        return;
+      }
+      this.loaded.places = true;
+      this.init();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+    if (this.subPlaces) {
+      this.subPlaces.unsubscribe();
+    }
+    if (this.subTrainers) {
+      this.subTrainers.unsubscribe();
+    }
+  }
+
+  init(): void {
+    if (this.loaded.trainers) {
+      if (this.auth.isOwner || this.auth.isTrainer) {
+        if (!this.calendar) {
+          this.renderCalendar();
+        } else {
+          this.refreshCalendar();
+        }
+      }
+    }
+
+    if (this.loaded.places && this.loaded.trainers && this.loaded.workouts) {
+      this.renderCalendar();
+      this.utils.stopLoading();
+    }
+  }
+
   showMonth(monthId): void {
     $('.workouts-hidden.month-' + monthId).slideToggle();
   }
 
-  // updateRepeat() {
-  //   this.billStore.list.forEach(bill => {
-  //     if (bill.month === '2016-09') {
+  updateRepeat() {
+    this.billStore.list.forEach(bill => {
+      if (bill.month === '2016-10') {
+        // console.log(bill);        
 
-  //       // this.billService.createBill(
-  //       //   bill.client,
-  //       //   '2016-10',
-  //       //   bill.discount);
+        this.billStore.createBill(
+          bill.client,
+          '2016-11',
+          bill.discount);
 
 
-  //       // console.log('test cover', workout.date);
-  //       // this.workoutService.deleteWorkout(workout);
+        // this.workoutStore.removeWorkout(workout);
 
-  //       // let newDate0 = '2016-10-01';
-  //       // let newDateTime0 = newDate0 + ' ' + workout.timeStart;
-  //       // this.workoutService.createWorkout(
-  //       //   workout.placeKey,
-  //       //   workout.trainerKey || '',
-  //       //   workout.clientKey,
-  //       //   newDate0 || '',
-  //       //   newDateTime0 || '',
-  //       //   workout.timeStart || '',
-  //       //   workout.timeEnd || '',
-  //       //   true);
+        // let newDate0 = '2016-11-05';
+        // let newDateTime0 = newDate0 + ' ' + workout.timeStart;
+        // this.workoutStore.createWorkout(
+        //   workout.placeKey,
+        //   workout.trainerKey || '',
+        //   workout.clientKey,
+        //   newDate0 || '',
+        //   newDateTime0 || '',
+        //   workout.timeStart || '',
+        //   workout.timeEnd || '',
+        //   true);
 
-  //       // let newDate1 = '2016-10-15';
-  //       // let newDateTime1 = newDate1 + ' ' + workout.timeStart;
-  //       // this.workoutService.createWorkout(
-  //       //   workout.placeKey,
-  //       //   workout.trainerKey || '',
-  //       //   workout.clientKey,
-  //       //   newDate1 || '',
-  //       //   newDateTime1 || '',
-  //       //   workout.timeStart || '',
-  //       //   workout.timeEnd || '',
-  //       //   true);
+        // let newDate1 = '2016-11-12';
+        // let newDateTime1 = newDate1 + ' ' + workout.timeStart;
+        // this.workoutStore.createWorkout(
+        //   workout.placeKey,
+        //   workout.trainerKey || '',
+        //   workout.clientKey,
+        //   newDate1 || '',
+        //   newDateTime1 || '',
+        //   workout.timeStart || '',
+        //   workout.timeEnd || '',
+        //   true);
 
-  //       // let newDate2 = '2016-10-22';
-  //       // let newDateTime2 = newDate2 + ' ' + workout.timeStart;
-  //       // this.workoutService.createWorkout(
-  //       //   workout.placeKey,
-  //       //   workout.trainerKey || '',
-  //       //   workout.clientKey,
-  //       //   newDate2 || '',
-  //       //   newDateTime2 || '',
-  //       //   workout.timeStart || '',
-  //       //   workout.timeEnd || '',
-  //       //   true);
+        // let newDate2 = '2016-11-19';
+        // let newDateTime2 = newDate2 + ' ' + workout.timeStart;
+        // this.workoutStore.createWorkout(
+        //   workout.placeKey,
+        //   workout.trainerKey || '',
+        //   workout.clientKey,
+        //   newDate2 || '',
+        //   newDateTime2 || '',
+        //   workout.timeStart || '',
+        //   workout.timeEnd || '',
+        //   true);
 
-  //       // let newDate3 = '2016-10-29';
-  //       // let newDateTime3 = newDate3 + ' ' + workout.timeStart;
-  //       // this.workoutService.createWorkout(
-  //       //   workout.placeKey,
-  //       //   workout.trainerKey || '',
-  //       //   workout.clientKey,
-  //       //   newDate3 || '',
-  //       //   newDateTime3 || '',
-  //       //   workout.timeStart || '',
-  //       //   workout.timeEnd || '',
-  //       //   true);
+        // let newDate3 = '2016-11-26';
+        // let newDateTime3 = newDate3 + ' ' + workout.timeStart;
+        // this.workoutStore.createWorkout(
+        //   workout.placeKey,
+        //   workout.trainerKey || '',
+        //   workout.clientKey,
+        //   newDate3 || '',
+        //   newDateTime3 || '',
+        //   workout.timeStart || '',
+        //   workout.timeEnd || '',
+        //   true);
 
-  //       // let newDate4 = '2016-10-31';
-  //       // let newDateTime4 = newDate4 + ' ' + workout.timeStart;
-  //       // this.workoutService.createWorkout(
-  //       //   workout.placeKey,
-  //       //   workout.trainerKey || '',
-  //       //   workout.clientKey,
-  //       //   newDate4 || '',
-  //       //   newDateTime4 || '',
-  //       //   workout.timeStart || '',
-  //       //   workout.timeEnd || '',
-  //       //   true);
-  //     }
-  //   });
-  // }
+        // let newDate4 = '2016-11-30';
+        // let newDateTime4 = newDate4 + ' ' + workout.timeStart;
+        // this.workoutStore.createWorkout(
+        //   workout.placeKey,
+        //   workout.trainerKey || '',
+        //   workout.clientKey,
+        //   newDate4 || '',
+        //   newDateTime4 || '',
+        //   workout.timeStart || '',
+        //   workout.timeEnd || '',
+        //   true);
+      }
+    });
+  }
 
 
   showTrainingForm(workout): void {
@@ -190,7 +260,7 @@ export class TrainingListPage {
 
       if (data[0].hasOwnProperty('delete')) {
         data.forEach(training => {
-          this.workoutService.deleteWorkout(training)
+          this.workoutStore.removeWorkout(training)
             .then((res) => {
               let notification = {
                 workout: {
@@ -209,7 +279,7 @@ export class TrainingListPage {
               } else if (this.auth.isClient) {
                 notification.client = this.auth.key;
               }
-              this.utils.createNotification('workoutRemoved', notification);
+              this.notificationStore.createNotification('workoutRemoved', notification);
             });
         });
         this.deleteTrainingAlert(data[0]);
@@ -227,13 +297,13 @@ export class TrainingListPage {
           if (training.trainer) {
             changes.place = this.trainerStore.getItem(training.trainer).place;
           }
-          this.workoutService.updateWorkout(training, changes);
+          this.workoutStore.updateWorkout(training, changes);
         });
       } else {
         let client = data[0].client || '';
         data.forEach(training => {
           let place = this.trainerStore.getItem(training.trainer).place;
-          this.workoutService.createWorkout(
+          this.workoutStore.createWorkout(
             place,
             training.trainer || '',
             client,
@@ -245,7 +315,7 @@ export class TrainingListPage {
             .then((res) => {
               let notification = {
                 workout: {
-                  key: res.key(),
+                  key: res.getKey(),
                   trainer: training.trainer || '',
                   client: client || '',
                   date: training.date.date || '',
@@ -260,7 +330,7 @@ export class TrainingListPage {
               } else if (this.auth.isClient) {
                 notification.client = this.auth.key;
               }
-              this.utils.createNotification('workoutAdded', notification);
+              this.notificationStore.createNotification('workoutAdded', notification);
             });
         });
 
@@ -323,7 +393,7 @@ export class TrainingListPage {
           text: 'Odwołaj',
           handler: data => {
             let date = moment().format('DD.MM.YYYY, HH:mm');
-            this.workoutService.updateWorkout(workout, {
+            this.workoutStore.updateWorkout(workout, {
               completed: '[' + date + '] ' + data.title
             });
             this.deleteTrainingAlert(workout);
@@ -334,43 +404,6 @@ export class TrainingListPage {
     setTimeout(() => {
       prompt.present();
     }, 500);
-  }
-
-  onPlaceChanged(event): void {
-    this.refreshCalendar(true);
-  }
-
-  ionViewDidEnter(): void {
-    this.utils.presentLoading('Ładowanie treningów...');
-    this.calendar = false;
-
-    let authSub = this.auth.subscribe((authenticated: boolean) => {
-      this.workouts = this.workoutStore.workouts;
-      if (authenticated) {
-        if (authSub) {
-          authSub.unsubscribe();
-        }
-
-        if (this.auth.isTrainer) {
-          this.place = this.auth.place;
-        }
-        let workSub = this.workouts.subscribe((list) => {
-          if (this.forceSub || list.get(-1).date === '2099-12-31') {
-            setTimeout(() => {
-              if (this.auth.isOwner || this.auth.isTrainer) {
-                if (!this.calendar) {
-                  this.renderCalendar();
-                } else {
-                  this.refreshCalendar();
-                }
-              }
-              this.forceSub = true;
-              this.utils.stopLoading();
-            }, 500);
-          }
-        });
-      }
-    });
   }
 
   refreshCalendar(force): void {
@@ -505,7 +538,7 @@ export class TrainingListPage {
     };
 
     if (confirm('Czy na pewno przenieść trening?')) {
-      this.workoutService.updateWorkout(workout, changes);
+      this.workoutStore.updateWorkout(workout, changes);
     }
     this.refreshCalendar(true);
   }
@@ -623,7 +656,7 @@ export class TrainingListPage {
 
       this.trainerStore.list.forEach(trainer => {
         for (let d = 1; d <= 62; d++) {
-          let date = new Date('2016-09-01');
+          let date = new Date('2016-10-01');
           date.setDate(d);
           let day = date.getDate();
           if (day < 10) {
@@ -678,20 +711,47 @@ export class TrainingListPage {
         end: '2016-08-15T14:00',
         color: '#8fdf82',
         rendering: 'background'
+      },{
+        id: 'available',
+        resourceId: '-KJ2tLDl_lljvvl48TMW',
+        start: '2016-11-11T08:00',
+        end: '2016-11-11T13:00',
+        color: '#8fdf82',
+        rendering: 'background'
+      },{
+        id: 'available',
+        resourceId: '-KBN-noa5OGgfW2XYbvZ',
+        start: '2016-11-11T08:00',
+        end: '2016-11-11T13:00',
+        color: '#8fdf82',
+        rendering: 'background'
+      },{
+        id: 'available',
+        resourceId: '-KEiiHM34nL9fAhGCAC8',
+        start: '2016-11-01T08:00',
+        end: '2016-11-01T13:00',
+        color: '#8fdf82',
+        rendering: 'background'
+      },{
+        id: 'available',
+        resourceId: '-KMcRg822CDsJnb2-dmp',
+        start: '2016-11-01T08:00',
+        end: '2016-11-01T13:00',
+        color: '#8fdf82',
+        rendering: 'background'
       }];
       events.push(w[0]);
+      events.push(w[1]);
+      events.push(w[2]);
+      events.push(w[3]);
+      events.push(w[4]);
     }
-
+    
     return callback ? callback(events) : events;
   }
 
-  getResources(callback): any {
+  getResources(callback: any): any {
     let resources = [];
-
-    if (this.placeStore.size === 0) {
-      callback([]);
-      return false;
-    }
 
     this.trainerStore.list.forEach(trainer => {
       if (trainer.place !== this.place) {
@@ -709,7 +769,7 @@ export class TrainingListPage {
     return callback ? callback(resources) : resources;
   }
 
-  getResourcesWithPlaces(callback): any {
+  getResourcesWithPlaces(callback: any): any {
     let resources = [];
 
     if (this.placeStore.size === 0) {

@@ -17,7 +17,7 @@
   <ion-searchbar color="primary" [(ngModel)]="queryText" (ionInput)="updateList()" placeholder="Szukaj"></ion-searchbar>
 
   <ion-list [hidden]="shownSessions === 0">
-    <button ion-item (click)="goToTrainerDetail(trainer)" *ngFor="let trainer of trainers | async; let t = index" [hidden]="trainer.hide">
+    <button ion-item (click)="goToTrainerDetail(trainer)" *ngFor="let trainer of trainerStore.list; let t = index" [hidden]="trainer.hide">
       <ion-avatar item-left *ngIf="trainer?.avatar">
         <img [src]="trainer?.avatar" [alt]="trainer?.title">
       </ion-avatar>

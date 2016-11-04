@@ -1,10 +1,13 @@
+import { Injectable } from '@angular/core';
+import { AngularFire } from 'angularfire2';
+
 import { ITrainer, Trainer } from './trainer';
 
-
+@Injectable()
 export class TrainerService {
-  constructor(private ref: Firebase) {}
+  constructor(private af: AngularFire) {}
 
-  createTrainer(title: string, email: string, hours: array): void {
+  createTrainer(title: string, email: string, hours: any): void {
     this.ref.push(new Trainer(title, email, hours), (error: Error) => {
       if (error) {
         console.error('ERROR @ createTrainer :', error);

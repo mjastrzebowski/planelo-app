@@ -6,7 +6,7 @@ import { AuthService } from '../../../core/auth/auth-service';
 
 import { ClientStore } from '../../../core/client/client-store';
 import { TrainerStore } from '../../../core/trainer/trainer-store';
-import { WorkoutFullStore } from '../../../core/workout/workout-full-store';
+import { WorkoutStore } from '../../../core/workout/workout-store';
 
 
 @Component({
@@ -20,7 +20,7 @@ export class TrainingSchedulerFormModal {
     private params: NavParams,
     private viewCtrl: ViewController,
     private trainerStore: TrainerStore,
-    private workoutStore: WorkoutFullStore,
+    private workoutStore: WorkoutStore,
     public auth: AuthService,
     public clientStore: ClientStore
   ) {
@@ -30,7 +30,7 @@ export class TrainingSchedulerFormModal {
     this.forceSub = false;
   }
 
-  onPlaceChanged(event): void {
+  onPlaceChanged(event?): void {
     this.getAvailableWorkouts();
   }
 
@@ -42,28 +42,29 @@ export class TrainingSchedulerFormModal {
       if (workout.key) {
         workout.oldDate = workout.date;
         this.editing = true;
-        this.findRepeat(workout);
       }
       this.trainings = [Object.assign({}, workout)];
     } else {
       this.trainings = [{}];
     }
 
-    let authSub = this.auth.subscribe((authenticated: boolean) => {
-      if (authenticated) {
-        if (authSub) {
-          authSub.unsubscribe();
-        }
-
-        this.workouts = this.workoutStore.workouts;
-        let workSub = this.workouts.subscribe((list) => {
-          this.getAvailableWorkouts();
-        });
+    this.sub = this.workoutStore.subscribe(loaded => {
+      if (!loaded) {
+        return;
       }
+      this.init();
     });
   }
 
-  getAvailableWorkouts(): void {
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
+  init(): void {
+    this.getAvailableWorkouts();
+  }
+
+  getAvailableWorkouts(): any {
     this.available = [];
     if (this.available.length > 0) {
       return false;

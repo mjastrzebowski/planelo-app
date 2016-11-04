@@ -12,8 +12,8 @@ export class SettingsPage {
     private alertCtrl: AlertController,
     private auth: AuthService
   ) {
-    this.settings = {};
     this.submitted = false;
+    this.settings = {};
   }
 
   ngOnInit(): void {
@@ -24,7 +24,8 @@ export class SettingsPage {
     this.submitted = true;
     if (form.valid) {
       this.auth.changePassword(form.value)
-        .then(() => this.postChangePassword());
+        .then(() => this.postChangePassword())
+        .catch(() => this.errorChangePassword());
     }
   }
 
@@ -32,6 +33,15 @@ export class SettingsPage {
     let alert = this.alertCtrl.create({
       title: 'Zmieniono',
       message: 'Twoje hasło zostało zmienione.',
+      buttons: ['Ok']
+    });
+    alert.present();
+  }
+
+  private errorChangePassword(): void {
+    let alert = this.alertCtrl.create({
+      title: 'Błąd',
+      message: 'Obecne hasło jest nieprawidłowe.',
       buttons: ['Ok']
     });
     alert.present();

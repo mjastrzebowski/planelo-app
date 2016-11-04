@@ -1,23 +1,60 @@
+import { Injectable, EventEmitter } from '@angular/core';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
+
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { AuthService } from '../../core/auth/auth-service';
 
-import { INotification } from './notification';
+import { INotification, Notification } from './notification';
 
+@Injectable()
 export class NotificationStore {
-  notifications: ReplaySubject<List<any>> = new ReplaySubject(1);
+  private loaded: boolean = false;
+  private emitter: EventEmitter<any> = new EventEmitter();
+  private notifications: FirebaseListObservable<INotification[]>;
   public list: List<any> = List();
 
   constructor(
-    private ref: Firebase,
+    private af: AngularFire,
     private auth: AuthService
   ) {
-    ref = ref.orderByChild('createdAt').startAt(1472491061323);
-    ref.on('child_added', this.created.bind(this));
-    ref.on('child_changed', this.updated.bind(this));
-    ref.on('child_removed', this.deleted.bind(this));
-    ref.once('value', () => this.emit());
+    this.notifications = this.af.database.list('cal_notifications', {
+      query: {
+        orderByChild: 'createdAt'
+      }
+    });
+    this.notifications.subscribe(list => {
+      this.list = List(list);
+      this.list.forEach(item => {
+        item.key = item.$key;
+      });
+
+      this.loaded = true;
+      this.emit();
+    });
+  }
+
+  createNotification(type: string, data: any) {
+    return this.notifications.push(new Notification(type, data));
+  }
+
+  removeNotification(notification: INotification) {
+    return this.notifications.remove(notification.key);
+  }
+
+  updateNotification(notification: INotification, changes: any) {
+    return this.notifications.update(notification.key, changes);
+  }
+
+  subscribe(next: (loaded: any) => void): any {
+    let subscription = this.emitter.subscribe(next);
+    this.emit();
+    return subscription;
+  }
+
+  private emit(): void {
+    this.emitter.next(this.loaded);
   }
 
   get size(): number {
@@ -38,41 +75,6 @@ export class NotificationStore {
       return notification.createdAt > timer;
     });
     return filtered.size;
-  }
-
-  private emit(): void {
-    this.notifications.next(this.list);
-  }
-
-  private created(snapshot: FirebaseDataSnapshot): void {
-    let key: string = snapshot.key();
-    let index: number = this.findIndex(key);
-    if (index === -1) {
-      let val = snapshot.val();
-      let notification: INotification = val;
-      notification.key = key;
-      this.list = this.list.push(notification);
-      this.emit();
-    }
-  }
-
-  private deleted(snapshot: FirebaseDataSnapshot): void {
-    let index: number = this.findIndex(snapshot.key());
-    if (index !== -1) {
-      this.list = this.list.delete(index);
-      this.emit();
-    }
-  }
-
-  private updated(snapshot: FirebaseDataSnapshot): void {
-    let key: string = snapshot.key();
-    let index: number = this.findIndex(key);
-    if (index !== -1) {
-      let notification: INotification = snapshot.val();
-      notification.key = key;
-      this.list = this.list.set(index, notification);
-      this.emit();
-    }
   }
 
   private findIndex(key: string): number {

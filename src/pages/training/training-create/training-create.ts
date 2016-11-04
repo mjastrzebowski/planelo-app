@@ -6,14 +6,14 @@ import { AuthService } from '../../../core/auth/auth-service';
 
 import { ClientStore } from '../../../core/client/client-store';
 import { TrainerStore } from '../../../core/trainer/trainer-store';
-import { WorkoutFullStore } from '../../../core/workout/workout-full-store';
+import { WorkoutStore } from '../../../core/workout/workout-store';
 
 
 @Component({
   templateUrl: 'training-create.html'
 })
 export class TrainingCreateModal {
-  @Input() trainings: Array = [{}]; 
+  @Input() trainings: Array = [{}];
   public editing: boolean = false;
   public available;
   public repeated;
@@ -27,7 +27,7 @@ export class TrainingCreateModal {
     private viewCtrl: ViewController,
     private auth: AuthService,
     private trainerStore: TrainerStore,
-    private workoutStore: WorkoutFullStore,
+    private workoutStore: WorkoutStore,
     public clientStore: ClientStore
   ) {
     this.available = [];
@@ -37,11 +37,11 @@ export class TrainingCreateModal {
     this.filter = {};
   }
 
-  onPlaceChanged(event) {
+  onPlaceChanged(event?): void {
     this.getAvailableWorkouts();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.params.data.hasOwnProperty('date')) {
       let workout = Object.assign({}, this.params.data);
       workout.client = workout.clientKey;
@@ -56,16 +56,20 @@ export class TrainingCreateModal {
       this.trainings = [{}];
     }
 
-    let authSub = this.auth.subscribe((authenticated: boolean) => {
-      if (authenticated) {
-        if (authSub) {
-          authSub.unsubscribe();
-        } else {
-          this.workouts = this.workoutStore.workouts;
-          this.getAvailableWorkouts();
-        }
+    this.sub = this.workoutStore.subscribe(loaded => {
+      if (!loaded) {
+        return;
       }
+      this.init();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
+  init(): void {
+    this.getAvailableWorkouts();
   }
 
   getAvailableWorkouts(): any {
@@ -111,7 +115,7 @@ export class TrainingCreateModal {
     });
 
     for (let d = today; d <= today+days; d++) {
-      let nextDay = new Date('2016-09-01');
+      let nextDay = new Date('2016-10-01');
       nextDay.setDate(d);
       if (this.auth.isClient && (nextDay.getMonth()+1) === 10) {
         break;

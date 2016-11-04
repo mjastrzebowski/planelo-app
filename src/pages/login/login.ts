@@ -24,10 +24,14 @@ export class LoginPage {
   ) {
     this.login = {};
     this.submitted = false;
+  }
 
-    if (this.auth.authenticated) {
-      this.nav.setRoot(TrainingListPage);
-    }
+  ngOnInit(): void {
+    this.auth.subscribe((authenticated: boolean) => {
+      if (authenticated) {
+        this.nav.setRoot(TrainingListPage);
+      }
+    });
   }
 
   signInWithGithub(): void {
@@ -60,18 +64,8 @@ export class LoginPage {
       }
 
       this.auth.signInWithPassword(form.value)
-        .then(() => this.postSignIn(),
-          (error) => {
-            this.utils.stopLoading();
-            setTimeout(() => {
-              let alert = this.alertCtrl.create({
-                title: 'Błąd',
-                message: 'Nieprawidłowy login lub hasło.',
-                buttons: ['Ok']
-              });
-              alert.present();
-            }, 500);
-          });
+        .then(() => this.postSignIn())
+        .catch(() => this.errorSignIn());
     }
   }
 
@@ -92,6 +86,18 @@ export class LoginPage {
     // this.router.navigate(['/Workouts']);
     setTimeout(() => {
       this.nav.setRoot(TrainingListPage);
+    }, 500);
+  }
+
+  private errorSignIn(): void {
+    this.utils.stopLoading();
+    setTimeout(() => {
+      let alert = this.alertCtrl.create({
+        title: 'Błąd',
+        message: 'Nieprawidłowy login lub hasło.',
+        buttons: ['Ok']
+      });
+      alert.present();
     }, 500);
   }
 }

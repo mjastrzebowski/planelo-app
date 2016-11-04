@@ -12,7 +12,7 @@ export class IClient {
 
 export class Client implements IClient {
   completed: boolean = false;
-  createdAt: number = Firebase.ServerValue.TIMESTAMP;
+  createdAt: number = firebase.database['ServerValue']['TIMESTAMP'];
   name: string;
   lastname: string;
   email: string = '';

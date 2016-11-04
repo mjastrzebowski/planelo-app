@@ -1,8 +1,8 @@
 <ion-header>
   <ion-navbar>
-    <ion-title [hidden]="trainings[0].completed || editing">Nowy trening</ion-title>
-    <ion-title [hidden]="trainings[0].completed || !editing">Zmiana treningu</ion-title>
-    <ion-title [hidden]="!trainings[0].completed">Odwołany trening</ion-title>
+    <ion-title [hidden]="trainings[0]?.completed || editing">Nowy trening</ion-title>
+    <ion-title [hidden]="trainings[0]?.completed || !editing">Zmiana treningu</ion-title>
+    <ion-title [hidden]="!trainings[0]?.completed">Odwołany trening</ion-title>
 
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
@@ -19,7 +19,7 @@
       <ion-item>
         <ion-label>Klient</ion-label>
         <ion-select [(ngModel)]="trainings[0].client" name="client">
-          <ion-option *ngFor="let client of clientStore.clients | async" [value]="client.key">{{ client?.lastname }} {{ client?.name }}</ion-option>
+          <ion-option *ngFor="let client of clientStore.list" [value]="client.key">{{ client?.lastname }} {{ client?.name }}</ion-option>
         </ion-select>
       </ion-item>
     </ion-list>
@@ -58,7 +58,7 @@
       </ion-item>
       <ion-item [hidden]="training.completed">
         Powtórzone: 
-        <p><span *ngFor="let rep of repeated">{{ rep?.startTime }} {{ rep?.fullDate }}<br></span></p>
+        <p><span *ngFor="let rep of repeated">{{ rep?.startTime }} {{ rep?.descDate }}<br></span></p>
       </ion-item>
       <ion-item class="training-rejected" [hidden]="!training.completed">
         Powód odwołania: 
@@ -67,7 +67,9 @@
     </ion-list>
 
     <ion-buttons padding text-center [hidden]="editing">
-      <button ion-button icon-left outline small (click)="addTraining(exercise)"><ion-icon name="add"></ion-icon> dodaj kolejny</button>
+      <button ion-button icon-left outline small (click)="addTraining(exercise)">
+        <ion-icon name="add"></ion-icon> dodaj kolejny
+      </button>
     </ion-buttons>
 
     <ion-row responsive-sm>

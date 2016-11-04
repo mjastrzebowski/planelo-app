@@ -2,22 +2,31 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
-// import { Firebase } from 'firebase';
+import { FIREBASE_PROVIDERS } from 'angularfire2';
 
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { DavidApp } from './app.component';
 
+import { FirebaseModule } from '../firebase';
+
 import { Utils } from '../providers/utils';
 
+// services
+import { AuthService } from '../core/auth/auth-service';
+import { BillStore } from '../core/bill/bill-store';
+import { ClientStore } from '../core/client/client-store';
+import { NotificationStore } from '../core/notification/notification-store';
+import { PlaceStore } from '../core/place/place-store';
+import { TrainerStore } from '../core/trainer/trainer-store';
+import { UserStore } from '../core/user/user-store';
+import { WorkoutStore } from '../core/workout/workout-store';
+
 // providers
-import { AUTH_PROVIDERS } from '../core/auth/providers';
-import { USER_PROVIDERS } from '../core/user/providers';
-import { CLIENT_PROVIDERS } from '../core/client/providers';
-import { PLACE_PROVIDERS } from '../core/place/providers';
-import { TRAINER_PROVIDERS } from '../core/trainer/providers';
-import { WORKOUT_PROVIDERS } from '../core/workout/providers';
-import { BILL_PROVIDERS } from '../core/bill/providers';
-import { NOTIFICATION_PROVIDERS } from '../core/notification/providers';
+// import { USER_PROVIDERS } from '../core/user/providers';
+// import { PLACE_PROVIDERS } from '../core/place/providers';
+// import { TRAINER_PROVIDERS } from '../core/trainer/providers';
+// import { WORKOUT_PROVIDERS } from '../core/workout/providers';
+// import { BILL_PROVIDERS } from '../core/bill/providers';
 
 // components
 import { BillItem } from '../components/bill/bill-item/bill-item';
@@ -68,6 +77,7 @@ import { TrainingReserveModal } from '../pages/training/training-reserve/trainin
 import { TrainingSchedulerPage } from '../pages/training/training-scheduler/training-scheduler';
 import { TrainingSchedulerFormModal } from '../pages/training/training-scheduler-form/training-scheduler-form';
 import { SettingsPage } from '../pages/settings/settings';
+
 
 @NgModule({
   declarations: [
@@ -124,6 +134,7 @@ import { SettingsPage } from '../pages/settings/settings';
   imports: [
     BrowserModule,
     FormsModule,
+    FirebaseModule,
     IonicModule.forRoot(DavidApp, {
       statusbarPadding: false,
       platforms: {
@@ -167,15 +178,16 @@ import { SettingsPage } from '../pages/settings/settings';
     SettingsPage
   ],
   providers: [
+    FIREBASE_PROVIDERS,
     // HttpModule,
-    AUTH_PROVIDERS,
-    USER_PROVIDERS,
-    CLIENT_PROVIDERS,
-    PLACE_PROVIDERS,
-    TRAINER_PROVIDERS,
-    WORKOUT_PROVIDERS,
-    BILL_PROVIDERS,
-    NOTIFICATION_PROVIDERS,
+    AuthService,
+    BillStore,
+    ClientStore,
+    PlaceStore,
+    TrainerStore,
+    NotificationStore,
+    UserStore,
+    WorkoutStore,
     Utils
   ]
 })

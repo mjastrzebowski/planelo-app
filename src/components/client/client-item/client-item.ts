@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { App } from 'ionic-angular';
 
 import { IClient } from '../../../core/client/client';
-import { ClientService } from '../../../core/client/client-service';
+import { ClientStore } from '../../../core/client/client-store';
 
 import { ClientDetailPage } from '../../../pages/client/client-detail/client-detail';
 
@@ -17,11 +17,11 @@ export class ClientItem {
 
   constructor(
     private app: App,
-    private clientService: ClientService
+    private clientStore: ClientStore
   ) {}
 
   delete(): void {
-    this.clientService.deleteClient(this.model);
+    this.clientStore.removeClient(this.model);
   }
 
   goToClientDetail(client) {

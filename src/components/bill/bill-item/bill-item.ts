@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { IBill } from '../../../core/bill/bill';
-import { BillService } from '../../../core/bill/bill-service';
+import { BillStore } from '../../../core/bill/bill-store';
 
 import { ClientStore } from '../../../core/client/client-store';
 
@@ -14,7 +14,7 @@ export class BillItem {
   @Input() model: IBill;
 
   constructor(
-    private billService: BillService,
+    private billStore: BillStore,
     public clientStore: ClientStore,
   ) {}
 
@@ -29,6 +29,6 @@ export class BillItem {
   }
 
   delete(): void {
-    this.billService.deleteBill(this.model);
+    this.billStore.removeBill(this.model);
   }
 }

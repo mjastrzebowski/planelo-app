@@ -11,7 +11,7 @@ export class ITrainer {
 
 export class Trainer implements ITrainer {
   completed: boolean = false;
-  createdAt: number = Firebase.ServerValue.TIMESTAMP;
+  createdAt: number = firebase.database['ServerValue']['TIMESTAMP'];
   title: string;
   email: string;
   hours: array;

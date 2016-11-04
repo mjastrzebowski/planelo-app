@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { ModalController } from 'ionic-angular';
 
-import { Utils } from '../../../providers/utils';
-
 import { AuthService } from '../../../core/auth/auth-service';
-import { ClientService } from '../../../core/client/client-service';
+import { ClientStore } from '../../../core/client/client-store';
+
+import { NotificationStore } from '../../../core/notification/notification-store';
 
 import { ClientCreateModal } from '../client-create/client-create';
 
@@ -17,9 +17,9 @@ export class ClientListPage {
 
   constructor(
     private modalCtrl: ModalController,
-    private utils: Utils,
+    private notificationStore: NotificationStore,
     private auth: AuthService,
-    private clientService: ClientService
+    private clientStore: ClientStore
   ) {
     this.filter = '';
   }
@@ -29,16 +29,16 @@ export class ClientListPage {
 
     this.modal.onDidDismiss(data => {
       if (data) {
-        this.clientService.createClient(
+        this.clientStore.createClient(
           data.name || '',
           data.lastname || '',
           data.email || '',
           data.phone || '',
           data.comment || '')
           .then((res) => {
-            this.utils.createNotification('clientAdded', {
+            this.notificationStore.createNotification('clientAdded', {
               client: {
-                key: res.key(),
+                key: res.getKey(),
                 gender: data.gender || '',
                 name: data.name || '',
                 lastname: data.lastname || ''

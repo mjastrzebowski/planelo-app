@@ -1,3 +1,6 @@
+import { Injectable, EventEmitter } from '@angular/core';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
+
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
@@ -5,20 +8,46 @@ import { AuthService } from '../../core/auth/auth-service';
 
 import { IWorkout } from './workout';
 
+import { FIREBASE_WORKOUTS_URL } from '../../config';
+
+@Injectable()
 export class WorkoutFullStore {
-  workouts: ReplaySubject<List<any>> = new ReplaySubject(1);
+  private loaded: boolean = false;
+  public emitter: EventEmitter<any> = new EventEmitter();
+  public workouts: FirebaseListObservable<IWorkout[]>;
   public list: List<any> = List();
 
   constructor(
-    private ref: Firebase,
+    private af: AngularFire,
     private auth: AuthService
   ) {
-    this.auth = auth;
-    ref = ref.orderByChild('dateTime').startAt('2016-06-01 08:00');
-    ref.on('child_added', this.created.bind(this));
-    ref.on('child_changed', this.updated.bind(this));
-    ref.on('child_removed', this.deleted.bind(this));
-    ref.once('value', () => this.emit());
+    this.workouts = this.af.database.list('cal_workouts', {
+      query: {
+        orderByChild: 'dateTime'
+      }
+    });
+    this.sub = this.workouts.subscribe(list => {
+      console.log('full store sub', list);
+      
+      this.list = List(list);
+      this.list.forEach(item => {
+        item.key = item.$key;
+        item.fullDate = moment(new Date(item.date)).format('dddd, DD.MM.YYYY');
+        this.updateWorkoutDependencies(item);
+      });
+      this.loaded = true;
+      this.emit();
+    });
+  }
+
+  subscribe(next: (loaded: any) => void): any {
+    let subscription = this.emitter.subscribe(next);
+    this.emit();
+    return subscription;
+  }
+
+  private emit(): void {
+    this.emitter.next(this.loaded);
   }
 
   get size(): number {
@@ -29,44 +58,6 @@ export class WorkoutFullStore {
     workout.clientKey = workout.client;
     workout.placeKey = workout.place;
     workout.trainerKey = workout.trainer;
-  }
-
-  private emit(): void {
-    this.workouts.next(this.list);
-  }
-
-  private created(snapshot: FirebaseDataSnapshot): void {
-    let key: string = snapshot.key();
-    let index: number = this.findIndex(key);
-    if (index === -1) {
-      let val = snapshot.val();
-      let workout: IWorkout = val;
-      workout.key = key;
-      workout.fullDate = moment(new Date(workout.date)).format('dddd, DD.MM.YYYY');
-      this.list = this.list.push(workout);
-      this.updateWorkoutDependencies(workout);
-      this.emit();
-    }
-  }
-
-  private deleted(snapshot: FirebaseDataSnapshot): void {
-    let index: number = this.findIndex(snapshot.key());
-    if (index !== -1) {
-      this.list = this.list.delete(index);
-      this.emit();
-    }
-  }
-
-  private updated(snapshot: FirebaseDataSnapshot): void {
-    let key: string = snapshot.key();
-    let index: number = this.findIndex(key);
-    if (index !== -1) {
-      let workout: IWorkout = snapshot.val();
-      workout.key = key;
-      this.list = this.list.set(index, workout);
-      this.updateWorkoutDependencies(workout);
-      this.emit();
-    }
   }
 
   findIndex(key: string): number {

@@ -16,7 +16,7 @@ export class ClientDetailProfileModal {
   ) {}
 
   ngOnInit(): void {
-    if (this.params.data.hasOwnProperty('key')) {
+    if (this.params.data.hasOwnProperty('$key')) {
       this.editing = true;
       this.client = this.params.data;
     } else {

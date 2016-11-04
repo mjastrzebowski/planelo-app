@@ -12,7 +12,6 @@ import { ClientStore } from '../../../core/client/client-store';
 import { PlaceStore } from '../../../core/place/place-store';
 import { TrainerStore } from '../../../core/trainer/trainer-store';
 import { WorkoutStore } from '../../../core/workout/workout-store';
-import { WorkoutService } from '../../../core/workout/workout-service';
 
 import { TrainingSchedulerFormModal } from '../training-scheduler-form/training-scheduler-form'
 
@@ -29,7 +28,6 @@ export class TrainingSchedulerPage {
     private actionSheetCtrl: ActionSheetController,
     private utils: Utils,
     private workoutStore: WorkoutStore,
-    private workoutService: WorkoutService,
     private clientStore: ClientStore,
     private placeStore: PlaceStore,
     private trainerStore: TrainerStore,
@@ -48,7 +46,11 @@ export class TrainingSchedulerPage {
     this.events = [];
     this.forceSub = false;
 
-    this.loaded = false;
+    this.loaded = {
+      places: false,
+      trainers: false,
+      workouts: false
+    };
     let changeHour = 21;
     this.changeDate = new Date();
     this.changeDate.setHours(changeHour);
@@ -59,6 +61,69 @@ export class TrainingSchedulerPage {
     }
   }
 
+  onPlaceChanged(event?): void {
+    this.refreshCalendar(true);
+  }
+
+  ngOnInit(): void {
+    this.utils.presentLoading('Ładowanie stałych treningów...');
+    this.calendar = false;
+
+    if (this.auth.isTrainer) {
+      this.place = this.auth.place;
+    }
+
+    this.sub = this.workoutStore.subscribe(loaded => {
+      if (!loaded) {
+        return;
+      }
+      this.loaded.workouts = true;
+      this.init();
+    });
+    this.subTrainers = this.trainerStore.subscribe(loaded => {
+      if (!loaded) {
+        return;
+      }
+      this.loaded.trainers = true;
+      this.init();
+    });
+    this.subPlaces = this.placeStore.subscribe(loaded => {
+      if (!loaded) {
+        return;
+      }
+      this.loaded.places = true;
+      this.init();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+    if (this.subPlaces) {
+      this.subPlaces.unsubscribe();
+    }
+    if (this.subTrainers) {
+      this.subTrainers.unsubscribe();
+    }
+  }
+
+  init(): void {
+    if (this.loaded.trainers) {
+      if (this.auth.isOwner || this.auth.isTrainer) {
+        if (!this.calendar) {
+          this.renderCalendar();
+        } else {
+          this.refreshCalendar();
+        }
+      }
+    }
+
+    if (this.loaded.places && this.loaded.trainers && this.loaded.workouts) {
+      this.renderCalendar();
+      this.utils.stopLoading();
+    }
+  }
 
   showTrainingSchedulerForm(workout): void {
     if (workout && workout.hasOwnProperty('key')) {
@@ -80,7 +145,7 @@ export class TrainingSchedulerPage {
 
       if (data[0].hasOwnProperty('delete')) {
         data.forEach(training => {
-          this.workoutService.deleteWorkout(training);
+          this.workoutStore.removeWorkout(training);
         });
         this.deleteTrainingAlert(data[0]);
       } else if (this.editing) {
@@ -98,13 +163,13 @@ export class TrainingSchedulerPage {
           if (training.trainer) {
             changes.place = this.trainerStore.getItem(training.trainer).place;
           }
-          this.workoutService.updateWorkout(training, changes);
+          this.workoutStore.updateWorkout(training, changes);
         });
       } else {
         let client = data[0].client || '';
         data.forEach(training => {
           let place = this.trainerStore.getItem(training.trainer).place;
-          this.workoutService.createWorkout(
+          this.workoutStore.createWorkout(
             place,
             training.trainer || '',
             client,
@@ -175,7 +240,7 @@ export class TrainingSchedulerPage {
           text: 'Odwołaj',
           handler: data => {
             let date = moment().format('DD.MM.YYYY, HH:mm');
-            this.workoutService.updateWorkout(workout, {
+            this.workoutStore.updateWorkout(workout, {
               completed: '[' + date + '] ' + data.title
             });
             this.deleteTrainingAlert(workout);
@@ -188,43 +253,6 @@ export class TrainingSchedulerPage {
     }, 500);
   }
 
-  onPlaceChanged(event): void {
-    this.refreshCalendar(true);
-  }
-
-  ionViewDidEnter(): void {
-    this.utils.presentLoading('Ładowanie stałych treningów...');
-    this.calendar = false;
-
-    let authSub = this.auth.subscribe((authenticated: boolean) => {
-      this.workouts = this.workoutStore.workouts;
-      if (authenticated) {
-        if (authSub) {
-          authSub.unsubscribe();
-        }
-
-        if (this.auth.isTrainer) {
-          this.place = this.auth.place;
-        }
-        let workSub = this.workouts.subscribe((list) => {
-          if (this.forceSub || list.get(-1).date === '2099-12-31') {
-            setTimeout(() => {
-              if (this.auth.isOwner || this.auth.isTrainer) {
-                if (!this.calendar) {
-                  this.renderCalendar();
-                } else {
-                  this.refreshCalendar();
-                }
-              }
-              this.forceSub = true;
-              this.utils.stopLoading();
-            }, 500);
-          }
-        });
-      }
-    });
-  }
-
   refreshCalendar(force): void {
     let events = this.getEvents();
 
@@ -234,8 +262,8 @@ export class TrainingSchedulerPage {
 
     this.events = events;
 
-    $('#calendar').fullCalendar('refetchEvents');
-    $('#calendar').fullCalendar('refetchResources');
+    $('#scheduler-calendar').fullCalendar('refetchEvents');
+    $('#scheduler-calendar').fullCalendar('refetchResources');
   }
 
   renderCalendar(): void {
@@ -290,7 +318,7 @@ export class TrainingSchedulerPage {
       eventDrop: this.calendarDrag.bind(this)
     };
 
-    $('#calendar').fullCalendar(calendarOptions);
+    $('#scheduler-calendar').fullCalendar(calendarOptions);
     this.calendar = true;
   }
 
@@ -306,7 +334,7 @@ export class TrainingSchedulerPage {
     };
 
     if (confirm('Czy na pewno przenieść stały trening?')) {
-      this.workoutService.updateWorkout(workout, changes);
+      this.workoutStore.updateWorkout(workout, changes);
     }
     this.refreshCalendar(true);
   }
@@ -433,13 +461,8 @@ export class TrainingSchedulerPage {
     return callback ? callback(events) : events;
   }
 
-  getResources(callback): any {
+  getResources(callback: any): any {
     let resources = [];
-
-    if (this.placeStore.size === 0) {
-      callback([]);
-      return false;
-    }
 
     this.trainerStore.list.forEach(trainer => {
       if (trainer.place !== this.place) {
@@ -453,11 +476,11 @@ export class TrainingSchedulerPage {
       };
       resources.push(resource);
     });
-
+    
     return callback ? callback(resources) : resources;
   }
 
-  getResourcesWithPlaces(callback): any {
+  getResourcesWithPlaces(callback: any): any {
     let resources = [];
 
     if (this.placeStore.size === 0) {
@@ -490,7 +513,8 @@ export class TrainingSchedulerPage {
       children: childrens
     });
 
-    i = 0, childrens = [];
+    i = 0;
+    childrens = [];
     this.trainerStore.list.forEach(trainer => {
       if (i++ >= 3) {
         let resource = {

@@ -4,6 +4,7 @@ import { Nav, MenuController } from 'ionic-angular';
 
 // services
 import { AuthService } from '../core/auth/auth-service';
+import { Utils } from '../providers/utils';
 
 // pages
 import { BillListPage } from '../pages/bill/bill-list/bill-list';
@@ -29,6 +30,7 @@ export class DavidApp {
   @ViewChild(Nav) nav: Nav;
 
   constructor(
+    private utils: Utils,
     public menu: MenuController,
     public auth: AuthService
   ) {
@@ -54,9 +56,11 @@ export class DavidApp {
       { title: 'Wyloguj', component: LoginPage, icon: 'log-out', hide: true },
     ];
 
+    this.utils.presentLoading('Uruchamianie aplikacji...');
     this.auth.subscribe((authenticated: boolean) => {
       this.authenticated = authenticated;
       this.updateSideMenuItems(authenticated);
+      this.utils.stopLoading();
       if (!this.authenticated) {
         this.root = LoginPage;
       }

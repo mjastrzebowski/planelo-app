@@ -7,9 +7,7 @@ import { IClient } from '../../../core/client/client';
 
 import { Utils } from '../../../providers/utils';
 import { BillStore } from '../../../core/bill/bill-store';
-import { BillService } from '../../../core/bill/bill-service';
 import { WorkoutStore } from '../../../core/workout/workout-store';
-import { ClientService } from '../../../core/client/client-service';
 
 @Component({
   templateUrl: 'client-detail-billing.html'
@@ -24,9 +22,7 @@ export class ClientDetailBillingModal {
     private http: Http,
     private utils: Utils,
     private billStore: BillStore,
-    private billService: BillService,
     private workoutStore: WorkoutStore,
-    private clientService: ClientService
   ) {
     this.params = params;
     this.viewCtrl = viewCtrl;
@@ -34,9 +30,7 @@ export class ClientDetailBillingModal {
     this.utils = utils;
 
     this.billStore = billStore;
-    this.billService = billService;
     this.workoutStore = workoutStore;
-    this.clientService = clientService;
 
     this.trainingPrice = 120;
   }
@@ -61,14 +55,14 @@ export class ClientDetailBillingModal {
   }
 
   ionViewDidEnter(): void {
-    this.client.month = '2016-10';
+    this.client.month = '2016-11';
     this.updateMonth();
   }
 
   updateMonth(): void {
     this.bill = this.billStore.getItemByClientMonth(this.client.key, this.client.month);
     if (!this.bill) {
-      this.billService.createBill(this.client.key, this.client.month).then(() => {
+      this.billStore.createBill(this.client.key, this.client.month).then(() => {
         this.bill = this.billStore.getItemByClientMonth(this.client.key, this.client.month);
       });
       this.client.payed = 0;
@@ -187,7 +181,7 @@ export class ClientDetailBillingModal {
           ul: [
             {
               text: [
-                'Liczba treningów zaplanowana w miesiącu październik: ',
+                'Liczba treningów zaplanowana w miesiącu listopad: ',
                 { text: parseInt(this.client.trainingsTodoCount || 0) + '', style: 'field' }
               ]
             },{
@@ -233,7 +227,7 @@ export class ClientDetailBillingModal {
           style: 'content',
           columns: [[
               'Płatność gotówką lub przelewem: \r\n',
-              { text: 'TRENINGI PERSONALNE \r\nPAŹDZIERNIK', bold: true },
+              { text: 'TRENINGI PERSONALNE \r\nLISTOPAD', bold: true },
               { text: '\r\n\r\nTermin płatności do 5-go każdego miesiąca.', style: 'small' }
             ],[
               {
@@ -305,8 +299,8 @@ export class ClientDetailBillingModal {
   }
 
   save(): void {
-    this.billService.updateBill(this.bill, {
-      payed: parseFloat(this.client.payed),
+    this.billStore.updateBill(this.bill, {
+      payed: parseFloat(this.client.payed) || 0,
       discount: parseFloat(this.client.discount)
     });
     this.viewCtrl.dismiss(this.client);

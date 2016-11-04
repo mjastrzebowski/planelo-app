@@ -4,7 +4,7 @@ import { ViewController } from 'ionic-angular';
 import { AuthService } from '../../../core/auth/auth-service';
 
 import { TrainerStore } from '../../../core/trainer/trainer-store';
-import { WorkoutFullStore } from '../../../core/workout/workout-full-store';
+import { WorkoutStore } from '../../../core/workout/workout-store';
 
 
 @Component({
@@ -16,7 +16,7 @@ export class TrainingReserveModal {
   constructor(
     private viewCtrl: ViewController,
     private trainerStore: TrainerStore,
-    private workoutStore: WorkoutFullStore,
+    public workoutStore: WorkoutStore,
     public auth: AuthService
   ) {
     this.available = [];
@@ -31,22 +31,26 @@ export class TrainingReserveModal {
   }
 
   ngOnInit(): void {
-    let authSub = this.auth.subscribe((authenticated: boolean) => {
-      if (authenticated) {
-        if (authSub) {
-          authSub.unsubscribe();
-        } else {
-          this.workouts = this.workoutStore.workouts;
-          this.getAvailableWorkouts();
-        }
+    this.sub = this.workoutStore.subscribe(loaded => {
+      if (!loaded) {
+        return;
       }
+      this.init();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
+  init(): void {
+    this.getAvailableWorkouts();
   }
 
   getAvailableWorkouts(): void {
     this.available = [];
     if (this.available.length > 0) {
-      return false;
+      return;
     }
     let hours = [
       { timeStart: '8:00', timeEnd: '09:00' },
@@ -81,9 +85,9 @@ export class TrainingReserveModal {
     }
 
     for (let d = today; d <= today+days; d++) {
-      let nextDay = new Date('2016-10-01');
+      let nextDay = new Date('2016-11-01');
       nextDay.setDate(d);
-      if (this.auth.isClient && (nextDay.getMonth()+1) === 11) {
+      if (this.auth.isClient && (nextDay.getMonth()+1) === 12) {
         break;
       }
       if (nextDay.getDay() !== 0) {
@@ -112,7 +116,6 @@ export class TrainingReserveModal {
           if (time === '8:00' || time === '9:00') {
             time = '0' + time;
           }
-
           this.trainerStore.list.forEach(trainer => {
             if (this.auth.isOwner || trainer.place === this.place) {
               let thisDate = new Date(date);
@@ -120,7 +123,9 @@ export class TrainingReserveModal {
 
               if (!this.auth.isOwner && trainer.vacation && 
                 !(trainer.key === '-KJ2tA8ChSdvCtXgGps4' && date === '2016-08-15') && 
-                !(trainer.key === '-KJ2tLDl_lljvvl48TMW' && date === '2016-10-20')) {
+                !(trainer.key === '-KJ2tLDl_lljvvl48TMW' && date === '2016-11-11') &&
+                !(trainer.key === '-KBN-noa5OGgfW2XYbvZ' && date === '2016-11-11') &&
+                !(trainer.key === '-KEiiHM34nL9fAhGCAC8' && date === '2016-11-01')) {
                 if (trainer.vacation[0]) {
                   let vacationDateStart = new Date(trainer.vacation[0].dateStart);
                   let vacationDateEnd = new Date(trainer.vacation[0].dateEnd);
@@ -167,9 +172,23 @@ export class TrainingReserveModal {
 
               let d = thisDate.getDay() - 1;
               if (this.auth.isOwner || (trainer.hours[d] && trainer.hours[d][hour.timeStart] &&
-                !(trainer.key === '-KJ2tLDl_lljvvl48TMW' && date === '2016-10-20' && 
-                  (time === '17:00' || time === '18:00' || time === '19:00' || time === '20:00')))) {
-                let find = this.workoutStore.list.filter(workout => {
+                !(trainer.key === '-KJ2tLDl_lljvvl48TMW' && date === '2016-11-11' && 
+                  (time === '16:00' || time === '17:00' || time === '18:00' || time === '19:00' || time === '20:00')) &&
+                !(trainer.key === '-KBN-noa5OGgfW2XYbvZ' && date === '2016-11-11' && 
+                  (time === '16:00' || time === '17:00' || time === '18:00' || time === '19:00' || time === '20:00')) &&
+                !(trainer.key === '-KEiiHM34nL9fAhGCAC8' && date === '2016-11-01' && 
+                  (time === '16:00' || time === '17:00' || time === '18:00' || time === '19:00' || time === '20:00'))
+                ) || 
+                (trainer.key === '-KJ2tLDl_lljvvl48TMW' && date === '2016-11-11' && 
+                    (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
+                (trainer.key === '-KBN-noa5OGgfW2XYbvZ' && date === '2016-11-11' && 
+                    (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
+                (trainer.key === '-KEiiHM34nL9fAhGCAC8' && date === '2016-11-01' && 
+                    (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
+                (trainer.key === '-KMcRg822CDsJnb2-dmp' && date === '2016-11-01' && 
+                    (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00'))
+                ) {
+                let find = this.workoutStore.listAll.filter(workout => {
                   if (!this.auth.isOwner && (!workout.fixed && !workout.completed && (date === workout.date && workout.timeStart === time && (workout.trainerKey === trainer.key || (this.auth.isClient && workout.clientKey === this.auth.key)))
                     && !(this.trainings[0] && workout.date === this.trainings[0].date && workout.timeStart === this.trainings[0].timeStart && (trainer.key === this.trainings[0].trainer || (this.auth.isClient && this.auth.key === this.trainings[0].client))))) {
                     return true;

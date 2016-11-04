@@ -1,20 +1,55 @@
+import { Injectable, EventEmitter } from '@angular/core';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
+
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { IPlace } from './place';
 
+import { IPlace, Place } from './place';
 
+import { FIREBASE_PLACES_URL } from '../../config';
+
+@Injectable()
 export class PlaceStore {
-  places: ReplaySubject<List<any>> = new ReplaySubject(1);
+  private loaded: boolean = false;
+  private emitter: EventEmitter<any> = new EventEmitter();
+  private places: FirebaseListObservable<IPlace[]>;
   public list: List<any> = List();
-  public loaded: boolean;
 
   constructor(
-    private ref: Firebase
+    private af: AngularFire
   ) {
-    ref.on('child_added', this.created.bind(this));
-    ref.on('child_changed', this.updated.bind(this));
-    ref.on('child_removed', this.deleted.bind(this));
-    ref.once('value', () => this.emit());
+    this.places = this.af.database.list('cal_places');
+    this.places.subscribe(list => {
+      this.list = List(list);
+      this.list.forEach(item => {
+        item.key = item.$key;
+      });
+
+      this.loaded = true;
+      this.emit();
+    });
+  }
+
+  createPlace(title: string) {
+    return this.places.push(new Place(title));
+  }
+
+  removePlace(place: IPlace) {
+    return this.places.remove(place.key);
+  }
+
+  updatePlace(place: IPlace, changes: any) {
+    return this.places.update(place.key, changes);
+  }
+
+  subscribe(next: (loaded: any) => void): any {
+    let subscription = this.emitter.subscribe(next);
+    this.emit();
+    return subscription;
+  }
+
+  private emit(): void {
+    this.emitter.next(this.loaded);
   }
 
   get size(): number {
@@ -24,41 +59,6 @@ export class PlaceStore {
   public getItem(key: string): IPlace {
     let index = this.findIndex(key);
     return this.list.get(index);
-  }
-
-  private emit(): void {
-    this.loaded = true;
-    this.places.next(this.list);
-  }
-
-  private created(snapshot: FirebaseDataSnapshot): void {
-    let key: string = snapshot.key();
-    let index: number = this.findIndex(key);
-    if (index === -1) {
-      let place: IPlace = snapshot.val();
-      place.key = key;
-      this.list = this.list.push(place);
-      this.emit();
-    }
-  }
-
-  private deleted(snapshot: FirebaseDataSnapshot): void {
-    let index: number = this.findIndex(snapshot.key());
-    if (index !== -1) {
-      this.list = this.list.delete(index);
-      this.emit();
-    }
-  }
-
-  private updated(snapshot: FirebaseDataSnapshot): void {
-    let key: string = snapshot.key();
-    let index: number = this.findIndex(key);
-    if (index !== -1) {
-      let place: IPlace = snapshot.val();
-      place.key = key;
-      this.list = this.list.set(index, place);
-      this.emit();
-    }
   }
 
   private findIndex(key: string): number {

@@ -1,7 +1,11 @@
+import { Injectable } from '@angular/core';
+import { AngularFire } from 'angularfire2';
+
 import { IWorkout, Workout } from './workout';
 
+@Injectable()
 export class WorkoutService {
-  constructor(private ref: Firebase) {}
+  constructor(private af: AngularFire) {}
 
   createWorkout(
     place: string,

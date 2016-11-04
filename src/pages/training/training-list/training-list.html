@@ -7,7 +7,7 @@
     <ion-title>Treningi</ion-title>
 
     <ion-buttons end>
-      <button ion-button [hidden]="auth.isTrainer" (click)="showTrainingForm()">
+      <button ion-button icon-only [hidden]="auth.isTrainer" (click)="showTrainingForm()">
         <ion-icon name="add"></ion-icon>
       </button>
       <notification-counter></notification-counter>
@@ -31,7 +31,7 @@
 
   <div *ngIf="auth.isClient">
     <ion-list>
-      <div *ngFor="let workout of workouts | async | groupWorkouts; let w = index" [attr.track]="workout.key">
+      <div *ngFor="let workout of workoutStore.list | groupWorkouts; let w = index" [attr.track]="workout.key">
         <ion-item-divider light *ngIf="workout.nextMonth" (click)="showMonth(workout.monthId)" [hidden]="workout.fixed || workout.timeStart == '' || workout.date == '2099-12-31'">{{ workout.month }}</ion-item-divider>
         <ion-item-sliding class="workouts-hidden month-{{ workout.monthId }}" [hidden]="workout.fixed || workout.completed || workout.timeStart == '' || workout.date == '2099-12-31'">
           <ion-item>

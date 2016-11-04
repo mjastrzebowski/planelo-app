@@ -1,44 +1,48 @@
-import { EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
+import { FirebaseAuth, FirebaseAuthState, AngularFire } from 'angularfire2';
 
+import { FIREBASE_URL } from '../../config';
+
+import { firebaseConfig, firebaseAuthConfig } from '../../firebase';
+
+@Injectable()
 export class AuthService {
-  private authData: any;
+  private authData: FirebaseAuthState = null;
   private userData: any;
   private moreData: any;
   private emitter: EventEmitter<any> = new EventEmitter();
   public loaded: boolean;
 
-  constructor(private ref: Firebase, private fb: Firebase) {
-    this.authData = this.ref.getAuth();
+  constructor(
+    public auth$: FirebaseAuth,
+    public af: AngularFire
+  ) {
+    const path = FIREBASE_URL;
 
-    this.ref.onAuth((authData: any) => {
+    this.auth$.subscribe((authData: FirebaseAuthState) => {
+      this.authData = authData;
       if (this.loaded && (!authData || authData === null)) {
-        console.log('test onAuth', authData);
         location.reload();
       }
 
-      this.authData = authData;
-      if (this.authData) {
-        this.ref.child('users').child(authData.uid).once('value', function(snapshot) {
-          this.userData = snapshot.val();
+      if (this.authData) {        
+        this.af.database.object('users/' + authData.uid).subscribe((userData: any) => {
+          this.userData = userData;
           if (this.userData && this.key) {
             let userType = this.isClient ? 'cal_clients' : 'cal_trainers';
             if (this.key === '-KBN-b7GjsB6FS8Opmx0') {
               userType = 'cal_clients';
             }
-            this.ref.child(userType).child(this.key).once('value', function(snapshot) {
-              this.moreData = snapshot.val();
+            this.af.database.object(userType + '/' + this.key).subscribe((moreData: any) => {
+              this.moreData = moreData;
               this.loaded = true;
               this.emit();
-            }, function (errorObject) {
-              console.log('The read failed: ' + errorObject.code);
-            }, this);
+            });
           } else {
             this.loaded = true;
             this.emit();
           }
-        }, function (errorObject) {
-          console.log('The read failed: ' + errorObject.code);
-        }, this);
+        });
       }
     });
   }
@@ -56,7 +60,7 @@ export class AuthService {
   }
 
   get email(): string {
-    return this.authenticated ? this.authData.password.email : '';
+    return this.authenticated ? this.authData.auth.email : '';
   }
 
   get type(): string {
@@ -103,70 +107,68 @@ export class AuthService {
     return this.authenticated && this.type === 'owner';
   }
 
-  signInWithGithub(): Promise<any> {
-    return this.authWithOAuth('github');
-  }
-
-  signInWithGoogle(): Promise<any> {
-    return this.authWithOAuth('google');
-  }
-
-  signInWithTwitter(): Promise<any> {
-    return this.authWithOAuth('twitter');
-  }
 
   signInWithPassword(credentials: any): Promise<any> {
     return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
-      this.ref.authWithPassword(credentials, (error: Error) => {
-        if (error) {
-          console.error('ERROR @ AuthService#authWithPassword :', error);
-          reject(error);
-        } else {
-          resolve();
-        }
+      this.auth$.login(credentials).then(function() {
+        resolve();
+      }).catch((error: Error) => {
+        console.error('ERROR @ AuthService#signInWithPassword :', error);
+        reject(error);
       });
     });
   }
 
   signUpWithPassword(credentials: any): Promise<any> {
-    return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
-      this.ref.createUser(credentials, (error: Error, userData?: any) => {
-        if (error) {
-          console.error('ERROR @ AuthService#createUser :', error);
-          reject(error);
-        } else {
-          resolve(userData);
-        }
-      });
-    });
+    if (!this.fbApp) {
+      this.fbApp = firebase.initializeApp(firebaseConfig, 'Admin');
+    }
+    return this.fbApp.auth().createUserWithEmailAndPassword(credentials.email, credentials.password)
+      .catch((error: Error) => console.error('ERROR @ AuthService#signUpWithPassword :', error));
   }
 
-  removeUser(credentials: any): Promise<any> {
-    return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
-      let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvc2VjdXJldG9rZW4uZ29vZ2xlLmNvbVwvIiwic3ViIjoiMjBmNjVlNTYtYzcwMy00MjA4LWI2MDctMDcxMTg4NzFmMDY2IiwiYXVkIjpudWxsLCJpYXQiOjE0NzY3Nzk4NzIsImV4cCI6MTQ3Njc4MzQ3MiwidWlkIjoiMjBmNjVlNTYtYzcwMy00MjA4LWI2MDctMDcxMTg4NzFmMDY2In0.QBkiSMz1oXxqCWvZGxCk2LmyBETdI0qG1DEZ9SThoZ6xi17Lv_AcO6p0O2PRkGTSo52fbSFsuM3cUeYm3QqfTAgdOZ5gibeFSXKJ1FthNt2Hw5_08BeMvUnGj36QZOGUNtZ6V-aQOomRDjpvQMe9CXKFK1_BVPVh4ai5_Rn9HSYQG9M4E_4KA6QPM2gcz2GM3QDk-DSygOd4ke6XCg-x1R-_gmUO7bGrWTiqQ-4jJZCjYGVH0oCI-xs511R9zkvvRn7cjdqIc5ssw6SCLyhNzpQ3uC5OxoUL4Omku6IFnBCyuNOJDnVlGY_57tfJS7soFbUjUCAPExXsUvxZsppZQg';
+  removeUser(token: any): Promise<any> {
+    if (!this.fbApp) {
+      this.fbApp = firebase.initializeApp(firebaseConfig, 'Admin');
+    }
+    return this.fbApp.auth().signInWithCustomToken(token).then(function(success) {
+        let user = this.fbApp.auth().currentUser;
+        user.delete();
+      }.bind(this)).catch((error: Error) => console.error('ERROR @ AuthService#removeUser :', error));
 
-      // credentials = {
-      //   email: 'michal+12345@jastrzebowski.pl',
-      //   oldPassword: token,
-      //   newPassword: 'nowe'
-      // };
-      debugger;
-      this.fb.authWithCustomToken(token, (error: Error, userData?: any) => {
-        if (error) {
-          console.error('ERROR @ AuthService#authWithCustomToken :', error);
-          reject(error);
-        } else {
-          console.log('sukces zmiany?', userData);
-          resolve();
-        }
-      });
+
+    // firebase.auth().signInWithCustomToken(token).then(function(success) {
+    //     var user = firebase.auth().currentUser;
+    //     console.log(user);
+    //   }).catch(function(error) {
+    //     console.log(error);
+    //   });
+
+
+    // return this.auth$.removeUser(credentials)
+    //   .catch((error: Error) => console.error('ERROR @ AuthService#createUser :', error));
+
+    // return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
+    //   let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvc2VjdXJldG9rZW4uZ29vZ2xlLmNvbVwvIiwic3ViIjoiMjBmNjVlNTYtYzcwMy00MjA4LWI2MDctMDcxMTg4NzFmMDY2IiwiYXVkIjpudWxsLCJpYXQiOjE0NzY3Nzk4NzIsImV4cCI6MTQ3Njc4MzQ3MiwidWlkIjoiMjBmNjVlNTYtYzcwMy00MjA4LWI2MDctMDcxMTg4NzFmMDY2In0.QBkiSMz1oXxqCWvZGxCk2LmyBETdI0qG1DEZ9SThoZ6xi17Lv_AcO6p0O2PRkGTSo52fbSFsuM3cUeYm3QqfTAgdOZ5gibeFSXKJ1FthNt2Hw5_08BeMvUnGj36QZOGUNtZ6V-aQOomRDjpvQMe9CXKFK1_BVPVh4ai5_Rn9HSYQG9M4E_4KA6QPM2gcz2GM3QDk-DSygOd4ke6XCg-x1R-_gmUO7bGrWTiqQ-4jJZCjYGVH0oCI-xs511R9zkvvRn7cjdqIc5ssw6SCLyhNzpQ3uC5OxoUL4Omku6IFnBCyuNOJDnVlGY_57tfJS7soFbUjUCAPExXsUvxZsppZQg';
+
+    //   // credentials = {
+    //   //   email: 'michal+12345@jastrzebowski.pl',
+    //   //   oldPassword: token,
+    //   //   newPassword: 'nowe'
+    //   // };
+    //   debugger;
+    //   this.fb.authWithCustomToken(token, (error: Error, userData?: any) => {
+    //     if (error) {
+    //       console.error('ERROR @ AuthService#authWithCustomToken :', error);
+    //       reject(error);
+    //     } else {
+    //       resolve();
+    //     }
+    //   });
 
       // this.ref.signInWithCustomToken(token).then(function(success) {
-      //   console.log(success);
       //   // var user = firebase.auth().currentUser;
-      //   // console.log(user);
       // }).catch(function(error) {
-      //   console.log(error);
       // });
 
 
@@ -176,47 +178,39 @@ export class AuthService {
       //     console.error('ERROR @ AuthService#removeUser :', error);
       //     reject(error);
       //   } else {
-      //     console.log('okej?');
       //     resolve(userData);
       //   }
       // });
-    });
+    // });
   }
 
   changePassword(credentials: any): Promise<any> {
     return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
-      this.ref.changePassword(credentials, (error: Error) => {
-        if (error) {
-          console.error('ERROR @ AuthService#changePassword :', error);
-          reject(error);
-        } else {
+      let user = this.auth$.getAuth().auth;
+      let credential = firebase.auth.EmailAuthProvider.credential(credentials.email, credentials.oldPassword);
+
+      user.reauthenticate(credential).then(function() {
+        user.updatePassword(credentials.newPassword).then(function() {
           resolve();
-        }
+        }).catch((error: Error) => {
+          console.error('ERROR @ AuthService#updatePassword :', error);
+          reject(error);
+        });
+      }).catch((error: Error) => {
+        console.error('ERROR @ AuthService#reauthenticate :', error);
+        reject(error);
       });
     });
   }
 
   signOut(): void {
-    this.ref.unauth();
+    this.auth$.logout();
   }
 
   subscribe(next: (authenticated: boolean) => void): any {
     let subscription = this.emitter.subscribe(next);
     this.emit();
     return subscription;
-  }
-
-  private authWithOAuth(provider: string): Promise<any> {
-    return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
-      this.ref.authWithOAuthPopup(provider, (error: Error) => {
-        if (error) {
-          console.error('ERROR @ AuthService#authWithOAuth :', error);
-          reject(error);
-        } else {
-          resolve();
-        }
-      });
-    });
   }
 
   private emit(): void {

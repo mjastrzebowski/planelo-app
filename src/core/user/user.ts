@@ -9,11 +9,11 @@ export class IUser {
 
 export class User implements IUser {
   completed: boolean = false;
-  createdAt: number = Firebase.ServerValue.TIMESTAMP;
+  createdAt: number = firebase.database['ServerValue']['TIMESTAMP'];
   key: string;
   type: string;
 
-  constructor(id: string, key: string, type: string) {
+  constructor(key: string, type: string) {
     this.key = key;
     this.type = type;
   }

@@ -21,7 +21,7 @@ export class IWorkout {
 
 export class Workout implements IWorkout {
   completed: boolean = false;
-  createdAt: number = Firebase.ServerValue.TIMESTAMP;
+  createdAt: number = firebase.database['ServerValue']['TIMESTAMP'];
   place: string;
   trainer: string;
   client: string;

@@ -1,5 +1,14 @@
 <ion-list class="notification-list">
-  <notification-item #notifications [model]="notification" *ngFor="let notification of notificationStore.notifications | async | filterNotifications:filter:limit"></notification-item>
+  <ion-list-header *ngIf="!notificationStore.size">
+    <ion-row center>
+      <ion-col width-20>
+        <ion-spinner name="dots" class="spinner-dots"><svg viewBox="0 0 64 64" style="left: 9px; animation-delay: 0ms; animation-duration: 750ms;"><circle transform="translate(32,32)" r="6"></circle></svg><svg viewBox="0 0 64 64" style="left: 0px; animation-delay: -110ms; animation-duration: 750ms;"><circle transform="translate(32,32)" r="6"></circle></svg><svg viewBox="0 0 64 64" style="left: -9px; animation-delay: -220ms; animation-duration: 750ms;"><circle transform="translate(32,32)" r="6"></circle></svg></ion-spinner>
+      </ion-col>
+      <ion-col>Ładowanie...</ion-col>
+    </ion-row>
+  </ion-list-header>
+
+  <notification-item #notifications [model]="notification" *ngFor="let notification of notificationStore.list | filterNotifications:filter:limit"></notification-item>
 </ion-list>
 
 <ion-buttons padding text-center *ngIf="isMore">

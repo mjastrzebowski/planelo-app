@@ -17,7 +17,7 @@
     <form #settingsForm="ngForm" novalidate>
       <ion-item>
         <ion-label floating primary>Użytkownik</ion-label>
-        <ion-input [(ngModel)]="settings.email" name="email" type="email" #email="ngModel" required disabled>
+        <ion-input [(ngModel)]="settings.email" name="email" type="email" #email="ngModel" required readonly>
         </ion-input>
       </ion-item>
       <p [hidden]="email.valid || submitted == false" danger padding-left>

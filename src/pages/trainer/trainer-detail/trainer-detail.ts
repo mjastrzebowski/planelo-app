@@ -7,14 +7,13 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
+import { AuthService } from '../../../core/auth/auth-service';
 import { Utils } from '../../../providers/utils';
 
-import { AuthService } from '../../../core/auth/auth-service';
-
-import { TrainerService } from '../../../core/trainer/trainer-service';
-
 import { ClientStore } from '../../../core/client/client-store';
+import { NotificationStore } from '../../../core/notification/notification-store';
 import { PlaceStore } from '../../../core/place/place-store';
+import { TrainerStore } from '../../../core/trainer/trainer-store';
 import { WorkoutStore } from '../../../core/workout/workout-store';
 
 import { TrainerDetailProfileModal } from '../trainer-detail-profile/trainer-detail-profile';
@@ -70,10 +69,11 @@ export class TrainerDetailPage {
   constructor(
     private modalCtrl: ModalController,
     private navParams: NavParams,
+    private trainerStore: TrainerStore,
     private workoutStore: WorkoutStore,
-    private utils: Utils,
+    private notificationStore: NotificationStore,
     private auth: AuthService,
-    private trainerService: TrainerService,
+    public utils: Utils,
     public clientStore: ClientStore,
     public placeStore: PlaceStore
   ) {
@@ -92,9 +92,9 @@ export class TrainerDetailPage {
     modal.onDidDismiss(data => {
       if (data) {
         if (data.hasOwnProperty('delete')) {
-          this.trainerService.deleteTrainer(data)
+          this.trainerStore.removeTrainer(data)
             .then((res) => {
-              this.utils.createNotification('trainerRemoved', {
+              this.notificationStore.createNotification('trainerRemoved', {
                 trainer: {
                   key: data.key,
                   title: data.title || '',
@@ -107,7 +107,7 @@ export class TrainerDetailPage {
           return;
         }
 
-        this.trainerService.updateTrainer(data, {
+        this.trainerStore.updateTrainer(data, {
           title: data.title || '',
           alias: data.alias || '',
           email: data.email || '',
@@ -127,7 +127,7 @@ export class TrainerDetailPage {
 
     modal.onDidDismiss(data => {
       if (data) {
-        this.trainerService.updateTrainer(data, {
+        this.trainerStore.updateTrainer(data, {
           hours: data.hours || ''
         });
         this.trainer = data;
@@ -148,7 +148,7 @@ export class TrainerDetailPage {
             vacation.end = vacation.dateEnd + 'T23:00';
           }
         });
-        this.trainerService.updateTrainer(data, {
+        this.trainerStore.updateTrainer(data, {
           vacation: data.vacation || ''
         });
         this.trainer = data;

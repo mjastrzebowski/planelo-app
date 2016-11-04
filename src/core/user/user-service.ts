@@ -1,8 +1,11 @@
+import { Injectable } from '@angular/core';
+import { AngularFire } from 'angularfire2';
+
 import { IUser, User } from './user';
 
-
+@Injectable()
 export class UserService {
-  constructor(private ref: Firebase) {}
+  constructor(private af: AngularFire) {}
 
   createUser(id: string, key: string, type: string): void {
     this.ref.child(id).set(new User(id, key, type), (error: Error) => {

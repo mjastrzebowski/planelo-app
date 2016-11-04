@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { App, LoadingController } from 'ionic-angular';
 
-import { NotificationService } from '../core/notification/notification-service';
+// import { NotificationService } from '../core/notification/notification-service';
 
 @Injectable()
 export class Utils {
@@ -12,8 +12,8 @@ export class Utils {
 
   constructor(
     private app: App,
-    private loadingCtrl: LoadingController,
-    private notificationService: NotificationService
+    private loadingCtrl: LoadingController
+    // private notificationService: NotificationService
   ) {
     this.nav = app.getActiveNav();
     this.active = false;
@@ -29,9 +29,9 @@ export class Utils {
     ];
   }
 
-  createNotification(type: string, data: any): void {
-    this.notificationService.createNotification(type, data);
-  }
+  // createNotification(type: string, data: any): void {
+  //   this.notificationService.createNotification(type, data);
+  // }
 
   presentLoading(message: string, duration?: number): void {
     this.active = true;
@@ -49,7 +49,7 @@ export class Utils {
     }
 
     this.loading = this.loadingCtrl.create(options);
-    this.loading.present();    
+    this.loading.present();
   }
 
   stopLoading(force?: boolean): void {

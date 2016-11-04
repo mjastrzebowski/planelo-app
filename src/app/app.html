@@ -1,20 +1,22 @@
 <div [ngClass]="{'logged': auth.loaded, 'logged-owner': auth.isOwner, 'logged-trainer': auth.isTrainer, 'logged-client': auth.isClient}">
   <!-- left menu -->
   <ion-menu [content]="content" id="menuLeft" side="left" *ngIf="auth.loaded">
-    <ion-toolbar class="menu-userbar" padding [hidden]="!showUserBar">
-      <h1 *ngIf="auth.name">{{auth.name}} {{auth.lastname}}</h1>
-      <h1 *ngIf="!auth.name && auth?.title">{{auth?.title}}</h1>
-      <h1 *ngIf="!auth.name && !auth?.title">Jarosław Jakubowski</h1>
-      <h2 *ngIf="auth.isOwner">Szef</h2>
-      <h2 *ngIf="auth.isTrainer">Trener</h2>
-      <h2 *ngIf="auth.isClient">Klient</h2>
-    </ion-toolbar>
+    <ion-header>
+      <ion-toolbar class="menu-userbar" padding [hidden]="!showUserBar">
+        <h1 *ngIf="auth.name">{{auth.name}} {{auth.lastname}}</h1>
+        <h1 *ngIf="!auth.name && auth?.title">{{auth?.title}}</h1>
+        <h1 *ngIf="!auth.name && !auth?.title">Jarosław Jakubowski</h1>
+        <h2 *ngIf="auth.isOwner">Szef</h2>
+        <h2 *ngIf="auth.isTrainer">Trener</h2>
+        <h2 *ngIf="auth.isClient">Klient</h2>
+      </ion-toolbar>
 
-    <ion-toolbar [hidden]="showUserBar">
-      <ion-title>Niezalogowany</ion-title>
-    </ion-toolbar>
+      <ion-toolbar [hidden]="showUserBar">
+        <ion-title>Niezalogowany</ion-title>
+      </ion-toolbar>
+    </ion-header>
 
-    <ion-content class="menu">
+    <ion-content class="menu outer-content">
       <ion-list>
         <button ion-item icon-left menuClose="menuLeft" *ngFor="let p of pages" (click)="openPage(p)" [hidden]="p.hide">
           <ion-icon item-left [name]="p.icon"></ion-icon>
@@ -23,18 +25,20 @@
       </ion-list>
 
       <code padding *ngIf="auth.isOwner">
-        <small>Wersja: 1.5.2 (z dnia 18.10.2016 r.)</small>
+        <small>Wersja: 1.7.9 (z dnia 31.10.2016 r.)</small>
       </code>
     </ion-content>
   </ion-menu>
 
   <!-- right menu -->
   <ion-menu [content]="content" id="menuRight" side="right" type="push" *ngIf="auth.loaded && auth.isOwner">
-    <ion-toolbar>
-      <ion-title>Powiadomienia</ion-title>
-    </ion-toolbar>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Powiadomienia</ion-title>
+      </ion-toolbar>
+    </ion-header>
 
-    <ion-content class="menu" menuClose="menuRight">
+    <ion-content class="menu outer-content" menuClose="menuRight">
       <notification-list class="notifications" limit="10"></notification-list>
       <ion-buttons padding text-center>
         <button ion-button icon-left outline (click)="openPage('NotificationListPage')">

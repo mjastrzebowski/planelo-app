@@ -25,7 +25,7 @@
 </ion-header>
 
 <ion-content class="training-reserve">
-  <ion-list *ngIf="auth.isClient && available.length === 0">
+  <ion-list *ngIf="auth.isClient && !available.length">
     <ion-list-header>
       <ion-row center>
         <ion-col width-20>

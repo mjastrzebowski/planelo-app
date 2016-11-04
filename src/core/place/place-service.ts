@@ -1,8 +1,11 @@
+import { Injectable } from '@angular/core';
+import { AngularFire } from 'angularfire2';
+
 import { IPlace, Place } from './place';
 
-
+@Injectable()
 export class PlaceService {
-  constructor(private ref: Firebase) {}
+  constructor(private af: AngularFire) {}
 
   createPlace(title: string): void {
     this.ref.push(new Place(title), (error: Error) => {

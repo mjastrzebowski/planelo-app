@@ -8,7 +8,7 @@ export class IPlace {
 
 export class Place implements IPlace {
   completed: boolean = false;
-  createdAt: number = Firebase.ServerValue.TIMESTAMP;
+  createdAt: number = firebase.database['ServerValue']['TIMESTAMP'];
   title: string;
 
   constructor(title: string) {

@@ -1,20 +1,59 @@
+import { Injectable, EventEmitter } from '@angular/core';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
+
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { IUser } from './user';
 
+import { IUser, User } from './user';
 
+import { FIREBASE_USERS_URL } from '../../config';
+
+@Injectable()
 export class UserStore {
-  users: ReplaySubject<List<any>> = new ReplaySubject(1);
-  private list: List<any> = List();
+  private loaded: boolean = false;
+  private emitter: EventEmitter<any> = new EventEmitter();
+  public users: FirebaseListObservable<IUser[]>;
+  public list: List<any> = List();
 
   constructor(
-    private ref: Firebase
+    private af: AngularFire
   ) {
-    // ref = ref.orderByChild('lastname');
-    ref.on('child_added', this.created.bind(this));
-    ref.on('child_changed', this.updated.bind(this));
-    ref.on('child_removed', this.deleted.bind(this));
-    ref.once('value', () => this.emit());
+    this.users = this.af.database.list('users', {
+      query: {
+        orderByChild: 'lastname'
+      }
+    });
+    this.users.subscribe(list => {
+      this.list = List(list);
+      this.list.forEach(item => {
+        item.id = item.$key;
+      });
+
+      this.loaded = true;
+      this.emit();
+    });
+  }
+
+  createUser(id: string, key: string, type: string) {
+    return this.users._ref.child(id).set(new User(key, type));
+  }
+
+  removeUser(user: IUser) {
+    return this.users.remove(user.id);
+  }
+
+  updateUser(user: IUser, changes: any) {
+    return this.users.update(user.id, changes);
+  }
+
+  subscribe(next: (loaded: any) => void): any {
+    let subscription = this.emitter.subscribe(next);
+    this.emit();
+    return subscription;
+  }
+
+  private emit(): void {
+    this.emitter.next(this.loaded);
   }
 
   get size(): number {
@@ -26,43 +65,23 @@ export class UserStore {
     return this.list.get(index);
   }
 
-  private emit(): void {
-    this.users.next(this.list);
-  }
-
-  private created(snapshot: FirebaseDataSnapshot): void {
-    let id: string = snapshot.key();
-    let index: number = this.findIndex(id);
+  public getItemByKey(key: string): IUser {
+    let index = this.findIndexByKey(key);
     if (index === -1) {
-      let user: IUser = snapshot.val();
-      user.id = id;
-      this.list = this.list.push(user);
-      this.emit();
+      return null;
     }
-  }
-
-  private deleted(snapshot: FirebaseDataSnapshot): void {
-    let index: number = this.findIndex(snapshot.key());
-    if (index !== -1) {
-      this.list = this.list.delete(index);
-      this.emit();
-    }
-  }
-
-  private updated(snapshot: FirebaseDataSnapshot): void {
-    let id: string = snapshot.key();
-    let index: number = this.findIndex(id);
-    if (index !== -1) {
-      let user: IUser = snapshot.val();
-      user.id = id;
-      this.list = this.list.set(index, user);
-      this.emit();
-    }
+    return this.list.get(index);
   }
 
   private findIndex(id: string): number {
     return this.list.findIndex((user: IUser) => {
       return user.id === id;
+    });
+  }
+
+  private findIndexByKey(key: string): number {
+    return this.list.findIndex((user: IUser) => {
+      return user.key === key;
     });
   }
 }

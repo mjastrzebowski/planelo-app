@@ -8,7 +8,6 @@ import { Utils } from '../../../providers/utils';
 
 import { AuthService } from '../../../core/auth/auth-service';
 import { TrainerStore } from '../../../core/trainer/trainer-store';
-import { TrainerService } from '../../../core/trainer/trainer-service';
 
 import { TrainerCreateModal } from '../trainer-create/trainer-create'
 import { TrainerDetailPage } from '../trainer-detail/trainer-detail'
@@ -24,10 +23,32 @@ export class TrainerListPage {
     private modalCtrl: ModalController,
     private utils: Utils,
     private auth: AuthService,
-    private trainerStore: TrainerStore,
-    private trainerService: TrainerService
+    public trainerStore: TrainerStore
   ) {
     this.queryText = '';
+    this.shownSessions = 0;
+  }
+
+  ngOnInit(): void {
+    this.utils.presentLoading('Ładowanie trenerów...');
+
+    this.sub = this.trainerStore.subscribe(loaded => {
+      if (!loaded) {
+        return;
+      }
+      this.init();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+  }
+
+  init(): void {
+    this.shownSessions = 1;
+    this.utils.stopLoading();
   }
 
   goToTrainerDetail(trainer): void {
@@ -38,7 +59,7 @@ export class TrainerListPage {
     let modal = this.modalCtrl.create(TrainerCreateModal);
     modal.onDidDismiss(data => {
       if (data) {
-        this.trainerService.createTrainer(
+        this.trainerStore.createTrainer(
           data.title || '',
           data.email || '',
           data.hours || '');
@@ -72,29 +93,6 @@ export class TrainerListPage {
         trainer.hide = true;
       } else {
         this.shownSessions++;
-      }
-    });
-  }
-
-  ionViewDidEnter(): void {
-    this.utils.presentLoading('Ładowanie trenerów...');
-
-    let authSub = this.auth.subscribe((authenticated: boolean) => {
-      this.trainers = this.trainerStore.trainers;
-
-      if (authenticated) {
-        if (authSub) {
-          authSub.unsubscribe();
-        }
-
-        if (this.auth.isOwner) {
-          let trainerSub = this.trainers.subscribe(() => {
-            setTimeout(() => {
-              this.shownSessions = true;
-              this.utils.stopLoading();
-            }, 500);
-          });
-        }
       }
     });
   }

@@ -3,7 +3,7 @@ import { Component, Input, Pipe } from '@angular/core';
 import { App } from 'ionic-angular';
 
 import { INotification } from '../../../core/notification/notification';
-import { NotificationService } from '../../../core/notification/notification-service';
+import { NotificationStore } from '../../../core/notification/notification-store';
 
 import { PlaceStore } from '../../../core/place/place-store';
 import { ClientStore } from '../../../core/client/client-store';
@@ -21,7 +21,7 @@ export class NotificationItem {
 
   constructor(
     private app: App,
-    private notificationService: NotificationService,
+    private notificationStore: NotificationStore,
     public placeStore: PlaceStore,
     public clientStore: ClientStore,
     public trainerStore: TrainerStore
@@ -37,7 +37,7 @@ export class NotificationItem {
   }
 
   delete(): void {
-    this.notificationService.deleteNotification(this.model);
+    this.notificationStore.removeNotification(this.model);
   }
 
   // TEMP solution!

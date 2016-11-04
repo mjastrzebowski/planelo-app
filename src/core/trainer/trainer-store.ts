@@ -1,19 +1,55 @@
+import { Injectable, EventEmitter } from '@angular/core';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
+
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { ITrainer } from './trainer';
 
+import { ITrainer, Trainer } from './trainer';
 
+import { FIREBASE_TRAINERS_URL } from '../../config';
+
+@Injectable()
 export class TrainerStore {
-  trainers: ReplaySubject<List<any>> = new ReplaySubject(1);
+  private loaded: boolean = false;
+  private emitter: EventEmitter<any> = new EventEmitter();
+  private trainers: FirebaseListObservable<ITrainer[]>;
   public list: List<any> = List();
 
   constructor(
-    private ref: Firebase
+    private af: AngularFire
   ) {
-    ref.on('child_added', this.created.bind(this));
-    ref.on('child_changed', this.updated.bind(this));
-    ref.on('child_removed', this.deleted.bind(this));
-    ref.once('value', () => this.emit());
+    this.trainers = this.af.database.list('cal_trainers');
+    this.trainers.subscribe(list => {
+      this.list = List(list);
+      this.list.forEach(item => {
+        item.key = item.$key;
+      });
+
+      this.loaded = true;
+      this.emit();
+    });
+  }
+
+  createTrainer(title: string, email: string, hours: any) {
+    return this.trainers.push(new Trainer(title, email, hours));
+  }
+
+  removeTrainer(trainer: ITrainer) {
+    return this.trainers.remove(trainer.key);
+  }
+
+  updateTrainer(trainer: ITrainer, changes: any) {
+    return this.trainers.update(trainer.key, changes);
+  }
+
+  subscribe(next: (loaded: any) => void): any {
+    let subscription = this.emitter.subscribe(next);
+    this.emit();
+    return subscription;
+  }
+
+  private emit(): void {
+    this.emitter.next(this.loaded);
   }
 
   get size(): number {
@@ -64,40 +100,6 @@ export class TrainerStore {
       });
       return check;
     });
-  }
-
-  private emit(): void {
-    this.trainers.next(this.list);
-  }
-
-  private created(snapshot: FirebaseDataSnapshot): void {
-    let key: string = snapshot.key();
-    let index: number = this.findIndex(key);
-    if (index === -1) {
-      let trainer: ITrainer = snapshot.val();
-      trainer.key = key;
-      this.list = this.list.push(trainer);
-      this.emit();
-    }
-  }
-
-  private deleted(snapshot: FirebaseDataSnapshot): void {
-    let index: number = this.findIndex(snapshot.key());
-    if (index !== -1) {
-      this.list = this.list.delete(index);
-      this.emit();
-    }
-  }
-
-  private updated(snapshot: FirebaseDataSnapshot): void {
-    let key: string = snapshot.key();
-    let index: number = this.findIndex(key);
-    if (index !== -1) {
-      let trainer: ITrainer = snapshot.val();
-      trainer.key = key;
-      this.list = this.list.set(index, trainer);
-      this.emit();
-    }
   }
 
   private findIndex(key: string): number {

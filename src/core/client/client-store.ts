@@ -1,20 +1,59 @@
+import { Injectable, EventEmitter } from '@angular/core';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
+
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { IClient } from './client';
 
+import { IClient, Client } from './client';
 
+import { FIREBASE_CLIENTS_URL } from '../../config';
+
+@Injectable()
 export class ClientStore {
-  clients: ReplaySubject<List<any>> = new ReplaySubject(1);
-  private list: List<any> = List();
+  private loaded: boolean = false;
+  private emitter: EventEmitter<any> = new EventEmitter();
+  private clients: FirebaseListObservable<IClient[]>;
+  public list: List<any> = List();
 
   constructor(
-    private ref: Firebase
+    private af: AngularFire
   ) {
-    ref = ref.orderByChild('lastname');
-    ref.on('child_added', this.created.bind(this));
-    ref.on('child_changed', this.updated.bind(this));
-    ref.on('child_removed', this.deleted.bind(this));
-    ref.once('value', () => this.emit());
+    this.clients = this.af.database.list('cal_clients', {
+      query: {
+        orderByChild: 'lastname'
+      }
+    });
+    this.clients.subscribe(list => {
+      this.list = List(list);
+      this.list.forEach(item => {
+        item.key = item.$key;
+      });
+
+      this.loaded = true;
+      this.emit();
+    });
+  }
+
+  createClient(name: string, lastname: string, email: string, phone: string, comment: string) {
+    return this.clients.push(new Client(name, lastname, email, phone, comment));
+  }
+
+  removeClient(client: IClient) {
+    return this.clients.remove(client.key);
+  }
+
+  updateClient(client: IClient, changes: any) {
+    return this.clients.update(client.key, changes);
+  }
+
+  subscribe(next: (loaded: any) => void): any {
+    let subscription = this.emitter.subscribe(next);
+    this.emit();
+    return subscription;
+  }
+
+  private emit(): void {
+    this.emitter.next(this.loaded);
   }
 
   get size(): number {
@@ -32,40 +71,6 @@ export class ClientStore {
       return null;
     }
     return this.list.get(index);
-  }
-
-  private emit(): void {
-    this.clients.next(this.list);
-  }
-
-  private created(snapshot: FirebaseDataSnapshot): void {
-    let key: string = snapshot.key();
-    let index: number = this.findIndex(key);
-    if (index === -1) {
-      let client: IClient = snapshot.val();
-      client.key = key;
-      this.list = this.list.push(client);
-      this.emit();
-    }
-  }
-
-  private deleted(snapshot: FirebaseDataSnapshot): void {
-    let index: number = this.findIndex(snapshot.key());
-    if (index !== -1) {
-      this.list = this.list.delete(index);
-      this.emit();
-    }
-  }
-
-  private updated(snapshot: FirebaseDataSnapshot): void {
-    let key: string = snapshot.key();
-    let index: number = this.findIndex(key);
-    if (index !== -1) {
-      let client: IClient = snapshot.val();
-      client.key = key;
-      this.list = this.list.set(index, client);
-      this.emit();
-    }
   }
 
   private findIndex(key: string): number {

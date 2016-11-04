@@ -14,7 +14,7 @@ export class INotification {
 
 export class Notification implements INotification {
   completed: boolean = false;
-  createdAt: number = Firebase.ServerValue.TIMESTAMP;
+  createdAt: number = firebase.database['ServerValue']['TIMESTAMP'];
   type: string;
   data: any;
   client: any;

@@ -1,8 +1,11 @@
+import { Injectable } from '@angular/core';
+import { AngularFire } from 'angularfire2';
+
 import { IClient, Client } from './client';
 
-
+@Injectable()
 export class ClientService {
-  constructor(private ref: Firebase) {}
+  constructor(private af: AngularFire) {}
 
   createClient(name: string, lastname: string, email: string, phone: string, comment: string): void {
     return this.ref.push(new Client(name, lastname, email, phone, comment), (error: Error) => {
