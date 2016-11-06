@@ -12,7 +12,7 @@
     </ion-row>
   </ion-grid>
   <div class="bill-list-frame">
-    <bill-item #bills [model]="bill" *ngFor="let bill of billStore.bills | async | filterBills:filter:limit"></bill-item>
+    <bill-item #bills [model]="bill" *ngFor="let bill of billStore.list | filterBills:filter:limit"></bill-item>
   </div>
 </ion-list>
 
