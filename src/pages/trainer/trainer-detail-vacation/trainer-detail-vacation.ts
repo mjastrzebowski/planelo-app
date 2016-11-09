@@ -32,7 +32,23 @@ export class TrainerDetailVacationModal {
   }
 
   addVacation(): void {
-    this.trainer.vacation.push({});
+    let now = new Date();
+    let month = now.getMonth() + 1;
+    if (month < 10) {
+      month = '0' + month;
+    }
+    let day = now.getDate();
+    if (day < 10) {
+      day = '0' + day;
+    }
+    let dateStart = now.getFullYear() + '-' + month + '-' + day;
+    let dateEnd = now.getFullYear() + '-' + month + '-' + day;
+    this.trainer.vacation.push({
+      dateStart: dateStart,
+      dateEnd: dateEnd,
+      start: dateStart + 'T' + '07:00',
+      end: dateEnd + 'T' + '23:00'
+    });
   }
 
   removeVacation(vacationId: number): void {

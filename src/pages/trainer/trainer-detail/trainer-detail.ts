@@ -143,10 +143,8 @@ export class TrainerDetailPage {
     modal.onDidDismiss(data => {
       if (data) {
         data.vacation.forEach(vacation => {
-          if (!vacation.hasOwnProperty('start')) {
-            vacation.start = vacation.dateStart + 'T07:00';
-            vacation.end = vacation.dateEnd + 'T23:00';
-          }
+          vacation.dateStart = vacation.start.split('T')[0];
+          vacation.dateEnd = vacation.end.split('T')[0];
         });
         this.trainerStore.updateTrainer(data, {
           vacation: data.vacation || ''

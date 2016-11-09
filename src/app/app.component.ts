@@ -36,7 +36,7 @@ export class DavidApp {
   ) {
     // We plan to add auth to only show the login page if not logged in
     // this.root = TutorialPage;
-    this.root = LoginPage;
+    // this.root = LoginPage;
 
     // create an list of pages that can be navigated to from the left menu
     // the left menu only works after login
@@ -63,6 +63,8 @@ export class DavidApp {
       this.utils.stopLoading();
       if (!this.authenticated) {
         this.root = LoginPage;
+      } else {
+        this.root = TrainingListPage;
       }
     });
 

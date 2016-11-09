@@ -136,20 +136,26 @@ export class TrainingListPage {
   }
 
   init(): void {
-    if (this.loaded.trainers) {
+    if (this.loaded.places && this.loaded.trainers && this.loaded.workouts) {
       if (this.auth.isOwner || this.auth.isTrainer) {
-        if (!this.calendar) {
+        if (!this.calendar && !this.isCalendarRendered()) {
           this.renderCalendar();
         } else {
           this.refreshCalendar();
         }
       }
-    }
-
-    if (this.loaded.places && this.loaded.trainers && this.loaded.workouts) {
-      this.renderCalendar();
       this.utils.stopLoading();
+    } else if (this.loaded.trainers && (this.auth.isOwner || this.auth.isTrainer)) {
+      if (!this.calendar && !this.isCalendarRendered()) {
+        this.renderCalendar();
+      } else {
+        this.refreshCalendar();
+      }
     }
+  }
+
+  isCalendarRendered(): boolean {
+    return $('#calendar').hasClass('fc');
   }
 
   showMonth(monthId): void {
@@ -279,7 +285,7 @@ export class TrainingListPage {
               } else if (this.auth.isClient) {
                 notification.client = this.auth.key;
               }
-              this.notificationStore.createNotification('workoutRemoved', notification);
+              // this.notificationStore.createNotification('workoutRemoved', notification);
             });
         });
         this.deleteTrainingAlert(data[0]);
@@ -330,7 +336,7 @@ export class TrainingListPage {
               } else if (this.auth.isClient) {
                 notification.client = this.auth.key;
               }
-              this.notificationStore.createNotification('workoutAdded', notification);
+              // this.notificationStore.createNotification('workoutAdded', notification);
             });
         });
 

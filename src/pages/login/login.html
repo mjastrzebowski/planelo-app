@@ -13,7 +13,7 @@
     <form #loginForm="ngForm" novalidate>
       <ion-item>
         <ion-label floating primary>Użytkownik</ion-label>
-        <ion-input [(ngModel)]="login.email" name="email" type="text" #email="ngModel" required>
+        <ion-input [(ngModel)]="login.email" name="email" type="text" #email="ngModel" required spellcheck="false" autocapitalize="off">
         </ion-input>
       </ion-item>
       <p [hidden]="email.valid || submitted == false" danger padding-left>

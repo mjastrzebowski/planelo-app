@@ -26,13 +26,13 @@ export class LoginPage {
     this.submitted = false;
   }
 
-  ngOnInit(): void {
-    this.auth.subscribe((authenticated: boolean) => {
-      if (authenticated) {
-        this.nav.setRoot(TrainingListPage);
-      }
-    });
-  }
+  // ngOnInit(): void {
+  //   this.auth.subscribe((authenticated: boolean) => {
+  //     if (authenticated) {
+  //       this.nav.setRoot(TrainingListPage);
+  //     }
+  //   });
+  // }
 
   signInWithGithub(): void {
     this.auth.signInWithGithub()

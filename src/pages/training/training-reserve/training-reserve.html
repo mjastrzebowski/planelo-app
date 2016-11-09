@@ -10,7 +10,7 @@
     </ion-buttons>
   </ion-navbar>
 
-  <ion-toolbar no-border-top [hidden]="!auth || !auth.isClient || auth.username === 'mjastrzebowskix'">
+  <ion-toolbar no-border-top [hidden]="!auth || !auth.isClient || auth.username === 'mjastrzebowski'">
     <div>
       <ion-segment [(ngModel)]="place" (ionChange)="onPlaceChanged($event)">
         <ion-segment-button value="-KBHukjV0l8M-EkpTdI4">
@@ -37,7 +37,7 @@
   </ion-list>
 
   <form #trainingCreate="ngForm" novalidate>
-    <div *ngIf="auth.isClient && auth.username === 'mjastrzebowskix'">
+    <div *ngIf="auth.isClient && auth.username === 'mjastrzebowski'">
       <ion-list>
         <ion-item>
           <ion-label floating>Rodzaj rezerwacji</ion-label>
@@ -103,7 +103,7 @@
       </ion-card>
     </div>
 
-    <ion-list *ngIf="auth.isClient && auth.username !== 'mjastrzebowskix'">
+    <ion-list *ngIf="auth.isClient && auth.username !== 'mjastrzebowski'">
       <ion-item-group *ngFor="let w of available">
         <ion-item-divider sticky>{{ w.descDate }}</ion-item-divider>
         <ion-item *ngFor="let hour of w.hours" (click)="selectHour(hour)">

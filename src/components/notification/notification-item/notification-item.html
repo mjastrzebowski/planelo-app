@@ -4,7 +4,7 @@
       <h3>
         <strong><u>{{ getOwnerAlias(model?.owner) }}</u></strong>
         dodał klienta 
-        <strong>{{ model?.client.name }} {{ model?.client.lastname }}</strong>
+        <strong>{{ model?.client?.name }} {{ model?.client?.lastname }}</strong>
       </h3>
       <p><small><i title="Wydarzenie z {{ model?.descDate }}">{{ model?.fromNow }}</i></small></p>
     </div>
@@ -13,7 +13,7 @@
       <h3>
         <strong *ngIf="model?.owner"><u>{{ getOwnerAlias(model?.owner) }}</u></strong>
         usunął klienta 
-        <strong>{{ model?.client.name }} {{ model?.client.lastname }}</strong>
+        <strong>{{ model?.client?.name }} {{ model?.client?.lastname }}</strong>
       </h3>
       <p><small><i title="Wydarzenie z {{ model?.descDate }}">{{ model?.fromNow }}</i></small></p>
     </div>
@@ -22,12 +22,12 @@
       <h3 *ngIf="model?.owner">
         <strong><u>{{ getOwnerAlias(model?.owner) }}</u></strong>
         dodał trening 
-        <strong (click)="goToClientDetail(clientStore.getItem(model?.workout.client))">{{ clientStore.getItem(model?.workout.client).name }} {{ clientStore.getItem(model?.workout.client).lastname }} &bull; {{ model?.workout.date }} {{ model?.workout.timeStart }} &bull; {{ placeStore.getItem(model?.workout.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
+        <strong (click)="goToClientDetail(clientStore.getItem(model?.workout?.client))">{{ clientStore.getItem(model?.workout?.client)?.name }} {{ clientStore.getItem(model?.workout?.client)?.lastname }} &bull; {{ model?.workout?.date }} {{ model?.workout?.timeStart }} &bull; {{ placeStore.getItem(model?.workout?.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
       </h3>
       <h3 *ngIf="!model?.owner">
-        <strong (click)="goToClientDetail(clientStore.getItem(model?.client))">{{ clientStore.getItem(model?.client).name }} {{ clientStore.getItem(model?.client).lastname }}</strong>
+        <strong (click)="goToClientDetail(clientStore.getItem(model?.client))">{{ clientStore.getItem(model?.client)?.name }} {{ clientStore.getItem(model?.client)?.lastname }}</strong>
         zarezerwował/a trening 
-        <strong>{{ model?.workout.date }} {{ model?.workout.timeStart }} &bull; {{ placeStore.getItem(model?.workout.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
+        <strong>{{ model?.workout?.date }} {{ model?.workout?.timeStart }} &bull; {{ placeStore.getItem(model?.workout?.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
       </h3>
       <p><small><i title="Wydarzenie z {{ model?.descDate }}">{{ model?.fromNow }}</i></small></p>
     </div>
@@ -36,21 +36,21 @@
       <h3 *ngIf="model?.owner">
         <strong><u>{{ getOwnerAlias(model?.owner) }}</u></strong>
         usunął trening 
-        <strong (click)="goToClientDetail(clientStore.getItem(model?.workout.client))">{{ clientStore.getItem(model?.workout.client).name }} {{ clientStore.getItem(model?.workout.client).lastname }} &bull; {{ model?.workout.date }} {{ model?.workout.timeStart }} &bull; {{ placeStore.getItem(model?.workout.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
+        <strong (click)="goToClientDetail(clientStore.getItem(model?.workout?.client))">{{ clientStore.getItem(model?.workout?.client)?.name }} {{ clientStore.getItem(model?.workout?.client)?.lastname }} &bull; {{ model?.workout?.date }} {{ model?.workout?.timeStart }} &bull; {{ placeStore.getItem(model?.workout?.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
       </h3>
       <h3 *ngIf="!model?.owner">
-        <strong (click)="goToClientDetail(clientStore.getItem(model?.client))">{{ clientStore.getItem(model?.client).name }} {{ clientStore.getItem(model?.client).lastname }}</strong>
+        <strong (click)="goToClientDetail(clientStore.getItem(model?.client))">{{ clientStore.getItem(model?.client)?.name }} {{ clientStore.getItem(model?.client)?.lastname }}</strong>
         odwołał/a trening 
-        <strong>{{ model?.workout.date }} {{ model?.workout.timeStart }} &bull; {{ placeStore.getItem(model?.workout.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
+        <strong>{{ model?.workout?.date }} {{ model?.workout?.timeStart }} &bull; {{ placeStore.getItem(model?.workout?.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
       </h3>
       <p><small><i title="Wydarzenie z {{ model?.descDate }}">{{ model?.fromNow }}</i></small></p>
     </div>
 
     <div *ngSwitchCase="'workoutRejected'">
       <h3>
-        <strong (click)="goToClientDetail(clientStore.getItem(model?.client))">{{ clientStore.getItem(model?.client).name }} {{ clientStore.getItem(model?.client).lastname }}</strong>
+        <strong (click)="goToClientDetail(clientStore.getItem(model?.client))">{{ clientStore.getItem(model?.client)?.name }} {{ clientStore.getItem(model?.client)?.lastname }}</strong>
         nie będzie obecny/a na treningu 
-        <strong>{{ model?.workout.date }} {{ model?.workout.timeStart }} &bull; {{ placeStore.getItem(model?.workout.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
+        <strong>{{ model?.workout?.date }} {{ model?.workout?.timeStart }} &bull; {{ placeStore.getItem(model?.workout?.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
         z powodu <i>{{ model?.reason }}</i>
       </h3>
       <p><small><i title="Wydarzenie z {{ model?.descDate }}">{{ model?.fromNow }}</i></small></p>

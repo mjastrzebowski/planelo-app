@@ -165,7 +165,9 @@ export class ClientDetailPage {
           this.http.post('http://treningi.egobody.pl/token/token.php', body, options)
             .toPromise()
             .then((res: Response) => {
-              this.token = res;
+              this.token = res._body;
+              console.log('test token: ', this.token);
+              this.auth.removeUser(this.token);
             })
             .catch((error: any) => {
               // In a real world app, we might use a remote logging infrastructure
@@ -175,9 +177,6 @@ export class ClientDetailPage {
               console.error(errMsg); // log to console instead
               return Promise.reject(errMsg);
             });
-
-          console.log('test token: ', this.token);
-          this.auth.removeUser(this.token);
         }
 
         // this.auth.signUpWithPassword({ email: changes. }).then(() => this.postSignIn());

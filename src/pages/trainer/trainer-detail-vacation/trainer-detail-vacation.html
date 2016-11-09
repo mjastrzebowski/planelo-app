@@ -25,11 +25,11 @@
       </ion-list-header>
       <ion-item>
         <ion-label>Początek</ion-label>
-        <ion-datetime displayFormat="DD.MM.YYYY" pickerFormat="DD.MM.YYYY" [(ngModel)]="vacation.dateStart" name="dateStart{{ v }}"></ion-datetime>
+        <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="DD.MM.YYYY HH:mm" hourValues="7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23" minuteValues="0" [(ngModel)]="vacation.start" name="start{{ v }}"></ion-datetime>
       </ion-item>
       <ion-item>
         <ion-label>Koniec</ion-label>
-        <ion-datetime displayFormat="DD.MM.YYYY" pickerFormat="DD.MM.YYYY" [(ngModel)]="vacation.dateEnd" name="dateEnd{{ v }}"></ion-datetime>
+        <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="DD.MM.YYYY HH:mm" hourValues="7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23" minuteValues="0" [(ngModel)]="vacation.end" name="end{{ v }}"></ion-datetime>
       </ion-item>
     </ion-list>
 

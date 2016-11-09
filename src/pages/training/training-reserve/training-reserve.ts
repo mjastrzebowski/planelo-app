@@ -126,47 +126,37 @@ export class TrainingReserveModal {
                 !(trainer.key === '-KJ2tLDl_lljvvl48TMW' && date === '2016-11-11') &&
                 !(trainer.key === '-KBN-noa5OGgfW2XYbvZ' && date === '2016-11-11') &&
                 !(trainer.key === '-KEiiHM34nL9fAhGCAC8' && date === '2016-11-01')) {
-                if (trainer.vacation[0]) {
-                  let vacationDateStart = new Date(trainer.vacation[0].dateStart);
-                  let vacationDateEnd = new Date(trainer.vacation[0].dateEnd);
-                  if (thisDate >= vacationDateStart && thisDate <= vacationDateEnd) {
-                    return;
-                  }
+
+                let hasVacation = false;
+                if (trainer.vacation) {
+                  trainer.vacation.forEach(vacation => {
+                    let vacationDateStart = vacation.start.split('T')[0];
+                    let vacationDateEnd = vacation.end.split('T')[0]
+                    let vacationTimeStart = vacation.start.split('T')[1];
+                    let vacationTimeEnd = vacation.end.split('T')[1];
+
+                    if (date > vacationDateStart && date < vacationDateEnd) {
+                      hasVacation = true;
+                      return;
+                    } else if (date === vacationDateStart && date === vacationDateEnd) {
+                      if (time >= vacationTimeStart && time < vacationTimeEnd) {
+                        hasVacation = true;
+                        return;
+                      }
+                    } else {
+                      if (date === vacationDateStart && time >= vacationTimeStart) {
+                        hasVacation = true;
+                        return;
+                      }
+                      if (date === vacationDateEnd && time < vacationTimeEnd) {
+                        hasVacation = true;
+                        return;
+                      }
+                    }
+                  });
                 }
-                if (trainer.vacation[1]) {
-                  let vacationDateStart = new Date(trainer.vacation[1].dateStart);
-                  let vacationDateEnd = new Date(trainer.vacation[1].dateEnd);
-                  if (thisDate >= vacationDateStart && thisDate <= vacationDateEnd) {
-                    return;
-                  }
-                }
-                if (trainer.vacation[2]) {
-                  let vacationDateStart = new Date(trainer.vacation[2].dateStart);
-                  let vacationDateEnd = new Date(trainer.vacation[2].dateEnd);
-                  if (thisDate >= vacationDateStart && thisDate <= vacationDateEnd) {
-                    return;
-                  }
-                }
-                if (trainer.vacation[3]) {
-                  let vacationDateStart = new Date(trainer.vacation[3].dateStart);
-                  let vacationDateEnd = new Date(trainer.vacation[3].dateEnd);
-                  if (thisDate >= vacationDateStart && thisDate <= vacationDateEnd) {
-                    return;
-                  }
-                }
-                if (trainer.vacation[4]) {
-                  let vacationDateStart = new Date(trainer.vacation[4].dateStart);
-                  let vacationDateEnd = new Date(trainer.vacation[4].dateEnd);
-                  if (thisDate >= vacationDateStart && thisDate <= vacationDateEnd) {
-                    return;
-                  }
-                }
-                if (trainer.vacation[5]) {
-                  let vacationDateStart = new Date(trainer.vacation[5].dateStart);
-                  let vacationDateEnd = new Date(trainer.vacation[5].dateEnd);
-                  if (thisDate >= vacationDateStart && thisDate <= vacationDateEnd) {
-                    return;
-                  }
+                if (hasVacation) {
+                  return;
                 }
               }
 

@@ -25,7 +25,7 @@ export class AuthService {
         location.reload();
       }
 
-      if (this.authData) {        
+      if (this.authData) {    
         this.af.database.object('users/' + authData.uid).subscribe((userData: any) => {
           this.userData = userData;
           if (this.userData && this.key) {
@@ -43,6 +43,8 @@ export class AuthService {
             this.emit();
           }
         });
+      } else {
+        this.emit();
       }
     });
   }
@@ -209,7 +211,7 @@ export class AuthService {
 
   subscribe(next: (authenticated: boolean) => void): any {
     let subscription = this.emitter.subscribe(next);
-    this.emit();
+    // this.emit();
     return subscription;
   }
 
