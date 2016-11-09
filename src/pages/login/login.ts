@@ -84,20 +84,16 @@ export class LoginPage {
   private postSignIn(): void {
     this.utils.stopLoading();
     // this.router.navigate(['/Workouts']);
-    setTimeout(() => {
-      this.nav.setRoot(TrainingListPage);
-    }, 500);
+    this.nav.setRoot(TrainingListPage);
   }
 
   private errorSignIn(): void {
     this.utils.stopLoading();
-    setTimeout(() => {
-      let alert = this.alertCtrl.create({
-        title: 'Błąd',
-        message: 'Nieprawidłowy login lub hasło.',
-        buttons: ['Ok']
-      });
-      alert.present();
-    }, 500);
+    let alert = this.alertCtrl.create({
+      title: 'Błąd',
+      message: 'Nieprawidłowy login lub hasło.',
+      buttons: ['Ok']
+    });
+    alert.present();
   }
 }

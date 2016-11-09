@@ -134,9 +134,7 @@ export class TrainingSchedulerPage {
 
     let modal = this.modalCtrl.create(TrainingSchedulerFormModal, workout);
     modal.onDidDismiss(this.saveTraining.bind(this));
-    setTimeout(() => {
-      modal.present();
-    }, 500);
+    modal.present();
   }
 
   saveTraining(data): void {
@@ -184,9 +182,7 @@ export class TrainingSchedulerPage {
         this.saveTrainingAlert(data[0]);
       }
       this.refreshCalendar(true);
-      setTimeout(() => {
-        this.utils.stopLoading();
-      }, 500);
+      this.utils.stopLoading();
     }
   }
 
@@ -197,9 +193,7 @@ export class TrainingSchedulerPage {
         message: 'Twój trening w terminie <strong>' + workout.date.dateTime + '</strong> został dodany.',
         buttons: ['Ok']
       });
-      setTimeout(() => {
-        alert.present();
-      }, 1000);
+      alert.present();
     }
   }
 
@@ -215,9 +209,7 @@ export class TrainingSchedulerPage {
         message: 'Twój trening został odwołany.',
         buttons: ['Ok']
       });
-      setTimeout(() => {
-        alert.present();
-      }, 1000);
+      alert.present();
     }
   }
 
@@ -248,9 +240,7 @@ export class TrainingSchedulerPage {
         }
       ]
     });
-    setTimeout(() => {
-      prompt.present();
-    }, 500);
+    prompt.present();
   }
 
   refreshCalendar(force): void {
@@ -374,10 +364,7 @@ export class TrainingSchedulerPage {
         }
       ]
     });
-
-    setTimeout(() => {
-      actionSheet.present();
-    }, 500);
+    actionSheet.present();
   }
 
   getEvents(start, end, timezone, callback): any {

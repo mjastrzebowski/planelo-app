@@ -83,8 +83,8 @@ export class DavidApp {
   signOut(): void {
     // console.log('test app signout');
     this.auth.signOut();
-    this.root = LoginPage;
-    this.nav.setRoot(LoginPage);
+    // this.root = LoginPage;
+    // this.nav.setRoot(LoginPage);
     location.reload();
   }
 

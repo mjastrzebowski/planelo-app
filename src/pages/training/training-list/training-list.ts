@@ -52,13 +52,13 @@ export class TrainingListPage {
     private alertCtrl: AlertController,
     private actionSheetCtrl: ActionSheetController,
     private utils: Utils,
-    private billStore: BillStore,
+    // private billStore: BillStore,
     private clientStore: ClientStore,
     private notificationStore: NotificationStore,
+    private placeStore: PlaceStore,
+    private trainerStore: TrainerStore,
     public workoutStore: WorkoutStore,
-    public auth: AuthService,
-    public placeStore: PlaceStore,
-    public trainerStore: TrainerStore
+    public auth: AuthService
   ) {
     this.dates = [];
     this.trainings = [];
@@ -158,85 +158,81 @@ export class TrainingListPage {
     return $('#calendar').hasClass('fc');
   }
 
-  showMonth(monthId): void {
-    $('.workouts-hidden.month-' + monthId).slideToggle();
-  }
+  // updateRepeat() {
+  //   this.billStore.list.forEach(bill => {
+  //     if (bill.month === '2016-10') {
+  //       // console.log(bill);        
 
-  updateRepeat() {
-    this.billStore.list.forEach(bill => {
-      if (bill.month === '2016-10') {
-        // console.log(bill);        
-
-        this.billStore.createBill(
-          bill.client,
-          '2016-11',
-          bill.discount);
+  //       this.billStore.createBill(
+  //         bill.client,
+  //         '2016-11',
+  //         bill.discount);
 
 
-        // this.workoutStore.removeWorkout(workout);
+  //       // this.workoutStore.removeWorkout(workout);
 
-        // let newDate0 = '2016-11-05';
-        // let newDateTime0 = newDate0 + ' ' + workout.timeStart;
-        // this.workoutStore.createWorkout(
-        //   workout.placeKey,
-        //   workout.trainerKey || '',
-        //   workout.clientKey,
-        //   newDate0 || '',
-        //   newDateTime0 || '',
-        //   workout.timeStart || '',
-        //   workout.timeEnd || '',
-        //   true);
+  //       // let newDate0 = '2016-11-05';
+  //       // let newDateTime0 = newDate0 + ' ' + workout.timeStart;
+  //       // this.workoutStore.createWorkout(
+  //       //   workout.placeKey,
+  //       //   workout.trainerKey || '',
+  //       //   workout.clientKey,
+  //       //   newDate0 || '',
+  //       //   newDateTime0 || '',
+  //       //   workout.timeStart || '',
+  //       //   workout.timeEnd || '',
+  //       //   true);
 
-        // let newDate1 = '2016-11-12';
-        // let newDateTime1 = newDate1 + ' ' + workout.timeStart;
-        // this.workoutStore.createWorkout(
-        //   workout.placeKey,
-        //   workout.trainerKey || '',
-        //   workout.clientKey,
-        //   newDate1 || '',
-        //   newDateTime1 || '',
-        //   workout.timeStart || '',
-        //   workout.timeEnd || '',
-        //   true);
+  //       // let newDate1 = '2016-11-12';
+  //       // let newDateTime1 = newDate1 + ' ' + workout.timeStart;
+  //       // this.workoutStore.createWorkout(
+  //       //   workout.placeKey,
+  //       //   workout.trainerKey || '',
+  //       //   workout.clientKey,
+  //       //   newDate1 || '',
+  //       //   newDateTime1 || '',
+  //       //   workout.timeStart || '',
+  //       //   workout.timeEnd || '',
+  //       //   true);
 
-        // let newDate2 = '2016-11-19';
-        // let newDateTime2 = newDate2 + ' ' + workout.timeStart;
-        // this.workoutStore.createWorkout(
-        //   workout.placeKey,
-        //   workout.trainerKey || '',
-        //   workout.clientKey,
-        //   newDate2 || '',
-        //   newDateTime2 || '',
-        //   workout.timeStart || '',
-        //   workout.timeEnd || '',
-        //   true);
+  //       // let newDate2 = '2016-11-19';
+  //       // let newDateTime2 = newDate2 + ' ' + workout.timeStart;
+  //       // this.workoutStore.createWorkout(
+  //       //   workout.placeKey,
+  //       //   workout.trainerKey || '',
+  //       //   workout.clientKey,
+  //       //   newDate2 || '',
+  //       //   newDateTime2 || '',
+  //       //   workout.timeStart || '',
+  //       //   workout.timeEnd || '',
+  //       //   true);
 
-        // let newDate3 = '2016-11-26';
-        // let newDateTime3 = newDate3 + ' ' + workout.timeStart;
-        // this.workoutStore.createWorkout(
-        //   workout.placeKey,
-        //   workout.trainerKey || '',
-        //   workout.clientKey,
-        //   newDate3 || '',
-        //   newDateTime3 || '',
-        //   workout.timeStart || '',
-        //   workout.timeEnd || '',
-        //   true);
+  //       // let newDate3 = '2016-11-26';
+  //       // let newDateTime3 = newDate3 + ' ' + workout.timeStart;
+  //       // this.workoutStore.createWorkout(
+  //       //   workout.placeKey,
+  //       //   workout.trainerKey || '',
+  //       //   workout.clientKey,
+  //       //   newDate3 || '',
+  //       //   newDateTime3 || '',
+  //       //   workout.timeStart || '',
+  //       //   workout.timeEnd || '',
+  //       //   true);
 
-        // let newDate4 = '2016-11-30';
-        // let newDateTime4 = newDate4 + ' ' + workout.timeStart;
-        // this.workoutStore.createWorkout(
-        //   workout.placeKey,
-        //   workout.trainerKey || '',
-        //   workout.clientKey,
-        //   newDate4 || '',
-        //   newDateTime4 || '',
-        //   workout.timeStart || '',
-        //   workout.timeEnd || '',
-        //   true);
-      }
-    });
-  }
+  //       // let newDate4 = '2016-11-30';
+  //       // let newDateTime4 = newDate4 + ' ' + workout.timeStart;
+  //       // this.workoutStore.createWorkout(
+  //       //   workout.placeKey,
+  //       //   workout.trainerKey || '',
+  //       //   workout.clientKey,
+  //       //   newDate4 || '',
+  //       //   newDateTime4 || '',
+  //       //   workout.timeStart || '',
+  //       //   workout.timeEnd || '',
+  //       //   true);
+  //     }
+  //   });
+  // }
 
 
   showTrainingForm(workout): void {
@@ -255,9 +251,7 @@ export class TrainingListPage {
     }
 
     modal.onDidDismiss(this.saveTraining.bind(this));
-    setTimeout(() => {
-      modal.present();
-    }, 500);
+    modal.present();
   }
 
   saveTraining(data): void {
@@ -285,7 +279,7 @@ export class TrainingListPage {
               } else if (this.auth.isClient) {
                 notification.client = this.auth.key;
               }
-              // this.notificationStore.createNotification('workoutRemoved', notification);
+              this.notificationStore.createNotification('workoutRemoved', notification);
             });
         });
         this.deleteTrainingAlert(data[0]);
@@ -336,16 +330,14 @@ export class TrainingListPage {
               } else if (this.auth.isClient) {
                 notification.client = this.auth.key;
               }
-              // this.notificationStore.createNotification('workoutAdded', notification);
+              this.notificationStore.createNotification('workoutAdded', notification);
             });
         });
 
         this.saveTrainingAlert(data[0]);
       }
       this.refreshCalendar(true);
-      setTimeout(() => {
-        this.utils.stopLoading();
-      }, 500);
+      this.utils.stopLoading();
     }
   }
 
@@ -356,9 +348,7 @@ export class TrainingListPage {
         message: 'Twój trening w terminie <strong>' + workout.date.dateTime + '</strong> został dodany.',
         buttons: ['Ok']
       });
-      setTimeout(() => {
-        alert.present();
-      }, 1000);
+      alert.present();
     }
   }
 
@@ -374,9 +364,7 @@ export class TrainingListPage {
         message: 'Twój trening został odwołany.',
         buttons: ['Ok']
       });
-      setTimeout(() => {
-        alert.present();
-      }, 1000);
+      alert.present();
     }
   }
 
@@ -407,9 +395,7 @@ export class TrainingListPage {
         }
       ]
     });
-    setTimeout(() => {
-      prompt.present();
-    }, 500);
+    prompt.present();
   }
 
   refreshCalendar(force): void {
@@ -612,9 +598,7 @@ export class TrainingListPage {
       ]
     });
 
-    setTimeout(() => {
-      actionSheet.present();
-    }, 500);
+    actionSheet.present();
   }
 
   getEvents(start, end, timezone, callback): any {

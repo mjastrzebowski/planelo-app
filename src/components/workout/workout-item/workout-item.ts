@@ -13,6 +13,7 @@ import { TrainerStore } from '../../../core/trainer/trainer-store';
 })
 export class WorkoutItem {
   @Input() model: IWorkout;
+  @Input() changeDate: any;
 
   constructor(
     private workoutStore: WorkoutStore,
