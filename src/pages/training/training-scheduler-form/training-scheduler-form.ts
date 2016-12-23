@@ -70,6 +70,7 @@ export class TrainingSchedulerFormModal {
       return false;
     }
     var hours = [
+      { timeStart: '7:00', timeEnd: '08:00' },
       { timeStart: '8:00', timeEnd: '09:00' },
       { timeStart: '9:00', timeEnd: '10:00' },
       { timeStart: '10:00', timeEnd: '11:00' },
@@ -103,7 +104,7 @@ export class TrainingSchedulerFormModal {
         hours.forEach(hour => {
           var avTrainers = [];
           let time = hour.timeStart;
-          if (time === '8:00' || time === '9:00') {
+          if (time === '7:00' || time === '8:00' || time === '9:00') {
             time = '0' + time;
           }
 

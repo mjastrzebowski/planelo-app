@@ -52,7 +52,7 @@ export class TrainingListPage {
     private alertCtrl: AlertController,
     private actionSheetCtrl: ActionSheetController,
     private utils: Utils,
-    // private billStore: BillStore,
+    private billStore: BillStore,
     private clientStore: ClientStore,
     private notificationStore: NotificationStore,
     private placeStore: PlaceStore,
@@ -159,67 +159,73 @@ export class TrainingListPage {
   }
 
   // updateRepeat() {
-  //   this.billStore.list.forEach(bill => {
-  //     if (bill.month === '2016-10') {
-  //       // console.log(bill);        
+  // //   this.billStore.list.forEach(bill => {
+  // //     if (bill.month === '2016-11') {
+  // //       this.billStore.createBill(
+  // //         bill.client,
+  // //         '2016-12',
+  // //         bill.discount);
+  // //     }
+  // //   });
+  // // }
+  //   this.workoutStore.list.forEach(workout => {
+  //     //   // console.log(workout);
 
-  //       this.billStore.createBill(
-  //         bill.client,
-  //         '2016-11',
-  //         bill.discount);
+  //     //   // this.billStore.createBill(
+  //     //   //   bill.client,
+  //     //   //   '2016-11',
+  //     //   //   bill.discount);
 
+  //     if (workout.date === '2016-06-11' && workout.fixed) {
+  //       let newDate0 = '2017-01-07';
+  //       let newDateTime0 = newDate0 + ' ' + workout.timeStart;
+  //       this.workoutStore.createWorkout(
+  //         workout.placeKey,
+  //         workout.trainerKey || '',
+  //         workout.clientKey,
+  //         newDate0 || '',
+  //         newDateTime0 || '',
+  //         workout.timeStart || '',
+  //         workout.timeEnd || '',
+  //         true);
 
-  //       // this.workoutStore.removeWorkout(workout);
+  //       let newDate1 = '2017-01-14';
+  //       let newDateTime1 = newDate1 + ' ' + workout.timeStart;
+  //       this.workoutStore.createWorkout(
+  //         workout.placeKey,
+  //         workout.trainerKey || '',
+  //         workout.clientKey,
+  //         newDate1 || '',
+  //         newDateTime1 || '',
+  //         workout.timeStart || '',
+  //         workout.timeEnd || '',
+  //         true);
 
-  //       // let newDate0 = '2016-11-05';
-  //       // let newDateTime0 = newDate0 + ' ' + workout.timeStart;
-  //       // this.workoutStore.createWorkout(
-  //       //   workout.placeKey,
-  //       //   workout.trainerKey || '',
-  //       //   workout.clientKey,
-  //       //   newDate0 || '',
-  //       //   newDateTime0 || '',
-  //       //   workout.timeStart || '',
-  //       //   workout.timeEnd || '',
-  //       //   true);
+  //       let newDate2 = '2017-01-21';
+  //       let newDateTime2 = newDate2 + ' ' + workout.timeStart;
+  //       this.workoutStore.createWorkout(
+  //         workout.placeKey,
+  //         workout.trainerKey || '',
+  //         workout.clientKey,
+  //         newDate2 || '',
+  //         newDateTime2 || '',
+  //         workout.timeStart || '',
+  //         workout.timeEnd || '',
+  //         true);
 
-  //       // let newDate1 = '2016-11-12';
-  //       // let newDateTime1 = newDate1 + ' ' + workout.timeStart;
-  //       // this.workoutStore.createWorkout(
-  //       //   workout.placeKey,
-  //       //   workout.trainerKey || '',
-  //       //   workout.clientKey,
-  //       //   newDate1 || '',
-  //       //   newDateTime1 || '',
-  //       //   workout.timeStart || '',
-  //       //   workout.timeEnd || '',
-  //       //   true);
+  //       let newDate3 = '2017-01-28';
+  //       let newDateTime3 = newDate3 + ' ' + workout.timeStart;
+  //       this.workoutStore.createWorkout(
+  //         workout.placeKey,
+  //         workout.trainerKey || '',
+  //         workout.clientKey,
+  //         newDate3 || '',
+  //         newDateTime3 || '',
+  //         workout.timeStart || '',
+  //         workout.timeEnd || '',
+  //         true);
 
-  //       // let newDate2 = '2016-11-19';
-  //       // let newDateTime2 = newDate2 + ' ' + workout.timeStart;
-  //       // this.workoutStore.createWorkout(
-  //       //   workout.placeKey,
-  //       //   workout.trainerKey || '',
-  //       //   workout.clientKey,
-  //       //   newDate2 || '',
-  //       //   newDateTime2 || '',
-  //       //   workout.timeStart || '',
-  //       //   workout.timeEnd || '',
-  //       //   true);
-
-  //       // let newDate3 = '2016-11-26';
-  //       // let newDateTime3 = newDate3 + ' ' + workout.timeStart;
-  //       // this.workoutStore.createWorkout(
-  //       //   workout.placeKey,
-  //       //   workout.trainerKey || '',
-  //       //   workout.clientKey,
-  //       //   newDate3 || '',
-  //       //   newDateTime3 || '',
-  //       //   workout.timeStart || '',
-  //       //   workout.timeEnd || '',
-  //       //   true);
-
-  //       // let newDate4 = '2016-11-30';
+  //       // let newDate4 = '2017-01-31';
   //       // let newDateTime4 = newDate4 + ' ' + workout.timeStart;
   //       // this.workoutStore.createWorkout(
   //       //   workout.placeKey,
@@ -418,7 +424,7 @@ export class TrainingListPage {
         now: new Date().toDateString(),
         contentHeight: 'auto',
         lang: 'pl',
-
+        locale: 'pl',
         allDaySlot: false,
         slotLabelFormat: 'HH:mm',
         scrollTime: '07:30',
@@ -428,7 +434,7 @@ export class TrainingListPage {
         hiddenDays: [ 0 ],
         nowIndicator: true,
         businessHours: {
-          start: '08:00',
+          start: '07:00',
           end: '22:00',
           dow: [ 1, 2, 3, 4, 5 ]
         },
@@ -478,7 +484,7 @@ export class TrainingListPage {
         now: new Date().toDateString(),
         contentHeight: 'auto',
         lang: 'pl',
-
+        locale: 'pl',
         allDaySlot: false,
         slotLabelFormat: 'HH:mm',
         scrollTime: '07:30',
@@ -488,7 +494,7 @@ export class TrainingListPage {
         hiddenDays: [ 0 ],
         nowIndicator: true,
         businessHours: {
-          start: '08:00',
+          start: '07:00',
           end: '22:00',
           dow: [ 1, 2, 3, 4, 5 ]
         },
@@ -604,7 +610,7 @@ export class TrainingListPage {
   getEvents(start, end, timezone, callback): any {
     let events = [];
     this.workoutStore.list.forEach(workout => {
-      if (workout.fixed || workout.timeStart === '' || (this.auth.isOwner && workout.placeKey !== this.place) || 
+      if (workout.fixed || workout.timeStart === '' || 
         (start && workout.date < start.format('YYYY-MM-DD')) || (end && moment(workout.date) >= end.format('YYYY-MM-DD'))) {
         return;
       }
@@ -630,6 +636,7 @@ export class TrainingListPage {
 
     if (this.auth.isOwner) {
       let hours = [
+        { timeStart: '7:00', timeEnd: '08:00' },
         { timeStart: '8:00', timeEnd: '09:00' },
         { timeStart: '9:00', timeEnd: '10:00' },
         { timeStart: '10:00', timeEnd: '11:00' },
@@ -646,15 +653,20 @@ export class TrainingListPage {
 
       this.trainerStore.list.forEach(trainer => {
         for (let d = 1; d <= 62; d++) {
-          let date = new Date('2016-10-01');
+          let date = new Date('2016-12-01');
           date.setDate(d);
           let day = date.getDate();
           if (day < 10) {
             day = '0' + day;
           }
+          let year = 2016;
           let month = date.getMonth()+1;
+          if (month > 12) {
+            month = 1;
+          }
           if (month < 10) {
             month = '0' + month;
+            year = 2017;
           }
           let weekDay = date.getDay()-1;
 
@@ -662,14 +674,14 @@ export class TrainingListPage {
             hours.forEach(hour => {
               if (trainer.hours[weekDay][hour.timeStart]) {
                 let time = hour.timeStart;
-                if (time === '8:00' || time === '9:00') {
+                if (time === '7:00' || time === '8:00' || time === '9:00') {
                   time = '0' + hour.timeStart;
                 }
                 let working = {
                   id: 'available',
                   resourceId: trainer.key,
-                  start: '2016-' + month + '-' + day + 'T'+ time,
-                  end: '2016-' + month + '-' + day + 'T'+ hour.timeEnd,
+                  start: year + '-' + month + '-' + day + 'T'+ time,
+                  end: year + '-' + month + '-' + day + 'T'+ hour.timeEnd,
                   color: '#8fdf82',
                   rendering: 'background'
                 };
@@ -697,35 +709,35 @@ export class TrainingListPage {
       let w = [{
         id: 'available',
         resourceId: '-KJ2tA8ChSdvCtXgGps4',
-        start: '2016-08-15T08:00',
+        start: '2016-08-15T07:00',
         end: '2016-08-15T14:00',
         color: '#8fdf82',
         rendering: 'background'
       },{
         id: 'available',
         resourceId: '-KJ2tLDl_lljvvl48TMW',
-        start: '2016-11-11T08:00',
+        start: '2016-11-11T07:00',
         end: '2016-11-11T13:00',
         color: '#8fdf82',
         rendering: 'background'
       },{
         id: 'available',
         resourceId: '-KBN-noa5OGgfW2XYbvZ',
-        start: '2016-11-11T08:00',
+        start: '2016-11-11T07:00',
         end: '2016-11-11T13:00',
         color: '#8fdf82',
         rendering: 'background'
       },{
         id: 'available',
         resourceId: '-KEiiHM34nL9fAhGCAC8',
-        start: '2016-11-01T08:00',
+        start: '2016-11-01T07:00',
         end: '2016-11-01T13:00',
         color: '#8fdf82',
         rendering: 'background'
       },{
         id: 'available',
         resourceId: '-KMcRg822CDsJnb2-dmp',
-        start: '2016-11-01T08:00',
+        start: '2016-11-01T07:00',
         end: '2016-11-01T13:00',
         color: '#8fdf82',
         rendering: 'background'

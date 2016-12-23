@@ -1,33 +1,19 @@
 import { Injectable } from '@angular/core';
-import { AngularFire } from 'angularfire2';
-
-import { IPlace, Place } from './place';
+import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+// import 'rxjs/add/observable';
 
 @Injectable()
 export class PlaceService {
-  constructor(private af: AngularFire) {}
+  private url: string = 'http://localhost:3000/api/places';
 
-  createPlace(title: string): void {
-    this.ref.push(new Place(title), (error: Error) => {
-      if (error) {
-        console.error('ERROR @ createPlace :', error);
-      }
-    });
+  constructor(private http: Http) { }
+
+  get(): Observable<any> {
+    return this.http.get(this.url);
   }
 
-  deletePlace(place: IPlace): void {
-    this.ref.child(place.key).remove((error: Error) => {
-      if (error) {
-        console.error('ERROR @ deletePlace :', error);
-      }
-    });
-  }
-
-  updatePlace(place: IPlace, changes: any): void {
-    this.ref.child(place.key).update(changes, (error: Error) => {
-      if (error) {
-        console.error('ERROR @ updatePlace :', error);
-      }
-    });
+  byId(id: any, range: string): Observable<any> {
+    return this.http.get(this.url + '/' + id);
   }
 }

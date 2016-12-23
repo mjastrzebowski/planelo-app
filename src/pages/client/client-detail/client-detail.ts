@@ -125,58 +125,63 @@ export class ClientDetailPage {
         };
         if (changes.active === true) {
           this.auth.signUpWithPassword(credentials).then((userData) => {
-            this.user.createUser(userData.uid, this.client.key, 'client');
+            if (userData) {
+              this.user.createUser(userData.uid, this.client.key, 'client');
 
-            if (data.send) {
-              let body = JSON.stringify({
-                email: credentials.email,
-                password: credentials.password,
-                username: changes.username || this.client.username,
-                name: this.client.name + ' ' + this.client.lastname
-              });
-              let headers = new Headers({ 'Content-Type': 'application/json' });
-              let options = new RequestOptions({ headers: headers });
-              this.http.post('http://treningi.egobody.pl/mail.php', body, options)
-                .toPromise()
-                .then((res: Response) => {
-                  let result = res.json() || {};
-                  console.log(result);
-                })
-                .catch((error: any) => {
-                  // In a real world app, we might use a remote logging infrastructure
-                  // We'd also dig deeper into the error to get a better message
-                  let errMsg = (error.message) ? error.message :
-                    error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-                  console.error(errMsg); // log to console instead
-                  return Promise.reject(errMsg);
+              if (data.send) {
+                let body = JSON.stringify({
+                  email: credentials.email,
+                  password: credentials.password,
+                  username: changes.username || this.client.username,
+                  name: this.client.name + ' ' + this.client.lastname
                 });
+                let headers = new Headers({ 'Content-Type': 'application/json' });
+                let options = new RequestOptions({ headers: headers });
+                this.http.post('http://treningi.egobody.pl/mail.php', body, options)
+                  .toPromise()
+                  .then((res: Response) => {
+                    let result = res.json() || {};
+                    console.log(result);
+                  })
+                  .catch((error: any) => {
+                    // In a real world app, we might use a remote logging infrastructure
+                    // We'd also dig deeper into the error to get a better message
+                    let errMsg = (error.message) ? error.message :
+                      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+                    console.error(errMsg); // log to console instead
+                    return Promise.reject(errMsg);
+                  });
+              }
             }
-
           });
         } else if (changes.active === false) {
           let user = this.user.getItemByKey(this.client.key);
-          let body = JSON.stringify({
-            uid: user.id
-          });
-          console.log('test uid: ', user.id);
-          let headers = new Headers({ 'Content-Type': 'application/json' });
-          let options = new RequestOptions({ headers: headers });
-          this.token = '';
-          this.http.post('http://treningi.egobody.pl/token/token.php', body, options)
-            .toPromise()
-            .then((res: Response) => {
-              this.token = res._body;
-              console.log('test token: ', this.token);
-              this.auth.removeUser(this.token);
-            })
-            .catch((error: any) => {
-              // In a real world app, we might use a remote logging infrastructure
-              // We'd also dig deeper into the error to get a better message
-              let errMsg = (error.message) ? error.message :
-                error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-              console.error(errMsg); // log to console instead
-              return Promise.reject(errMsg);
+          if (user) {
+            let body = JSON.stringify({
+              uid: user.id
             });
+            console.log('test uid: ', user.id);
+            this.user.removeUser(user);
+
+            let headers = new Headers({ 'Content-Type': 'application/json' });
+            let options = new RequestOptions({ headers: headers });
+            this.token = '';
+            this.http.post('http://treningi.egobody.pl/token/token.php', body, options)
+              .toPromise()
+              .then((res: Response) => {
+                this.token = res._body;
+                console.log('test token: ', this.token);
+                this.auth.removeUser(this.token);
+              })
+              .catch((error: any) => {
+                // In a real world app, we might use a remote logging infrastructure
+                // We'd also dig deeper into the error to get a better message
+                let errMsg = (error.message) ? error.message :
+                  error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+                console.error(errMsg); // log to console instead
+                return Promise.reject(errMsg);
+              });
+          }
         }
 
         // this.auth.signUpWithPassword({ email: changes. }).then(() => this.postSignIn());

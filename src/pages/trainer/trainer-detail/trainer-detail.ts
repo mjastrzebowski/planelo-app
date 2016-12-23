@@ -113,7 +113,8 @@ export class TrainerDetailPage {
           email: data.email || '',
           phone: data.phone || '',
           gender: data.gender || '',
-          comment: data.comment || ''
+          comment: data.comment || '',
+          place: data.place || ''
         });
         this.trainer = data;
       }

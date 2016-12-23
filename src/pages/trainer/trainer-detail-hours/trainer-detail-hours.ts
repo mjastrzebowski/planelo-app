@@ -17,6 +17,7 @@ export class TrainerDetailHoursModal {
 
   ngOnInit(): void {
     let hours = [ {
+      "7:00" : true,
       "8:00" : true,
       "9:00" : true,
       "10:00" : true,
@@ -25,6 +26,7 @@ export class TrainerDetailHoursModal {
       "19:00" : true,
       "20:00" : true
     }, {
+      "7:00" : true,
       "8:00" : true,
       "9:00" : true,
       "10:00" : true,
@@ -33,6 +35,7 @@ export class TrainerDetailHoursModal {
       "19:00" : true,
       "20:00" : true
     }, {
+      "7:00" : true,
       "8:00" : true,
       "9:00" : true,
       "10:00" : true,
@@ -41,6 +44,7 @@ export class TrainerDetailHoursModal {
       "19:00" : true,
       "20:00" : true
     }, {
+      "7:00" : true,
       "8:00" : true,
       "9:00" : true,
       "10:00" : true,
@@ -49,6 +53,7 @@ export class TrainerDetailHoursModal {
       "19:00" : true,
       "20:00" : true
     }, {
+      "7:00" : true,
       "8:00" : true,
       "9:00" : true,
       "10:00" : true,
@@ -57,6 +62,7 @@ export class TrainerDetailHoursModal {
       "19:00" : true,
       "20:00" : true,
     }, {
+      "7:00" : true,
       "8:00" : true,
       "9:00" : true,
       "10:00" : true,

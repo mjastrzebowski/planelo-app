@@ -17,6 +17,7 @@ import { BillStore } from '../core/bill/bill-store';
 import { ClientStore } from '../core/client/client-store';
 import { NotificationStore } from '../core/notification/notification-store';
 import { PlaceStore } from '../core/place/place-store';
+import { PlaceService } from '../core/place/place-service';
 import { TrainerStore } from '../core/trainer/trainer-store';
 import { UserStore } from '../core/user/user-store';
 import { WorkoutStore } from '../core/workout/workout-store';
@@ -184,6 +185,7 @@ import { SettingsPage } from '../pages/settings/settings';
     BillStore,
     ClientStore,
     PlaceStore,
+    PlaceService,
     TrainerStore,
     NotificationStore,
     UserStore,

@@ -78,6 +78,7 @@ export class TrainingCreateModal {
       return false;
     }
     let hours = [
+      { timeStart: '7:00', timeEnd: '08:00' },
       { timeStart: '8:00', timeEnd: '09:00' },
       { timeStart: '9:00', timeEnd: '10:00' },
       { timeStart: '10:00', timeEnd: '11:00' },
@@ -115,21 +116,26 @@ export class TrainingCreateModal {
     });
 
     for (let d = today; d <= today+days; d++) {
-      let nextDay = new Date('2016-10-01');
+      let nextDay = new Date('2016-12-01');
       nextDay.setDate(d);
-      if (this.auth.isClient && (nextDay.getMonth()+1) === 10) {
+      if (this.auth.isClient && (nextDay.getMonth()+1) === 2) {
         break;
       }
       if (nextDay.getDay() !== 0) {
+        let year = 2016;
         let day = nextDay.getDate();
         if (day < 10) {
           day = '0' + day;
         }
         let month = nextDay.getMonth()+1;
+        if (month > 12) {
+          month = 1;
+        }
         if (month < 10) {
           month = '0' + month;
+          year = 2017;
         }
-        let date = '2016-' + month + '-' + day;
+        let date = year + '-' + month + '-' + day;
         
         let avHours = [];
         let avTrainerWorkouts = {
@@ -138,11 +144,12 @@ export class TrainingCreateModal {
           '-KEiiHM34nL9fAhGCAC8': 0, // pawel
           '-KJ2syzrtgQiky2qFlGb': 0, // przemek
           '-KJ2tA8ChSdvCtXgGps4': 0, // grzesiek
-          '-KJ2tLDl_lljvvl48TMW': 0  // mateusz
+          '-KJ2tLDl_lljvvl48TMW': 0, // mateusz
+          '-KGHHXLT2oypqidXcL2T': 0  // marcin
         };
         hours.forEach(hour => {
           let time = hour.timeStart;
-          if (time === '8:00' || time === '9:00') {
+          if (time === '7:00' || time === '8:00' || time === '9:00') {
             time = '0' + time;
           }
 
@@ -207,7 +214,7 @@ export class TrainingCreateModal {
               date: Object.assign({}, training.date),
               repeat: true
             };
-            newTraining.date.date = '2016-' + this.leadingZero(nextDate.getMonth()+1) + '-' + this.leadingZero(nextDate.getDate());
+            newTraining.date.date = nextDate.getFullYear() + '-' + this.leadingZero(nextDate.getMonth()+1) + '-' + this.leadingZero(nextDate.getDate());
             newTraining.date.dateTime = newTraining.date.date + ' ' + newTraining.date.timeStart;
             this.trainings.push(Object.assign({}, newTraining));
           }
@@ -223,7 +230,7 @@ export class TrainingCreateModal {
         let dd = new Date(this.trainings[0].date.date);
         let n = new Date(repeat.date);
         n.setTime(n.getTime() + (dd - d));
-        let newDate = '2016-' + this.leadingZero(n.getMonth()+1) + '-' + this.leadingZero(n.getDate());
+        let newDate = n.getFullYear() + '-' + this.leadingZero(n.getMonth()+1) + '-' + this.leadingZero(n.getDate());
 
         let newTraining = {
           key: repeat.key,

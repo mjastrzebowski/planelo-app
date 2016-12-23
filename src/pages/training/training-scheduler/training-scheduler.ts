@@ -126,6 +126,8 @@ export class TrainingSchedulerPage {
   }
 
   showTrainingSchedulerForm(workout): void {
+    console.log(workout.place);
+    
     if (workout && workout.hasOwnProperty('key')) {
       this.editing = true;
     } else {
@@ -275,7 +277,7 @@ export class TrainingSchedulerPage {
       nowIndicator: true,
       hiddenDays: [ 0 ],
       businessHours: {
-        start: '08:00',
+        start: '07:00',
         end: '22:00',
         dow: [ 1, 2, 3, 4, 5 ]
       },
@@ -370,7 +372,7 @@ export class TrainingSchedulerPage {
   getEvents(start, end, timezone, callback): any {
     let events = [];
     this.workoutStore.list.forEach(workout => {
-      if (!workout.fixed || workout.placeKey !== this.place) {
+      if (!workout.fixed) {
         return;
       }
 
@@ -394,6 +396,7 @@ export class TrainingSchedulerPage {
 
     if (this.auth.isOwner) {
       let hours = [
+        { timeStart: '7:00', timeEnd: '08:00' },
         { timeStart: '8:00', timeEnd: '09:00' },
         { timeStart: '9:00', timeEnd: '10:00' },
         { timeStart: '10:00', timeEnd: '11:00' },
@@ -426,7 +429,7 @@ export class TrainingSchedulerPage {
             hours.forEach(hour => {
               if (trainer.hours[weekDay][hour.timeStart]) {
                 let time = hour.timeStart;
-                if (time === '8:00' || time === '9:00') {
+                if (time === '7:00' || time === '8:00' || time === '9:00') {
                   time = '0' + hour.timeStart;
                 }
                 let working = {

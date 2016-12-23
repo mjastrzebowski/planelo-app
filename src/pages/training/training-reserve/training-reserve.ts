@@ -53,6 +53,7 @@ export class TrainingReserveModal {
       return;
     }
     let hours = [
+      { timeStart: '7:00', timeEnd: '08:00' },
       { timeStart: '8:00', timeEnd: '09:00' },
       { timeStart: '9:00', timeEnd: '10:00' },
       { timeStart: '10:00', timeEnd: '11:00' },
@@ -85,21 +86,26 @@ export class TrainingReserveModal {
     }
 
     for (let d = today; d <= today+days; d++) {
-      let nextDay = new Date('2016-11-01');
+      let nextDay = new Date('2016-12-01');
       nextDay.setDate(d);
-      if (this.auth.isClient && (nextDay.getMonth()+1) === 12) {
+      if (this.auth.isClient && (nextDay.getMonth()+1) === 2) {
         break;
       }
       if (nextDay.getDay() !== 0) {
+        let year = 2016;
         let day = nextDay.getDate();
         if (day < 10) {
           day = '0' + day;
         }
         let month = nextDay.getMonth()+1;
+        if (month > 12) {
+          month = 1;
+        }
         if (month < 10) {
           month = '0' + month;
+          year = 2017;
         }
-        let date = '2016-' + month + '-' + day;
+        let date = year + '-' + month + '-' + day;
         
         let avHours = [];
         let avTrainerWorkouts = {
@@ -108,12 +114,13 @@ export class TrainingReserveModal {
           '-KEiiHM34nL9fAhGCAC8': 0, // pawel
           '-KJ2syzrtgQiky2qFlGb': 0, // przemek
           '-KJ2tA8ChSdvCtXgGps4': 0, // grzesiek
-          '-KJ2tLDl_lljvvl48TMW': 0  // mateusz
+          '-KJ2tLDl_lljvvl48TMW': 0, // mateusz
+          '-KGHHXLT2oypqidXcL2T': 0  // marcin
         };
         hours.forEach(hour => {
           let avTrainers = [];
           let time = hour.timeStart;
-          if (time === '8:00' || time === '9:00') {
+          if (time === '7:00' || time === '8:00' || time === '9:00') {
             time = '0' + time;
           }
           this.trainerStore.list.forEach(trainer => {
@@ -170,13 +177,13 @@ export class TrainingReserveModal {
                   (time === '16:00' || time === '17:00' || time === '18:00' || time === '19:00' || time === '20:00'))
                 ) || 
                 (trainer.key === '-KJ2tLDl_lljvvl48TMW' && date === '2016-11-11' && 
-                    (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
+                    (time === '07:00' || time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
                 (trainer.key === '-KBN-noa5OGgfW2XYbvZ' && date === '2016-11-11' && 
-                    (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
+                    (time === '07:00' || time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
                 (trainer.key === '-KEiiHM34nL9fAhGCAC8' && date === '2016-11-01' && 
-                    (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
+                    (time === '07:00' || time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
                 (trainer.key === '-KMcRg822CDsJnb2-dmp' && date === '2016-11-01' && 
-                    (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00'))
+                    (time === '07:00' || time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00'))
                 ) {
                 let find = this.workoutStore.listAll.filter(workout => {
                   if (!this.auth.isOwner && (!workout.fixed && !workout.completed && (date === workout.date && workout.timeStart === time && (workout.trainerKey === trainer.key || (this.auth.isClient && workout.clientKey === this.auth.key)))

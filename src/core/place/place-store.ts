@@ -5,6 +5,7 @@ import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { IPlace, Place } from './place';
+import { PlaceService } from './place-service';
 
 import { FIREBASE_PLACES_URL } from '../../config';
 
@@ -16,14 +17,18 @@ export class PlaceStore {
   public list: List<any> = List();
 
   constructor(
+    private placeService: PlaceService,
     private af: AngularFire
   ) {
-    this.places = this.af.database.list('cal_places');
+    this.places = this.placeService.get();
     this.places.subscribe(list => {
-      this.list = List(list);
+      this.list = List(list.json());
       this.list.forEach(item => {
         item.key = item.$key;
       });
+
+      console.log(this.list);
+      
 
       this.loaded = true;
       this.emit();

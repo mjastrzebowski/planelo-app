@@ -15,6 +15,10 @@
     <ion-list>
       <ion-list-header padding-v-0>poniedziałek</ion-list-header>
       <ion-item>
+        <ion-label>7:00 - 8:00</ion-label>
+        <ion-toggle [(ngModel)]="trainer.hours[0]['7:00']" name="hours000"></ion-toggle>
+      </ion-item>
+      <ion-item>
         <ion-label>8:00 - 9:00</ion-label>
         <ion-toggle [(ngModel)]="trainer.hours[0]['8:00']" name="hours00"></ion-toggle>
       </ion-item>
@@ -58,6 +62,10 @@
 
     <ion-list>
       <ion-list-header padding-v-0>wtorek</ion-list-header>
+      <ion-item>
+        <ion-label>7:00 - 8:00</ion-label>
+        <ion-toggle [(ngModel)]="trainer.hours[1]['7:00']" name="hours100"></ion-toggle>
+      </ion-item>
       <ion-item>
         <ion-label>8:00 - 9:00</ion-label>
         <ion-toggle [(ngModel)]="trainer.hours[1]['8:00']" name="hours10"></ion-toggle>
@@ -103,6 +111,10 @@
     <ion-list>
       <ion-list-header padding-v-0>środa</ion-list-header>
       <ion-item>
+        <ion-label>7:00 - 8:00</ion-label>
+        <ion-toggle [(ngModel)]="trainer.hours[2]['7:00']" name="hours200"></ion-toggle>
+      </ion-item>
+      <ion-item>
         <ion-label>8:00 - 9:00</ion-label>
         <ion-toggle [(ngModel)]="trainer.hours[2]['8:00']" name="hours20"></ion-toggle>
       </ion-item>
@@ -146,6 +158,10 @@
 
     <ion-list>
       <ion-list-header padding-v-0>czwartek</ion-list-header>
+      <ion-item>
+        <ion-label>7:00 - 8:00</ion-label>
+        <ion-toggle [(ngModel)]="trainer.hours[3]['7:00']" name="hours300"></ion-toggle>
+      </ion-item>
       <ion-item>
         <ion-label>8:00 - 9:00</ion-label>
         <ion-toggle [(ngModel)]="trainer.hours[3]['8:00']" name="hours30"></ion-toggle>
@@ -191,6 +207,10 @@
     <ion-list>
       <ion-list-header padding-v-0>piątek</ion-list-header>
       <ion-item>
+        <ion-label>7:00 - 8:00</ion-label>
+        <ion-toggle [(ngModel)]="trainer.hours[4]['7:00']" name="hours400"></ion-toggle>
+      </ion-item>
+      <ion-item>
         <ion-label>8:00 - 9:00</ion-label>
         <ion-toggle [(ngModel)]="trainer.hours[4]['8:00']" name="hours40"></ion-toggle>
       </ion-item>
@@ -234,6 +254,10 @@
 
     <ion-list>
       <ion-list-header padding-v-0>sobota</ion-list-header>
+      <ion-item>
+        <ion-label>7:00 - 8:00</ion-label>
+        <ion-toggle [(ngModel)]="trainer.hours[5]['7:00']" name="hours500"></ion-toggle>
+      </ion-item>
       <ion-item>
         <ion-label>8:00 - 9:00</ion-label>
         <ion-toggle [(ngModel)]="trainer.hours[5]['8:00']" name="hours50"></ion-toggle>
