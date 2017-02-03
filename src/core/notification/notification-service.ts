@@ -1,33 +1,19 @@
 import { Injectable } from '@angular/core';
-import { AngularFire } from 'angularfire2';
-
-import { INotification, Notification } from './notification';
+import { Http, Headers } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class NotificationService {
-  constructor(private af: AngularFire) {}
+  private headers: Headers = new Headers({'Content-Type': 'application/json'});
+  private url: string = 'http://localhost:3000/api/notifications';
 
-  createNotification(type: string, data: any) {
-    return this.ref.push(new Notification(type, data), (error: Error) => {
-      if (error) {
-        console.error('ERROR @ createNotification :', error);
-      }
-    });
+  constructor(private http: Http) { }
+
+  get(): Observable<any> {
+    return this.http.get(this.url);
   }
 
-  deleteNotification(notification: INotification): void {
-    this.ref.child(notification.key).remove((error: Error) => {
-      if (error) {
-        console.error('ERROR @ deleteNotification :', error);
-      }
-    });
-  }
-
-  updateNotification(notification: INotification, changes: any): void {
-    this.ref.child(notification.key).update(changes, (error: Error) => {
-      if (error) {
-        console.error('ERROR @ updateNotification :', error);
-      }
-    });
+  put(body: any): Observable<any> {
+    return this.http.put(this.url, JSON.stringify(body), { headers: this.headers });
   }
 }

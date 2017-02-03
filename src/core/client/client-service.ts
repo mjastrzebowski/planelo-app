@@ -1,33 +1,19 @@
 import { Injectable } from '@angular/core';
-import { AngularFire } from 'angularfire2';
-
-import { IClient, Client } from './client';
+import { Http, Headers } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ClientService {
-  constructor(private af: AngularFire) {}
+  private headers: Headers = new Headers({'Content-Type': 'application/json'});
+  private url: string = 'http://localhost:3000/api/clients';
 
-  createClient(name: string, lastname: string, email: string, phone: string, comment: string): void {
-    return this.ref.push(new Client(name, lastname, email, phone, comment), (error: Error) => {
-      if (error) {
-        console.error('ERROR @ createClient :', error);
-      }
-    });
+  constructor(private http: Http) { }
+
+  get(): Observable<any> {
+    return this.http.get(this.url);
   }
 
-  deleteClient(client: IClient): void {
-    return this.ref.child(client.key).remove((error: Error) => {
-      if (error) {
-        console.error('ERROR @ deleteClient :', error);
-      }
-    });
-  }
-
-  updateClient(client: IClient, changes: any): void {
-    return this.ref.child(client.key).update(changes, (error: Error) => {
-      if (error) {
-        console.error('ERROR @ updateClient :', error);
-      }
-    });
+  put(body: any): Observable<any> {
+    return this.http.put(this.url, JSON.stringify(body), { headers: this.headers });
   }
 }

@@ -159,15 +159,16 @@ export class TrainingListPage {
   }
 
   // updateRepeat() {
-  // //   this.billStore.list.forEach(bill => {
-  // //     if (bill.month === '2016-11') {
-  // //       this.billStore.createBill(
-  // //         bill.client,
-  // //         '2016-12',
-  // //         bill.discount);
-  // //     }
-  // //   });
-  // // }
+  //   this.billStore.list.forEach(bill => {
+  //     if (bill.month === '2017-01') {
+  //       this.billStore.createBill(
+  //         bill.client,
+  //         '2017-02',
+  //         bill.discount);
+  //     }
+  //   });
+  // }
+  // }
   //   this.workoutStore.list.forEach(workout => {
   //     //   // console.log(workout);
 
@@ -177,7 +178,7 @@ export class TrainingListPage {
   //     //   //   bill.discount);
 
   //     if (workout.date === '2016-06-11' && workout.fixed) {
-  //       let newDate0 = '2017-01-07';
+  //       let newDate0 = '2017-02-04';
   //       let newDateTime0 = newDate0 + ' ' + workout.timeStart;
   //       this.workoutStore.createWorkout(
   //         workout.placeKey,
@@ -189,7 +190,7 @@ export class TrainingListPage {
   //         workout.timeEnd || '',
   //         true);
 
-  //       let newDate1 = '2017-01-14';
+  //       let newDate1 = '2017-02-11';
   //       let newDateTime1 = newDate1 + ' ' + workout.timeStart;
   //       this.workoutStore.createWorkout(
   //         workout.placeKey,
@@ -201,7 +202,7 @@ export class TrainingListPage {
   //         workout.timeEnd || '',
   //         true);
 
-  //       let newDate2 = '2017-01-21';
+  //       let newDate2 = '2017-02-18';
   //       let newDateTime2 = newDate2 + ' ' + workout.timeStart;
   //       this.workoutStore.createWorkout(
   //         workout.placeKey,
@@ -213,7 +214,7 @@ export class TrainingListPage {
   //         workout.timeEnd || '',
   //         true);
 
-  //       let newDate3 = '2017-01-28';
+  //       let newDate3 = '2017-02-25';
   //       let newDateTime3 = newDate3 + ' ' + workout.timeStart;
   //       this.workoutStore.createWorkout(
   //         workout.placeKey,
@@ -653,7 +654,7 @@ export class TrainingListPage {
 
       this.trainerStore.list.forEach(trainer => {
         for (let d = 1; d <= 62; d++) {
-          let date = new Date('2016-12-01');
+          let date = new Date('2017-01-01');
           date.setDate(d);
           let day = date.getDate();
           if (day < 10) {
@@ -708,37 +709,30 @@ export class TrainingListPage {
 
       let w = [{
         id: 'available',
-        resourceId: '-KJ2tA8ChSdvCtXgGps4',
-        start: '2016-08-15T07:00',
-        end: '2016-08-15T14:00',
+        resourceId: '-KEiiFLK6kxKsJoTGjKU',
+        start: '2017-01-06T08:00',
+        end: '2017-01-06T14:00',
         color: '#8fdf82',
         rendering: 'background'
       },{
         id: 'available',
-        resourceId: '-KJ2tLDl_lljvvl48TMW',
-        start: '2016-11-11T07:00',
-        end: '2016-11-11T13:00',
+        resourceId: '-KGHHXLT2oypqidXcL2T',
+        start: '2017-02-04T08:00',
+        end: '2017-02-04T13:00',
         color: '#8fdf82',
         rendering: 'background'
       },{
         id: 'available',
-        resourceId: '-KBN-noa5OGgfW2XYbvZ',
-        start: '2016-11-11T07:00',
-        end: '2016-11-11T13:00',
+        resourceId: '-KGHHXLT2oypqidXcL2T',
+        start: '2017-01-21T08:00',
+        end: '2017-01-21T13:00',
         color: '#8fdf82',
         rendering: 'background'
       },{
         id: 'available',
-        resourceId: '-KEiiHM34nL9fAhGCAC8',
-        start: '2016-11-01T07:00',
-        end: '2016-11-01T13:00',
-        color: '#8fdf82',
-        rendering: 'background'
-      },{
-        id: 'available',
-        resourceId: '-KMcRg822CDsJnb2-dmp',
-        start: '2016-11-01T07:00',
-        end: '2016-11-01T13:00',
+        resourceId: '-KGHHXLT2oypqidXcL2T',
+        start: '2017-01-28T08:00',
+        end: '2017-01-28T13:00',
         color: '#8fdf82',
         rendering: 'background'
       }];
@@ -746,7 +740,6 @@ export class TrainingListPage {
       events.push(w[1]);
       events.push(w[2]);
       events.push(w[3]);
-      events.push(w[4]);
     }
     
     return callback ? callback(events) : events;

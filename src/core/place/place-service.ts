@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-// import 'rxjs/add/observable';
 
 @Injectable()
 export class PlaceService {
@@ -11,9 +10,5 @@ export class PlaceService {
 
   get(): Observable<any> {
     return this.http.get(this.url);
-  }
-
-  byId(id: any, range: string): Observable<any> {
-    return this.http.get(this.url + '/' + id);
   }
 }

@@ -116,9 +116,9 @@ export class TrainingCreateModal {
     });
 
     for (let d = today; d <= today+days; d++) {
-      let nextDay = new Date('2016-12-01');
+      let nextDay = new Date('2017-02-01');
       nextDay.setDate(d);
-      if (this.auth.isClient && (nextDay.getMonth()+1) === 2) {
+      if (this.auth.isClient && (nextDay.getMonth()+1) === 3) {
         break;
       }
       if (nextDay.getDay() !== 0) {

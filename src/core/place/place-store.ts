@@ -20,15 +20,14 @@ export class PlaceStore {
     private placeService: PlaceService,
     private af: AngularFire
   ) {
-    this.places = this.placeService.get();
+    this.places = this.af.database.list('cal_places');
+    // this.places = this.placeService.get();
     this.places.subscribe(list => {
-      this.list = List(list.json());
+      // this.list = List(list.json());
+      this.list = List(list);
       this.list.forEach(item => {
         item.key = item.$key;
       });
-
-      console.log(this.list);
-      
 
       this.loaded = true;
       this.emit();

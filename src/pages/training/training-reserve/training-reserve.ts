@@ -86,9 +86,9 @@ export class TrainingReserveModal {
     }
 
     for (let d = today; d <= today+days; d++) {
-      let nextDay = new Date('2016-12-01');
+      let nextDay = new Date('2017-02-01');
       nextDay.setDate(d);
-      if (this.auth.isClient && (nextDay.getMonth()+1) === 2) {
+      if (this.auth.isClient && (nextDay.getMonth()+1) === 3) {
         break;
       }
       if (nextDay.getDay() !== 0) {
@@ -129,10 +129,8 @@ export class TrainingReserveModal {
               let thisDay = thisDate.getDate();
 
               if (!this.auth.isOwner && trainer.vacation && 
-                !(trainer.key === '-KJ2tA8ChSdvCtXgGps4' && date === '2016-08-15') && 
-                !(trainer.key === '-KJ2tLDl_lljvvl48TMW' && date === '2016-11-11') &&
-                !(trainer.key === '-KBN-noa5OGgfW2XYbvZ' && date === '2016-11-11') &&
-                !(trainer.key === '-KEiiHM34nL9fAhGCAC8' && date === '2016-11-01')) {
+                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04') && 
+                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-14')) {
 
                 let hasVacation = false;
                 if (trainer.vacation) {
@@ -169,21 +167,15 @@ export class TrainingReserveModal {
 
               let d = thisDate.getDay() - 1;
               if (this.auth.isOwner || (trainer.hours[d] && trainer.hours[d][hour.timeStart] &&
-                !(trainer.key === '-KJ2tLDl_lljvvl48TMW' && date === '2016-11-11' && 
+                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04' && 
                   (time === '16:00' || time === '17:00' || time === '18:00' || time === '19:00' || time === '20:00')) &&
-                !(trainer.key === '-KBN-noa5OGgfW2XYbvZ' && date === '2016-11-11' && 
-                  (time === '16:00' || time === '17:00' || time === '18:00' || time === '19:00' || time === '20:00')) &&
-                !(trainer.key === '-KEiiHM34nL9fAhGCAC8' && date === '2016-11-01' && 
+                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-21' && 
                   (time === '16:00' || time === '17:00' || time === '18:00' || time === '19:00' || time === '20:00'))
                 ) || 
-                (trainer.key === '-KJ2tLDl_lljvvl48TMW' && date === '2016-11-11' && 
-                    (time === '07:00' || time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
-                (trainer.key === '-KBN-noa5OGgfW2XYbvZ' && date === '2016-11-11' && 
-                    (time === '07:00' || time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
-                (trainer.key === '-KEiiHM34nL9fAhGCAC8' && date === '2016-11-01' && 
-                    (time === '07:00' || time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
-                (trainer.key === '-KMcRg822CDsJnb2-dmp' && date === '2016-11-01' && 
-                    (time === '07:00' || time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00'))
+                (trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04' && 
+                    (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
+                (trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-21' && 
+                    (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00'))
                 ) {
                 let find = this.workoutStore.listAll.filter(workout => {
                   if (!this.auth.isOwner && (!workout.fixed && !workout.completed && (date === workout.date && workout.timeStart === time && (workout.trainerKey === trainer.key || (this.auth.isClient && workout.clientKey === this.auth.key)))

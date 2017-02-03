@@ -5,6 +5,7 @@ import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { ITrainer, Trainer } from './trainer';
+import { TrainerService } from './trainer-service';
 
 import { FIREBASE_TRAINERS_URL } from '../../config';
 
@@ -16,6 +17,7 @@ export class TrainerStore {
   public list: List<any> = List();
 
   constructor(
+    private trainerService: TrainerService,
     private af: AngularFire
   ) {
     this.trainers = this.af.database.list('cal_trainers');

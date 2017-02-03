@@ -55,7 +55,7 @@ export class ClientDetailBillingModal {
   }
 
   ionViewDidEnter(): void {
-    this.client.month = '2016-12';
+    this.client.month = '2017-02';
     this.updateMonth();
   }
 
@@ -181,7 +181,7 @@ export class ClientDetailBillingModal {
           ul: [
             {
               text: [
-                'Liczba treningów zaplanowana w miesiącu grudzień: ',
+                'Liczba treningów zaplanowana w miesiącu luty: ',
                 { text: parseInt(this.client.trainingsTodoCount || 0) + '', style: 'field' }
               ]
             },{
@@ -227,7 +227,7 @@ export class ClientDetailBillingModal {
           style: 'content',
           columns: [[
               'Płatność gotówką lub przelewem: \r\n',
-              { text: 'TRENINGI PERSONALNE \r\nGRUDZIEŃ', bold: true },
+              { text: 'TRENINGI PERSONALNE \r\nLUTY', bold: true },
               { text: '\r\n\r\nTermin płatności do 5-go każdego miesiąca.', style: 'small' }
             ],[
               {
