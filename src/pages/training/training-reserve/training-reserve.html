@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header no-border>
   <ion-navbar>
     <ion-title>Rezerwacja treningu</ion-title>
 
@@ -10,7 +10,7 @@
     </ion-buttons>
   </ion-navbar>
 
-  <ion-toolbar no-border-top [hidden]="!auth || !auth.isClient || auth.username === 'mjastrzebowskix'">
+  <ion-toolbar [hidden]="!auth || !auth.isClient || auth.username === 'mjastrzebowskix'">
     <div>
       <ion-segment [(ngModel)]="place" (ionChange)="onPlaceChanged($event)">
         <ion-segment-button value="-KBHukjV0l8M-EkpTdI4">

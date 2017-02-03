@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header no-border>
   <ion-navbar>
     <ion-title [hidden]="trainings[0].completed || editing">Nowy trening</ion-title>
     <ion-title [hidden]="trainings[0].completed || !editing">Zmiana treningu</ion-title>
@@ -11,7 +11,7 @@
     </ion-buttons>
   </ion-navbar>
 
-  <ion-toolbar no-border-top [hidden]="!auth || !auth.isClient">
+  <ion-toolbar [hidden]="!auth || !auth.isClient">
     <div>
       <ion-segment [(ngModel)]="place" (ionChange)="onPlaceChanged($event)">
         <ion-segment-button value="-KBHukjV0l8M-EkpTdI4">
