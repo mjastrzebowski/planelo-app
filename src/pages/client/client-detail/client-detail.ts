@@ -26,6 +26,15 @@ import { ClientDetailWorkoutsModal } from '../client-detail-workouts/client-deta
   templateUrl: 'client-detail.html'
 })
 export class ClientDetailPage {
+  client: any;
+  trainingsDone: any;
+  trainingsDoneLast: any;
+  trainingsTodo: any;
+  trainingsTodoNext: any;
+  trainingsScheduled: any;
+  editing: boolean;
+  token: any;
+
   constructor(
     private modalCtrl: ModalController,
     private navParams: NavParams,
@@ -48,12 +57,13 @@ export class ClientDetailPage {
   }
 
   showClientProfile(client): void {
+    let modal;
     if (client) {
       let clientObject = Object.assign({}, client);
-      let modal = this.modalCtrl.create(ClientDetailProfileModal, clientObject);
+      modal = this.modalCtrl.create(ClientDetailProfileModal, clientObject);
       this.editing = true;
     } else {
-      let modal = this.modalCtrl.create(ClientDetailProfileModal);
+      modal = this.modalCtrl.create(ClientDetailProfileModal);
       this.editing = false;
     }
 
@@ -91,18 +101,19 @@ export class ClientDetailPage {
   }
 
   showClientAccess(client): void {
+    let modal
     if (client) {
       let clientObject = Object.assign({}, client);
-      let modal = this.modalCtrl.create(ClientDetailAccessModal, clientObject);
+      modal = this.modalCtrl.create(ClientDetailAccessModal, clientObject);
       this.editing = true;
     } else {
-      let modal = this.modalCtrl.create(ClientDetailAccessModal);
+      modal = this.modalCtrl.create(ClientDetailAccessModal);
       this.editing = false;
     }
 
     modal.onDidDismiss(data => {
       if (data) {
-        let changes = {};
+        let changes: any = {};
         if (data.active !== this.client.active) {
           changes.active = data.active;
         }
@@ -168,7 +179,7 @@ export class ClientDetailPage {
             this.token = '';
             this.http.post('http://treningi.egobody.pl/token/token.php', body, options)
               .toPromise()
-              .then((res: Response) => {
+              .then((res: any) => { // type: Response? _body?
                 this.token = res._body;
                 console.log('test token: ', this.token);
                 this.auth.removeUser(this.token);

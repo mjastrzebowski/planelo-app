@@ -8,6 +8,9 @@ import { AuthService } from '../../core/auth/auth-service';
 })
 
 export class SettingsPage {
+  settings: any;
+  submitted: boolean;
+
   constructor(
     private alertCtrl: AlertController,
     private auth: AuthService

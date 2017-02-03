@@ -18,15 +18,8 @@ export class TrainerDetailProfileModal {
   ngOnInit(): void {
     if (this.params.data.hasOwnProperty('key')) {
       this.trainer = this.params.data;
-      if (!this.trainer.hasOwnProperty('hours')) {
-        this.trainer.hours = hours;
-      }
     } else {
-      this.trainer = {
-        title: '',
-        email: '',
-        hours: hours
-      };
+      this.trainer = new ITrainer();
     }
   }
 

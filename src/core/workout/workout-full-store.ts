@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import * as moment from 'moment';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -16,6 +17,7 @@ export class WorkoutFullStore {
   public emitter: EventEmitter<any> = new EventEmitter();
   public workouts: FirebaseListObservable<IWorkout[]>;
   public list: List<any> = List();
+  sub: any;
 
   constructor(
     private af: AngularFire,
@@ -28,7 +30,7 @@ export class WorkoutFullStore {
     });
     this.sub = this.workouts.subscribe(list => {
       console.log('full store sub', list);
-      
+
       this.list = List(list);
       this.list.forEach(item => {
         item.key = item.$key;

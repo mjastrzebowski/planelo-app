@@ -16,6 +16,9 @@ export class IBill {
   subtotal?: number;
   total?: number;
   workout?: any;
+  fromNow?: any;
+  descDate?: any;
+  descMonth?: any;
 }
 
 export class Bill implements IBill {

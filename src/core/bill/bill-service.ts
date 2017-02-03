@@ -5,6 +5,8 @@ import { IBill, Bill } from './bill';
 
 @Injectable()
 export class BillService {
+  ref?: any;
+
   constructor(private af: AngularFire) {}
 
   createBill(client: string, month: string, discount: number) {

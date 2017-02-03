@@ -10,6 +10,9 @@ export class INotification {
   owner?: string;
   reason?: string;
   data?: any;
+  fromNow?: any;
+  descDate?: any;
+  unread?: any;
 }
 
 export class Notification implements INotification {

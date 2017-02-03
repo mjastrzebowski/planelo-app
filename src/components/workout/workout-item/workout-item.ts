@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AlertController } from 'ionic-angular';
+import * as moment from 'moment';
 
 import { AuthService } from '../../../core/auth/auth-service';
 
@@ -18,6 +19,7 @@ import { NotificationStore } from '../../../core/notification/notification-store
 export class WorkoutItem {
   @Input() model: IWorkout;
   @Input() changeDate: any;
+  currentDate: any;
 
   constructor(
     private alertCtrl: AlertController,

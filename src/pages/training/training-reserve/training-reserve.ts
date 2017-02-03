@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ViewController } from 'ionic-angular';
+import * as moment from 'moment';
 
 import { AuthService } from '../../../core/auth/auth-service';
 
@@ -11,7 +12,13 @@ import { WorkoutStore } from '../../../core/workout/workout-store';
   templateUrl: 'training-reserve.html'
 })
 export class TrainingReserveModal {
-  @Input() trainings: Array = [{}];
+  @Input() trainings: any = [{}];
+   available: any;
+   repeated: any;
+   place: any;
+   forceSub: any;
+   filter: any;
+   sub: any;
 
   constructor(
     private viewCtrl: ViewController,
@@ -93,20 +100,20 @@ export class TrainingReserveModal {
       }
       if (nextDay.getDay() !== 0) {
         let year = 2016;
-        let day = nextDay.getDate();
-        if (day < 10) {
+        let day = '' + nextDay.getDate();
+        if (parseInt(day) < 10) {
           day = '0' + day;
         }
-        let month = nextDay.getMonth()+1;
-        if (month > 12) {
-          month = 1;
+        let month = '' + nextDay.getMonth()+1;
+        if (parseInt(month) > 12) {
+          month = '1';
         }
-        if (month < 10) {
+        if (parseInt(month) < 10) {
           month = '0' + month;
           year = 2017;
         }
         let date = year + '-' + month + '-' + day;
-        
+
         let avHours = [];
         let avTrainerWorkouts = {
           '-KBN-noa5OGgfW2XYbvZ': 0, // damian
@@ -128,8 +135,8 @@ export class TrainingReserveModal {
               let thisDate = new Date(date);
               let thisDay = thisDate.getDate();
 
-              if (!this.auth.isOwner && trainer.vacation && 
-                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04') && 
+              if (!this.auth.isOwner && trainer.vacation &&
+                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04') &&
                 !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-14')) {
 
                 let hasVacation = false;
@@ -167,14 +174,14 @@ export class TrainingReserveModal {
 
               let d = thisDate.getDay() - 1;
               if (this.auth.isOwner || (trainer.hours[d] && trainer.hours[d][hour.timeStart] &&
-                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04' && 
+                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04' &&
                   (time === '16:00' || time === '17:00' || time === '18:00' || time === '19:00' || time === '20:00')) &&
-                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-21' && 
+                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-21' &&
                   (time === '16:00' || time === '17:00' || time === '18:00' || time === '19:00' || time === '20:00'))
-                ) || 
-                (trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04' && 
+                ) ||
+                (trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04' &&
                     (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
-                (trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-21' && 
+                (trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-21' &&
                     (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00'))
                 ) {
                 let find = this.workoutStore.listAll.filter(workout => {

@@ -12,6 +12,7 @@ export class AuthService {
   private moreData: any;
   private emitter: EventEmitter<any> = new EventEmitter();
   public loaded: boolean;
+  fbApp: any;
 
   constructor(
     public auth$: FirebaseAuth,
@@ -25,7 +26,7 @@ export class AuthService {
         location.reload();
       }
 
-      if (this.authData) {    
+      if (this.authData) {
         this.af.database.object('users/' + authData.uid).subscribe((userData: any) => {
           this.userData = userData;
           if (this.userData && this.key) {

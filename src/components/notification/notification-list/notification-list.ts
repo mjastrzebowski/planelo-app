@@ -10,6 +10,8 @@ export class NotificationList {
   @Input() filter: any;
   @Input() limit: any;
   @ViewChildren('notifications') notifications: any;
+  isMore: boolean;
+  baseLimit: number;
 
   constructor(
     public notificationStore: NotificationStore

@@ -5,10 +5,12 @@ import { IUser, User } from './user';
 
 @Injectable()
 export class UserService {
+  ref?: any;
+
   constructor(private af: AngularFire) {}
 
   createUser(id: string, key: string, type: string): void {
-    this.ref.child(id).set(new User(id, key, type), (error: Error) => {
+    this.ref.child(id).set(new User(key, type), (error: Error) => {
       if (error) {
         console.error('ERROR @ createUser :', error);
       }

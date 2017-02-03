@@ -1,4 +1,5 @@
 import { Component, Input, Pipe } from '@angular/core';
+import * as moment from 'moment';
 
 import { App } from 'ionic-angular';
 
@@ -18,6 +19,7 @@ import { ClientDetailPage } from '../../../pages/client/client-detail/client-det
 })
 export class NotificationItem {
   @Input() model: INotification;
+  nav: any;
 
   constructor(
     private app: App,
@@ -32,7 +34,7 @@ export class NotificationItem {
     this.model.fromNow = created.fromNow();
     this.model.descDate = created.format('DD.MM.YYYY, HH:mm');
 
-    let read = localStorage.getItem('notification-counter-read');
+    let read = parseInt(localStorage.getItem('notification-counter-read'));
     this.model.unread = (this.model.createdAt > read);
   }
 

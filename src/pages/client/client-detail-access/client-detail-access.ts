@@ -23,7 +23,7 @@ export class ClientDetailAccessModal {
       this.editing = true;
       this.client = this.params.data;
     } else {
-      this.client = {};
+      this.client = new IClient();
     }
   }
 

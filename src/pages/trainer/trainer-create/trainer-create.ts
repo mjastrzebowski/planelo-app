@@ -76,11 +76,8 @@ export class TrainerCreateModal {
         this.trainer.hours = hours;
       }
     } else {
-      this.trainer = {
-        title: '',
-        email: '',
-        hours: hours
-      };
+      this.trainer = new ITrainer();
+      this.trainer.hours = hours;
     }
   }
 

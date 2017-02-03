@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-
 import { NavParams, ViewController } from 'ionic-angular';
+import * as moment from 'moment';
 
 import { AuthService } from '../../../core/auth/auth-service';
 
@@ -13,7 +13,7 @@ import { WorkoutStore } from '../../../core/workout/workout-store';
   templateUrl: 'training-create.html'
 })
 export class TrainingCreateModal {
-  @Input() trainings: Array = [{}];
+  @Input() trainings: any = [{}];
   public editing: boolean = false;
   public available;
   public repeated;
@@ -21,6 +21,7 @@ export class TrainingCreateModal {
   public forceSub;
   public filter;
   public workouts;
+  sub: any;
 
   constructor(
     private params: NavParams,
@@ -123,20 +124,20 @@ export class TrainingCreateModal {
       }
       if (nextDay.getDay() !== 0) {
         let year = 2016;
-        let day = nextDay.getDate();
-        if (day < 10) {
+        let day = '' + nextDay.getDate();
+        if (parseInt(day) < 10) {
           day = '0' + day;
         }
-        let month = nextDay.getMonth()+1;
-        if (month > 12) {
-          month = 1;
+        let month = '' + nextDay.getMonth()+1;
+        if (parseInt(month) > 12) {
+          month = '1';
         }
-        if (month < 10) {
+        if (parseInt(month) < 10) {
           month = '0' + month;
           year = 2017;
         }
         let date = year + '-' + month + '-' + day;
-        
+
         let avHours = [];
         let avTrainerWorkouts = {
           '-KBN-noa5OGgfW2XYbvZ': 0, // damian
@@ -229,7 +230,7 @@ export class TrainingCreateModal {
         let d = new Date(this.trainings[0].oldDate);
         let dd = new Date(this.trainings[0].date.date);
         let n = new Date(repeat.date);
-        n.setTime(n.getTime() + (dd - d));
+        n.setTime(n.getTime() + (+dd - +d)); // Explicitly coercing to a number
         let newDate = n.getFullYear() + '-' + this.leadingZero(n.getMonth()+1) + '-' + this.leadingZero(n.getDate());
 
         let newTraining = {

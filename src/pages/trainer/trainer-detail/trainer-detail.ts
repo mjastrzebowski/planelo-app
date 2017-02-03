@@ -66,6 +66,12 @@ export class GroupHoursPipe implements PipeTransform {
   templateUrl: 'trainer-detail.html'
 })
 export class TrainerDetailPage {
+  trainer: any;
+  trainingsDone: any;
+  trainingsDoneLast: any;
+  trainingsTodo: any;
+  trainingsTodoNext: any;
+
   constructor(
     private modalCtrl: ModalController,
     private navParams: NavParams,

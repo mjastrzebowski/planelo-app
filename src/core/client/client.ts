@@ -8,6 +8,31 @@ export class IClient {
   phone: string;
   comment: string;
   username?: string;
+  password?: string;
+  gender?: any;
+  hide?: boolean;
+
+  delete?: boolean;
+  message?: any;
+  surcharge?: any;
+  surchargeDesc?: any;
+  month?: any;
+  total?: any;
+  payed?: any;
+  discount?: any;
+  discountAmount?: any;
+  trainingsTodoCount?: any;
+  trainingsDone?: any;
+  trainingsDoneLast?: any;
+  trainingsTodo?: any;
+  trainingsTodoNext?: any;
+  trainingsScheduled?: any;
+  trainingsDoneCount?: any;
+  trainingsMovedCount?: any;
+  trainingsSurcharge?: any;
+  billSent?: any;
+  billSendStatus?: any;
+  billSendError?: any;
 }
 
 export class Client implements IClient {

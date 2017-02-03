@@ -14,6 +14,7 @@ import { ClientDetailPage } from '../../../pages/client/client-detail/client-det
 })
 export class ClientItem {
   @Input() model: IClient;
+  nav: any;
 
   constructor(
     private app: App,

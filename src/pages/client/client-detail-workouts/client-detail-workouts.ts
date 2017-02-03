@@ -11,6 +11,7 @@ import { WorkoutStore } from '../../../core/workout/workout-store';
 export class ClientDetailWorkoutsModal {
   @Input() client: IClient;
   editing: boolean = false;
+  clientWorkouts: any;
 
   constructor(
     private params: NavParams,
@@ -23,7 +24,7 @@ export class ClientDetailWorkoutsModal {
       this.editing = true;
       this.client = this.params.data;
     } else {
-      this.client = {};
+      this.client = new IClient();
     }
     this.clientWorkouts = this.workoutStore.filterBy({ client: this.client.key });
   }

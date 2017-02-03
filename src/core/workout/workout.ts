@@ -2,6 +2,7 @@ export class IWorkout {
   completed: boolean;
   createdAt: number;
   key?: string;
+  $key?: string;
   place: string;
   placeKey?: string;
   trainer: string;
@@ -17,6 +18,9 @@ export class IWorkout {
   weekDay?: any;
   fullDate?: any;
   descDate?: any;
+  month?: any;
+  monthId?: any;
+  nextMonth?: boolean;
 }
 
 export class Workout implements IWorkout {

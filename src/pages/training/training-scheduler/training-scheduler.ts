@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ModalController, AlertController, ActionSheetController } from 'ionic-angular';
+import * as moment from 'moment';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -21,6 +22,25 @@ import { TrainingSchedulerFormModal } from '../training-scheduler-form/training-
 })
 export class TrainingSchedulerPage {
   @Input() workouts: ReplaySubject<List<any>>;
+  dates: any;
+  trainings: any;
+  clients: any;
+  dayIndex: any;
+  queryText: any;
+  excludeTracks: any;
+  filterTracks: any;
+  shownSessions: any;
+  place: any;
+  events: any;
+  forceSub: any;
+  loaded: any;
+  changeDate: any;
+  currentDate: any;
+  calendar: any;
+  sub: any;
+  subTrainers: any;
+  subPlaces: any;
+  editing: any;
 
   constructor(
     private modalCtrl: ModalController,
@@ -127,7 +147,7 @@ export class TrainingSchedulerPage {
 
   showTrainingSchedulerForm(workout): void {
     console.log(workout.place);
-    
+
     if (workout && workout.hasOwnProperty('key')) {
       this.editing = true;
     } else {
@@ -158,7 +178,8 @@ export class TrainingSchedulerPage {
             timeStart: training.date.timeStart || '',
             timeEnd: training.date.timeEnd || '',
             repeat: training.repeat || false,
-            fixed: true
+            fixed: true,
+            place: null
           };
           if (training.trainer) {
             changes.place = this.trainerStore.getItem(training.trainer).place;
@@ -245,7 +266,7 @@ export class TrainingSchedulerPage {
     prompt.present();
   }
 
-  refreshCalendar(force): void {
+  refreshCalendar(force?): void {
     let events = this.getEvents();
 
     if (!force && events.length === this.events.length) {
@@ -262,12 +283,13 @@ export class TrainingSchedulerPage {
     let baseDate = new Date('2016-06-05');
     let weekDay = (new Date()).getDay() || 7;
     baseDate.setDate(baseDate.getDate() + weekDay);
-    let calendarOptions = {
+    let calendarOptions;
+    calendarOptions = {
       schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
       now: baseDate,
       contentHeight: 'auto',
       lang: 'pl',
-
+      locale: 'pl',
       allDaySlot: false,
       slotLabelFormat: 'HH:mm',
       scrollTime: '07:30',
@@ -369,7 +391,7 @@ export class TrainingSchedulerPage {
     actionSheet.present();
   }
 
-  getEvents(start, end, timezone, callback): any {
+  getEvents(start?, end?, timezone?, callback?): any {
     let events = [];
     this.workoutStore.list.forEach(workout => {
       if (!workout.fixed) {
@@ -385,7 +407,8 @@ export class TrainingSchedulerPage {
         title: title,
         start: workout.date + 'T' + workout.timeStart,
         end: workout.date + 'T' + workout.timeEnd,
-        constraint: 'businessHours'
+        constraint: 'businessHours',
+        color: null
       };
 
       if (workout.completed) {
@@ -415,12 +438,12 @@ export class TrainingSchedulerPage {
         for (let d = 6; d <= 12; d++) {
           let date = new Date('2016-06-06');
           date.setDate(d);
-          let day = date.getDate();
-          if (day < 10) {
+          let day = '' + date.getDate();
+          if (parseInt(day) < 10) {
             day = '0' + day;
           }
-          let month = date.getMonth()+1;
-          if (month < 10) {
+          let month = '' + date.getMonth()+1;
+          if (parseInt(month) < 10) {
             month = '0' + month;
           }
           let weekDay = date.getDay()-1;
@@ -466,7 +489,7 @@ export class TrainingSchedulerPage {
       };
       resources.push(resource);
     });
-    
+
     return callback ? callback(resources) : resources;
   }
 

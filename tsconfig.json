@@ -1,8 +1,5 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
-    "suppressExcessPropertyErrors": true,
-    "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "emitDecoratorMetadata": true,

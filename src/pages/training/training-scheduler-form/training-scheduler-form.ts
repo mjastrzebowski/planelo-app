@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-
-import { NavParams, NavController, ViewController } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
+import * as moment from 'moment';
 
 import { AuthService } from '../../../core/auth/auth-service';
 
@@ -13,8 +13,13 @@ import { WorkoutStore } from '../../../core/workout/workout-store';
   templateUrl: 'training-scheduler-form.html'
 })
 export class TrainingSchedulerFormModal {
-  @Input() trainings: Array = [{}];
+  @Input() trainings: any = [{}];
   editing: boolean = false;
+  available: any;
+  repeated: any;
+  place: any;
+  forceSub: any;
+  sub: any;
 
   constructor(
     private params: NavParams,
@@ -85,21 +90,21 @@ export class TrainingSchedulerFormModal {
       { timeStart: '21:00', timeEnd: '22:00' }
     ];
 
-    today = 6;
+    let today = 6;
     for (let d = today; d <= today+6; d++) {
       let nextDay = new Date('2016-06-01');
       nextDay.setDate(d);
       if (nextDay.getDay() !== 0) {
-        let day = nextDay.getDate();
-        if (day < 10) {
+        let day = '' + nextDay.getDate();
+        if (parseInt(day) < 10) {
           day = '0' + day;
         }
-        let month = nextDay.getMonth()+1;
-        if (month < 10) {
+        let month = '' + nextDay.getMonth()+1;
+        if (parseInt(month) < 10) {
           month = '0' + month;
         }
         let date = '2016-' + month + '-' + day;
-        
+
         var avHours = [];
         hours.forEach(hour => {
           var avTrainers = [];

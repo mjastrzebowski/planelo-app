@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import * as moment from 'moment';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -162,7 +163,7 @@ export class WorkoutStore {
       workout.fullDate = new Date(year, month, date);
     // workout.fullDate = moment(new Date(workout.date)).format('dddd, DD.MM.YYYY');
     }
-    
+
     moment.locale('pl');
     workout.weekDay = moment(workout.fullDate).format('dddd');
     if (!workout.weekDay || workout.weekDay == 'Invalid Date' || workout.weekDay == 'Invalid date') {

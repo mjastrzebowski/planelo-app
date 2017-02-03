@@ -29,6 +29,27 @@ import { SettingsPage } from '../pages/settings/settings';
 export class DavidApp {
   @ViewChild(Nav) nav: Nav;
 
+  // create an list of pages that can be navigated to from the left menu
+  // the left menu only works after login
+  // the login page disables the left menu
+  pages = [
+    { title: 'Treningi', component: TrainingListPage, icon: 'clipboard', hide: true },
+    { title: 'Grafik', component: TrainingSchedulerPage, icon: 'calendar', hide: true },
+    { title: 'Klienci', component: ClientListPage, icon: 'contacts', hide: true },
+    // { title: 'Rachunki', component: BillListPage, icon: 'cash', hide: true },
+    { title: 'Trenerzy', component: TrainerListPage, icon: 'people', hide: true },
+    // { title: 'Baza ćwiczeń', component: ExerciseListPage, icon: 'folder', hide: true },
+    // { title: 'Aktualności', component: AboutPage, icon: 'information-circle', hide: false },
+    // { title: 'Powiadomienia', component: NotificationListPage, icon: 'notifications', hide: true },
+    { title: 'Ustawienia', component: SettingsPage, icon: 'settings', hide: true },
+    { title: 'Zaloguj', component: LoginPage, icon: 'log-in', hide: false },
+    // { title: 'Rejestracja', component: SignupPage, icon: 'person-add', hide: true },
+    { title: 'Wyloguj', component: LoginPage, icon: 'log-out', hide: true },
+  ];
+  authenticated: boolean;
+  root: any;
+  showUserBar: boolean;
+
   constructor(
     private utils: Utils,
     public menu: MenuController,
@@ -37,24 +58,6 @@ export class DavidApp {
     // We plan to add auth to only show the login page if not logged in
     // this.root = TutorialPage;
     // this.root = LoginPage;
-
-    // create an list of pages that can be navigated to from the left menu
-    // the left menu only works after login
-    // the login page disables the left menu
-    this.pages = [
-      { title: 'Treningi', component: TrainingListPage, icon: 'clipboard', hide: true },
-      { title: 'Grafik', component: TrainingSchedulerPage, icon: 'calendar', hide: true },
-      { title: 'Klienci', component: ClientListPage, icon: 'contacts', hide: true },
-      // { title: 'Rachunki', component: BillListPage, icon: 'cash', hide: true },
-      { title: 'Trenerzy', component: TrainerListPage, icon: 'people', hide: true },
-      // { title: 'Baza ćwiczeń', component: ExerciseListPage, icon: 'folder', hide: true },
-      // { title: 'Aktualności', component: AboutPage, icon: 'information-circle', hide: false },
-      // { title: 'Powiadomienia', component: NotificationListPage, icon: 'notifications', hide: true },
-      { title: 'Ustawienia', component: SettingsPage, icon: 'settings', hide: true },
-      { title: 'Zaloguj', component: LoginPage, icon: 'log-in', hide: false },
-      // { title: 'Rejestracja', component: SignupPage, icon: 'person-add', hide: true },
-      { title: 'Wyloguj', component: LoginPage, icon: 'log-out', hide: true },
-    ];
 
     this.utils.presentLoading('Uruchamianie aplikacji...');
     this.auth.subscribe((authenticated: boolean) => {

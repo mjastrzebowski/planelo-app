@@ -35,7 +35,8 @@ export class UserStore {
   }
 
   createUser(id: string, key: string, type: string) {
-    return this.users.$ref.child(id).set(new User(key, type));
+    debugger;
+    // return this.users.$ref.child(id).set(new User(key, type));
   }
 
   removeUser(user: IUser) {

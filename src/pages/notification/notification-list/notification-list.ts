@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
   templateUrl: 'notification-list.html'
 })
 export class NotificationListPage {
+  filter: any;
 
   constructor() {
     this.filter = {

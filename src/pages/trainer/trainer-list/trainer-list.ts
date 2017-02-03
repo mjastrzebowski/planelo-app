@@ -17,6 +17,9 @@ import { TrainerDetailPage } from '../trainer-detail/trainer-detail'
 })
 export class TrainerListPage {
   @Input() trainers: ReplaySubject<List<any>>;
+  queryText: string;
+  shownSessions: number;
+  sub: any;
 
   constructor(
     private nav: NavController,

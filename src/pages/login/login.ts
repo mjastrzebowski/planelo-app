@@ -14,6 +14,9 @@ import { TrainingListPage } from '../training/training-list/training-list';
 })
 
 export class LoginPage {
+  login: any;
+  submitted: boolean;
+
   constructor(
     private nav: NavController,
     private alertCtrl: AlertController,
@@ -34,20 +37,20 @@ export class LoginPage {
   //   });
   // }
 
-  signInWithGithub(): void {
-    this.auth.signInWithGithub()
-      .then(() => this.postSignIn());
-  }
+  // signInWithGithub(): void {
+  //   this.auth.signInWithGithub()
+  //     .then(() => this.postSignIn());
+  // }
 
-  signInWithGoogle(): void {
-    this.auth.signInWithGoogle()
-      .then(() => this.postSignIn());
-  }
+  // signInWithGoogle(): void {
+  //   this.auth.signInWithGoogle()
+  //     .then(() => this.postSignIn());
+  // }
 
-  signInWithTwitter(): void {
-    this.auth.signInWithTwitter()
-      .then(() => this.postSignIn());
-  }
+  // signInWithTwitter(): void {
+  //   this.auth.signInWithTwitter()
+  //     .then(() => this.postSignIn());
+  // }
 
   signInWithPassword(form: any): void {
     this.submitted = true;

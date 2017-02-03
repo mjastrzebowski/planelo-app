@@ -6,6 +6,7 @@ import { IWorkout, Workout } from './workout';
 @Injectable()
 export class WorkoutService {
   constructor(private af: AngularFire) {}
+  ref: any;
 
   createWorkout(
     place: string,

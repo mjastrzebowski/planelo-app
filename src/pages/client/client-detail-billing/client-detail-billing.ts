@@ -9,12 +9,23 @@ import { Utils } from '../../../providers/utils';
 import { BillStore } from '../../../core/bill/bill-store';
 import { WorkoutStore } from '../../../core/workout/workout-store';
 
+declare let pdfMake: any;
+
 @Component({
   templateUrl: 'client-detail-billing.html'
 })
 export class ClientDetailBillingModal {
   @Input() client: IClient;
   editing: boolean = false;
+  trainingPrice: number;
+  bill: any;
+  trainings: any;
+  subtotal: any;
+  trainingsDone: any;
+  trainingsDoneLast: any;
+  trainingsTodo: any;
+  trainingsTodoNext: any;
+  trainingsScheduled: any;
 
   constructor(
     private params: NavParams,
@@ -40,7 +51,7 @@ export class ClientDetailBillingModal {
       this.editing = true;
       this.client = this.params.data;
     } else {
-      this.client = {};
+      this.client = new IClient();
     }
 
     // this.client.trainingsTodoCount = 0;
@@ -127,7 +138,7 @@ export class ClientDetailBillingModal {
     }
     this.subtotal = this.trainings * this.trainingPrice + parseFloat(this.client.trainingsSurcharge);
     if (this.subtotal > 0) {
-      this.client.discountAmount = parseFloat(this.client.discount > 0 ? (this.subtotal * this.client.discount / 100) || 0 : 0).toFixed(2);
+      this.client.discountAmount = parseFloat('' + (this.client.discount > 0 ? (this.subtotal * this.client.discount / 100) || 0 : 0)).toFixed(2);
     } else {
       this.client.discountAmount = 0;
     }
@@ -141,10 +152,10 @@ export class ClientDetailBillingModal {
     if (!this.client.surcharge) {
       this.client.surcharge = 0;
     }
-    this.client.total = parseFloat((this.subtotal - parseFloat(this.client.discountAmount) + parseFloat(this.client.surcharge)) || 0).toFixed(2);
+    this.client.total = parseFloat('' + ((this.subtotal - parseFloat(this.client.discountAmount) + parseFloat(this.client.surcharge)) || 0)).toFixed(2);
   }
 
-  generatePDF(): void {
+  generatePDF(): any {
     this.updateTotal();
     let surchargeBill = '';
     if (this.client.trainingsSurcharge > 0) {

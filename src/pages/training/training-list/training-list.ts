@@ -1,5 +1,6 @@
 import { Component, Input, Pipe } from '@angular/core';
 import { Platform, ModalController, AlertController, ActionSheetController } from 'ionic-angular';
+import * as moment from 'moment';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -45,6 +46,25 @@ export class GroupWorkoutsPipe {
 })
 export class TrainingListPage {
   @Input() workouts: ReplaySubject<List<any>>;
+  dates: any;
+  trainings: any;
+  clients: any;
+  dayIndex: any;
+  queryText: any;
+  excludeTracks: any;
+  filterTracks: any;
+  shownSessions: any;
+  place: any;
+  events: any;
+  forceSub: any;
+  loaded: any;
+  changeDate: any;
+  currentDate: any;
+  calendar: any;
+  sub: any;
+  subTrainers: any;
+  subPlaces: any;
+  editing: any;
 
   constructor(
     private platform: Platform,
@@ -279,7 +299,9 @@ export class TrainingListPage {
                   timeStart: training.date.timeStart || training.timeStart || '',
                   timeEnd: training.date.timeEnd || training.timeEnd || '',
                   place: training.place || ''
-                }
+                },
+                owner: null,
+                client: null
               };
               if (this.auth.isOwner) {
                 notification.owner = this.auth.key || true;
@@ -299,7 +321,8 @@ export class TrainingListPage {
             dateTime: training.date.dateTime || '',
             timeStart: training.date.timeStart || '',
             timeEnd: training.date.timeEnd || '',
-            repeat: training.repeat || false
+            repeat: training.repeat || false,
+            place: null
           };
           if (training.trainer) {
             changes.place = this.trainerStore.getItem(training.trainer).place;
@@ -330,7 +353,9 @@ export class TrainingListPage {
                   timeStart: training.date.timeStart || '',
                   timeEnd: training.date.timeEnd || '',
                   place: place || ''
-                }
+                },
+                owner: null,
+                client: null
               };
               if (this.auth.isOwner) {
                 notification.owner = this.auth.key || true;
@@ -405,7 +430,7 @@ export class TrainingListPage {
     prompt.present();
   }
 
-  refreshCalendar(force): void {
+  refreshCalendar(force?): void {
     let events = this.getEvents();
 
     if (!force && events.length === this.events.length) {
@@ -419,8 +444,9 @@ export class TrainingListPage {
   }
 
   renderCalendar(): void {
+    let calendarOptions;
     if (this.auth.isOwner) {
-      let calendarOptions = {
+      calendarOptions = {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         now: new Date().toDateString(),
         contentHeight: 'auto',
@@ -480,7 +506,7 @@ export class TrainingListPage {
         eventRender: this.calendarTooltip.bind(this)
       };
     } else if (this.auth.isTrainer) {
-      let calendarOptions = {
+      calendarOptions = {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         now: new Date().toDateString(),
         contentHeight: 'auto',
@@ -608,10 +634,10 @@ export class TrainingListPage {
     actionSheet.present();
   }
 
-  getEvents(start, end, timezone, callback): any {
+  getEvents(start?, end?, timezone?, callback?): any {
     let events = [];
     this.workoutStore.list.forEach(workout => {
-      if (workout.fixed || workout.timeStart === '' || 
+      if (workout.fixed || workout.timeStart === '' ||
         (start && workout.date < start.format('YYYY-MM-DD')) || (end && moment(workout.date) >= end.format('YYYY-MM-DD'))) {
         return;
       }
@@ -624,7 +650,8 @@ export class TrainingListPage {
         title: title,
         start: workout.date + 'T' + workout.timeStart,
         end: workout.date + 'T' + workout.timeEnd,
-        description: client.name + ' ' + client.lastname
+        description: client.name + ' ' + client.lastname,
+        color: null
       };
 
       if (workout.completed) {
@@ -656,16 +683,16 @@ export class TrainingListPage {
         for (let d = 1; d <= 62; d++) {
           let date = new Date('2017-01-01');
           date.setDate(d);
-          let day = date.getDate();
-          if (day < 10) {
+          let day = '' + date.getDate();
+          if (parseInt(day) < 10) {
             day = '0' + day;
           }
           let year = 2016;
-          let month = date.getMonth()+1;
-          if (month > 12) {
-            month = 1;
+          let month = '' + date.getMonth()+1;
+          if (parseInt(month) > 12) {
+            month = '1';
           }
-          if (month < 10) {
+          if (parseInt(month) < 10) {
             month = '0' + month;
             year = 2017;
           }
@@ -741,7 +768,7 @@ export class TrainingListPage {
       events.push(w[2]);
       events.push(w[3]);
     }
-    
+
     return callback ? callback(events) : events;
   }
 

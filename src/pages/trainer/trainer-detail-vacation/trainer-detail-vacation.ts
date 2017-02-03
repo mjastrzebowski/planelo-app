@@ -22,23 +22,20 @@ export class TrainerDetailVacationModal {
         this.trainer.vacation = [];
       }
     } else {
-      this.trainer = {
-        title: '',
-        email: '',
-        hours: [],
-        vacation: []
-      };
+      this.trainer = new ITrainer();
+      this.trainer.hours = [];
+      this.trainer.vacation = [];
     }
   }
 
   addVacation(): void {
     let now = new Date();
-    let month = now.getMonth() + 1;
-    if (month < 10) {
+    let month = '' + now.getMonth() + 1;
+    if (parseInt(month) < 10) {
       month = '0' + month;
     }
-    let day = now.getDate();
-    if (day < 10) {
+    let day = '' + now.getDate();
+    if (parseInt(day) < 10) {
       day = '0' + day;
     }
     let dateStart = now.getFullYear() + '-' + month + '-' + day;
