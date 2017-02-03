@@ -128,7 +128,7 @@ export class TrainingCreateModal {
         if (parseInt(day) < 10) {
           day = '0' + day;
         }
-        let month = '' + nextDay.getMonth()+1;
+        let month = (nextDay.getMonth()+1) + '';
         if (parseInt(month) > 12) {
           month = '1';
         }

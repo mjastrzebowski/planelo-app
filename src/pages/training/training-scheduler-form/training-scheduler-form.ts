@@ -99,7 +99,7 @@ export class TrainingSchedulerFormModal {
         if (parseInt(day) < 10) {
           day = '0' + day;
         }
-        let month = '' + nextDay.getMonth()+1;
+        let month = (nextDay.getMonth()+1) + '';
         if (parseInt(month) < 10) {
           month = '0' + month;
         }

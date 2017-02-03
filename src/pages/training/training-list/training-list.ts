@@ -688,7 +688,7 @@ export class TrainingListPage {
             day = '0' + day;
           }
           let year = 2016;
-          let month = '' + date.getMonth()+1;
+          let month = (date.getMonth()+1) + '';
           if (parseInt(month) > 12) {
             month = '1';
           }

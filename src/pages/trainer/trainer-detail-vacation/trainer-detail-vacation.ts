@@ -30,7 +30,7 @@ export class TrainerDetailVacationModal {
 
   addVacation(): void {
     let now = new Date();
-    let month = '' + now.getMonth() + 1;
+    let month = (now.getMonth()+1) + '';
     if (parseInt(month) < 10) {
       month = '0' + month;
     }
