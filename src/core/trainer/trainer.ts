@@ -1,6 +1,7 @@
 export class ITrainer {
   completed: boolean;
   createdAt: number;
+  id?: number;
   key?: string;
   title: string;
   email: string;

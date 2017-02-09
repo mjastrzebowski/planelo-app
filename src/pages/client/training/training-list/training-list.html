@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Treningi</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showTrainingForm()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <notification-counter></notification-counter>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="trainings">
+  <div>
+    <workout-list [workouts]="workoutStore.getByClient(this.auth.id)" [changeDate]="changeDate"></workout-list>
+
+    <ion-buttons padding>
+      <button ion-button color="primary" block type="submit" (click)="showTrainingForm()">Dodaj trening</button>
+    </ion-buttons>
+  </div>
+</ion-content>

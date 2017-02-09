@@ -1,5 +1,5 @@
 export class IWorkout {
-  completed: boolean;
+  completed: any;
   createdAt: number;
   key?: string;
   $key?: string;
@@ -24,7 +24,7 @@ export class IWorkout {
 }
 
 export class Workout implements IWorkout {
-  completed: boolean = false;
+  completed: any = false;
   createdAt: number = firebase.database['ServerValue']['TIMESTAMP'];
   place: string;
   trainer: string;

@@ -7,7 +7,7 @@ export class INotification {
   client?: any;
   workout?: any;
   trainer?: any;
-  owner?: string;
+  admin?: string;
   reason?: string;
   data?: any;
   fromNow?: any;
@@ -21,7 +21,7 @@ export class Notification implements INotification {
   type: string;
   data: any;
   client: any;
-  owner: string;
+  admin: string;
   reason: string;
   workout: any;
   trainer: any;
@@ -31,8 +31,8 @@ export class Notification implements INotification {
     if (data.client) {
       this.client = data.client;
     }
-    if (data.owner) {
-      this.owner = data.owner;
+    if (data.admin) {
+      this.admin = data.admin;
     }
     if (data.workout) {
       this.workout = data.workout;

@@ -1,6 +1,7 @@
 export class IClient {
   completed: boolean;
   createdAt: number;
+  id?: number;
   key?: string;
   name: string;
   lastname: string;

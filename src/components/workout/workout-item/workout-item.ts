@@ -2,14 +2,14 @@ import { Component, Input } from '@angular/core';
 import { AlertController } from 'ionic-angular';
 import * as moment from 'moment';
 
-import { AuthService } from '../../../core/auth/auth-service';
+import { AuthService } from 'app/core/auth/auth-service';
 
-import { IWorkout } from '../../../core/workout/workout';
-import { WorkoutStore } from '../../../core/workout/workout-store';
+import { IWorkout } from 'app/core/workout/workout';
+import { WorkoutStore } from 'app/core/workout/workout-store';
 
-import { PlaceStore } from '../../../core/place/place-store';
-import { TrainerStore } from '../../../core/trainer/trainer-store';
-import { NotificationStore } from '../../../core/notification/notification-store';
+import { PlaceStore } from 'app/core/place/place-store';
+import { TrainerStore } from 'app/core/trainer/trainer-store';
+import { NotificationStore } from 'app/core/notification/notification-store';
 
 
 @Component({

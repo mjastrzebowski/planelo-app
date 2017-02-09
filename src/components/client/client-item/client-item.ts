@@ -2,10 +2,10 @@ import { Component, Input } from '@angular/core';
 
 import { App } from 'ionic-angular';
 
-import { IClient } from '../../../core/client/client';
-import { ClientStore } from '../../../core/client/client-store';
+import { IClient } from 'app/core/client/client';
+import { ClientStore } from 'app/core/client/client-store';
 
-import { ClientDetailPage } from '../../../pages/client/client-detail/client-detail';
+import { ClientDetailPage } from 'app/pages/admin/client/client-detail/client-detail';
 
 
 @Component({

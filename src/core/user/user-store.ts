@@ -6,7 +6,7 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { IUser, User } from './user';
 
-import { FIREBASE_USERS_URL } from '../../config';
+import { FIREBASE_USERS_URL } from 'app/config';
 
 @Injectable()
 export class UserStore {

@@ -3,14 +3,14 @@ import * as moment from 'moment';
 
 import { App } from 'ionic-angular';
 
-import { INotification } from '../../../core/notification/notification';
-import { NotificationStore } from '../../../core/notification/notification-store';
+import { INotification } from 'app/core/notification/notification';
+import { NotificationStore } from 'app/core/notification/notification-store';
 
-import { PlaceStore } from '../../../core/place/place-store';
-import { ClientStore } from '../../../core/client/client-store';
-import { TrainerStore } from '../../../core/trainer/trainer-store';
+import { PlaceStore } from 'app/core/place/place-store';
+import { ClientStore } from 'app/core/client/client-store';
+import { TrainerStore } from 'app/core/trainer/trainer-store';
 
-import { ClientDetailPage } from '../../../pages/client/client-detail/client-detail';
+import { ClientDetailPage } from 'app/pages/admin/client/client-detail/client-detail';
 
 
 @Component({
@@ -43,7 +43,7 @@ export class NotificationItem {
   }
 
   // TEMP solution!
-  getOwnerAlias(key): string {
+  getAdminAlias(key): string {
     switch (key) {
       case '-KBN-b7GjsB6FS8Opmx0':
       case '-KNSsNzm8WH_t_lwASAz': {

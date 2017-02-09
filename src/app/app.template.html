@@ -1,0 +1,61 @@
+<div [ngClass]="{'logged': auth.authenticated, 'logged-admin': auth.isAdmin, 'logged-trainer': auth.isTrainer, 'logged-client': auth.isClient}">
+  <!-- left menu -->
+  <ion-menu [content]="content" id="menuLeft" side="left" *ngIf="auth.authenticated">
+    <ion-header>
+      <ion-toolbar class="menu-userbar">
+        <ion-title>{{ auth?.name }} {{ auth?.lastname }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="menu outer-content">
+      <ion-list class="menu-admin" *ngIf="auth.isAdmin">
+        <ion-list-header>Szef</ion-list-header>
+        <button ion-item icon-left menuClose="menuLeft" *ngFor="let page of adminPages" (click)="openPage(page)">
+          <ion-icon item-left [name]="page.icon"></ion-icon>
+          {{ page?.title }}
+        </button>
+      </ion-list>
+
+      <ion-list class="menu-client" *ngIf="auth.isClient">
+        <ion-list-header>Klient</ion-list-header>
+        <button ion-item icon-left menuClose="menuLeft" *ngFor="let page of clientPages" (click)="openPage(page)">
+          <ion-icon item-left [name]="page.icon"></ion-icon>
+          {{ page?.title }}
+        </button>
+      </ion-list>
+
+      <ion-list class="menu-common">
+        <button ion-item icon-left menuClose="menuLeft" *ngFor="let page of commonPages" (click)="openPage(page)">
+          <ion-icon item-left [name]="page.icon"></ion-icon>
+          {{ page?.title }}
+        </button>
+      </ion-list>
+
+      <code padding *ngIf="auth.isAdmin">
+        <small>Wersja: 2.0.0 (z dnia 05.02.2017 r.)</small>
+      </code>
+    </ion-content>
+  </ion-menu>
+
+  <!-- right menu -->
+  <ion-menu [content]="content" id="menuRight" side="right" type="push" *ngIf="auth.authenticated && auth.isAdmin">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Powiadomienia</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="menu outer-content" menuClose="menuRight">
+      <notification-list class="notifications" limit="10"></notification-list>
+      <ion-buttons padding text-center>
+        <button ion-button icon-left outline (click)="openPage('NotificationListPage')">
+          <ion-icon name="more"></ion-icon>
+          zobacz więcej
+        </button>
+      </ion-buttons>
+    </ion-content>
+  </ion-menu>
+
+  <!-- main navigation -->
+  <ion-nav id="nav" [root]="root" #content swipe-back-enabled="false"></ion-nav>
+</div>

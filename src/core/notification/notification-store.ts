@@ -4,7 +4,7 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { AuthService } from '../../core/auth/auth-service';
+import { AuthService } from 'app/core/auth/auth-service';
 
 import { INotification, Notification } from './notification';
 

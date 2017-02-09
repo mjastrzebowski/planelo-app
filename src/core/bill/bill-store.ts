@@ -6,7 +6,7 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { IBill, Bill } from './bill';
 
-import { FIREBASE_BILLS_URL } from '../../config';
+import { FIREBASE_BILLS_URL } from 'app/config';
 
 @Injectable()
 export class BillStore {

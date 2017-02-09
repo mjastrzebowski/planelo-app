@@ -1,6 +1,6 @@
 import { Component, Input, ViewChildren } from '@angular/core';
 
-import { NotificationStore } from '../../../core/notification/notification-store';
+import { NotificationStore } from 'app/core/notification/notification-store';
 
 @Component({
   selector: 'notification-list',

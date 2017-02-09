@@ -1,49 +1,39 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
 
 import { List } from 'immutable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { IClient, Client } from './client';
-
-import { FIREBASE_CLIENTS_URL } from '../../config';
+import { AuthService } from 'app/core/auth/auth-service';
 
 @Injectable()
 export class ClientStore {
   private loaded: boolean = false;
   private emitter: EventEmitter<any> = new EventEmitter();
-  private clients: FirebaseListObservable<IClient[]>;
   public list: List<any> = List();
 
   constructor(
-    private af: AngularFire
+    private auth: AuthService
   ) {
-    this.clients = this.af.database.list('cal_clients', {
-      query: {
-        orderByChild: 'lastname'
-      }
-    });
-    this.clients.subscribe(list => {
-      this.list = List(list);
-      this.list.forEach(item => {
-        item.key = item.$key;
-      });
-
+    this.auth.get({ filter: { where: { isClient: true }}}).then(data => {
+      this.list = List(data);
       this.loaded = true;
       this.emit();
     });
   }
 
   createClient(name: string, lastname: string, email: string, phone: string, comment: string) {
-    return this.clients.push(new Client(name, lastname, email, phone, comment));
+    return new Promise((resolve, reject) => {});
+    // return this.clients.push(new Client(name, lastname, email, phone, comment));
   }
 
   removeClient(client: IClient) {
-    return this.clients.remove(client.key);
+    return new Promise((resolve, reject) => {});
+    // return this.clients.remove(client.key);
   }
 
   updateClient(client: IClient, changes: any) {
-    return this.clients.update(client.key, changes);
+    return new Promise((resolve, reject) => {});
+    // return this.clients.update(client.key, changes);
   }
 
   subscribe(next: (loaded: any) => void): any {
@@ -60,8 +50,13 @@ export class ClientStore {
     return this.list.size;
   }
 
-  public getItem(key: string): IClient {
-    let index = this.findIndex(key);
+  public getItem(id: number): IClient {
+    let index = this.findIndex(id);
+    return this.list.get(index);
+  }
+
+  public getItemByKey(key: string): IClient {
+    let index = this.findIndexByKey(key);
     return this.list.get(index);
   }
 
@@ -73,7 +68,13 @@ export class ClientStore {
     return this.list.get(index);
   }
 
-  private findIndex(key: string): number {
+  private findIndex(id: number): number {
+    return this.list.findIndex((client: IClient) => {
+      return client.id === id;
+    });
+  }
+
+  private findIndexByKey(key: string): number {
     return this.list.findIndex((client: IClient) => {
       return client.key === key;
     });

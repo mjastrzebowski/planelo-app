@@ -1,40 +1,30 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import * as moment from 'moment';
 
 import { List } from 'immutable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { AuthService } from '../../core/auth/auth-service';
+import { AuthService } from 'app/core/auth/auth-service';
 
 import { IWorkout, Workout } from './workout';
-
-import { FIREBASE_WORKOUTS_URL } from '../../config';
+import { WorkoutService } from './workout-service';
 
 @Injectable()
 export class WorkoutStore {
   private loaded: boolean = false;
   private emitter: EventEmitter<any> = new EventEmitter();
-  private workouts: FirebaseListObservable<IWorkout[]>;
   public list: List<any> = List();
   public listAll: List<any> = List();
 
   constructor(
-    private af: AngularFire,
-    private auth: AuthService
+    private auth: AuthService,
+    private workoutService: WorkoutService
   ) {
-    this.workouts = this.af.database.list('cal_workouts', {
-      query: {
-        orderByChild: 'dateTime',
-        startAt: '2016-06-01 08:00'
-      }
-    });
-    this.workouts.subscribe(list => {
+    this.workoutService.get({ filter: { include: 'client' }}).then(data => {
       this.list = List();
       this.listAll = List();
-      list.forEach(item => {
+      data.forEach(item => {
         if (item.date !== '' && item.timeStart !== '') {
-          item.key = item.$key;
+          // item.key = item.$key;
           let sunday = '';
 
           if (this.auth.isTrainer) {
@@ -52,9 +42,9 @@ export class WorkoutStore {
           this.updateWorkoutDependencies(item);
           this.listAll = this.listAll.push(item);
 
-          if (item.date === '2099-12-31' || this.auth.isOwner
-            || (this.auth.isTrainer && (this.auth.key === item.trainer || item.trainer === sunday))
-            || (this.auth.isClient && this.auth.key === item.client)) {
+          if (item.date === '2099-12-31' || this.auth.isAdmin
+            || (this.auth.isTrainer && (this.auth.id === item.trainerId || item.trainer === sunday))
+            || (this.auth.isClient && this.auth.id === item.clientId)) {
             this.list = this.list.push(item);
           }
         }
@@ -79,15 +69,18 @@ export class WorkoutStore {
     if (!fixed) {
       fixed = false;
     }
-    return this.workouts.push(new Workout(place, trainer, client, date, dateTime, timeStart, timeEnd, repeat, fixed));
+    return new Promise((resolve, reject) => {});
+    // return this.workouts.push(new Workout(place, trainer, client, date, dateTime, timeStart, timeEnd, repeat, fixed));
   }
 
   removeWorkout(workout: IWorkout) {
-    return this.workouts.remove(workout.key);
+    return new Promise((resolve, reject) => {});
+    // return this.workouts.remove(workout.key);
   }
 
   updateWorkout(workout: IWorkout, changes: any) {
-    return this.workouts.update(workout.key, changes);
+    return new Promise((resolve, reject) => {});
+    // return this.workouts.update(workout.key, changes);
   }
 
   subscribe(next: (loaded: any) => void): any {
@@ -104,13 +97,23 @@ export class WorkoutStore {
     return this.list.size;
   }
 
+  get(): List<IWorkout> {
+    return this.list;
+  }
+
+  getByClient(clientId: number): List<IWorkout> {
+    return this.filterBy({
+      clientId: clientId
+    });
+  }
+
   getItem(key: string): IWorkout {
     let index = this.findIndex(key);
     return this.list.get(index);
   }
 
   filterBy(filters: any): any {
-    return this.list.filter(workout => {
+    return this.listAll.filter(workout => {
       let check = true;
       Object.keys(filters).forEach(function (key) {
         switch (key) {
@@ -174,6 +177,8 @@ export class WorkoutStore {
     workout.clientKey = workout.client;
     workout.placeKey = workout.place;
     workout.trainerKey = workout.trainer;
+
+    workout.completed = (workout.completed === 'false') ? false : workout.completed;
   }
 
   findIndex(key: string): number {

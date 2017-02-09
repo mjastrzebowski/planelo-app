@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform, ChangeDetectionStrategy } from '@angular/core';
 
-import { IClient } from '../../../core/client/client';
+import { IClient } from 'app/core/client/client';
 
 
 @Pipe({

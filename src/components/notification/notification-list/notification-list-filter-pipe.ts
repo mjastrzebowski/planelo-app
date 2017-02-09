@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform, ChangeDetectionStrategy } from '@angular/core';
 
-import { INotification } from '../../../core/notification/notification';
+import { INotification } from 'app/core/notification/notification';
 
 
 @Pipe({

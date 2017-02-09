@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Trenerzy</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showTrainerCreate()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <notification-counter></notification-counter>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="trainer-list">
+  <ion-searchbar color="primary" [(ngModel)]="queryText" (ionInput)="updateList()" placeholder="Szukaj"></ion-searchbar>
+
+  <ion-list [hidden]="shownSessions === 0">
+    <button ion-item (click)="goToTrainerDetail(trainer)" *ngFor="let trainer of trainerStore.get()" [hidden]="trainer.hide">
+      <ion-avatar item-left *ngIf="trainer?.avatar">
+        <img [src]="trainer?.avatar" [alt]="trainer?.title">
+      </ion-avatar>
+      <h3>{{ trainer?.title }}</h3>
+    </button>
+  </ion-list>
+
+  <ion-list-header [hidden]="shownSessions > 0">
+    Nie znaleziono trenerów
+  </ion-list-header>
+</ion-content>

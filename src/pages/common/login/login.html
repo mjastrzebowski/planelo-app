@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Logowanie</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="about-header">
+    <img src="http://www.egobody.pl/gfx/home/logo_egobody.png">
+  </div>
+
+  <form #loginForm="ngForm" novalidate>
+    <ion-list no-lines>
+      <ion-item>
+        <ion-label stacked color="primary">Użytkownik</ion-label>
+        <ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" required>
+        </ion-input>
+      </ion-item>
+      <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
+        Nazwa użytkownika jest wymagana
+      </p>
+
+      <ion-item>
+        <ion-label stacked color="primary">Hasło</ion-label>
+        <ion-input [(ngModel)]="user.password" name="password" type="password" #password="ngModel" required>
+        </ion-input>
+      </ion-item>
+      <p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
+        Hasło jest wymagane
+      </p>
+    </ion-list>
+
+    <ion-row responsive-sm>
+      <ion-col>
+        <button ion-button (click)="login(loginForm)" type="submit" block>Zaloguj</button>
+      </ion-col>
+      <!-- <ion-col>
+        <button ion-button (click)="signUpWithPassword()" color="light" block>Zarejestruj</button>
+      </ion-col> -->
+    </ion-row>
+  </form>
+</ion-content>

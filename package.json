@@ -7,6 +7,9 @@
     "type": "git",
     "url": "https://repo0.mydevil.net/git/priv/egobody/egobody-david/"
   },
+  "config": {
+    "ionic_webpack": "./config/webpack.config.js"
+  },
   "scripts": {
     "build": "ionic-app-scripts build",
     "clean": "ionic-app-scripts clean",

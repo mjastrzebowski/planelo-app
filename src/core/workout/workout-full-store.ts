@@ -5,11 +5,11 @@ import * as moment from 'moment';
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { AuthService } from '../../core/auth/auth-service';
+import { AuthService } from 'app/core/auth/auth-service';
 
 import { IWorkout } from './workout';
 
-import { FIREBASE_WORKOUTS_URL } from '../../config';
+import { FIREBASE_WORKOUTS_URL } from 'app/config';
 
 @Injectable()
 export class WorkoutFullStore {

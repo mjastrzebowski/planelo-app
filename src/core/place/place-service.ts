@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+
+import { Api } from 'app/core/api/api-service';
 
 @Injectable()
 export class PlaceService {
-  private url: string = 'http://localhost:3000/api/places';
 
-  constructor(private http: Http) { }
+  constructor(private api: Api) { }
 
-  get(): Observable<any> {
-    return this.http.get(this.url);
+  get(query?: any): Promise<any> {
+    return this.api.get('places', query);
+  }
+
+  put(body: any): Promise<any> {
+    return this.api.put('places', body);
   }
 }

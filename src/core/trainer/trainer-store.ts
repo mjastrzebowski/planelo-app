@@ -1,47 +1,43 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
 
 import { List } from 'immutable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { ITrainer, Trainer } from './trainer';
-import { TrainerService } from './trainer-service';
-
-import { FIREBASE_TRAINERS_URL } from '../../config';
+import { AuthService } from 'app/core/auth/auth-service';
 
 @Injectable()
 export class TrainerStore {
   private loaded: boolean = false;
   private emitter: EventEmitter<any> = new EventEmitter();
-  private trainers: FirebaseListObservable<ITrainer[]>;
   public list: List<any> = List();
 
   constructor(
-    private trainerService: TrainerService,
-    private af: AngularFire
+    private auth: AuthService
   ) {
-    this.trainers = this.af.database.list('cal_trainers');
-    this.trainers.subscribe(list => {
-      this.list = List(list);
-      this.list.forEach(item => {
-        item.key = item.$key;
+    this.auth.get({ filter: { where: { isTrainer: true }}}).then(data => {
+      this.list = List(data);
+      this.list.forEach(trainer => {
+        trainer.title = trainer.name + ' ' + trainer.lastname;
       });
-
       this.loaded = true;
+      console.log('trainers loaded');
       this.emit();
     });
   }
 
   createTrainer(title: string, email: string, hours: any) {
-    return this.trainers.push(new Trainer(title, email, hours));
+    return new Promise((resolve, reject) => {});
+    // return this.trainers.push(new Trainer(title, email, hours));
   }
 
   removeTrainer(trainer: ITrainer) {
-    return this.trainers.remove(trainer.key);
+    return new Promise((resolve, reject) => {});
+    // return this.trainers.remove(trainer.key);
   }
 
   updateTrainer(trainer: ITrainer, changes: any) {
-    return this.trainers.update(trainer.key, changes);
+    return new Promise((resolve, reject) => {});
+    // return this.trainers.update(trainer.key, changes);
   }
 
   subscribe(next: (loaded: any) => void): any {
@@ -58,12 +54,22 @@ export class TrainerStore {
     return this.list.size;
   }
 
-  public getItem(key: string): ITrainer {
-    let index = this.findIndex(key);
+  get(): List<ITrainer[]> {
+    console.log('get trainers list');
+    return this.list;
+  }
+
+  getItem(id: number): ITrainer {
+    let index = this.findIndex(id);
     return this.list.get(index);
   }
 
-  public getItemByUsername(username: string): ITrainer {
+  getItemByKey(key: string): ITrainer {
+    let index = this.findIndexByKey(key);
+    return this.list.get(index);
+  }
+
+  getItemByUsername(username: string): ITrainer {
     let index = this.findIndexByUsername(username);
     if (index === -1) {
       return null;
@@ -71,7 +77,7 @@ export class TrainerStore {
     return this.list.get(index);
   }
 
-  public filterBy(filters: any): any {
+  filterBy(filters: any): any {
     return this.list.filter(trainer => {
       let check = true;
       Object.keys(filters).forEach(function (key) {
@@ -104,7 +110,13 @@ export class TrainerStore {
     });
   }
 
-  private findIndex(key: string): number {
+  private findIndex(id: number): number {
+    return this.list.findIndex((trainer: ITrainer) => {
+      return trainer.id === id;
+    });
+  }
+
+  private findIndexByKey(key: string): number {
     return this.list.findIndex((trainer: ITrainer) => {
       return trainer.key === key;
     });

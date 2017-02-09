@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform, ChangeDetectionStrategy } from '@angular/core';
 
-import { IBill } from '../../../core/bill/bill';
+import { IBill } from 'app/core/bill/bill';
 
 
 @Pipe({
