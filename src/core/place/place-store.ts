@@ -9,6 +9,7 @@ import { PlaceService } from './place-service';
 export class PlaceStore {
   private loaded: boolean = false;
   private emitter: EventEmitter<any> = new EventEmitter();
+  private changeStream: any;
   public list: List<any> = List();
 
   constructor(
@@ -17,7 +18,13 @@ export class PlaceStore {
     this.placeService.get().then(data => {
       this.list = List(data);
       this.loaded = true;
+      console.log('place store loaded');
       this.emit();
+
+      placeService.changeStream.addEventListener('data', function(msg) {
+        var data = JSON.parse(msg.data);
+        console.log(data); // the change object
+      });
     }, (error) => {
       console.log(error);
     });

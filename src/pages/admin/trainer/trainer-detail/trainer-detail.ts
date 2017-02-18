@@ -24,41 +24,47 @@ import { TrainerDetailVacationModal } from '../trainer-detail-vacation/trainer-d
 @Pipe({
   name: 'groupHours'
 })
+// export class GroupHoursPipe implements PipeTransform {
+//   transform(value, args: string[]): any {
+//     let keys = [];
+//     for (let key in value) {
+//       if (value[key]) {
+//         let k = parseInt(key.split(':')[0], 10);
+//         keys.push(k);
+//       }
+//     }
+
+//     keys.sort((a, b) => {
+//       return a - b;
+//     });
+
+//     let formatHour = (hour) => {
+//       if (hour < 10) {
+//         hour = '0' + hour;
+//       }
+//       hour += ':00';
+//       return hour;
+//     }
+
+//     let ranges = [], rstart, rend;
+//     for (let i = 0; i < keys.length; i++) {
+//       rstart = keys[i];
+//       rend = rstart;
+//       while (keys[i + 1] - keys[i] == 1) {
+//         rend = keys[i + 1]; // increment the index if the numbers sequential
+//         i++;
+//       }
+//       rstart = formatHour(rstart);
+//       rend = formatHour(rend + 1);
+//       ranges.push(rstart == rend ? rstart + '' : rstart + '-' + rend);
+//     }
+//     return ranges;
+//   }
+// }
+
 export class GroupHoursPipe implements PipeTransform {
   transform(value, args: string[]): any {
-    let keys = [];
-    for (let key in value) {
-      if (value[key]) {
-        let k = parseInt(key.split(':')[0], 10);
-        keys.push(k);
-      }
-    }
-
-    keys.sort((a, b) => {
-      return a - b;
-    });
-
-    let formatHour = (hour) => {
-      if (hour < 10) {
-        hour = '0' + hour;
-      }
-      hour += ':00';
-      return hour;
-    }
-
-    let ranges = [], rstart, rend;
-    for (let i = 0; i < keys.length; i++) {
-      rstart = keys[i];
-      rend = rstart;
-      while (keys[i + 1] - keys[i] == 1) {
-        rend = keys[i + 1]; // increment the index if the numbers sequential
-        i++;
-      }
-      rstart = formatHour(rstart);
-      rend = formatHour(rend + 1);
-      ranges.push(rstart == rend ? rstart + '' : rstart + '-' + rend);
-    }
-    return ranges;
+    return value;
   }
 }
 

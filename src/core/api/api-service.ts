@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 
 import 'rxjs/add/operator/map';
+declare var EventSource: any;
 
 import { Config } from 'app/config';
 import { AuthService } from 'app/core/auth/auth-service';
@@ -13,6 +14,11 @@ export class Api {
 
   constructor(http: Http) {
     this.http = http;
+  }
+
+  static changeStream(action: string) {
+    let url = Config.API_URL + action + '/change-stream';
+    return new EventSource(url);
   }
 
   static buildUrl(action: string, query: any = {}) {

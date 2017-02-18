@@ -7,8 +7,6 @@ import { AuthService } from 'app/core/auth/auth-service';
 import { IWorkout } from 'app/core/workout/workout';
 import { WorkoutStore } from 'app/core/workout/workout-store';
 
-import { PlaceStore } from 'app/core/place/place-store';
-import { TrainerStore } from 'app/core/trainer/trainer-store';
 import { NotificationStore } from 'app/core/notification/notification-store';
 
 
@@ -25,8 +23,6 @@ export class WorkoutItem {
     private alertCtrl: AlertController,
     private workoutStore: WorkoutStore,
     private notificationStore: NotificationStore,
-    public placeStore: PlaceStore,
-    public trainerStore: TrainerStore,
     public auth: AuthService
   ) {
     this.currentDate = new Date();

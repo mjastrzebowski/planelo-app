@@ -16,7 +16,7 @@
 
 @media (min-width: $grid-responsive-lg-break) {
   .logged {
-    ion-menu {
+    ion-menu#menuLeft {
       display: block !important;
       right: auto !important;
       width: 310px !important;
@@ -33,6 +33,9 @@
     }
     button [menutoggle], .bar-button-menutoggle {
       display: none;
+    }
+    .notification-button {
+      display: block !important;
     }
   }
 }

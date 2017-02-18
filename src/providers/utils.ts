@@ -16,13 +16,13 @@ export class Utils {
     this.active = false;
 
     this.weekdays = [
+      'niedziela',
       'poniedziałek',
       'wtorek',
       'środa',
       'czwartek',
       'piątek',
-      'sobota',
-      'niedziela'
+      'sobota'
     ];
   }
 

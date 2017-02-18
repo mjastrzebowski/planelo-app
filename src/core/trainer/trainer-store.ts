@@ -14,13 +14,19 @@ export class TrainerStore {
   constructor(
     private auth: AuthService
   ) {
-    this.auth.get({ filter: { where: { isTrainer: true }}}).then(data => {
+    this.auth.get({ filter: { where: { isTrainer: true }, include: 'hours' }}).then(data => {
       this.list = List(data);
       this.list.forEach(trainer => {
         trainer.title = trainer.name + ' ' + trainer.lastname;
+        trainer.days = [];
+        trainer.hours.forEach(hour => {
+          if (!trainer.days.hasOwnProperty(hour.day)) {
+            trainer.days[hour.day] = [];
+          }
+          trainer.days[hour.day].push(hour);
+        });
       });
       this.loaded = true;
-      console.log('trainers loaded');
       this.emit();
     });
   }
@@ -55,7 +61,6 @@ export class TrainerStore {
   }
 
   get(): List<ITrainer[]> {
-    console.log('get trainers list');
     return this.list;
   }
 

@@ -34,11 +34,13 @@
     <button ion-item (click)="showTrainerHours(trainer)">
       <ion-icon name="clock" item-left></ion-icon>
       <h2>Godziny pracy</h2>
-      <p *ngFor="let day of trainer.hours; let d = index" [hidden]="(day | groupHours).length === 0"> •
-        <small>{{ utils.weekdays[d] }}: </small>
-        <span *ngFor="let hour of day | groupHours">{{ hour }}, </span>
+      <p *ngFor="let day of trainer.days; let d = index">
+        <span *ngIf="day"> •
+          <small>{{ utils.weekdays[day[0].day] }}: </small>
+          <span *ngFor="let hour of day">{{ hour.start }}-{{ hour.end }}, </span>
+        </span>
       </p>
-      <p *ngIf="!trainer.hours">
+      <p *ngIf="!trainer.hours.length">
         • brak ustalonych godzin pracy
       </p>
     </button>
