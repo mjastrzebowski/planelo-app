@@ -64,6 +64,17 @@ export class Utils {
     return retVal;
   }
 
+  forEachDay = function(startDate, endDate) {
+    let dates = [];
+    let currDate = startDate.clone().startOf('day');
+    let lastDate = endDate.clone().startOf('day');
+    dates.push(currDate.clone());  // include today
+    while (currDate.add(1, 'days').diff(lastDate) < 0) {
+      dates.push(currDate.clone());
+    }
+    return dates;
+  };
+
   // deprecated
   static rewriteString(string: string): string {
     let str = string.toLowerCase();

@@ -19,7 +19,7 @@ export class WorkoutStore {
     private auth: AuthService,
     private workoutService: WorkoutService
   ) {
-    this.workoutService.get({ filter: { include: ['place', { trainer: 'place' }, { session: { activity: 'activityType' }}] }}).then(data => {
+    this.workoutService.get({ filter: { include: ['place', { client: 'place' }, { trainer: 'place' }, { session: { activity: 'activityType' }}] }}).then(data => {
       this.list = List();
       this.listAll = List();
       data.forEach(item => {

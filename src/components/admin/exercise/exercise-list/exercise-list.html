@@ -1,0 +1,7 @@
+<ion-list class="exercise-list">
+  <exercise-item #exercises [model]="exercise" *ngFor="let exercise of exerciseStore.list"></exercise-item>
+
+  <ion-list-header *ngIf="exercises.length === 0">
+    Nie znaleziono ćwiczeń
+  </ion-list-header>
+</ion-list>

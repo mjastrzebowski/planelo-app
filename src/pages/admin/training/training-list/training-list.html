@@ -16,10 +16,9 @@
 </ion-header>
 
 <ion-content class="trainings">
-  <div padding>
-    <ion-segment [(ngModel)]="place" (ionChange)="onPlaceChanged($event)">
-      <ion-segment-button value="1">Hermanowska</ion-segment-button>
-      <ion-segment-button value="2">Zwycięska</ion-segment-button>
+  <div padding *ngIf="placeStore.list.size">
+    <ion-segment [(ngModel)]="place" (ionChange)="onPlaceChanged()">
+      <ion-segment-button *ngFor="let place of placeStore.list" [value]="place.id">{{ place?.name }}</ion-segment-button>
     </ion-segment>
   </div>
 

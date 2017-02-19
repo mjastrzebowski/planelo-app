@@ -15,12 +15,14 @@ import { Utils } from 'app/providers/utils';
 import { Api } from 'app/core/api/api-service';
 import { AuthService } from 'app/core/auth/auth-service';
 
+import { ExerciseService } from 'app/core/exercise/exercise-service';
 import { PlaceService } from 'app/core/place/place-service';
 import { WorkoutService } from 'app/core/workout/workout-service';
 // import { TrainerService } from 'app/core/trainer/trainer-service';
 
 import { BillStore } from 'app/core/bill/bill-store';
 import { ClientStore } from 'app/core/client/client-store';
+import { ExerciseStore } from 'app/core/exercise/exercise-store';
 import { NotificationStore } from 'app/core/notification/notification-store';
 import { PlaceStore } from 'app/core/place/place-store';
 import { TrainerStore } from 'app/core/trainer/trainer-store';
@@ -44,6 +46,10 @@ import { ClientItem } from 'app/components/client/client-item/client-item';
 import { ClientList } from 'app/components/client/client-list/client-list';
 import { ClientFilter } from 'app/components/client/client-filter/client-filter';
 import { ClientListFilterPipe } from 'app/components/client/client-list/client-list-filter-pipe';
+
+import { ExerciseItem } from 'app/components/admin/exercise/exercise-item/exercise-item';
+import { ExerciseList } from 'app/components/admin/exercise/exercise-list/exercise-list';
+import { ExerciseListFilterPipe } from 'app/components/admin/exercise/exercise-list/exercise-list-filter-pipe';
 
 import { NotificationItem } from 'app/components/notification/notification-item/notification-item';
 import { NotificationList } from 'app/components/notification/notification-list/notification-list';
@@ -70,6 +76,7 @@ import { ClientDetailBillingModal } from 'app/pages/admin/client/client-detail-b
 import { ClientDetailProfileModal } from 'app/pages/admin/client/client-detail-profile/client-detail-profile';
 import { ClientDetailWorkoutsModal } from 'app/pages/admin/client/client-detail-workouts/client-detail-workouts';
 import { ClientListPage } from 'app/pages/admin/client/client-list/client-list';
+import { ExerciseListPage } from 'app/pages/admin/exercise/exercise-list/exercise-list';
 import { TrainerCreateModal } from 'app/pages/admin/trainer/trainer-create/trainer-create';
 import { TrainerDetailPage, GroupHoursPipe } from 'app/pages/admin/trainer/trainer-detail/trainer-detail';
 import { TrainerDetailHoursModal } from 'app/pages/admin/trainer/trainer-detail-hours/trainer-detail-hours';
@@ -105,6 +112,9 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     ClientList,
     ClientFilter,
     ClientListFilterPipe,
+    ExerciseItem,
+    ExerciseList,
+    ExerciseListFilterPipe,
     NotificationItem,
     NotificationList,
     NotificationFilter,
@@ -130,6 +140,7 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     ClientDetailProfileModal,
     ClientDetailWorkoutsModal,
     ClientListPage,
+    ExerciseListPage,
     TrainerCreateModal,
     TrainerDetailPage,
     TrainerDetailHoursModal,
@@ -185,6 +196,7 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     ClientDetailProfileModal,
     ClientDetailWorkoutsModal,
     ClientListPage,
+    ExerciseListPage,
     TrainerCreateModal,
     TrainerDetailPage,
     TrainerDetailHoursModal,
@@ -210,12 +222,14 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     // HttpModule,
     Api,
     AuthService,
+    ExerciseService,
     PlaceService,
     WorkoutService,
     // TrainerService,
 
     BillStore,
     ClientStore,
+    ExerciseStore,
     PlaceStore,
     TrainerStore,
     NotificationStore,

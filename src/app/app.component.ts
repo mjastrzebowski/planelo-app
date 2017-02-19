@@ -14,6 +14,7 @@ import { NotificationListPage } from 'app/pages/common/notification/notification
 // pages - admin
 import { BillListPage } from 'app/pages/admin/bill/bill-list/bill-list';
 import { ClientListPage } from 'app/pages/admin/client/client-list/client-list';
+import { ExerciseListPage } from 'app/pages/admin/exercise/exercise-list/exercise-list';
 import { TrainerListPage } from 'app/pages/admin/trainer/trainer-list/trainer-list';
 import { TrainingListPage } from 'app/pages/admin/training/training-list/training-list';
 import { TrainingSchedulerPage } from 'app/pages/admin/training/training-scheduler/training-scheduler';
@@ -51,7 +52,8 @@ export class DavidApp {
     { title: 'Grafik', component: TrainingSchedulerPage, icon: 'calendar' },
     { title: 'Klienci', component: ClientListPage, icon: 'contacts' },
     { title: 'Rachunki', component: BillListPage, icon: 'cash' },
-    { title: 'Trenerzy', component: TrainerListPage, icon: 'people' }
+    { title: 'Trenerzy', component: TrainerListPage, icon: 'people' },
+    { title: 'Ćwiczenia', component: ExerciseListPage, icon: 'list' }
   ];
   trainerPages: PageInterface[] = [
     { title: 'Treningi', component: TrainingListTrainerPage, icon: 'clipboard' }
@@ -81,8 +83,8 @@ export class DavidApp {
       if (!this.authenticated) {
         this.root = LoginPage;
       } else {
-        // this.root = TrainingListPage;
-        this.root = SettingsPage;
+        this.root = TrainingListPage;
+        // this.root = SettingsPage;
       }
     });
   }
