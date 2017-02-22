@@ -16,6 +16,7 @@ import { Api } from 'app/core/api/api-service';
 import { AuthService } from 'app/core/auth/auth-service';
 
 import { ExerciseService } from 'app/core/exercise/exercise-service';
+import { HourService } from 'app/core/hour/hour-service';
 import { PlaceService } from 'app/core/place/place-service';
 import { WorkoutService } from 'app/core/workout/workout-service';
 // import { TrainerService } from 'app/core/trainer/trainer-service';
@@ -23,6 +24,7 @@ import { WorkoutService } from 'app/core/workout/workout-service';
 import { BillStore } from 'app/core/bill/bill-store';
 import { ClientStore } from 'app/core/client/client-store';
 import { ExerciseStore } from 'app/core/exercise/exercise-store';
+import { HourStore } from 'app/core/hour/hour-store';
 import { NotificationStore } from 'app/core/notification/notification-store';
 import { PlaceStore } from 'app/core/place/place-store';
 import { TrainerStore } from 'app/core/trainer/trainer-store';
@@ -230,12 +232,14 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     Api,
     AuthService,
     ExerciseService,
+    HourService,
     PlaceService,
     WorkoutService,
     // TrainerService,
 
     BillStore,
     ClientStore,
+    HourStore,
     ExerciseStore,
     PlaceStore,
     TrainerStore,

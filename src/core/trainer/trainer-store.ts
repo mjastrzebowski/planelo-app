@@ -5,6 +5,8 @@ import { List } from 'immutable';
 import { ITrainer, Trainer } from './trainer';
 import { AuthService } from 'app/core/auth/auth-service';
 
+import { HourStore } from 'app/core/hour/hour-store';
+
 @Injectable()
 export class TrainerStore {
   private loaded: boolean = false;
@@ -12,13 +14,15 @@ export class TrainerStore {
   public list: List<any> = List();
 
   constructor(
-    private auth: AuthService
+    private auth: AuthService,
+    private hourStore: HourStore
   ) {
-    this.auth.get({ filter: { where: { isTrainer: true }, include: 'hours' }}).then(data => {
+    this.auth.get({ filter: { where: { isTrainer: true } }}).then(data => {
       this.list = List(data);
       this.list.forEach(trainer => {
         trainer.title = trainer.name + ' ' + trainer.lastname;
         trainer.days = [];
+        trainer.hours = this.hourStore.filterBy({ profileId: trainer.id });
         trainer.hours.forEach(hour => {
           if (!trainer.days.hasOwnProperty(hour.day)) {
             trainer.days[hour.day] = [];
