@@ -84,6 +84,7 @@ export class DavidApp {
         this.root = LoginPage;
       } else {
         this.root = TrainingListPage;
+        // this.root = TrainerListPage;
         // this.root = SettingsPage;
       }
     });

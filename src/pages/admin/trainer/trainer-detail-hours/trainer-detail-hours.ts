@@ -2,87 +2,47 @@ import { Component, Input } from '@angular/core';
 
 import { NavParams, ViewController } from 'ionic-angular';
 
+import { Utils } from 'app/providers/utils';
+import { AuthService } from 'app/core/auth/auth-service';
 import { ITrainer } from 'app/core/trainer/trainer';
+
 
 @Component({
   templateUrl: 'trainer-detail-hours.html'
 })
 export class TrainerDetailHoursModal {
   @Input() trainer: ITrainer;
+  days = [1, 2, 3, 4, 5, 6, 0];
+  trainerDays: any;
 
   constructor(
     private params: NavParams,
-    private viewCtrl: ViewController
-  ) {}
+    private viewCtrl: ViewController,
+    private auth: AuthService,
+    public utils: Utils
+  ) {
+    this.trainerDays = Utils.clone(this.params.data.days);
+  }
 
-  ngOnInit(): void {
-    let hours = [ {
-      "7:00" : true,
-      "8:00" : true,
-      "9:00" : true,
-      "10:00" : true,
-      "17:00" : true,
-      "18:00" : true,
-      "19:00" : true,
-      "20:00" : true
-    }, {
-      "7:00" : true,
-      "8:00" : true,
-      "9:00" : true,
-      "10:00" : true,
-      "17:00" : true,
-      "18:00" : true,
-      "19:00" : true,
-      "20:00" : true
-    }, {
-      "7:00" : true,
-      "8:00" : true,
-      "9:00" : true,
-      "10:00" : true,
-      "17:00" : true,
-      "18:00" : true,
-      "19:00" : true,
-      "20:00" : true
-    }, {
-      "7:00" : true,
-      "8:00" : true,
-      "9:00" : true,
-      "10:00" : true,
-      "17:00" : true,
-      "18:00" : true,
-      "19:00" : true,
-      "20:00" : true
-    }, {
-      "7:00" : true,
-      "8:00" : true,
-      "9:00" : true,
-      "10:00" : true,
-      "17:00" : true,
-      "18:00" : true,
-      "19:00" : true,
-      "20:00" : true,
-    }, {
-      "7:00" : true,
-      "8:00" : true,
-      "9:00" : true,
-      "10:00" : true,
-      "11:00" : true,
-      "12:00" : true
-    } ];
-
-    if (this.params.data.hasOwnProperty('key')) {
-      this.trainer = this.params.data;
-      if (!this.trainer.hasOwnProperty('hours')) {
-        this.trainer.hours = hours;
-      }
-    } else {
-      this.trainer = new ITrainer();
-      this.trainer.hours = hours;
+  add(day: number): void {
+    if (!this.trainerDays[day]) {
+      this.trainerDays[day] = [];
     }
+    this.trainerDays[day].push({
+      start: '',
+      end: '',
+      profileId: this.auth.id,
+      day: day,
+      create: true
+    });
+  }
+
+  remove(hour: any): void {
+    hour.delete = true;
   }
 
   save(): void {
-    this.viewCtrl.dismiss(this.trainer);
+    this.viewCtrl.dismiss(this.trainerDays);
   }
 
   dismiss(): void {

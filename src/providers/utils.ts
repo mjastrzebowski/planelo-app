@@ -64,7 +64,7 @@ export class Utils {
     return retVal;
   }
 
-  forEachDay = function(startDate, endDate) {
+  static forEachDay = function(startDate, endDate) {
     let dates = [];
     let currDate = startDate.clone().startOf('day');
     let lastDate = endDate.clone().startOf('day');
@@ -74,6 +74,10 @@ export class Utils {
     }
     return dates;
   };
+
+  static clone = function (object) {
+    return JSON.parse(JSON.stringify(object));
+  }
 
   // deprecated
   static rewriteString(string: string): string {

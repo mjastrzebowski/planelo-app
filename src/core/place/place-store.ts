@@ -18,29 +18,40 @@ export class PlaceStore {
     this.placeService.get().then(data => {
       this.list = List(data);
       this.loaded = true;
-      console.log('place store loaded');
       this.emit();
 
-      placeService.changeStream.addEventListener('data', function(msg) {
-        var data = JSON.parse(msg.data);
-        console.log(data); // the change object
-      });
+      placeService.changeStream.addEventListener('data', this.changeParser.bind(this));
     }, (error) => {
       console.log(error);
     });
   }
 
-  createPlace(title: string) {
-    // return this.places.push(new Place(title));
+  changeParser(msg: any) {
+    var data = JSON.parse(msg.data);
+    // console.log(data, this.list); // the change object
+    switch (data.type) {
+      case 'create':
+        this.list = this.list.push(data.data);
+        break;
+      case 'update':
+        this.list = this.list.update(this.findIndex(data.target), () => { return data.data });
+        break;
+      case 'remove':
+        this.list = this.list.remove(this.findIndex(data.target));
+        break;
+    }
   }
 
-  removePlace(place: IPlace) {
-    // return this.places.remove(place.key);
+  create(place: IPlace) {
+    return this.placeService.create(place);
+  }
+  update(placeId: number, place: any) {
+    return this.placeService.update(placeId, place);
+  }
+  delete(placeId: number) {
+    return this.placeService.delete(placeId);
   }
 
-  updatePlace(place: IPlace, changes: any) {
-    // return this.places.update(place.key, changes);
-  }
 
   subscribe(next: (loaded: any) => void): any {
     let subscription = this.emitter.subscribe(next);
@@ -56,14 +67,14 @@ export class PlaceStore {
     return this.list.size;
   }
 
-  public getItem(key: string): IPlace {
-    let index = this.findIndex(key);
+  public getItem(id: number): IPlace {
+    let index = this.findIndex(id);
     return this.list.get(index);
   }
 
-  private findIndex(key: string): number {
+  private findIndex(id: number): number {
     return this.list.findIndex((place: IPlace) => {
-      return place.key === key;
+      return place.id === id;
     });
   }
 }

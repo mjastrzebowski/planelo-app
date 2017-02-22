@@ -29,3 +29,15 @@
 // App Material Design Only Sass
 // --------------------------------------------------
 // CSS that should only apply to the Material Design app
+.content-md.outer-content {
+  // @extend .content-ios;
+  background-color: $content-ios-outer-background;
+}
+.list-md {
+  @extend .list-ios;
+}
+.list-header-md {
+  @extend .list-header-ios;
+  margin-bottom: 0;
+  border-top: none;
+}

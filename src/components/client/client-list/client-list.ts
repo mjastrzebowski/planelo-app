@@ -17,4 +17,14 @@ export class ClientList {
   ) {
     this.clients = [];
   }
+
+  isEmpty() {
+    if (this.clients.length) {
+      let list = this.clients.filter(client => {
+        return !client.model.hide;
+      });
+      return list.length === 0;
+    }
+    return this.clients.length;
+  }
 }

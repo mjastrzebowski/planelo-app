@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ModalController } from 'ionic-angular';
 
+import { Utils } from 'app/providers/utils';
+
 import { AuthService } from 'app/core/auth/auth-service';
 import { ClientStore } from 'app/core/client/client-store';
 
@@ -12,22 +14,36 @@ import { ClientCreateModal } from '../client-create/client-create';
   templateUrl: 'client-list.html'
 })
 export class ClientListPage {
-  private modal;
-  public filter;
+  private sub: any;
+  filter: any = '';
 
   constructor(
     private modalCtrl: ModalController,
     private notificationStore: NotificationStore,
+    private utils: Utils,
     private auth: AuthService,
     private clientStore: ClientStore
-  ) {
-    this.filter = '';
+  ) {}
+
+  ngOnInit(): void {
+    this.utils.presentLoading('Ładowanie klientów...');
+    this.sub = this.clientStore.subscribe(loaded => {
+      if (!loaded) {
+        return;
+      }
+      this.utils.stopLoading();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   showClientCreate() {
-    this.modal = this.modalCtrl.create(ClientCreateModal);
-
-    this.modal.onDidDismiss(data => {
+    let modal = this.modalCtrl.create(ClientCreateModal);
+    modal.onDidDismiss(data => {
       if (data) {
         this.clientStore.createClient(
           data.name || '',
@@ -48,6 +64,6 @@ export class ClientListPage {
           });
       }
     });
-    this.modal.present();
+    modal.present();
   }
 }

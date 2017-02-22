@@ -71,6 +71,17 @@ export class Api {
     });
   }
 
+  patch(url: string, body: any, query?: any) {
+    return new Promise((resolve, reject) => {
+      this.http.put(Api.buildUrl(url, query), JSON.stringify(body), { headers: Api.headers })
+        .map(res => res.text() === '' ? res.text() : res.json())
+        .subscribe(
+          data => resolve(data),
+          err => reject(new Error(err))
+        );
+    });
+  }
+
   delete(url: string, query?: any) {
     return new Promise((resolve, reject) => {
       this.http.delete(Api.buildUrl(url, query), { headers: Api.headers })

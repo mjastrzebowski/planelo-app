@@ -534,7 +534,7 @@ export class TrainingListPage {
     }
 
     let events = [];
-    this.utils.forEachDay(start, end).forEach(day => {
+    Utils.forEachDay(start, end).forEach(day => {
       let hours = trainer.days[day.day()];
       if (!hours) {
         return;

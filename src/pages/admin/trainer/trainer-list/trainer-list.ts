@@ -16,30 +16,24 @@ import { TrainerDetailPage } from '../trainer-detail/trainer-detail'
   templateUrl: 'trainer-list.html'
 })
 export class TrainerListPage {
-  @Input() trainers: ReplaySubject<List<any>>;
-  queryText: string;
-  shownSessions: number;
-  sub: any;
+  private sub;
+  filter = '';
 
   constructor(
     private nav: NavController,
     private modalCtrl: ModalController,
     private utils: Utils,
     private auth: AuthService,
-    public trainerStore: TrainerStore
-  ) {
-    this.queryText = '';
-    this.shownSessions = 0;
-  }
+    private trainerStore: TrainerStore
+  ) {}
 
   ngOnInit(): void {
     this.utils.presentLoading('Ładowanie trenerów...');
-
     this.sub = this.trainerStore.subscribe(loaded => {
       if (!loaded) {
         return;
       }
-      this.init();
+      this.utils.stopLoading();
     });
   }
 
@@ -47,11 +41,6 @@ export class TrainerListPage {
     if (this.sub) {
       this.sub.unsubscribe();
     }
-  }
-
-  init(): void {
-    this.shownSessions = 1;
-    this.utils.stopLoading();
   }
 
   goToTrainerDetail(trainer): void {
@@ -69,34 +58,5 @@ export class TrainerListPage {
       }
     });
     modal.present();
-  }
-
-  updateList(): void {
-    this.shownSessions = 0;
-    let queryText = this.queryText.toLowerCase().replace(/,|\.|-/g,' ');
-    let queryWords = queryText.split(' ').filter(w => w.trim().length);
-
-    this.trainerStore.list.forEach(trainer => {
-      trainer.hide = false;
-      let matchesQueryText = false;
-
-      if (queryWords.length) {
-        // of any query word is in the trainer title than it passes the query test
-        queryWords.forEach(queryWord => {
-          if (trainer.title.toLowerCase().indexOf(queryWord) > -1) {
-            matchesQueryText = true;
-          }
-        });
-      } else {
-        // if there are no query words then this client passes the query test
-        matchesQueryText = true;
-      }
-
-      if (!matchesQueryText) {
-        trainer.hide = true;
-      } else {
-        this.shownSessions++;
-      }
-    });
   }
 }

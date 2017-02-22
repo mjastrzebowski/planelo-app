@@ -3,13 +3,18 @@ export class ITrainer {
   createdAt: number;
   id?: number;
   key?: string;
-  title: string;
+  title?: string;
+  name?: string;
+  lastname?: string;
+  alias?: string;
   email: string;
   place?: string;
   hours: any[];
+  days?: any[];
   vacation?: any[];
   username?: string;
 
+  hide?: any;
   delete?: any;
 }
 

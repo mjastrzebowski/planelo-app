@@ -14,18 +14,6 @@
 </ion-header>
 
 <ion-content class="trainer-list">
-  <ion-searchbar color="primary" [(ngModel)]="queryText" (ionInput)="updateList()" placeholder="Szukaj"></ion-searchbar>
-
-  <ion-list [hidden]="shownSessions === 0">
-    <button ion-item (click)="goToTrainerDetail(trainer)" *ngFor="let trainer of trainerStore.get()" [hidden]="trainer.hide">
-      <ion-avatar item-left *ngIf="trainer?.avatar">
-        <img [src]="trainer?.avatar" [alt]="trainer?.title">
-      </ion-avatar>
-      <h3>{{ trainer?.title }}</h3>
-    </button>
-  </ion-list>
-
-  <ion-list-header [hidden]="shownSessions > 0">
-    Nie znaleziono trenerów
-  </ion-list-header>
+  <ion-searchbar color="primary" [(ngModel)]="filter" placeholder="Szukaj"></ion-searchbar>
+  <trainer-list class="trainers" [filter]="filter"></trainer-list>
 </ion-content>

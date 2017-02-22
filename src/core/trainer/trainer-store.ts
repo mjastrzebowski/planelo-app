@@ -28,6 +28,16 @@ export class TrainerStore {
       });
       this.loaded = true;
       this.emit();
+
+      this.auth.changeStream.addEventListener('data', function(msg) {
+        var data = JSON.parse(msg.data);
+        console.log('trainer change stream: ', data); // the change object
+      });
+      this.auth.hoursChangeStream.addEventListener('data', function(msg) {
+        var data = JSON.parse(msg.data);
+        console.log(this.list);
+        console.log('working hours change stream: ', data); // the change object
+      }.bind(this));
     });
   }
 
@@ -44,6 +54,45 @@ export class TrainerStore {
   updateTrainer(trainer: ITrainer, changes: any) {
     return new Promise((resolve, reject) => {});
     // return this.trainers.update(trainer.key, changes);
+  }
+
+  createHour(trainerId: number, hour: any) {
+    return this.auth.createHour(trainerId, hour);
+  }
+
+  updateHour(trainerId: number, hour: any) {
+    return this.auth.updateHour(trainerId, hour);
+  }
+
+  deleteHour(trainerId: number, hourId: number) {
+    return this.auth.deleteHour(trainerId, hourId);
+  }
+
+  deleteHours(trainerId: number) {
+    return this.auth.deleteHours(trainerId);
+  }
+
+  updateHours(trainerId: number, hours: any) {
+    console.log(hours);
+      hours.forEach(day => {
+        if (!day) {
+          return;
+        }
+        day.forEach(hour => {
+          if (!hour.start || !hour.end) {
+            return;
+          }
+          if (hour.create) {
+            this.createHour(trainerId, hour);
+          } else if (hour.delete) {
+            this.deleteHour(trainerId, hour.id);
+          } else if (hour.update) {
+            this.updateHour(trainerId, hour);
+          }
+        })
+      });
+    // this.deleteHours(trainerId).then(() => {
+    // });
   }
 
   subscribe(next: (loaded: any) => void): any {

@@ -14,8 +14,13 @@ export class PlaceService {
   get(query?: any): Promise<any> {
     return this.api.get(this.action, query);
   }
-
-  put(body: any): Promise<any> {
-    return this.api.put(this.action, body);
+  create(body: any): Promise<any> {
+    return this.api.post(this.action, body);
+  }
+  update(placeId: number, body: any): Promise<any> {
+    return this.api.patch(this.action + '/' + placeId, body);
+  }
+  delete(placeId: number): Promise<any> {
+    return this.api.delete(this.action + '/' + placeId);
   }
 }

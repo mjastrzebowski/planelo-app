@@ -50,6 +50,10 @@ export class ClientStore {
     return this.list.size;
   }
 
+  get(): List<IClient[]> {
+    return this.list;
+  }
+
   public getItem(id: number): IClient {
     let index = this.findIndex(id);
     return this.list.get(index);

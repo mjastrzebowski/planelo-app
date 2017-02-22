@@ -6,30 +6,51 @@ import { Api } from 'app/core/api/api-service';
 @Injectable()
 export class AuthService {
   private emitter: EventEmitter<any> = new EventEmitter();
+  private action: string = 'profiles';
   private user: any;
   private userData: any;
   private moreData: any;
+  changeStream: any;
+  hoursChangeStream: any;
 
   constructor(private api: Api) {
+    this.changeStream = Api.changeStream(this.action);
+    this.hoursChangeStream = Api.changeStream('working-hours');
     if (AuthService.getToken()) {
       this.user = this.getSession().user;
     }
     this.emit();
   }
 
+  createHour(profileId: number, body: any): Promise<any> {
+    return this.api.post(this.action + '/' + profileId + '/hours', body);
+  }
+
+  updateHour(profileId: number, body: any): Promise<any> {
+    return this.api.put(this.action + '/' + profileId + '/hours/' + body.id, body);
+  }
+
+  deleteHour(profileId: number, hourId: number): Promise<any> {
+    return this.api.delete(this.action + '/' + profileId + '/hours/' + hourId);
+  }
+
+  deleteHours(profileId: number): Promise<any> {
+    return this.api.delete(this.action + '/' + profileId + '/hours');
+  }
+
   get(query?: any): Promise<any> {
-    return this.api.get('profiles', query);
+    return this.api.get(this.action, query);
   }
   put(body: any): Promise<any> {
-    return this.api.put('profiles', body);
+    return this.api.put(this.action, body);
   }
   post(body: any): Promise<any> {
-    return this.api.post('profiles', body);
+    return this.api.post(this.action, body);
   }
 
   login(loginData: { username: string, password: string }) {
     return new Promise((resolve, reject) => {
-      this.api.post('profiles/login', loginData, { include: 'User' }).then(data => {
+      this.api.post(this.action + '/login', loginData, { include: 'User' }).then(data => {
         this.setSession(data);
         this.emit();
         resolve();
@@ -47,7 +68,7 @@ export class AuthService {
     this.user = null;
     // return new Promise((resolve, reject) => {
     //   if (this.user) {
-    //     this.api.post('profiles/logout').then(() => {
+    //     this.api.post(this.action + '/logout').then(() => {
     //       localStorage.removeItem('token');
     //       localStorage.removeItem('userId');
     //       localStorage.removeItem('rememberMe');

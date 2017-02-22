@@ -12,9 +12,31 @@
 //     margin-bottom: -0.5em;
 //   }
 // }
+// .content-md {
+//   background-color: $outer-content-md-background-color;
+// }
+// .list-header-md {
+//   color: $list-ios-header-color;
+//   background-color: $list-ios-header-background-color;
+// }
 
+@media screen and (max-width: $grid-responsive-sm-break) {
+  .hidden-sm {
+    display: none !important;
+  }
+}
 
-@media (min-width: $grid-responsive-lg-break) {
+@media screen and (min-width: $grid-responsive-lg-break) {
+  // disable sliding options on desktop
+  ion-item-sliding {
+    &.active-slide .item {
+      transform: none !important;
+    }
+    ion-item-options {
+      display: none !important;
+    }
+  }
+
   .logged {
     ion-menu#menuLeft {
       display: block !important;

@@ -33,6 +33,16 @@ $colors: (
 );
 
 
+// App Theme
+// --------------------------------------------------
+// Ionic apps can have different themes applied, which can
+// then be future customized. This import comes last
+// so that the above variables are used and Ionic's
+// default are overridden.
+
+@import "ionic.theme.default";
+
+
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
@@ -43,7 +53,7 @@ $colors: (
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
-
+// $outer-content-md-background-color: #efeff4;
 
 
 
@@ -52,16 +62,6 @@ $colors: (
 // Windows only Sass variables can go here
 
 
-
-
-// App Theme
-// --------------------------------------------------
-// Ionic apps can have different themes applied, which can
-// then be future customized. This import comes last
-// so that the above variables are used and Ionic's
-// default are overridden.
-
-@import "ionic.theme.default";
 
 
 // Ionicons

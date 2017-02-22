@@ -57,6 +57,10 @@ import { NotificationFilter } from 'app/components/notification/notification-fil
 import { NotificationCounter } from 'app/components/notification/notification-counter/notification-counter';
 import { NotificationListFilterPipe } from 'app/components/notification/notification-list/notification-list-filter-pipe';
 
+import { TrainerItem } from 'app/components/trainer/trainer-item/trainer-item';
+import { TrainerList } from 'app/components/trainer/trainer-list/trainer-list';
+import { TrainerListFilterPipe } from 'app/components/trainer/trainer-list/trainer-list-filter-pipe';
+
 import { WorkoutItem } from 'app/components/workout/workout-item/workout-item';
 import { WorkoutList } from 'app/components/workout/workout-list/workout-list';
 import { WorkoutListGroupPipe } from 'app/components/workout/workout-list/workout-list-group-pipe';
@@ -120,6 +124,9 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     NotificationFilter,
     NotificationCounter,
     NotificationListFilterPipe,
+    TrainerItem,
+    TrainerList,
+    TrainerListFilterPipe,
     WorkoutItem,
     WorkoutList,
     WorkoutListGroupPipe,

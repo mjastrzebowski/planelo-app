@@ -89,12 +89,18 @@ export class TrainerDetailPage {
     public clientStore: ClientStore,
     public placeStore: PlaceStore
   ) {
-    this.trainer = this.navParams.data;
-    this.trainingsDone = this.workoutStore.filterBy({ trainer: this.trainer.key, fixed: false, completed: false, dateBefore: new Date() });
-    this.trainingsDoneLast = this.trainingsDone.get(-1);
-    this.trainingsTodo = this.workoutStore.filterBy({ trainer: this.trainer.key, fixed: false, completed: false, dateAfter: new Date() });
-    this.trainingsTodoNext = this.trainingsTodo.get(0);
+    // this.trainer = this.navParams.data;
+    // this.trainingsDone = this.workoutStore.filterBy({ trainer: this.trainer.key, fixed: false, completed: false, dateBefore: new Date() });
+    // this.trainingsDoneLast = this.trainingsDone.get(-1);
+    // this.trainingsTodo = this.workoutStore.filterBy({ trainer: this.trainer.key, fixed: false, completed: false, dateAfter: new Date() });
+    // this.trainingsTodoNext = this.trainingsTodo.get(0);
     // this.trainingsScheduled = this.workoutStore.filterBy({ trainer: this.trainer.key, fixed: true });
+  }
+
+  ngOnInit(): void {
+    if (this.navParams.data) {
+      this.trainer = this.trainerStore.getItem(this.navParams.data.id);
+    }
   }
 
   showTrainerProfile(trainer): void {
@@ -135,15 +141,17 @@ export class TrainerDetailPage {
   }
 
   showTrainerHours(trainer): void {
-    let trainerObject = Object.assign({}, trainer);
-    let modal = this.modalCtrl.create(TrainerDetailHoursModal, trainerObject);
+    let modal = this.modalCtrl.create(TrainerDetailHoursModal, trainer);
 
     modal.onDidDismiss(data => {
       if (data) {
-        this.trainerStore.updateTrainer(data, {
-          hours: data.hours || ''
-        });
-        this.trainer = data;
+        // this.trainerStore.createHour(4, {
+        //   "day": "3",
+        //   "start": "08:00",
+        //   "end": "10:00"
+        // });
+        this.trainerStore.updateHours(trainer.id, data);
+        this.trainer.days = data;
       }
     });
     modal.present();

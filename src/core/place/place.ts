@@ -1,17 +1,19 @@
 export class IPlace {
   completed: boolean;
   createdAt: number;
+  id: number;
   key?: string;
-  title: string;
+  name?: string;
 }
 
 
 export class Place implements IPlace {
   completed: boolean = false;
   createdAt: number = firebase.database['ServerValue']['TIMESTAMP'];
-  title: string;
+  id: number;
+  name: string;
 
-  constructor(title: string) {
-    this.title = title;
+  constructor(name: string) {
+    this.name = name;
   }
 }

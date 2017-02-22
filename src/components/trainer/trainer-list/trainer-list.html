@@ -1,0 +1,7 @@
+<ion-list class="trainer-list">
+  <trainer-item #trainers [model]="trainer" *ngFor="let trainer of trainerStore.get() | filterTrainers:filter:limit"></trainer-item>
+
+  <ion-list-header *ngIf="isEmpty()">
+    Nie znaleziono trenerów
+  </ion-list-header>
+</ion-list>
