@@ -118,7 +118,7 @@ export class TrainingCreateModal {
     for (let d = today; d <= today+days; d++) {
       let nextDay = new Date('2017-02-01');
       nextDay.setDate(d);
-      if (this.auth.isClient && (nextDay.getMonth()+1) === 3) {
+      if (this.auth.isClient && (nextDay.getMonth()+1) === 4) {
         break;
       }
       if (nextDay.getDay() !== 0) {
@@ -136,7 +136,7 @@ export class TrainingCreateModal {
           year = 2017;
         }
         let date = year + '-' + month + '-' + day;
-        
+
         let avHours = [];
         let avTrainerWorkouts = {
           '-KBN-noa5OGgfW2XYbvZ': 0, // damian

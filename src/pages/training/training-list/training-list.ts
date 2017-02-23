@@ -8,7 +8,7 @@ import { Utils } from '../../../providers/utils';
 
 import { AuthService } from '../../../core/auth/auth-service';
 
-import { BillStore } from '../../../core/bill/bill-store';
+// import { BillStore } from '../../../core/bill/bill-store';
 import { ClientStore } from '../../../core/client/client-store';
 import { NotificationStore } from '../../../core/notification/notification-store';
 import { PlaceStore } from '../../../core/place/place-store';
@@ -52,7 +52,7 @@ export class TrainingListPage {
     private alertCtrl: AlertController,
     private actionSheetCtrl: ActionSheetController,
     private utils: Utils,
-    private billStore: BillStore,
+    // private billStore: BillStore,
     private clientStore: ClientStore,
     private notificationStore: NotificationStore,
     private placeStore: PlaceStore,
@@ -159,26 +159,33 @@ export class TrainingListPage {
   }
 
   // updateRepeat() {
-  //   this.billStore.list.forEach(bill => {
-  //     if (bill.month === '2017-01') {
-  //       this.billStore.createBill(
-  //         bill.client,
-  //         '2017-02',
-  //         bill.discount);
-  //     }
-  //   });
-  // }
-  // }
+  // //   this.billStore.list.forEach(bill => {
+  // // //     if (bill.month === '2017-01') {
+  // // //       this.billStore.createBill(
+  // // //         bill.client,
+  // // //         '2017-02',
+  // // //         bill.discount);
+  // // //     }
+  // //     if (bill.month !== '2017-03') {
+  // //       this.billStore.removeBill(bill);
+  // //     }
+  // //   });
+  // // }
+  // // }
+  //   // this.clientStore.list.forEach(client => {
+  //     // let high = this.billStore.getHigh(client.key);
+  //     // this.billStore.createBill(client.key, '2017-03', high);
+  //   // });
+  // // }
+  // //     //   // console.log(workout);
+
+  // //     //   // this.billStore.createBill(
+  // //     //   //   bill.client,
+  // //     //   //   '2016-11',
+  // //     //   //   bill.discount);
   //   this.workoutStore.list.forEach(workout => {
-  //     //   // console.log(workout);
-
-  //     //   // this.billStore.createBill(
-  //     //   //   bill.client,
-  //     //   //   '2016-11',
-  //     //   //   bill.discount);
-
   //     if (workout.date === '2016-06-11' && workout.fixed) {
-  //       let newDate0 = '2017-02-04';
+  //       let newDate0 = '2017-03-04';
   //       let newDateTime0 = newDate0 + ' ' + workout.timeStart;
   //       this.workoutStore.createWorkout(
   //         workout.placeKey,
@@ -190,7 +197,7 @@ export class TrainingListPage {
   //         workout.timeEnd || '',
   //         true);
 
-  //       let newDate1 = '2017-02-11';
+  //       let newDate1 = '2017-03-11';
   //       let newDateTime1 = newDate1 + ' ' + workout.timeStart;
   //       this.workoutStore.createWorkout(
   //         workout.placeKey,
@@ -202,7 +209,7 @@ export class TrainingListPage {
   //         workout.timeEnd || '',
   //         true);
 
-  //       let newDate2 = '2017-02-18';
+  //       let newDate2 = '2017-03-18';
   //       let newDateTime2 = newDate2 + ' ' + workout.timeStart;
   //       this.workoutStore.createWorkout(
   //         workout.placeKey,
@@ -214,7 +221,7 @@ export class TrainingListPage {
   //         workout.timeEnd || '',
   //         true);
 
-  //       let newDate3 = '2017-02-25';
+  //       let newDate3 = '2017-03-25';
   //       let newDateTime3 = newDate3 + ' ' + workout.timeStart;
   //       this.workoutStore.createWorkout(
   //         workout.placeKey,
@@ -226,7 +233,7 @@ export class TrainingListPage {
   //         workout.timeEnd || '',
   //         true);
 
-  //       // let newDate4 = '2017-01-31';
+  //       // let newDate4 = '2017-03-31';
   //       // let newDateTime4 = newDate4 + ' ' + workout.timeStart;
   //       // this.workoutStore.createWorkout(
   //       //   workout.placeKey,
@@ -611,7 +618,7 @@ export class TrainingListPage {
   getEvents(start, end, timezone, callback): any {
     let events = [];
     this.workoutStore.list.forEach(workout => {
-      if (workout.fixed || workout.timeStart === '' || 
+      if (workout.fixed || workout.timeStart === '' ||
         (start && workout.date < start.format('YYYY-MM-DD')) || (end && moment(workout.date) >= end.format('YYYY-MM-DD'))) {
         return;
       }
@@ -654,7 +661,7 @@ export class TrainingListPage {
 
       this.trainerStore.list.forEach(trainer => {
         for (let d = 1; d <= 62; d++) {
-          let date = new Date('2017-01-01');
+          let date = new Date('2017-02-01');
           date.setDate(d);
           let day = date.getDate();
           if (day < 10) {
@@ -741,7 +748,7 @@ export class TrainingListPage {
       events.push(w[2]);
       events.push(w[3]);
     }
-    
+
     return callback ? callback(events) : events;
   }
 

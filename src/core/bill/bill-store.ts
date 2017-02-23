@@ -85,4 +85,30 @@ export class BillStore {
       return bill.client === client && bill.month === month;
     });
   }
+
+  filterBy(filters: any): any {
+    return this.list.filter(bill => {
+      let check = true;
+      Object.keys(filters).forEach(function (key) {
+        if (bill[key] !== filters[key]) {
+          check = false;
+        }
+        if (!check) {
+          return false;
+        }
+      });
+      return check;
+    });
+  }
+
+  getHigh(client: string) {
+    let d = 0;
+    let res = this.filterBy({ client: client, month: '2017-02' });
+    res.forEach(bill => {
+      if (bill.discount > d) {
+        d = bill.discount;
+      }
+    });
+    return d;
+  }
 }

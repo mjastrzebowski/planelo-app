@@ -88,7 +88,7 @@ export class TrainingReserveModal {
     for (let d = today; d <= today+days; d++) {
       let nextDay = new Date('2017-02-01');
       nextDay.setDate(d);
-      if (this.auth.isClient && (nextDay.getMonth()+1) === 3) {
+      if (this.auth.isClient && (nextDay.getMonth()+1) === 4) {
         break;
       }
       if (nextDay.getDay() !== 0) {
@@ -106,7 +106,7 @@ export class TrainingReserveModal {
           year = 2017;
         }
         let date = year + '-' + month + '-' + day;
-        
+
         let avHours = [];
         let avTrainerWorkouts = {
           '-KBN-noa5OGgfW2XYbvZ': 0, // damian
@@ -128,8 +128,8 @@ export class TrainingReserveModal {
               let thisDate = new Date(date);
               let thisDay = thisDate.getDate();
 
-              if (!this.auth.isOwner && trainer.vacation && 
-                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04') && 
+              if (!this.auth.isOwner && trainer.vacation &&
+                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04') &&
                 !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-14')) {
 
                 let hasVacation = false;
@@ -167,14 +167,14 @@ export class TrainingReserveModal {
 
               let d = thisDate.getDay() - 1;
               if (this.auth.isOwner || (trainer.hours[d] && trainer.hours[d][hour.timeStart] &&
-                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04' && 
+                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04' &&
                   (time === '16:00' || time === '17:00' || time === '18:00' || time === '19:00' || time === '20:00')) &&
-                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-21' && 
+                !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-21' &&
                   (time === '16:00' || time === '17:00' || time === '18:00' || time === '19:00' || time === '20:00'))
-                ) || 
-                (trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04' && 
+                ) ||
+                (trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04' &&
                     (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00')) ||
-                (trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-21' && 
+                (trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-21' &&
                     (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00'))
                 ) {
                 let find = this.workoutStore.listAll.filter(workout => {
