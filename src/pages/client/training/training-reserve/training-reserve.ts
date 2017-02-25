@@ -2,10 +2,10 @@ import { Component, Input } from '@angular/core';
 import { ViewController } from 'ionic-angular';
 import * as moment from 'moment';
 
-import { AuthService } from 'app/core/auth/auth-service';
+import { AuthService } from 'app/services/auth/auth-service';
 
-import { TrainerStore } from 'app/core/trainer/trainer-store';
-import { WorkoutStore } from 'app/core/workout/workout-store';
+import { TrainerStore } from 'app/services/trainer/trainer-store';
+import { WorkoutStore } from 'app/services/workout/workout-store';
 
 
 @Component({

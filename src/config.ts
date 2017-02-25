@@ -1,6 +1,6 @@
 export const Config = {
   // API_URL: "http://api.egobody.usermd.net/api/"
-  API_URL: "http://192.168.1.103:3000/api/"
+  API_URL: "http://192.168.1.101:3000/api/"
 };
 
 export const FIREBASE_URL: string = 'https://fiery-heat-1991.firebaseioo.com';

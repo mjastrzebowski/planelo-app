@@ -12,31 +12,31 @@ import { FirebaseModule } from '../firebase-module';
 import { Utils } from 'app/providers/utils';
 
 // services
-import { Api } from 'app/core/api/api-service';
-import { AuthService } from 'app/core/auth/auth-service';
+import { Api } from 'app/services/api/api-service';
+import { AuthService } from 'app/services/auth/auth-service';
 
-import { ExerciseService } from 'app/core/exercise/exercise-service';
-import { HourService } from 'app/core/hour/hour-service';
-import { PlaceService } from 'app/core/place/place-service';
-import { WorkoutService } from 'app/core/workout/workout-service';
-// import { TrainerService } from 'app/core/trainer/trainer-service';
+import { ExerciseService } from 'app/services/exercise/exercise-service';
+import { HourService } from 'app/services/hour/hour-service';
+import { PlaceService } from 'app/services/place/place-service';
+import { WorkoutService } from 'app/services/workout/workout-service';
+// import { TrainerService } from 'app/services/trainer/trainer-service';
 
-import { BillStore } from 'app/core/bill/bill-store';
-import { ClientStore } from 'app/core/client/client-store';
-import { ExerciseStore } from 'app/core/exercise/exercise-store';
-import { HourStore } from 'app/core/hour/hour-store';
-import { NotificationStore } from 'app/core/notification/notification-store';
-import { PlaceStore } from 'app/core/place/place-store';
-import { TrainerStore } from 'app/core/trainer/trainer-store';
-import { UserStore } from 'app/core/user/user-store';
-import { WorkoutStore } from 'app/core/workout/workout-store';
+import { BillStore } from 'app/services/bill/bill-store';
+import { ClientStore } from 'app/services/client/client-store';
+import { ExerciseStore } from 'app/services/exercise/exercise-store';
+import { HourStore } from 'app/services/hour/hour-store';
+import { NotificationStore } from 'app/services/notification/notification-store';
+import { PlaceStore } from 'app/services/place/place-store';
+import { TrainerStore } from 'app/services/trainer/trainer-store';
+import { UserStore } from 'app/services/user/user-store';
+import { WorkoutStore } from 'app/services/workout/workout-store';
 
 // providers
-// import { USER_PROVIDERS } from 'app/core/user/providers';
-// import { PLACE_PROVIDERS } from 'app/core/place/providers';
-// import { TRAINER_PROVIDERS } from 'app/core/trainer/providers';
-// import { WORKOUT_PROVIDERS } from 'app/core/workout/providers';
-// import { BILL_PROVIDERS } from 'app/core/bill/providers';
+// import { USER_PROVIDERS } from 'app/services/user/providers';
+// import { PLACE_PROVIDERS } from 'app/services/place/providers';
+// import { TRAINER_PROVIDERS } from 'app/services/trainer/providers';
+// import { WORKOUT_PROVIDERS } from 'app/services/workout/providers';
+// import { BILL_PROVIDERS } from 'app/services/bill/providers';
 
 // components
 import { BillItem } from 'app/components/bill/bill-item/bill-item';

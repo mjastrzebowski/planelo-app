@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 
-import { ClientStore } from 'app/core/client/client-store';
-import { PlaceStore } from 'app/core/place/place-store';
-import { TrainerStore } from 'app/core/trainer/trainer-store';
+import { ClientStore } from 'app/services/client/client-store';
+import { PlaceStore } from 'app/services/place/place-store';
+import { TrainerStore } from 'app/services/trainer/trainer-store';
 
 
 @Component({

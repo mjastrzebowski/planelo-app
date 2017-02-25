@@ -8,14 +8,14 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
-import { AuthService } from 'app/core/auth/auth-service';
+import { AuthService } from 'app/services/auth/auth-service';
 
-import { ClientStore } from 'app/core/client/client-store';
-import { NotificationStore } from 'app/core/notification/notification-store';
-import { PlaceStore } from 'app/core/place/place-store';
-import { TrainerStore } from 'app/core/trainer/trainer-store';
-import { UserStore } from 'app/core/user/user-store';
-import { WorkoutStore } from 'app/core/workout/workout-store';
+import { ClientStore } from 'app/services/client/client-store';
+import { NotificationStore } from 'app/services/notification/notification-store';
+import { PlaceStore } from 'app/services/place/place-store';
+import { TrainerStore } from 'app/services/trainer/trainer-store';
+import { UserStore } from 'app/services/user/user-store';
+import { WorkoutStore } from 'app/services/workout/workout-store';
 
 import { ClientDetailProfileModal } from '../client-detail-profile/client-detail-profile';
 import { ClientDetailAccessModal } from '../client-detail-access/client-detail-access';

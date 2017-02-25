@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController } from 'ionic-angular';
 
-import { AuthService } from 'app/core/auth/auth-service';
+import { AuthService } from 'app/services/auth/auth-service';
 
 @Component({
   templateUrl: 'settings.html'

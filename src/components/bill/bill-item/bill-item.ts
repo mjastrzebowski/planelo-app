@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import * as moment from 'moment';
 
-import { IBill } from 'app/core/bill/bill';
-import { BillStore } from 'app/core/bill/bill-store';
+import { IBill } from 'app/services/bill/bill';
+import { BillStore } from 'app/services/bill/bill-store';
 
-import { ClientStore } from 'app/core/client/client-store';
+import { ClientStore } from 'app/services/client/client-store';
 
 @Component({
   selector: 'bill-item',

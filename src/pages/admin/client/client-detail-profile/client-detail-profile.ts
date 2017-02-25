@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
 
-import { IClient } from 'app/core/client/client';
+import { IClient } from 'app/services/client/client';
 
 @Component({
   templateUrl: 'client-detail-profile.html'

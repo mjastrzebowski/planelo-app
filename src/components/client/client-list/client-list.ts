@@ -1,6 +1,6 @@
 import { Component, Input, ViewChildren } from '@angular/core';
 
-import { ClientStore } from 'app/core/client/client-store';
+import { ClientStore } from 'app/services/client/client-store';
 
 
 @Component({

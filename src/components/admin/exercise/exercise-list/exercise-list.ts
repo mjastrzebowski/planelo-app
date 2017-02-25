@@ -1,6 +1,6 @@
 import { Component, Input, ViewChildren } from '@angular/core';
 
-import { ExerciseStore } from 'app/core/exercise/exercise-store';
+import { ExerciseStore } from 'app/services/exercise/exercise-store';
 
 
 @Component({

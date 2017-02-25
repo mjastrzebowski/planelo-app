@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 
 import { App } from 'ionic-angular';
 
-import { IClient } from 'app/core/client/client';
-import { ClientStore } from 'app/core/client/client-store';
+import { IClient } from 'app/services/client/client';
+import { ClientStore } from 'app/services/client/client-store';
 
 import { ClientDetailPage } from 'app/pages/admin/client/client-detail/client-detail';
 

@@ -3,10 +3,10 @@ import { ModalController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
 
-import { AuthService } from 'app/core/auth/auth-service';
-import { ClientStore } from 'app/core/client/client-store';
+import { AuthService } from 'app/services/auth/auth-service';
+import { ClientStore } from 'app/services/client/client-store';
 
-import { NotificationStore } from 'app/core/notification/notification-store';
+import { NotificationStore } from 'app/services/notification/notification-store';
 
 import { ClientCreateModal } from '../client-create/client-create';
 

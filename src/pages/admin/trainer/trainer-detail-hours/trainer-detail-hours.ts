@@ -3,8 +3,8 @@ import { Component, Input } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
-import { AuthService } from 'app/core/auth/auth-service';
-import { ITrainer } from 'app/core/trainer/trainer';
+import { AuthService } from 'app/services/auth/auth-service';
+import { ITrainer } from 'app/services/trainer/trainer';
 
 
 @Component({

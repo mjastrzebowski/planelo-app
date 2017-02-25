@@ -7,12 +7,12 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { Utils } from 'app/providers/utils';
 
-import { AuthService } from 'app/core/auth/auth-service';
+import { AuthService } from 'app/services/auth/auth-service';
 
-import { ClientStore } from 'app/core/client/client-store';
-import { PlaceStore } from 'app/core/place/place-store';
-import { TrainerStore } from 'app/core/trainer/trainer-store';
-import { WorkoutStore } from 'app/core/workout/workout-store';
+import { ClientStore } from 'app/services/client/client-store';
+import { PlaceStore } from 'app/services/place/place-store';
+import { TrainerStore } from 'app/services/trainer/trainer-store';
+import { WorkoutStore } from 'app/services/workout/workout-store';
 
 import { TrainingSchedulerFormModal } from '../training-scheduler-form/training-scheduler-form'
 

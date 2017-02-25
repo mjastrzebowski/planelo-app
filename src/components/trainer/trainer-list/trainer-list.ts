@@ -1,6 +1,6 @@
 import { Component, Input, ViewChildren } from '@angular/core';
 
-import { TrainerStore } from 'app/core/trainer/trainer-store';
+import { TrainerStore } from 'app/services/trainer/trainer-store';
 
 
 @Component({

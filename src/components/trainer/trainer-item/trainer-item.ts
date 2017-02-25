@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 
 import { App } from 'ionic-angular';
 
-import { ITrainer } from 'app/core/trainer/trainer';
-import { TrainerStore } from 'app/core/trainer/trainer-store';
+import { ITrainer } from 'app/services/trainer/trainer';
+import { TrainerStore } from 'app/services/trainer/trainer-store';
 
 import { TrainerDetailPage } from 'app/pages/admin/trainer/trainer-detail/trainer-detail';
 

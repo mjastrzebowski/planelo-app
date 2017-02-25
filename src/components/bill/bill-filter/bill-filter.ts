@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import { ClientStore } from 'app/core/client/client-store';
-import { PlaceStore } from 'app/core/place/place-store';
+import { ClientStore } from 'app/services/client/client-store';
+import { PlaceStore } from 'app/services/place/place-store';
 
 
 @Component({

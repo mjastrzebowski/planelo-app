@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { IWorkout } from 'app/core/workout/workout';
+import { IWorkout } from 'app/services/workout/workout';
 
 
 @Pipe({

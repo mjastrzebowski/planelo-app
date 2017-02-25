@@ -3,11 +3,11 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { NavParams, ViewController } from 'ionic-angular';
 
-import { IClient } from 'app/core/client/client';
+import { IClient } from 'app/services/client/client';
 
 import { Utils } from 'app/providers/utils';
-import { BillStore } from 'app/core/bill/bill-store';
-import { WorkoutStore } from 'app/core/workout/workout-store';
+import { BillStore } from 'app/services/bill/bill-store';
+import { WorkoutStore } from 'app/services/workout/workout-store';
 
 declare let pdfMake: any;
 

@@ -7,11 +7,11 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { Utils } from 'app/providers/utils';
 
-import { AuthService } from 'app/core/auth/auth-service';
+import { AuthService } from 'app/services/auth/auth-service';
 
-import { ClientStore } from 'app/core/client/client-store';
-import { NotificationStore } from 'app/core/notification/notification-store';
-import { WorkoutStore } from 'app/core/workout/workout-store';
+import { ClientStore } from 'app/services/client/client-store';
+import { NotificationStore } from 'app/services/notification/notification-store';
+import { WorkoutStore } from 'app/services/workout/workout-store';
 
 import { TrainingReserveModal } from '../training-reserve/training-reserve';
 

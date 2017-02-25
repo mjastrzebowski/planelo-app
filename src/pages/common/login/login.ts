@@ -3,9 +3,9 @@ import { AlertController, NavController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
 
-import { AuthService } from 'app/core/auth/auth-service';
-import { ClientStore } from 'app/core/client/client-store';
-import { TrainerStore } from 'app/core/trainer/trainer-store';
+import { AuthService } from 'app/services/auth/auth-service';
+import { ClientStore } from 'app/services/client/client-store';
+import { TrainerStore } from 'app/services/trainer/trainer-store';
 
 import { TrainingListPage } from 'app/pages/admin/training/training-list/training-list';
 

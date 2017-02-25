@@ -3,12 +3,12 @@ import * as moment from 'moment';
 
 import { App } from 'ionic-angular';
 
-import { INotification } from 'app/core/notification/notification';
-import { NotificationStore } from 'app/core/notification/notification-store';
+import { INotification } from 'app/services/notification/notification';
+import { NotificationStore } from 'app/services/notification/notification-store';
 
-import { PlaceStore } from 'app/core/place/place-store';
-import { ClientStore } from 'app/core/client/client-store';
-import { TrainerStore } from 'app/core/trainer/trainer-store';
+import { PlaceStore } from 'app/services/place/place-store';
+import { ClientStore } from 'app/services/client/client-store';
+import { TrainerStore } from 'app/services/trainer/trainer-store';
 
 import { ClientDetailPage } from 'app/pages/admin/client/client-detail/client-detail';
 

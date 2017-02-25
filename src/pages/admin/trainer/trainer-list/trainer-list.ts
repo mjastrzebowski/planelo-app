@@ -6,8 +6,8 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { Utils } from 'app/providers/utils';
 
-import { AuthService } from 'app/core/auth/auth-service';
-import { TrainerStore } from 'app/core/trainer/trainer-store';
+import { AuthService } from 'app/services/auth/auth-service';
+import { TrainerStore } from 'app/services/trainer/trainer-store';
 
 import { TrainerCreateModal } from '../trainer-create/trainer-create'
 import { TrainerDetailPage } from '../trainer-detail/trainer-detail'

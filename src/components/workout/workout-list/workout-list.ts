@@ -3,7 +3,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { AuthService } from 'app/core/auth/auth-service';
+import { AuthService } from 'app/services/auth/auth-service';
 
 @Component({
   selector: 'workout-list',

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { NavParams, ViewController } from 'ionic-angular';
 
-import { ITrainer } from 'app/core/trainer/trainer';
+import { ITrainer } from 'app/services/trainer/trainer';
 
 @Component({
   templateUrl: 'trainer-create.html'

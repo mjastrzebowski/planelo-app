@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform, ChangeDetectionStrategy } from '@angular/core';
 
-import { IExercise } from 'app/core/exercise/exercise';
+import { IExercise } from 'app/services/exercise/exercise';
 
 
 @Pipe({

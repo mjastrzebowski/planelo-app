@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ModalController } from 'ionic-angular';
 
-import { AuthService } from 'app/core/auth/auth-service';
-import { ExerciseStore } from 'app/core/exercise/exercise-store';
+import { AuthService } from 'app/services/auth/auth-service';
+import { ExerciseStore } from 'app/services/exercise/exercise-store';
 
 // import { ExerciseCreateModal } from '../exercise-create/exercise-create';
 

@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
 
-import { IClient } from 'app/core/client/client';
+import { IClient } from 'app/services/client/client';
 
-import { WorkoutStore } from 'app/core/workout/workout-store';
+import { WorkoutStore } from 'app/services/workout/workout-store';
 
 @Component({
   templateUrl: 'client-detail-workouts.html'

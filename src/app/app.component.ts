@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, MenuController } from 'ionic-angular';
 
 // services
-import { AuthService } from 'app/core/auth/auth-service';
+import { AuthService } from 'app/services/auth/auth-service';
 import { Utils } from 'app/providers/utils';
 
 // pages - common

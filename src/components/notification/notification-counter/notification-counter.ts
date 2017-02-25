@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
-import { AuthService } from 'app/core/auth/auth-service';
+import { AuthService } from 'app/services/auth/auth-service';
 
-import { NotificationStore } from 'app/core/notification/notification-store';
+import { NotificationStore } from 'app/services/notification/notification-store';
 
 
 @Component({
