@@ -65,6 +65,11 @@ export class BaseStore {
   convertItem(item: any) {
     return item;
   }
+  refresh(args?: any) {
+    this.list.forEach(item => {
+      item = this.convertItem(item);
+    });
+  }
 
   getItem(id: number): any {
     let index = this.findIndex(id);

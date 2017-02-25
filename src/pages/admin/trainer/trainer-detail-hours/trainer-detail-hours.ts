@@ -11,17 +11,18 @@ import { ITrainer } from 'app/services/trainer/trainer';
   templateUrl: 'trainer-detail-hours.html'
 })
 export class TrainerDetailHoursModal {
-  @Input() trainer: ITrainer;
   days = [1, 2, 3, 4, 5, 6, 0];
+  trainerId: number;
   trainerDays: any;
 
   constructor(
-    private params: NavParams,
+    private navParams: NavParams,
     private viewCtrl: ViewController,
     private auth: AuthService,
     public utils: Utils
   ) {
-    this.trainerDays = Utils.clone(this.params.data.days);
+    this.trainerId = this.navParams.data.id;
+    this.trainerDays = Utils.clone(this.navParams.data.days);
   }
 
   add(day: number): void {
@@ -31,7 +32,7 @@ export class TrainerDetailHoursModal {
     this.trainerDays[day].push({
       start: '',
       end: '',
-      profileId: this.auth.id,
+      profileId: this.trainerId,
       day: day,
       create: true
     });

@@ -40,7 +40,7 @@
           <span *ngFor="let hour of day">{{ hour.start }}-{{ hour.end }}, </span>
         </span>
       </p>
-      <p *ngIf="!trainer.hours.length">
+      <p *ngIf="!trainer.days.length">
         • brak ustalonych godzin pracy
       </p>
     </button>

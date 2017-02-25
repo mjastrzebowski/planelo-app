@@ -12,6 +12,7 @@ import { HourStore } from 'app/services/hour/hour-store';
 @Injectable()
 export class TrainerStore extends BaseStore {
   filter = { filter: { where: { isTrainer: true } }};
+  private sub;
 
   constructor(
     private auth: AuthService,
@@ -19,6 +20,15 @@ export class TrainerStore extends BaseStore {
   ) {
     super(auth);
     this.init();
+    this.sub = this.hourStore.subscribe(loaded => {
+      this.refresh();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   convertItem(item: any) {
@@ -47,18 +57,6 @@ export class TrainerStore extends BaseStore {
     // return this.trainers.update(trainer.key, changes);
   }
 
-  createHour(trainerId: number, hour: any) {
-    return this.auth.createHour(trainerId, hour);
-  }
-  updateHour(trainerId: number, hour: any) {
-    return this.auth.updateHour(trainerId, hour);
-  }
-  deleteHour(trainerId: number, hourId: number) {
-    return this.auth.deleteHour(trainerId, hourId);
-  }
-  deleteHours(trainerId: number) {
-    return this.auth.deleteHours(trainerId);
-  }
   updateHours(trainerId: number, hours: any) {
     console.log(hours);
       hours.forEach(day => {
@@ -70,11 +68,11 @@ export class TrainerStore extends BaseStore {
             return;
           }
           if (hour.create) {
-            this.createHour(trainerId, hour);
+            this.hourStore.create(hour);
           } else if (hour.delete) {
-            this.deleteHour(trainerId, hour.id);
+            this.hourStore.delete(hour.id);
           } else if (hour.update) {
-            this.updateHour(trainerId, hour);
+            this.hourStore.update(hour.id, hour);
           }
         })
       });
