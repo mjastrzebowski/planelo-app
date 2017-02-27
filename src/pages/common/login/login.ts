@@ -55,7 +55,7 @@ export class LoginPage {
   login(form: any): void {
     this.submitted = true;
     if (form.valid) {
-      this.utils.presentLoading('Logowanie...');
+      this.utils.showLoading('Logowanie...');
       this.auth.login(form.value)
         .then(() => this.postLogin())
         .catch(() => this.errorLogin());

@@ -184,7 +184,8 @@ export class TrainingReserveModal {
                 (trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-21' &&
                     (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00'))
                 ) {
-                let find = this.workoutStore.listAll.filter(workout => {
+                // TODO: LISTALL
+                let find = this.workoutStore.list.filter(workout => {
                   if (!this.auth.isAdmin && (!workout.fixed && !workout.completed && (date === workout.date && workout.timeStart === time && (workout.trainerKey === trainer.key || (this.auth.isClient && workout.clientKey === this.auth.key)))
                     && !(this.trainings[0] && workout.date === this.trainings[0].date && workout.timeStart === this.trainings[0].timeStart && (trainer.key === this.trainings[0].trainer || (this.auth.isClient && this.auth.key === this.trainings[0].client))))) {
                     return true;

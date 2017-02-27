@@ -22,7 +22,7 @@ export class TrainerItem {
   ) {}
 
   delete(): void {
-    this.trainerStore.removeTrainer(this.model);
+    // this.trainerStore.removeTrainer(this.model);
   }
 
   goToTrainerDetail(trainer) {

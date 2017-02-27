@@ -28,7 +28,7 @@ export class TrainerListPage {
   ) {}
 
   ngOnInit(): void {
-    this.utils.presentLoading('Ładowanie trenerów...');
+    this.utils.showLoading('Ładowanie trenerów...');
     this.sub = this.trainerStore.subscribe(loaded => {
       if (!loaded) {
         return;

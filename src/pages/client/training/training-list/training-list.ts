@@ -100,7 +100,7 @@ export class TrainingListClientPage {
   }
 
   ngOnInit(): void {
-    this.utils.presentLoading('Ładowanie treningów...');
+    this.utils.showLoading('Ładowanie treningów...');
     this.sub = this.workoutStore.subscribe(loaded => {
       if (!loaded) {
         return;
@@ -128,7 +128,7 @@ export class TrainingListClientPage {
 
   saveTraining(data): void {
     if (data) {
-      this.utils.presentLoading('Zapisywanie zmian...');
+      this.utils.showLoading('Zapisywanie zmian...');
       let client = data[0].client || '';
       data.forEach(training => {
         let place = training.trainer.place;

@@ -3,6 +3,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { List } from 'immutable';
 
 import { BaseStore } from 'app/services/_base/base-store';
+import { BaseStream } from 'app/services/_base/base-stream';
 
 import { ITrainer, Trainer } from './trainer';
 import { AuthService } from 'app/services/auth/auth-service';
@@ -16,10 +17,15 @@ export class TrainerStore extends BaseStore {
 
   constructor(
     private auth: AuthService,
-    private hourStore: HourStore
+    private hourStore: HourStore,
+    private baseStream: BaseStream
   ) {
-    super(auth);
+    super(auth, baseStream);
+    this.model = 'Profile';
     this.init();
+  }
+
+  ngOnInit(): void {
     this.sub = this.hourStore.subscribe(loaded => {
       this.refresh();
     });

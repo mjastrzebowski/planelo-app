@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { App, LoadingController } from 'ionic-angular';
+import { App, LoadingController, ToastController } from 'ionic-angular';
 
 @Injectable()
 export class Utils {
@@ -10,7 +10,8 @@ export class Utils {
 
   constructor(
     private app: App,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController
   ) {
     this.nav = app.getActiveNav();
     this.active = false;
@@ -26,7 +27,7 @@ export class Utils {
     ];
   }
 
-  presentLoading(message: string, duration?: number): void {
+  showLoading(message: string, duration?: number): void {
     this.active = true;
     if (this.loading) {
       return;
@@ -34,13 +35,8 @@ export class Utils {
 
     let options = {
       content: message || 'Proszę czekać...',
-      duration: undefined
+      duration: duration
     };
-
-    if (duration) {
-      options.duration = duration;
-    }
-
     this.loading = this.loadingCtrl.create(options);
     this.loading.present();
   }
@@ -51,6 +47,14 @@ export class Utils {
     }
     this.loading = null;
     this.active = false;
+  }
+
+  showMessage(message: string, duration?: number): void {
+    let options = {
+      message: message,
+      duration: duration || 3000
+    };
+    this.toastCtrl.create(options).present();
   }
 
   generatePassword(): string {

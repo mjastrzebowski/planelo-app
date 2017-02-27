@@ -1,50 +1,61 @@
-import { Component } from '@angular/core';
-import { ModalController } from 'ionic-angular';
+import { Component, Input } from '@angular/core';
+import { ModalController, NavController } from 'ionic-angular';
+
+import { List } from 'immutable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+
+import { Utils } from 'app/providers/utils';
 
 import { AuthService } from 'app/services/auth/auth-service';
 import { ExerciseStore } from 'app/services/exercise/exercise-store';
+import { EquipmentStore } from 'app/services/equipment/equipment-store';
+import { MuscleStore } from 'app/services/muscle/muscle-store';
 
-// import { ExerciseCreateModal } from '../exercise-create/exercise-create';
+import { ExerciseCreateModal } from '../exercise-create/exercise-create'
+// import { ExerciseDetailPage } from '../exercise-detail/exercise-detail'
 
 @Component({
   templateUrl: 'exercise-list.html'
 })
 export class ExerciseListPage {
-  private modal;
-  public filter;
+  private sub;
+  filter = {
+    category: 0,
+    query: ''
+  };
 
   constructor(
+    private nav: NavController,
     private modalCtrl: ModalController,
+    private utils: Utils,
     private auth: AuthService,
-    private exerciseStore: ExerciseStore
-  ) {
-    this.filter = '';
+    private exerciseStore: ExerciseStore,
+    private equipmentStore: EquipmentStore,
+    private muscleStore: MuscleStore
+  ) {}
+
+  ngOnInit(): void {
+    this.utils.showLoading('Ładowanie ćwiczeń...');
+    this.sub = this.exerciseStore.subscribe(loaded => {
+      if (!loaded) {
+        return;
+      }
+      this.utils.stopLoading();
+    });
   }
 
-  showExerciseCreate() {
-  //   this.modal = this.modalCtrl.create(ExerciseCreateModal);
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+  }
 
-  //   this.modal.onDidDismiss(data => {
-  //     if (data) {
-  //       this.exerciseStore.createExercise(
-  //         data.name || '',
-  //         data.lastname || '',
-  //         data.email || '',
-  //         data.phone || '',
-  //         data.comment || '')
-  //         .then((res) => {
-  //           this.notificationStore.createNotification('exerciseAdded', {
-  //             exercise: {
-  //               // key: res.getKey(),
-  //               gender: data.gender || '',
-  //               name: data.name || '',
-  //               lastname: data.lastname || ''
-  //             },
-  //             admin: this.auth.key || true
-  //           });
-  //         });
-  //     }
-  //   });
-  //   this.modal.present();
+  goToExerciseDetail(exercise): void {
+    // this.nav.push(ExerciseDetailPage, exercise);
+  }
+
+  showExerciseCreate(): void {
+    let modal = this.modalCtrl.create(ExerciseCreateModal);
+    modal.present();
   }
 }

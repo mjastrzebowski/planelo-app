@@ -1,21 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import { Api } from 'app/services/api/api-service';
+import { BaseService } from 'app/services/_base/base-service';
 
 @Injectable()
-export class WorkoutService {
+export class WorkoutService extends BaseService {
+  action = 'workouts';
 
-  constructor(private api: Api) { }
-
-  get(query?: any): Promise<any> {
-    return this.api.get('workouts', query);
-  }
-
-  post(body: any): Promise<any> {
-    return this.api.post('workouts', body);
-  }
-
-  put(body: any): Promise<any> {
-    return this.api.put('workouts', body);
+  constructor(public api: Api) {
+    super(api);
   }
 }

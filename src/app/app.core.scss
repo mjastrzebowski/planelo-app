@@ -10,10 +10,11 @@
 @import "./app.scss";
 
 // components
-@import "../components/notification/notification-item/notification-item";
-@import "../components/notification/notification-counter/notification-counter";
+@import "../components/admin/exercise-category/exercise-category-item/exercise-category-item";
 @import "../components/bill/bill-list/bill-list";
 @import "../components/bill/bill-item/bill-item";
+@import "../components/notification/notification-item/notification-item";
+@import "../components/notification/notification-counter/notification-counter";
 
 // pages - common
 @import "../pages/common/about/about";

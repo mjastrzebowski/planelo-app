@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, ChangeDetectionStrategy } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 import { ITrainer } from 'app/services/trainer/trainer';
 

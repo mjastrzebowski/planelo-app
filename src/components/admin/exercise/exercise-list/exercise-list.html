@@ -1,7 +1,7 @@
 <ion-list class="exercise-list">
-  <exercise-item #exercises [model]="exercise" *ngFor="let exercise of exerciseStore.list"></exercise-item>
+  <exercise-item #exercises [model]="exercise" *ngFor="let exercise of exerciseStore.get() | filterExercises:filter:limit"></exercise-item>
 
-  <ion-list-header *ngIf="exercises.length === 0">
+  <ion-list-header *ngIf="isEmpty()">
     Nie znaleziono ćwiczeń
   </ion-list-header>
 </ion-list>

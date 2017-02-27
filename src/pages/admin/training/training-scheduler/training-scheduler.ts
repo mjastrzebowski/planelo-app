@@ -86,7 +86,7 @@ export class TrainingSchedulerPage {
   }
 
   ngOnInit(): void {
-    this.utils.presentLoading('Ładowanie stałych treningów...');
+    this.utils.showLoading('Ładowanie stałych treningów...');
     this.calendar = false;
 
     if (this.auth.isTrainer) {
@@ -161,7 +161,7 @@ export class TrainingSchedulerPage {
 
   saveTraining(data): void {
     if (data) {
-      this.utils.presentLoading('Zapisywanie zmian...');
+      this.utils.showLoading('Zapisywanie zmian...');
 
       if (data[0].hasOwnProperty('delete')) {
         data.forEach(training => {
@@ -337,8 +337,7 @@ export class TrainingSchedulerPage {
   }
 
   calendarDrag(event, delta, revertFunc): void {
-    let index = this.workoutStore.findIndex(event.id);
-    let workout = this.workoutStore.list.get(index);
+    let workout = this.workoutStore.getItem(event.id);
     let changes = {
       trainer: event.resourceId,
       date: event.start.format('YYYY-MM-DD'),
@@ -365,8 +364,7 @@ export class TrainingSchedulerPage {
   }
 
   calendarEvent(event): void {
-    let index = this.workoutStore.findIndex(event.id);
-    let workout = this.workoutStore.list.get(index);
+    let workout = this.workoutStore.getItem(event.id);
     this.showTrainingSchedulerForm(workout);
   }
 

@@ -76,15 +76,15 @@ export class DavidApp {
     public menu: MenuController,
     public auth: AuthService
   ) {
-    this.utils.presentLoading('Uruchamianie aplikacji...');
+    this.utils.showLoading('Uruchamianie aplikacji...');
     this.auth.subscribe((authenticated: boolean) => {
       this.authenticated = authenticated;
       this.utils.stopLoading();
       if (!this.authenticated) {
         this.root = LoginPage;
       } else {
-        this.root = TrainingListPage;
-        // this.root = TrainerListPage;
+        // this.root = TrainingListPage;
+        this.root = ExerciseListPage;
         // this.root = SettingsPage;
       }
     });

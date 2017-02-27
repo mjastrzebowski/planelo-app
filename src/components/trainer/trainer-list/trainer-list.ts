@@ -1,4 +1,4 @@
-import { Component, Input, ViewChildren } from '@angular/core';
+import { Component, Input, ViewChildren, ChangeDetectorRef } from '@angular/core';
 
 import { TrainerStore } from 'app/services/trainer/trainer-store';
 
@@ -8,23 +8,37 @@ import { TrainerStore } from 'app/services/trainer/trainer-store';
   templateUrl: 'trainer-list.html'
 })
 export class TrainerList {
+  private sub;
   @Input() filter: any;
   @Input() limit: any;
   @ViewChildren('trainers') trainers: any;
 
   constructor(
+    private cdr: ChangeDetectorRef,
     public trainerStore: TrainerStore
-  ) {
-    this.trainers = [];
+  ) {}
+
+  ngOnInit(): void {
+    this.sub = this.trainerStore.subscribe(loaded => {
+      if (loaded) {
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   isEmpty() {
-    if (this.trainers.length) {
+    if (this.trainers && this.trainers.length) {
       let list = this.trainers.filter(trainer => {
         return !trainer.model.hide;
       });
       return list.length === 0;
     }
-    return this.trainers.length;
+    return true;
   }
 }

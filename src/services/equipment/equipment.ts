@@ -1,17 +1,15 @@
-export class IExercise {
+export class IEquipment {
   createdAt?: number;
   id: number;
   key?: string;
   hide?: boolean;
   name: string;
-  categoryId: number;
 }
 
 
-export class Exercise implements IExercise {
+export class Equipment implements IEquipment {
   id: number;
   name: string;
-  categoryId: number;
 
   constructor(name: string) {
     this.name = name;

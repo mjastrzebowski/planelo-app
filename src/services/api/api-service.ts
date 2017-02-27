@@ -17,7 +17,8 @@ export class Api {
   }
 
   static changeStream(action: string) {
-    let url = Config.API_URL + action + '/change-stream';
+    // let url = Config.API_URL + action + '/change-stream';
+    let url = Config.API_URL + action;
     return new EventSource(url);
   }
 

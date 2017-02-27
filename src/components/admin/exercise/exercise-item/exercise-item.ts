@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 
 import { App } from 'ionic-angular';
 
+import { Utils } from 'app/providers/utils';
+
 import { IExercise } from 'app/services/exercise/exercise';
 import { ExerciseStore } from 'app/services/exercise/exercise-store';
 
@@ -18,11 +20,14 @@ export class ExerciseItem {
 
   constructor(
     private app: App,
+    private utils: Utils,
     private exerciseStore: ExerciseStore
   ) {}
 
   delete(): void {
-    this.exerciseStore.removeExercise(this.model);
+    this.exerciseStore.delete(this.model.id).then(() => {
+      this.utils.showMessage('Ćwiczenie usunięte.');
+    });
   }
 
   goToExerciseDetail(exercise) {

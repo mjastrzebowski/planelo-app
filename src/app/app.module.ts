@@ -13,18 +13,26 @@ import { Utils } from 'app/providers/utils';
 
 // services
 import { Api } from 'app/services/api/api-service';
+import { BaseStream } from 'app/services/_base/base-stream';
 import { AuthService } from 'app/services/auth/auth-service';
-
+import { BaseService } from 'app/services/_base/base-service';
+import { EquipmentService } from 'app/services/equipment/equipment-service';
 import { ExerciseService } from 'app/services/exercise/exercise-service';
+import { ExerciseCategoryService } from 'app/services/exercise-category/exercise-category-service';
 import { HourService } from 'app/services/hour/hour-service';
+import { MuscleService } from 'app/services/muscle/muscle-service';
 import { PlaceService } from 'app/services/place/place-service';
 import { WorkoutService } from 'app/services/workout/workout-service';
+
 // import { TrainerService } from 'app/services/trainer/trainer-service';
 
 import { BillStore } from 'app/services/bill/bill-store';
 import { ClientStore } from 'app/services/client/client-store';
+import { EquipmentStore } from 'app/services/equipment/equipment-store';
 import { ExerciseStore } from 'app/services/exercise/exercise-store';
+import { ExerciseCategoryStore } from 'app/services/exercise-category/exercise-category-store';
 import { HourStore } from 'app/services/hour/hour-store';
+import { MuscleStore } from 'app/services/muscle/muscle-store';
 import { NotificationStore } from 'app/services/notification/notification-store';
 import { PlaceStore } from 'app/services/place/place-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
@@ -52,6 +60,8 @@ import { ClientListFilterPipe } from 'app/components/client/client-list/client-l
 import { ExerciseItem } from 'app/components/admin/exercise/exercise-item/exercise-item';
 import { ExerciseList } from 'app/components/admin/exercise/exercise-list/exercise-list';
 import { ExerciseListFilterPipe } from 'app/components/admin/exercise/exercise-list/exercise-list-filter-pipe';
+import { ExerciseCategoryItem } from 'app/components/admin/exercise-category/exercise-category-item/exercise-category-item';
+import { ExerciseCategoryList } from 'app/components/admin/exercise-category/exercise-category-list/exercise-category-list';
 
 import { NotificationItem } from 'app/components/notification/notification-item/notification-item';
 import { NotificationList } from 'app/components/notification/notification-list/notification-list';
@@ -83,6 +93,7 @@ import { ClientDetailProfileModal } from 'app/pages/admin/client/client-detail-p
 import { ClientDetailWorkoutsModal } from 'app/pages/admin/client/client-detail-workouts/client-detail-workouts';
 import { ClientListPage } from 'app/pages/admin/client/client-list/client-list';
 import { ExerciseListPage } from 'app/pages/admin/exercise/exercise-list/exercise-list';
+import { ExerciseCreateModal } from 'app/pages/admin/exercise/exercise-create/exercise-create';
 import { TrainerCreateModal } from 'app/pages/admin/trainer/trainer-create/trainer-create';
 import { TrainerDetailPage, GroupHoursPipe } from 'app/pages/admin/trainer/trainer-detail/trainer-detail';
 import { TrainerDetailHoursModal } from 'app/pages/admin/trainer/trainer-detail-hours/trainer-detail-hours';
@@ -121,6 +132,8 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     ExerciseItem,
     ExerciseList,
     ExerciseListFilterPipe,
+    ExerciseCategoryItem,
+    ExerciseCategoryList,
     NotificationItem,
     NotificationList,
     NotificationFilter,
@@ -150,6 +163,7 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     ClientDetailWorkoutsModal,
     ClientListPage,
     ExerciseListPage,
+    ExerciseCreateModal,
     TrainerCreateModal,
     TrainerDetailPage,
     TrainerDetailHoursModal,
@@ -206,6 +220,7 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     ClientDetailWorkoutsModal,
     ClientListPage,
     ExerciseListPage,
+    ExerciseCreateModal,
     TrainerCreateModal,
     TrainerDetailPage,
     TrainerDetailHoursModal,
@@ -230,20 +245,28 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     FIREBASE_PROVIDERS,
     // HttpModule,
     Api,
+    BaseStream,
     AuthService,
+    BaseService,
+    EquipmentService,
     ExerciseService,
+    ExerciseCategoryService,
     HourService,
+    MuscleService,
     PlaceService,
-    WorkoutService,
     // TrainerService,
+    WorkoutService,
 
     BillStore,
     ClientStore,
-    HourStore,
+    EquipmentStore,
     ExerciseStore,
+    ExerciseCategoryStore,
+    HourStore,
+    MuscleStore,
+    NotificationStore,
     PlaceStore,
     TrainerStore,
-    NotificationStore,
     UserStore,
     WorkoutStore,
     Utils

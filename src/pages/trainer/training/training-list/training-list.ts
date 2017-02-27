@@ -71,7 +71,7 @@ export class TrainingListTrainerPage {
   }
 
   ngOnInit(): void {
-    this.utils.presentLoading('Ładowanie treningów...');
+    this.utils.showLoading('Ładowanie treningów...');
     this.calendar = false;
     this.place = this.auth.place;
 

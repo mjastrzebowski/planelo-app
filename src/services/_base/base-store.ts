@@ -3,16 +3,21 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { List } from 'immutable';
 
 import { BaseService } from './base-service';
+import { BaseStream } from './base-stream';
 
 @Injectable()
 export class BaseStore {
   public filter: any;
+  public model: string;
   public list: List<any> = List();
   protected loaded: boolean = false;
   private emitter: EventEmitter<any> = new EventEmitter();
   private changeStream: any;
 
-  constructor(private service: BaseService) {}
+  constructor(
+    private service: BaseService,
+    private stream: BaseStream
+  ) {}
 
   init() {
     this.service.get(this.filter).then(data => {
@@ -22,28 +27,29 @@ export class BaseStore {
       });
       this.loaded = true;
       this.emit();
-
-      this.changeStream = this.service.changeStream();
-      this.changeStream.addEventListener('data', this.changeParser.bind(this))
-      // this.changeStream.addEventListener('error', (error) => {
-      //   console.info('[ error ][ Store "' + this.service.action + '" - changeStream ]: ', error);
-      // });
+      this.watchStream();
     }, error => {
       console.error('[ error ][ Store "' + this.service.action + '" - GET ]: ', error);
     });
   }
 
-  changeParser(msg: any) {
-    let data = JSON.parse(msg.data);
-    switch (data.type) {
+  watchStream() {
+    this.stream.subscribe(this.parseStream.bind(this));
+  }
+  parseStream(msg: any) {
+    let data = JSON.parse(msg);
+    if (data.modelName !== this.model) {
+      return false;
+    }
+    switch (data.kind) {
       case 'create':
-        this.list = this.list.push(this.convertItem(data.data));
+        this.createLocal(data.data);
         break;
       case 'update':
-        this.list = this.list.update(this.findIndex(data.target), () => { return this.convertItem(data.data); });
+        this.updateLocal(data.target, data.data);
         break;
       case 'remove':
-        this.list = this.list.remove(this.findIndex(data.target));
+        this.deleteLocal(data.target);
         break;
     }
     this.emit();
@@ -62,6 +68,15 @@ export class BaseStore {
     return this.service.delete(itemId);
   }
 
+  createLocal(item) {
+    this.list = this.list.push(this.convertItem(item));
+  }
+  updateLocal(itemId, item) {
+    this.list = this.list.update(this.findIndex(itemId), () => { return this.convertItem(item); });
+  }
+  deleteLocal(itemId) {
+    this.list = this.list.remove(this.findIndex(itemId));
+  }
   convertItem(item: any) {
     return item;
   }
@@ -113,6 +128,25 @@ export class BaseStore {
           }
           case 'availableTo': {
             if (item.fullDate < filters[key]) {
+              check = false;
+            }
+            break;
+          }
+          case 'dateBefore': {
+            if (item.fullDate >= filters[key]) {
+              check = false;
+            }
+            break;
+          }
+          case 'dateAfter': {
+            if (item.fullDate < filters[key]) {
+              check = false;
+            }
+            break;
+          }
+          case 'fixed': {
+            if ((filters[key] === true && item[key] !== filters[key])
+              || (filters[key] === false && item[key] && item[key] !== filters[key])) {
               check = false;
             }
             break;

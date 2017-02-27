@@ -26,7 +26,7 @@ export class ClientListPage {
   ) {}
 
   ngOnInit(): void {
-    this.utils.presentLoading('Ładowanie klientów...');
+    this.utils.showLoading('Ładowanie klientów...');
     this.sub = this.clientStore.subscribe(loaded => {
       if (!loaded) {
         return;

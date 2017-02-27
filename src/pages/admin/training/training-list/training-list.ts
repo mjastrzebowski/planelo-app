@@ -76,7 +76,7 @@ export class TrainingListPage {
   }
 
   ngOnInit(): void {
-    this.utils.presentLoading('Ładowanie treningów...');
+    this.utils.showLoading('Ładowanie treningów...');
     this.calendar = false;
 
     this.sub = this.workoutStore.subscribe(loaded => {
@@ -235,7 +235,7 @@ export class TrainingListPage {
 
   saveTraining(data): void {
     if (data) {
-      this.utils.presentLoading('Zapisywanie zmian...');
+      this.utils.showLoading('Zapisywanie zmian...');
 
       if (data[0].hasOwnProperty('delete')) {
         data.forEach(training => {
@@ -424,8 +424,7 @@ export class TrainingListPage {
   }
 
   calendarDrag(event, delta, revertFunc): void {
-    let index = this.workoutStore.findIndex(event.id);
-    let workout = this.workoutStore.list.get(index);
+    let workout = this.workoutStore.getItem(event.id);
     let changes = {
       trainer: event.resourceId,
       date: event.start.format('YYYY-MM-DD'),
@@ -453,8 +452,7 @@ export class TrainingListPage {
   }
 
   calendarEvent(event): void {
-    let index = this.workoutStore.findIndex(event.id);
-    let workout = this.workoutStore.list.get(index);
+    let workout = this.workoutStore.getItem(event.id);
     let title = event.title + ' • ' + event.start.format('DD.MM.YYYY, HH:mm');
     if (workout.completed) {
       title += ' • Powód odwołania: ' + workout.completed;
