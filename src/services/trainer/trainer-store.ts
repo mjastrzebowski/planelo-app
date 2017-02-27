@@ -13,7 +13,6 @@ import { HourStore } from 'app/services/hour/hour-store';
 @Injectable()
 export class TrainerStore extends BaseStore {
   filter = { filter: { where: { isTrainer: true } }};
-  private sub;
 
   constructor(
     private auth: AuthService,
@@ -23,18 +22,10 @@ export class TrainerStore extends BaseStore {
     super(auth, baseStream);
     this.model = 'Profile';
     this.init();
-  }
 
-  ngOnInit(): void {
-    this.sub = this.hourStore.subscribe(loaded => {
+    this.hourStore.subscribe(loaded => {
       this.refresh();
     });
-  }
-
-  ngOnDestroy(): void {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
   }
 
   convertItem(item: any) {

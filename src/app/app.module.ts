@@ -19,6 +19,8 @@ import { BaseService } from 'app/services/_base/base-service';
 import { EquipmentService } from 'app/services/equipment/equipment-service';
 import { ExerciseService } from 'app/services/exercise/exercise-service';
 import { ExerciseCategoryService } from 'app/services/exercise-category/exercise-category-service';
+import { ExerciseCommentService } from 'app/services/exercise-comment/exercise-comment-service';
+import { ExerciseImageService } from 'app/services/exercise-image/exercise-image-service';
 import { HourService } from 'app/services/hour/hour-service';
 import { MuscleService } from 'app/services/muscle/muscle-service';
 import { PlaceService } from 'app/services/place/place-service';
@@ -31,6 +33,8 @@ import { ClientStore } from 'app/services/client/client-store';
 import { EquipmentStore } from 'app/services/equipment/equipment-store';
 import { ExerciseStore } from 'app/services/exercise/exercise-store';
 import { ExerciseCategoryStore } from 'app/services/exercise-category/exercise-category-store';
+import { ExerciseCommentStore } from 'app/services/exercise-comment/exercise-comment-store';
+import { ExerciseImageStore } from 'app/services/exercise-image/exercise-image-store';
 import { HourStore } from 'app/services/hour/hour-store';
 import { MuscleStore } from 'app/services/muscle/muscle-store';
 import { NotificationStore } from 'app/services/notification/notification-store';
@@ -251,6 +255,8 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     EquipmentService,
     ExerciseService,
     ExerciseCategoryService,
+    ExerciseCommentService,
+    ExerciseImageService,
     HourService,
     MuscleService,
     PlaceService,
@@ -262,6 +268,8 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     EquipmentStore,
     ExerciseStore,
     ExerciseCategoryStore,
+    ExerciseCommentStore,
+    ExerciseImageStore,
     HourStore,
     MuscleStore,
     NotificationStore,

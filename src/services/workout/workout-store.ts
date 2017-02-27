@@ -14,7 +14,7 @@ import { TrainerStore } from 'app/services/trainer/trainer-store';
 
 @Injectable()
 export class WorkoutStore extends BaseStore {
-  // filter = { filter: { include: ['place', { client: 'place' }, { trainer: 'place' }, { session: { activity: 'activityType' }}] }};
+  filter = { filter: { include: ['place', { client: 'place' }, { trainer: 'place' }, { session: { activity: 'activityType' }}] }};
   private sub;
 
   constructor(
