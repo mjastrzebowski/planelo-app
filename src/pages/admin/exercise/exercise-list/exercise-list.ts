@@ -8,8 +8,6 @@ import { Utils } from 'app/providers/utils';
 
 import { AuthService } from 'app/services/auth/auth-service';
 import { ExerciseStore } from 'app/services/exercise/exercise-store';
-import { EquipmentStore } from 'app/services/equipment/equipment-store';
-import { MuscleStore } from 'app/services/muscle/muscle-store';
 
 import { ExerciseCreateModal } from '../exercise-create/exercise-create'
 // import { ExerciseDetailPage } from '../exercise-detail/exercise-detail'
@@ -29,9 +27,7 @@ export class ExerciseListPage {
     private modalCtrl: ModalController,
     private utils: Utils,
     private auth: AuthService,
-    private exerciseStore: ExerciseStore,
-    private equipmentStore: EquipmentStore,
-    private muscleStore: MuscleStore
+    private exerciseStore: ExerciseStore
   ) {}
 
   ngOnInit(): void {

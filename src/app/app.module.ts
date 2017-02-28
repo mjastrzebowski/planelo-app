@@ -20,7 +20,9 @@ import { EquipmentService } from 'app/services/equipment/equipment-service';
 import { ExerciseService } from 'app/services/exercise/exercise-service';
 import { ExerciseCategoryService } from 'app/services/exercise-category/exercise-category-service';
 import { ExerciseCommentService } from 'app/services/exercise-comment/exercise-comment-service';
+import { ExerciseEquipmentService } from 'app/services/exercise-equipment/exercise-equipment-service';
 import { ExerciseImageService } from 'app/services/exercise-image/exercise-image-service';
+import { ExerciseMuscleService } from 'app/services/exercise-muscle/exercise-muscle-service';
 import { HourService } from 'app/services/hour/hour-service';
 import { MuscleService } from 'app/services/muscle/muscle-service';
 import { PlaceService } from 'app/services/place/place-service';
@@ -34,7 +36,9 @@ import { EquipmentStore } from 'app/services/equipment/equipment-store';
 import { ExerciseStore } from 'app/services/exercise/exercise-store';
 import { ExerciseCategoryStore } from 'app/services/exercise-category/exercise-category-store';
 import { ExerciseCommentStore } from 'app/services/exercise-comment/exercise-comment-store';
+import { ExerciseEquipmentStore } from 'app/services/exercise-equipment/exercise-equipment-store';
 import { ExerciseImageStore } from 'app/services/exercise-image/exercise-image-store';
+import { ExerciseMuscleStore } from 'app/services/exercise-muscle/exercise-muscle-store';
 import { HourStore } from 'app/services/hour/hour-store';
 import { MuscleStore } from 'app/services/muscle/muscle-store';
 import { NotificationStore } from 'app/services/notification/notification-store';
@@ -98,6 +102,7 @@ import { ClientDetailWorkoutsModal } from 'app/pages/admin/client/client-detail-
 import { ClientListPage } from 'app/pages/admin/client/client-list/client-list';
 import { ExerciseListPage } from 'app/pages/admin/exercise/exercise-list/exercise-list';
 import { ExerciseCreateModal } from 'app/pages/admin/exercise/exercise-create/exercise-create';
+import { ExerciseDetailPage } from 'app/pages/admin/exercise/exercise-detail/exercise-detail';
 import { TrainerCreateModal } from 'app/pages/admin/trainer/trainer-create/trainer-create';
 import { TrainerDetailPage, GroupHoursPipe } from 'app/pages/admin/trainer/trainer-detail/trainer-detail';
 import { TrainerDetailHoursModal } from 'app/pages/admin/trainer/trainer-detail-hours/trainer-detail-hours';
@@ -168,6 +173,7 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     ClientListPage,
     ExerciseListPage,
     ExerciseCreateModal,
+    ExerciseDetailPage,
     TrainerCreateModal,
     TrainerDetailPage,
     TrainerDetailHoursModal,
@@ -225,6 +231,7 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     ClientListPage,
     ExerciseListPage,
     ExerciseCreateModal,
+    ExerciseDetailPage,
     TrainerCreateModal,
     TrainerDetailPage,
     TrainerDetailHoursModal,
@@ -256,7 +263,9 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     ExerciseService,
     ExerciseCategoryService,
     ExerciseCommentService,
+    ExerciseEquipmentService,
     ExerciseImageService,
+    ExerciseMuscleService,
     HourService,
     MuscleService,
     PlaceService,
@@ -269,7 +278,9 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     ExerciseStore,
     ExerciseCategoryStore,
     ExerciseCommentStore,
+    ExerciseEquipmentStore,
     ExerciseImageStore,
+    ExerciseMuscleStore,
     HourStore,
     MuscleStore,
     NotificationStore,

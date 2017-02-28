@@ -14,7 +14,7 @@ import { MuscleStore } from 'app/services/muscle/muscle-store';
 @Component({
   templateUrl: 'exercise-detail.html'
 })
-export class ExerciseDetailModal {
+export class ExerciseDetailPage {
   @Input() model: IExercise;
 
   constructor(
@@ -25,22 +25,7 @@ export class ExerciseDetailModal {
     private exerciseCategoryStore: ExerciseCategoryStore,
     private equipmentStore: EquipmentStore,
     private muscleStore: MuscleStore
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.model = this.exerciseStore.getItem(this.params.data) || new IExercise();
-  }
-
-  save(): void {
-    this.utils.showLoading('Zapisywanie ćwiczenia...');
-    this.exerciseStore.create(this.model).then(() => {
-      this.utils.stopLoading();
-      this.utils.showMessage('Ćwiczenie dodane.');
-      this.dismiss();
-    });
-  }
-
-  dismiss(): void {
-    this.viewCtrl.dismiss();
   }
 }

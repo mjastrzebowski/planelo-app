@@ -7,7 +7,7 @@ import { Utils } from 'app/providers/utils';
 import { IExercise } from 'app/services/exercise/exercise';
 import { ExerciseStore } from 'app/services/exercise/exercise-store';
 
-// import { ExerciseDetailPage } from 'app/pages/admin/exercise/exercise-detail/exercise-detail';
+import { ExerciseDetailPage } from 'app/pages/admin/exercise/exercise-detail/exercise-detail';
 
 
 @Component({
@@ -32,6 +32,6 @@ export class ExerciseItem {
 
   goToExerciseDetail(exercise) {
     this.nav = this.app.getActiveNav();
-    // this.nav.push(ExerciseDetailPage, exercise);
+    this.nav.push(ExerciseDetailPage, exercise);
   }
 }

@@ -23,9 +23,7 @@ export class TrainerStore extends BaseStore {
     this.model = 'Profile';
     this.init();
 
-    this.hourStore.subscribe(loaded => {
-      this.refresh();
-    });
+    this.hourStore.subscribe(this.refresh.bind(this));
   }
 
   convertItem(item: any) {

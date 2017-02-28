@@ -10,49 +10,33 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="has-header">
-  <form #form="ngForm" novalidate>
-    <ion-list>
-      <ion-item>
-        <ion-label floating>Nazwa</ion-label>
-        <ion-input type="text" [(ngModel)]="model.name" name="name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Kategoria</ion-label>
-        <ion-select [(ngModel)]="model.categoryId" name="categoryId">
-          <ion-option *ngFor="let category of exerciseCategoryStore.get()" [value]="category.id">{{ category?.name }}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Główne mięśnie</ion-label>
-        <ion-select [(ngModel)]="model.muscles" name="muscles" multiple="true">
-          <ion-option *ngFor="let muscle of muscleStore.get()" [value]="muscle.id">{{ muscle?.name }}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Mięśnie pomocnicze</ion-label>
-        <ion-select [(ngModel)]="model.musclesSecondary" name="musclesSecondary" multiple="true">
-          <ion-option *ngFor="let muscle of muscleStore.get()" [value]="muscle.id">{{ muscle?.name }}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Sprzęt</ion-label>
-        <ion-select [(ngModel)]="model.equipments" name="equipments" multiple="true">
-          <ion-option *ngFor="let equipment of equipmentStore.get()" [value]="equipment.id">{{ equipment?.name }}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Opis</ion-label>
-        <ion-textarea [(ngModel)]="model.description" name="description"></ion-textarea>
-      </ion-item>
-    </ion-list>
-    <ion-row responsive-sm>
-      <ion-col>
-        <button ion-button color="primary" block type="submit" (click)="save()">Zapisz</button>
+<ion-content padding>
+
+  <h1> {{ model?.name }} </h1>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-md-8>
+        <h5>Wykonanie</h5>
+        <p> {{ model.description }} </p>
+        <h5>Uwagi</h5>
+        <p>Ćwiczenie to skutecznie sprzyja rozwojowi mięśni naramiennych. Jeżeli ciężko jest Ci je wykonywać to możesz skorzystać z kilku ułatwień np. wypychając sztangę do góry możesz pomóc sobie nogami lub "wejść pod sztangę", czyli przesunąć tułów w przód. Sztangę można chwytać na dwa sposoby - nachwytem zamkniętym, który jest bezpieczniejszy lub nachwytem otwartym (polecany osobom zaawansowanym). Chwyt otwarty polega na ułożeniu kciuka po przeciwnej stronie niż reszta palców. Łokcie można ustawić prostopadle, jednak należy trzymać je z przodu ciała. Stopy powinny być stabilnie oparte o podłoże. Przed wykonywaniem serii właściwych należy pamiętać o odpowiedniej rozgrzewce.</p>
       </ion-col>
-      <ion-col>
-        <button ion-button color="light" block (click)="dismiss()">Anuluj</button>
+      <ion-col col-12 col-md-4>
+        <h5>Kategoria</h5>
+        <p> {{ model.category?.name }}</p>
+        <h5>Sprzęt</h5>
+        <p *ngFor="let link of model.equipments"> {{ link?.equipment?.name }} </p>
+        <h5>Główne mięśnie</h5>
+        <p *ngFor="let link of model.muscles"> {{ link?.muscle?.name }} </p>
+        <h5>Mięśnie pomocnicze</h5>
+        <p *ngFor="let link of model.musclesSecondary"> {{ link?.muscle?.name }} </p>
+        <div id="muscle-front" class="muscle-background" style="float: left; width: 90px; height: 138px; background-size: 75px; background-repeat: no-repeat; background-image: url(http://wger.de/static/images/muscles/secondary/muscle-2.svg),url(http://wger.de/static/images/muscles/secondary/muscle-4.svg),url(http://wger.de/static/images/muscles/muscular_system_front.svg);"></div>
+        <div id="muscle-back" class="muscle-background" style="float: left; width: 90px; height: 138px; background-size: 75px; background-repeat: no-repeat; background-image: url(http://wger.de/static/images/muscles/main/muscle-5.svg),url(http://wger.de/static/images/muscles/muscular_system_back.svg);"></div>
       </ion-col>
     </ion-row>
-  </form>
+  </ion-grid>
+
+  <img src="http://img.everkinetic.com/?action=image&id=417&number=1&key=69cadbdd2&version=94540045&size=320,320">
+  <img src="http://img.everkinetic.com/?action=image&id=417&number=0&key=69cadbdd2&version=a040433d&size=320,320">
 </ion-content>
