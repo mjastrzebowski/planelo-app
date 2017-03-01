@@ -25,6 +25,11 @@
     display: none !important;
   }
 }
+@media screen and (max-width: $grid-responsive-md-break) {
+  .hidden-md {
+    display: none !important;
+  }
+}
 
 @media screen and (min-width: $grid-responsive-lg-break) {
   // disable sliding options on desktop

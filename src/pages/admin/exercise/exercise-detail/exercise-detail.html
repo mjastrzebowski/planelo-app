@@ -1,11 +1,14 @@
 <ion-header>
   <ion-navbar>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Ćwiczenie</ion-title>
-    <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-        <span color="primary" showWhen="ios">Zamknij</span>
-        <ion-icon name="close" hideWhen="ios"></ion-icon>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showExerciseCreate()">
+        <ion-icon name="add"></ion-icon>
       </button>
+      <notification-counter></notification-counter>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
