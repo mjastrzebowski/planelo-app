@@ -51,7 +51,6 @@ export class ExerciseListPage {
   }
 
   showExerciseCreate(): void {
-    let modal = this.modalCtrl.create(ExerciseCreateModal);
-    modal.present();
+    this.modalCtrl.create(ExerciseCreateModal).present();
   }
 }

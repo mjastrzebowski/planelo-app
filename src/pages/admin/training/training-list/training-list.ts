@@ -527,7 +527,7 @@ export class TrainingListPage {
   }
 
   getTrainerWorkingHourEvents(trainer, start, end, timezone?): any {
-    if (!trainer.hours || !trainer.hours.length) {
+    if (!trainer.days || !trainer.days.length) {
       return [];
     }
 

@@ -14,15 +14,15 @@
   <form #trainerForm="ngForm" novalidate>
     <ion-list *ngFor="let day of days">
       <ion-list-header padding-v-0>{{ utils.weekdays[day] }}</ion-list-header>
-      <ion-item-sliding *ngFor="let hour of trainerDays[day]">
+      <ion-item-sliding *ngFor="let hour of model[day]">
         <ion-item *ngIf="!hour.delete">
           <div ego-col ion-item item-content>
             <ion-label>Początek</ion-label>
-            <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" minuteValues="0,15,30,45" [(ngModel)]="hour.start" name="start{{ hour.id }}" (ionChange)="hour.update = true"></ion-datetime>
+            <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="hour.start" name="start{{ hour.id }}" (ionChange)="hour.update = true"></ion-datetime>
           </div>
           <div ego-col ion-item item-content>
             <ion-label>Koniec</ion-label>
-            <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" minuteValues="0,15,30,45" [(ngModel)]="hour.end" name="end{{ hour.id }}" (ionChange)="hour.update = true"></ion-datetime>
+            <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="hour.end" name="end{{ hour.id }}" (ionChange)="hour.update = true"></ion-datetime>
           </div>
           <div ego-col item-right class="hidden-sm">
             <button ion-button icon-left clear color="danger" small (click)="remove(hour)">

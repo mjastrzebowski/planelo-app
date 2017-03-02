@@ -52,9 +52,9 @@ export class TrainerStore extends BaseStore {
     // return this.trainers.update(trainer.key, changes);
   }
 
-  updateHours(trainerId: number, hours: any) {
-    console.log(hours);
-      hours.forEach(day => {
+  updateHours(trainerId: number, days: any) {
+    return new Promise((resolve, reject) => {
+      days.forEach(day => {
         if (!day) {
           return;
         }
@@ -69,8 +69,13 @@ export class TrainerStore extends BaseStore {
           } else if (hour.update) {
             this.hourStore.update(hour.id, hour);
           }
-        })
+        });
       });
+      resolve();
+      // }, (error) => {
+      //   reject(error);
+      // });
+    });
     // this.deleteHours(trainerId).then(() => {
     // });
   }

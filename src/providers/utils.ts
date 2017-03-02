@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { App, LoadingController, ToastController } from 'ionic-angular';
 
+import { Config } from 'app/config';
+
 @Injectable()
 export class Utils {
   private nav;
@@ -68,7 +70,15 @@ export class Utils {
     return retVal;
   }
 
-  static forEachDay = function(startDate, endDate) {
+  getBussinesHoursArray() {
+    let hours = [];
+    for (let i = Config.BUSINESS_HOURS.START; i <= Config.BUSINESS_HOURS.END; i++) {
+      hours.push(i);
+    }
+    return hours;
+  }
+
+  static forEachDay(startDate, endDate) {
     let dates = [];
     let currDate = startDate.clone().startOf('day');
     let lastDate = endDate.clone().startOf('day');
@@ -79,7 +89,7 @@ export class Utils {
     return dates;
   };
 
-  static clone = function (object) {
+  static clone(object) {
     return JSON.parse(JSON.stringify(object));
   }
 

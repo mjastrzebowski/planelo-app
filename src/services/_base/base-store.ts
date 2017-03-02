@@ -59,10 +59,10 @@ export class BaseStore {
     return this.list;
   }
   create(item: any) {
-    return this.service.create(item);
+    return this.service.create(this.clearItem(item));
   }
   update(itemId: number, item: any) {
-    return this.service.update(itemId, item);
+    return this.service.update(itemId, this.clearItem(item));
   }
   delete(itemId: number) {
     return this.service.delete(itemId);
@@ -76,6 +76,10 @@ export class BaseStore {
   }
   deleteLocal(itemId) {
     this.list = this.list.remove(this.findIndex(itemId));
+  }
+  clearItem(item: any) {
+    delete item.id;
+    return item;
   }
   convertItem(item: any) {
     return item;

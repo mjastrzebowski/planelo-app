@@ -141,20 +141,19 @@ export class TrainerDetailPage {
   }
 
   showTrainerHours(trainer): void {
-    let modal = this.modalCtrl.create(TrainerDetailHoursModal, trainer);
+    this.modalCtrl.create(TrainerDetailHoursModal, trainer).present();
 
-    modal.onDidDismiss(data => {
-      if (data) {
-        // this.trainerStore.createHour(4, {
-        //   "day": "3",
-        //   "start": "08:00",
-        //   "end": "10:00"
-        // });
-        this.trainerStore.updateHours(trainer.id, data);
-        this.trainer.days = data;
-      }
-    });
-    modal.present();
+    // modal.onDidDismiss(data => {
+    //   if (data) {
+    //     // this.trainerStore.createHour(4, {
+    //     //   "day": "3",
+    //     //   "start": "08:00",
+    //     //   "end": "10:00"
+    //     // });
+    //     this.trainerStore.updateHours(trainer.id, data);
+    //     this.trainer.days = data;
+    //   }
+    // });
   }
 
   showTrainerVacation(trainer): void {

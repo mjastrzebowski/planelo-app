@@ -5,31 +5,35 @@ import { NavParams, ViewController } from 'ionic-angular';
 import { Utils } from 'app/providers/utils';
 import { AuthService } from 'app/services/auth/auth-service';
 import { ITrainer } from 'app/services/trainer/trainer';
+import { TrainerStore } from 'app/services/trainer/trainer-store';
 
 
 @Component({
   templateUrl: 'trainer-detail-hours.html'
 })
 export class TrainerDetailHoursModal {
+  @Input() model: any;
   days = [1, 2, 3, 4, 5, 6, 0];
   trainerId: number;
-  trainerDays: any;
+  newId: number = 0;
 
   constructor(
     private navParams: NavParams,
     private viewCtrl: ViewController,
     private auth: AuthService,
+    private trainerStore: TrainerStore,
     public utils: Utils
   ) {
     this.trainerId = this.navParams.data.id;
-    this.trainerDays = Utils.clone(this.navParams.data.days);
+    this.model = Utils.clone(this.navParams.data.days);
   }
 
   add(day: number): void {
-    if (!this.trainerDays[day]) {
-      this.trainerDays[day] = [];
+    if (!this.model[day]) {
+      this.model[day] = [];
     }
-    this.trainerDays[day].push({
+    this.model[day].push({
+      id: this.newId++,
       start: '',
       end: '',
       profileId: this.trainerId,
@@ -43,7 +47,12 @@ export class TrainerDetailHoursModal {
   }
 
   save(): void {
-    this.viewCtrl.dismiss(this.trainerDays);
+    this.utils.showLoading('Zapisywanie godzin...');
+    this.trainerStore.updateHours(this.trainerId, this.model).then(() => {
+      this.utils.stopLoading();
+      this.utils.showMessage('Godziny zapisane.');
+      this.dismiss();
+    });
   }
 
   dismiss(): void {

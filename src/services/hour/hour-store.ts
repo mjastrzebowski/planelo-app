@@ -8,6 +8,8 @@ import { HourService } from './hour-service';
 
 @Injectable()
 export class HourStore extends BaseStore {
+  filter = { filter: { order: ['day', 'start'] }};
+
   constructor(
     private hourService: HourService,
     private baseStream: BaseStream
@@ -15,5 +17,13 @@ export class HourStore extends BaseStore {
     super(hourService, baseStream);
     this.model = 'WorkingHour';
     this.init();
+  }
+
+  clearItem(item: any) {
+    item = super.clearItem(item);
+    delete item.create;
+    delete item.update;
+    delete item.delete;
+    return item;
   }
 }

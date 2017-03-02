@@ -30,6 +30,7 @@ export class ExerciseStore extends BaseStore {
   }
 
   convertItem(item: any) {
+    item = super.convertItem(item);
     item.category = this.exerciseCategoryStore.getItem(item.categoryId);
     item.equipments = this.exerciseEquipmentStore.filterBy({ exerciseId: item.id });
     item.muscles = this.exerciseMuscleStore.filterBy({ exerciseId: item.id, isSecondary: false });
