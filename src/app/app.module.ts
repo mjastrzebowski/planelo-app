@@ -13,9 +13,12 @@ import { Utils } from 'app/providers/utils';
 
 // services
 import { Api } from 'app/services/api/api-service';
-import { BaseStream } from 'app/services/_base/base-stream';
 import { AuthService } from 'app/services/auth/auth-service';
+import { BaseStream } from 'app/services/_base/base-stream';
 import { BaseService } from 'app/services/_base/base-service';
+
+import { ActivityService } from 'app/services/activity/activity-service';
+import { ActivityTypeService } from 'app/services/activity-type/activity-type-service';
 import { EquipmentService } from 'app/services/equipment/equipment-service';
 import { ExerciseService } from 'app/services/exercise/exercise-service';
 import { ExerciseCategoryService } from 'app/services/exercise-category/exercise-category-service';
@@ -26,10 +29,13 @@ import { ExerciseMuscleService } from 'app/services/exercise-muscle/exercise-mus
 import { HourService } from 'app/services/hour/hour-service';
 import { MuscleService } from 'app/services/muscle/muscle-service';
 import { PlaceService } from 'app/services/place/place-service';
+import { SessionService } from 'app/services/session/session-service';
 import { WorkoutService } from 'app/services/workout/workout-service';
 
 // import { TrainerService } from 'app/services/trainer/trainer-service';
 
+import { ActivityStore } from 'app/services/activity/activity-store';
+import { ActivityTypeStore } from 'app/services/activity-type/activity-type-store';
 import { BillStore } from 'app/services/bill/bill-store';
 import { ClientStore } from 'app/services/client/client-store';
 import { EquipmentStore } from 'app/services/equipment/equipment-store';
@@ -44,6 +50,7 @@ import { MuscleStore } from 'app/services/muscle/muscle-store';
 import { NotificationStore } from 'app/services/notification/notification-store';
 import { PlaceStore } from 'app/services/place/place-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
+import { SessionStore } from 'app/services/session/session-store';
 import { UserStore } from 'app/services/user/user-store';
 import { WorkoutStore } from 'app/services/workout/workout-store';
 
@@ -116,12 +123,15 @@ import { TrainingListPage } from 'app/pages/admin/training/training-list/trainin
 import { TrainingSchedulerPage } from 'app/pages/admin/training/training-scheduler/training-scheduler';
 import { TrainingSchedulerFormModal } from 'app/pages/admin/training/training-scheduler-form/training-scheduler-form';
 
+import { WorkoutCreateModal } from 'app/pages/admin/workout/workout-create/workout-create';
+
 // pages - trainer
 import { TrainingListTrainerPage } from 'app/pages/trainer/training/training-list/training-list';
 
 // pages - client
 import { TrainingListClientPage } from 'app/pages/client/training/training-list/training-list';
 import { TrainingReserveModal } from 'app/pages/client/training/training-reserve/training-reserve';
+import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/workout-reserve';
 
 
 
@@ -186,6 +196,7 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     TrainingListPage,
     TrainingSchedulerPage,
     TrainingSchedulerFormModal,
+    WorkoutCreateModal,
 
     // pages - trainer
     TrainingListTrainerPage,
@@ -193,6 +204,7 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     // pages - client
     TrainingListClientPage,
     TrainingReserveModal,
+    WorkoutReserveModal
   ],
   imports: [
     BrowserModule,
@@ -244,21 +256,26 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     TrainingListPage,
     TrainingSchedulerPage,
     TrainingSchedulerFormModal,
+    WorkoutCreateModal,
 
     // trainer
     TrainingListTrainerPage,
 
     // client
     TrainingListClientPage,
-    TrainingReserveModal
+    TrainingReserveModal,
+    WorkoutReserveModal
   ],
   providers: [
     FIREBASE_PROVIDERS,
     // HttpModule,
     Api,
-    BaseStream,
     AuthService,
+    BaseStream,
     BaseService,
+
+    ActivityService,
+    ActivityTypeService,
     EquipmentService,
     ExerciseService,
     ExerciseCategoryService,
@@ -270,8 +287,11 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     MuscleService,
     PlaceService,
     // TrainerService,
+    SessionService,
     WorkoutService,
 
+    ActivityStore,
+    ActivityTypeStore,
     BillStore,
     ClientStore,
     EquipmentStore,
@@ -286,6 +306,7 @@ import { TrainingReserveModal } from 'app/pages/client/training/training-reserve
     NotificationStore,
     PlaceStore,
     TrainerStore,
+    SessionStore,
     UserStore,
     WorkoutStore,
     Utils

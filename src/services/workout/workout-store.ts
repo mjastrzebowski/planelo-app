@@ -3,6 +3,8 @@ import { Injectable, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 import { List } from 'immutable';
 
+import { Utils } from 'app/providers/utils';
+
 import { BaseStore } from 'app/services/_base/base-store';
 import { BaseStream } from 'app/services/_base/base-stream';
 import { AuthService } from 'app/services/auth/auth-service';
@@ -20,6 +22,7 @@ export class WorkoutStore extends BaseStore {
   constructor(
     private workoutService: WorkoutService,
     private auth: AuthService,
+    private utils: Utils,
     private trainerStore: TrainerStore,
     private baseStream: BaseStream
   ) {
@@ -131,5 +134,10 @@ export class WorkoutStore extends BaseStore {
     return this.list.findIndex((workout: IWorkout) => {
       return workout.clientKey === clientKey && workout.date === date && workout.timeStart === timeStart;
     });
+  }
+
+
+  getAvailableHours() {
+    return this.get();
   }
 }

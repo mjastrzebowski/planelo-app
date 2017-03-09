@@ -24,6 +24,7 @@ import { TrainingListTrainerPage } from 'app/pages/trainer/training/training-lis
 
 // pages - client
 import { TrainingListClientPage } from 'app/pages/client/training/training-list/training-list';
+import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/workout-reserve';
 
 
 export interface PageInterface {
@@ -84,8 +85,9 @@ export class DavidApp {
         this.root = LoginPage;
       } else {
         // this.root = TrainingListPage;
-        this.root = ExerciseListPage;
+        // this.root = ExerciseListPage;
         // this.root = SettingsPage;
+        this.root = WorkoutReserveModal;
       }
     });
   }

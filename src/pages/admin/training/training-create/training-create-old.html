@@ -1,8 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title [hidden]="trainings[0]?.completed || editing">Nowy trening</ion-title>
-    <ion-title [hidden]="trainings[0]?.completed || !editing">Zmiana treningu</ion-title>
-    <ion-title [hidden]="!trainings[0]?.completed">Odwołany trening</ion-title>
+    <ion-title>Trening</ion-title>
 
     <ion-buttons start>
       <button ion-button (click)="dismiss()">

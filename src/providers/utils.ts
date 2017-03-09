@@ -15,7 +15,7 @@ export class Utils {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController
   ) {
-    this.nav = app.getActiveNav();
+    // this.nav = app.getActiveNav();
     this.active = false;
 
     this.weekdays = [

@@ -21,6 +21,9 @@ export class IWorkout {
   month?: any;
   monthId?: any;
   nextMonth?: boolean;
+  activityTypeId?: number;
+  activityId?: number;
+  sessionId?: number;
 }
 
 export class Workout implements IWorkout {

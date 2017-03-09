@@ -228,9 +228,7 @@ export class TrainingListPage {
       this.editing = false;
     }
 
-    let modal = this.modalCtrl.create(TrainingCreateModal, workout);
-    modal.onDidDismiss(this.saveTraining.bind(this));
-    modal.present();
+    this.modalCtrl.create(TrainingCreateModal, workout).present();
   }
 
   saveTraining(data): void {

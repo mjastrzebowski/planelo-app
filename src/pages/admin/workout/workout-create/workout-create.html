@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Trening</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span color="primary" showWhen="ios">Zamknij</span>
+        <ion-icon name="close" hideWhen="ios"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="has-header">
+  <form #form="ngForm" novalidate>
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Rezerwacja</ion-label>
+        <ion-select [(ngModel)]="model.activityTypeId" name="activityTypeId" (ionChange)="changeActivityType()">
+          <ion-option *ngFor="let activityType of activityTypeStore.get()" [value]="activityType.id">{{ activityType?.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Typ rezerwacji</ion-label>
+        <ion-select [(ngModel)]="model.activityId" name="activityId" [disabled]="!model.activityTypeId" (ionChange)="changeActivity()">
+          <ion-option *ngFor="let activity of activityStore.filterBy({ activityTypeId: model.activityTypeId })" [value]="activity.id">{{ activity?.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Rodzaj rezerwacji</ion-label>
+        <ion-select [(ngModel)]="model.sessionId" name="sessionId" [disabled]="!model.activityId">
+          <ion-option *ngFor="let session of sessionStore.filterBy({ activityId: model.activityId })" [value]="session.id">{{ session?.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Klient</ion-label>
+        <ion-select [(ngModel)]="model.clientId" name="clientId">
+          <ion-option *ngFor="let client of clientStore.get()" [value]="client.id">{{ client?.lastname }} {{ client?.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Trener</ion-label>
+        <ion-select [(ngModel)]="model.trainerId" name="trainerId">
+          <ion-option *ngFor="let trainer of trainerStore.get()" [value]="trainer.id">{{ trainer?.alias }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Opis</ion-label>
+        <ion-textarea [(ngModel)]="model.description" name="description"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Zdjęcia</ion-label>
+        <ion-input type="text" [(ngModel)]="model.imagesy" name="imagesy"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-row responsive-sm>
+      <ion-col>
+        <button ion-button color="primary" block type="submit" (click)="save()">Zapisz</button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="light" block (click)="dismiss()">Anuluj</button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
