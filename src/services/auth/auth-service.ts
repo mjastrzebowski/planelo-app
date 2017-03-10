@@ -79,6 +79,18 @@ export class AuthService extends BaseService {
     // });
   }
 
+  reset(loginData: { username: string }) {
+    return new Promise((resolve, reject) => {
+      // this.api.post(this.action + '/login', loginData, { include: 'User' }).then(data => {
+      //   this.setSession(data);
+      //   this.emit();
+        resolve();
+      // }, (error) => {
+      //   reject(error);
+      // });
+    });
+  }
+
   isLoggedIn() {
     return this.user ? true : false;
   }

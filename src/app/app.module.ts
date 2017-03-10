@@ -95,6 +95,7 @@ import { WorkoutListFilterPipe } from 'app/components/workout/workout-list/worko
 
 // pages - common
 import { LoginPage } from 'app/pages/common/login/login';
+import { ResetPage } from 'app/pages/common/reset/reset';
 import { SettingsPage } from 'app/pages/common/settings/settings';
 import { NotificationListPage } from 'app/pages/common/notification/notification-list/notification-list';
 
@@ -169,6 +170,8 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
 
     // pages - common
     LoginPage,
+    ResetPage,
+    ResetPage,
     SettingsPage,
     NotificationListPage,
 
@@ -229,6 +232,7 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
 
     // common
     LoginPage,
+    ResetPage,
     SettingsPage,
     NotificationListPage,
 

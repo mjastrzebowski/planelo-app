@@ -7,13 +7,11 @@ import { AuthService } from 'app/services/auth/auth-service';
 import { ClientStore } from 'app/services/client/client-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
 
-import { ResetPage } from 'app/pages/common/reset/reset';
-
 @Component({
-  templateUrl: 'login.html'
+  templateUrl: 'reset.html'
 })
 
-export class LoginPage {
+export class ResetPage {
   user: any;
   submitted: boolean;
 
@@ -29,35 +27,34 @@ export class LoginPage {
     this.submitted = false;
   }
 
-  openResetPage(): void {
-    this.nav.push(ResetPage);
+  openLoginPage(): void {
+    this.nav.pop();
   }
 
-  login(form: any): void {
+  reset(form: any): void {
     this.submitted = true;
     if (form.valid) {
-      this.utils.showLoading('Logowanie...');
-      this.auth.login(form.value)
-        .then(() => this.postLogin())
-        .catch(() => this.errorLogin());
+      this.utils.showLoading('Resetowanie...');
+      this.auth.reset(form.value)
+        .then(() => this.postReset())
+        .catch(() => this.errorReset());
     }
   }
 
-  logout(): void {
-    this.auth.logout();
-  }
-
-  private postLogin(): void {
+  private postReset(): void {
     this.utils.stopLoading();
-    // this.router.navigate(['/Workouts']);
-    // this.nav.setRoot(TrainingListPage);
+    this.alertCtrl.create({
+      title: 'Wysłano',
+      message: 'Nowe hasło zostało wysłane na adres e-mail.',
+      buttons: ['Ok']
+    }).present();
   }
 
-  private errorLogin(): void {
+  private errorReset(): void {
     this.utils.stopLoading();
     this.alertCtrl.create({
       title: 'Błąd',
-      message: 'Nieprawidłowy login lub hasło.',
+      message: 'Nieprawidłowy login.',
       buttons: ['Ok']
     }).present();
   }

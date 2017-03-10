@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Logowanie</ion-title>
+    <ion-title>Reset hasła</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -20,23 +20,14 @@
         <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
           Nazwa użytkownika jest wymagana
         </p>
-
-        <ion-item>
-          <ion-label floating color="primary"><ion-icon name="lock"></ion-icon> Hasło</ion-label>
-          <ion-input [(ngModel)]="user.password" name="password" type="password" #password="ngModel" required>
-          </ion-input>
-        </ion-item>
-        <p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
-          Hasło jest wymagane
-        </p>
       </ion-list>
 
       <ion-row text-center responsive-sm>
         <ion-col>
-          <button ion-button (click)="login(form)" type="submit">Zaloguj</button>
+          <button ion-button (click)="reset(form)" type="submit">Zresetuj</button>
         </ion-col>
         <ion-col>
-          <button ion-button (click)="openResetPage()" clear>Reset hasła</button>
+          <button ion-button (click)="openLoginPage()" clear>Logowanie</button>
         </ion-col>
       </ion-row>
     </div>

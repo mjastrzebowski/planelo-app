@@ -20,6 +20,16 @@
 //   background-color: $list-ios-header-background-color;
 // }
 
+// .split-pane-visible > .split-pane-side {
+//   order: 0;
+// }
+
+[center-col] {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: $grid-responsive-sm-break/2;
+}
+
 @media screen and (max-width: $grid-responsive-sm-break) {
   .hidden-sm {
     display: none !important;
@@ -41,7 +51,6 @@
       display: none !important;
     }
   }
-
   .logged {
     ion-menu#menuLeft {
       display: block !important;
@@ -63,6 +72,27 @@
     }
     .notification-button {
       display: block !important;
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .logged {
+    ion-menu#menuRight {
+      display: block !important;
+      left: auto !important;
+      right: 0 !important;
+      width: 310px !important;
+      > .menu-inner {
+        transform: translateX(0) !important;
+      }
+      > ion-backdrop {
+        display: none !important;
+      }
+    }
+    ion-nav {
+      left: 304px;
+      width: calc(100% - 608px);
     }
   }
 }
