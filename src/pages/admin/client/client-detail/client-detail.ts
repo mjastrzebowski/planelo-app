@@ -72,7 +72,8 @@ export class ClientDetailPage {
         if (data.hasOwnProperty('delete')) {
           this.clientStore.removeClient(data)
             .then((res) => {
-              this.notificationStore.createNotification('clientRemoved', {
+              this.notificationStore.create({
+                type: 'clientRemoved',
                 client: {
                   key: data.key,
                   gender: data.gender || '',

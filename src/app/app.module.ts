@@ -28,6 +28,7 @@ import { ExerciseImageService } from 'app/services/exercise-image/exercise-image
 import { ExerciseMuscleService } from 'app/services/exercise-muscle/exercise-muscle-service';
 import { HourService } from 'app/services/hour/hour-service';
 import { MuscleService } from 'app/services/muscle/muscle-service';
+import { NotificationService } from 'app/services/notification/notification-service';
 import { PlaceService } from 'app/services/place/place-service';
 import { SessionService } from 'app/services/session/session-service';
 import { WorkoutService } from 'app/services/workout/workout-service';
@@ -94,6 +95,7 @@ import { WorkoutListGroupPipe } from 'app/components/workout/workout-list/workou
 import { WorkoutListFilterPipe } from 'app/components/workout/workout-list/workout-list-filter-pipe';
 
 // pages - common
+import { ImportPage } from 'app/pages/common/import/import';
 import { LoginPage } from 'app/pages/common/login/login';
 import { ResetPage } from 'app/pages/common/reset/reset';
 import { SettingsPage } from 'app/pages/common/settings/settings';
@@ -169,6 +171,7 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
     GroupHoursPipe,
 
     // pages - common
+    ImportPage,
     LoginPage,
     ResetPage,
     ResetPage,
@@ -231,6 +234,7 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
     DavidApp,
 
     // common
+    ImportPage,
     LoginPage,
     ResetPage,
     SettingsPage,
@@ -289,6 +293,7 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
     ExerciseMuscleService,
     HourService,
     MuscleService,
+    NotificationService,
     PlaceService,
     // TrainerService,
     SessionService,

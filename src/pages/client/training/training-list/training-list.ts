@@ -143,6 +143,7 @@ export class TrainingListClientPage {
           training.repeat || false)
         .then((res) => {
           let notification = {
+            type: 'workoutAdded',
             workout: {
               // key: res.getKey(),
               trainer: training.trainer || '',
@@ -161,7 +162,7 @@ export class TrainingListClientPage {
           } else if (this.auth.isClient) {
             notification.client = this.auth.key;
           }
-          this.notificationStore.createNotification('workoutAdded', notification);
+          this.notificationStore.create(notification);
         });
         this.saveTrainingAlert(data[0]);
       });

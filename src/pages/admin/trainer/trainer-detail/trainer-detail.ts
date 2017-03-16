@@ -112,7 +112,8 @@ export class TrainerDetailPage {
         if (data.hasOwnProperty('delete')) {
           this.trainerStore.removeTrainer(data)
             .then((res) => {
-              this.notificationStore.createNotification('trainerRemoved', {
+              this.notificationStore.create({
+                type: 'trainerRemoved',
                 trainer: {
                   key: data.key,
                   title: data.title || '',

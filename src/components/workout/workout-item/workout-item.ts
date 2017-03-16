@@ -32,6 +32,7 @@ export class WorkoutItem {
     this.workoutStore.removeWorkout(workout)
       .then((res) => {
         let notification = {
+          type: 'workoutRemoved',
           workout: {
             key: workout.key,
             trainer: workout.trainerKey || '',
@@ -44,7 +45,7 @@ export class WorkoutItem {
           },
           client: this.auth.key
         };
-        this.notificationStore.createNotification('workoutRemoved', notification);
+        this.notificationStore.create(notification);
         this.removeWorkoutAlert();
       });
   }
@@ -83,6 +84,7 @@ export class WorkoutItem {
             this.workoutStore.updateWorkout(workout, changes)
               .then((res) => {
                 let notification = {
+                  type: 'workoutRejected',
                   workout: {
                     key: workout.key,
                     trainer: workout.trainerKey || '',
@@ -96,7 +98,7 @@ export class WorkoutItem {
                   client: this.auth.key,
                   reason: data.title
                 };
-                this.notificationStore.createNotification('workoutRejected', notification);
+                this.notificationStore.create(notification);
                 this.removeWorkoutAlert();
               });
           }

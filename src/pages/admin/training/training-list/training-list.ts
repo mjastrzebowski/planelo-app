@@ -240,6 +240,7 @@ export class TrainingListPage {
           this.workoutStore.removeWorkout(training)
             .then((res) => {
               let notification = {
+                type: 'workoutRemoved',
                 workout: {
                   key: training.key,
                   trainer: training.trainerKey || '',
@@ -258,7 +259,7 @@ export class TrainingListPage {
               } else if (this.auth.isClient) {
                 notification.client = this.auth.key;
               }
-              this.notificationStore.createNotification('workoutRemoved', notification);
+              this.notificationStore.create(notification);
             });
         });
         this.deleteTrainingAlert(data[0]);
@@ -294,6 +295,7 @@ export class TrainingListPage {
             training.repeat || false)
             .then((res) => {
               let notification = {
+                type: 'workoutAdded',
                 workout: {
                   // key: res.getKey(),
                   trainer: training.trainer || '',
@@ -312,7 +314,7 @@ export class TrainingListPage {
               } else if (this.auth.isClient) {
                 notification.client = this.auth.key;
               }
-              this.notificationStore.createNotification('workoutAdded', notification);
+              this.notificationStore.create(notification);
             });
         });
 

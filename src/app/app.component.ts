@@ -7,6 +7,7 @@ import { AuthService } from 'app/services/auth/auth-service';
 import { Utils } from 'app/providers/utils';
 
 // pages - common
+import { ImportPage } from 'app/pages/common/import/import';
 import { LoginPage } from 'app/pages/common/login/login';
 import { SettingsPage } from 'app/pages/common/settings/settings';
 import { NotificationListPage } from 'app/pages/common/notification/notification-list/notification-list';
@@ -54,7 +55,8 @@ export class DavidApp {
     { title: 'Klienci', component: ClientListPage, icon: 'contacts' },
     { title: 'Rachunki', component: BillListPage, icon: 'cash' },
     { title: 'Trenerzy', component: TrainerListPage, icon: 'people' },
-    { title: 'Ćwiczenia', component: ExerciseListPage, icon: 'list' }
+    { title: 'Ćwiczenia', component: ExerciseListPage, icon: 'list' },
+    { title: 'Import', component: ImportPage, icon: 'cloud-upload' }
   ];
   trainerPages: PageInterface[] = [
     { title: 'Treningi', component: TrainingListTrainerPage, icon: 'clipboard' }
@@ -86,8 +88,8 @@ export class DavidApp {
       } else {
         // this.root = TrainingListPage;
         // this.root = ExerciseListPage;
-        // this.root = SettingsPage;
-        this.root = WorkoutReserveModal;
+        this.root = ImportPage;
+        // this.root = WorkoutReserveModal;
       }
     });
   }

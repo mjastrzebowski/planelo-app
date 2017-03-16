@@ -14,7 +14,7 @@
 
 <ion-content class="settings-page">
   <ion-list>
-    <form #settingsForm="ngForm" novalidate>
+    <form #form="ngForm" novalidate>
       <ion-item>
         <ion-label floating primary>Użytkownik</ion-label>
         <ion-input [(ngModel)]="settings.email" name="email" type="email" #email="ngModel" required readonly>
@@ -44,7 +44,7 @@
 
       <ion-row responsive-sm>
         <ion-col>
-          <button ion-button (click)="changePassword(settingsForm)" type="submit" color="primary" block>Zapisz</button>
+          <button ion-button (click)="changePassword(form)" type="submit" color="primary" block>Zapisz</button>
         </ion-col>
       </ion-row>
     </form>

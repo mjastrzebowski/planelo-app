@@ -39,7 +39,7 @@ export class NotificationItem {
   }
 
   delete(): void {
-    this.notificationStore.removeNotification(this.model);
+    this.notificationStore.delete(this.model.id);
   }
 
   // TEMP solution!

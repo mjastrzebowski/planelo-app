@@ -1,19 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+
+import { Api } from 'app/services/api/api-service';
+import { BaseService } from 'app/services/_base/base-service';
 
 @Injectable()
-export class NotificationService {
-  private headers: Headers = new Headers({'Content-Type': 'application/json'});
-  private url: string = 'http://localhost:3000/api/notifications';
+export class NotificationService extends BaseService {
+  action = 'notifications';
 
-  constructor(private http: Http) { }
-
-  get(): Observable<any> {
-    return this.http.get(this.url);
-  }
-
-  put(body: any): Observable<any> {
-    return this.http.put(this.url, JSON.stringify(body), { headers: this.headers });
+  constructor(public api: Api) {
+    super(api);
   }
 }

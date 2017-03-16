@@ -52,7 +52,8 @@ export class ClientListPage {
           data.phone || '',
           data.comment || '')
           .then((res) => {
-            this.notificationStore.createNotification('clientAdded', {
+            this.notificationStore.create({
+              type: 'clientAdded',
               client: {
                 // key: res.getKey(),
                 gender: data.gender || '',

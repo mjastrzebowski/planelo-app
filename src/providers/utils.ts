@@ -93,6 +93,12 @@ export class Utils {
     return JSON.parse(JSON.stringify(object));
   }
 
+  static objectToArray(obj) {
+    return Object.keys(obj).map(key => {
+      return obj[key];
+    });
+  }
+
   // deprecated
   static rewriteString(string: string): string {
     let str = string.toLowerCase();
