@@ -99,6 +99,10 @@ import { NotificationFilter } from 'app/components/notification/notification-fil
 import { NotificationCounter } from 'app/components/notification/notification-counter/notification-counter';
 import { NotificationListFilterPipe } from 'app/components/notification/notification-list/notification-list-filter-pipe';
 
+import { RoutineItem } from 'app/components/admin/routine/routine-item/routine-item';
+import { RoutineList } from 'app/components/admin/routine/routine-list/routine-list';
+import { RoutineListFilterPipe } from 'app/components/admin/routine/routine-list/routine-list-filter-pipe';
+
 import { TrainerItem } from 'app/components/trainer/trainer-item/trainer-item';
 import { TrainerList } from 'app/components/trainer/trainer-list/trainer-list';
 import { TrainerListFilterPipe } from 'app/components/trainer/trainer-list/trainer-list-filter-pipe';
@@ -127,6 +131,7 @@ import { ClientListPage } from 'app/pages/admin/client/client-list/client-list';
 import { ExerciseListPage } from 'app/pages/admin/exercise/exercise-list/exercise-list';
 import { ExerciseCreateModal } from 'app/pages/admin/exercise/exercise-create/exercise-create';
 import { ExerciseDetailPage } from 'app/pages/admin/exercise/exercise-detail/exercise-detail';
+import { RoutineListPage } from 'app/pages/admin/routine/routine-list/routine-list';
 import { TrainerCreateModal } from 'app/pages/admin/trainer/trainer-create/trainer-create';
 import { TrainerDetailPage, GroupHoursPipe } from 'app/pages/admin/trainer/trainer-detail/trainer-detail';
 import { TrainerDetailHoursModal } from 'app/pages/admin/trainer/trainer-detail-hours/trainer-detail-hours';
@@ -175,6 +180,9 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
     NotificationFilter,
     NotificationCounter,
     NotificationListFilterPipe,
+    RoutineItem,
+    RoutineList,
+    RoutineListFilterPipe,
     TrainerItem,
     TrainerList,
     TrainerListFilterPipe,
@@ -204,6 +212,7 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
     ExerciseListPage,
     ExerciseCreateModal,
     ExerciseDetailPage,
+    RoutineListPage,
     TrainerCreateModal,
     TrainerDetailPage,
     TrainerDetailHoursModal,
@@ -266,6 +275,7 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
     ExerciseListPage,
     ExerciseCreateModal,
     ExerciseDetailPage,
+    RoutineListPage,
     TrainerCreateModal,
     TrainerDetailPage,
     TrainerDetailHoursModal,

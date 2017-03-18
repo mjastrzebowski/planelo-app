@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Plany treningowe</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showRoutineCreate()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <notification-counter></notification-counter>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="routine-list">
+  <ion-searchbar color="primary" [(ngModel)]="filter.query" placeholder="Szukaj"></ion-searchbar>
+
+  <ion-grid>
+    <ion-row>
+      <!-- <ion-col col-3 col-sm-2 class="hidden-sm">
+        <routine-category-list class="routine-categories" [filter]="filter"></routine-category-list>
+      </ion-col> -->
+      <ion-col col-12 col-sm-10>
+        <routine-list class="routines" [filter]="filter"></routine-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

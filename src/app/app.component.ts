@@ -16,6 +16,7 @@ import { NotificationListPage } from 'app/pages/common/notification/notification
 import { BillListPage } from 'app/pages/admin/bill/bill-list/bill-list';
 import { ClientListPage } from 'app/pages/admin/client/client-list/client-list';
 import { ExerciseListPage } from 'app/pages/admin/exercise/exercise-list/exercise-list';
+import { RoutineListPage } from 'app/pages/admin/routine/routine-list/routine-list';
 import { TrainerListPage } from 'app/pages/admin/trainer/trainer-list/trainer-list';
 import { TrainingListPage } from 'app/pages/admin/training/training-list/training-list';
 import { TrainingSchedulerPage } from 'app/pages/admin/training/training-scheduler/training-scheduler';
@@ -56,6 +57,7 @@ export class DavidApp {
     { title: 'Rachunki', component: BillListPage, icon: 'cash' },
     { title: 'Trenerzy', component: TrainerListPage, icon: 'people' },
     { title: 'Ćwiczenia', component: ExerciseListPage, icon: 'list' },
+    { title: 'Plany treningowe', component: RoutineListPage, icon: 'list' },
     { title: 'Import', component: ImportPage, icon: 'cloud-upload' }
   ];
   trainerPages: PageInterface[] = [
@@ -88,7 +90,7 @@ export class DavidApp {
       } else {
         // this.root = TrainingListPage;
         // this.root = ExerciseListPage;
-        this.root = ImportPage;
+        this.root = RoutineListPage;
         // this.root = WorkoutReserveModal;
       }
     });

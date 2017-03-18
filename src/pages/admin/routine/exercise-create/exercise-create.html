@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Ćwiczenie</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span color="primary" showWhen="ios">Zamknij</span>
+        <ion-icon name="close" hideWhen="ios"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="has-header">
+  <form #form="ngForm" novalidate>
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Nazwa</ion-label>
+        <ion-input type="text" [(ngModel)]="model.name" name="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Kategoria</ion-label>
+        <ion-select [(ngModel)]="model.categoryId" name="categoryId">
+          <ion-option *ngFor="let category of exerciseCategoryStore.get()" [value]="category.id">{{ category?.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Główne mięśnie</ion-label>
+        <ion-select [(ngModel)]="model.muscles" name="muscles" multiple="true">
+          <ion-option *ngFor="let muscle of muscleStore.get()" [value]="muscle.id">{{ muscle?.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Mięśnie pomocnicze</ion-label>
+        <ion-select [(ngModel)]="model.musclesSecondary" name="musclesSecondary" multiple="true">
+          <ion-option *ngFor="let muscle of muscleStore.get()" [value]="muscle.id">{{ muscle?.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Sprzęt</ion-label>
+        <ion-select [(ngModel)]="model.equipments" name="equipments" multiple="true">
+          <ion-option *ngFor="let equipment of equipmentStore.get()" [value]="equipment.id">{{ equipment?.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Opis</ion-label>
+        <ion-textarea [(ngModel)]="model.description" name="description"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Zdjęcia</ion-label>
+        <ion-input type="text" [(ngModel)]="model.imagesy" name="imagesy"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-row responsive-sm>
+      <ion-col>
+        <button ion-button color="primary" block type="submit" (click)="save()">Zapisz</button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="light" block (click)="dismiss()">Anuluj</button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

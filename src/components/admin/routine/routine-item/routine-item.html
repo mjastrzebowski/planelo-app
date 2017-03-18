@@ -1,0 +1,15 @@
+<ion-item-sliding>
+  <button ion-item class="routine-item" (click)="goToRoutineDetail(model.id)" [hidden]="model.hide">
+    <h3>{{ model?.name }}</h3>
+
+    <button ion-button item-right icon-left clear color="danger" class="hidden-sm" small (click)="delete(model)">
+      <ion-icon name="trash"></ion-icon> Usuń
+    </button>
+  </button>
+
+  <ion-item-options side="right" icon-left>
+    <button ion-button color="danger" (click)="delete(model)">
+      <ion-icon name="trash"></ion-icon> Usuń
+    </button>
+  </ion-item-options>
+</ion-item-sliding>
