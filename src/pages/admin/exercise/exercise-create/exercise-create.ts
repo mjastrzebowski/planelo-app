@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Renderer } from '@angular/core';
 
 import { NavParams, ViewController } from 'ionic-angular';
 
@@ -20,12 +20,15 @@ export class ExerciseCreateModal {
   constructor(
     private params: NavParams,
     private viewCtrl: ViewController,
+    private renderer: Renderer,
     private utils: Utils,
     private exerciseStore: ExerciseStore,
     private exerciseCategoryStore: ExerciseCategoryStore,
     private equipmentStore: EquipmentStore,
     private muscleStore: MuscleStore
-  ) {}
+  ) {
+    this.renderer.setElementClass(this.viewCtrl.pageRef().nativeElement, 'my-popup', true);
+  }
 
   ngOnInit(): void {
     this.model = this.exerciseStore.getItem(this.params.data) || new IExercise();

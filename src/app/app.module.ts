@@ -30,8 +30,15 @@ import { HourService } from 'app/services/hour/hour-service';
 import { MuscleService } from 'app/services/muscle/muscle-service';
 import { NotificationService } from 'app/services/notification/notification-service';
 import { PlaceService } from 'app/services/place/place-service';
-import { SessionService } from 'app/services/session/session-service';
 import { ProfileSessionService } from 'app/services/profile-session/profile-session-service';
+import { RoutineService } from 'app/services/routine/routine-service';
+import { RoutineDayService } from 'app/services/routine-day/routine-day-service';
+import { SessionService } from 'app/services/session/session-service';
+import { WorkoutService } from 'app/services/workout/workout-service';
+import { WorkoutExerciseService } from 'app/services/workout-exercise/workout-exercise-service';
+import { WorkoutGroupService } from 'app/services/workout-group/workout-group-service';
+import { WorkoutGroupTypeService } from 'app/services/workout-group-type/workout-group-type-service';
+import { WorkoutSetService } from 'app/services/workout-set/workout-set-service';
 
 // import { TrainerService } from 'app/services/trainer/trainer-service';
 
@@ -50,10 +57,17 @@ import { HourStore } from 'app/services/hour/hour-store';
 import { MuscleStore } from 'app/services/muscle/muscle-store';
 import { NotificationStore } from 'app/services/notification/notification-store';
 import { PlaceStore } from 'app/services/place/place-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
+import { RoutineStore } from 'app/services/routine/routine-store';
+import { RoutineDayStore } from 'app/services/routine-day/routine-day-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
 import { SessionStore } from 'app/services/session/session-store';
 import { UserStore } from 'app/services/user/user-store';
-import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
+import { WorkoutStore } from 'app/services/workout/workout-store';
+import { WorkoutExerciseStore } from 'app/services/workout-exercise/workout-exercise-store';
+import { WorkoutGroupStore } from 'app/services/workout-group/workout-group-store';
+import { WorkoutGroupTypeStore } from 'app/services/workout-group-type/workout-group-type-store';
+import { WorkoutSetStore } from 'app/services/workout-set/workout-set-store';
 
 // providers
 // import { USER_PROVIDERS } from 'app/services/user/providers';
@@ -295,9 +309,16 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
     MuscleService,
     NotificationService,
     PlaceService,
+    ProfileSessionService,
     // TrainerService,
     SessionService,
-    ProfileSessionService,
+    RoutineService,
+    RoutineDayService,
+    WorkoutService,
+    WorkoutExerciseService,
+    WorkoutGroupService,
+    WorkoutGroupTypeService,
+    WorkoutSetService,
 
     ActivityStore,
     ActivityTypeStore,
@@ -314,10 +335,17 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
     MuscleStore,
     NotificationStore,
     PlaceStore,
-    TrainerStore,
-    SessionStore,
-    UserStore,
     ProfileSessionStore,
+    RoutineStore,
+    RoutineDayStore,
+    SessionStore,
+    TrainerStore,
+    UserStore,
+    WorkoutStore,
+    WorkoutExerciseStore,
+    WorkoutGroupStore,
+    WorkoutGroupTypeStore,
+    WorkoutSetStore,
     Utils
   ]
 })
