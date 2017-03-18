@@ -1,44 +1,36 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>Logowanie</ion-title>
-  </ion-navbar>
-</ion-header>
+<ion-content class="login-page">
+  <div class="login-overlay" text-center>
+    <div class="login-box" center-col padding>
+      <div class="login-header" padding>
+        <img src="/assets/img/applogo.png">
+      </div>
 
-<ion-content>
-  <div class="about-header">
-    <img src="http://www.egobody.pl/gfx/home/logo_egobody.png">
-  </div>
+      <form #form="ngForm" novalidate>
+        <div center-col>
+          <ion-list>
+            <ion-item>
+              <ion-label floating color="primary"><ion-icon name="person"></ion-icon> Użytkownik</ion-label>
+              <ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" required>
+              </ion-input>
+            </ion-item>
+            <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
+              Nazwa użytkownika jest wymagana
+            </p>
 
-  <form #form="ngForm" novalidate>
-    <div center-col>
-      <ion-list>
-        <ion-item>
-          <ion-label floating color="primary"><ion-icon name="person"></ion-icon> Użytkownik</ion-label>
-          <ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" required>
-          </ion-input>
-        </ion-item>
-        <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
-          Nazwa użytkownika jest wymagana
-        </p>
+            <ion-item>
+              <ion-label floating color="primary"><ion-icon name="lock"></ion-icon> Hasło</ion-label>
+              <ion-input [(ngModel)]="user.password" name="password" type="password" #password="ngModel" required>
+              </ion-input>
+            </ion-item>
+            <p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
+              Hasło jest wymagane
+            </p>
+          </ion-list>
 
-        <ion-item>
-          <ion-label floating color="primary"><ion-icon name="lock"></ion-icon> Hasło</ion-label>
-          <ion-input [(ngModel)]="user.password" name="password" type="password" #password="ngModel" required>
-          </ion-input>
-        </ion-item>
-        <p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
-          Hasło jest wymagane
-        </p>
-      </ion-list>
-
-      <ion-row text-center responsive-sm>
-        <ion-col>
           <button ion-button (click)="login(form)" type="submit">Zaloguj</button>
-        </ion-col>
-        <ion-col>
-          <button ion-button (click)="openResetPage()" clear>Reset hasła</button>
-        </ion-col>
-      </ion-row>
+        </div>
+      </form>
     </div>
-  </form>
+    <button ion-button (click)="openResetPage()" clear color="light">Reset hasła</button>
+  </div>
 </ion-content>

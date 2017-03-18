@@ -95,6 +95,7 @@ export class Utils {
 
   static objectToArray(obj) {
     return Object.keys(obj).map(key => {
+      obj[key].key = key;
       return obj[key];
     });
   }

@@ -7,25 +7,40 @@ import { Utils } from 'app/providers/utils';
 
 import { AuthService } from 'app/services/auth/auth-service';
 
+import { ClientStore } from 'app/services/client/client-store';
 import { NotificationStore } from 'app/services/notification/notification-store';
+import { PlaceStore } from 'app/services/place/place-store';
+import { TrainerStore } from 'app/services/trainer/trainer-store';
+import { WorkoutStore } from 'app/services/workout/workout-store';
 
 @Component({
   templateUrl: 'import.html'
 })
 
 export class ImportPage {
-  model: any;
   import: any;
   submitted: boolean;
   models = ['Notification'];
+  model = this.models[0];
 
   constructor(
     private alertCtrl: AlertController,
     private auth: AuthService,
-    private notificationStore: NotificationStore
+    private clientStore: ClientStore,
+    private notificationStore: NotificationStore,
+    private placeStore: PlaceStore,
+    private trainerStore: TrainerStore,
+    private workoutStore: WorkoutStore
   ) {
     this.submitted = false;
     this.import = {};
+  }
+
+  private resolveItem(item, service) {
+    if (typeof item === 'object') {
+      return JSON.stringify(item);
+    }
+    return service.getItemByKey(item);
   }
 
   save(form): void {
@@ -37,6 +52,8 @@ export class ImportPage {
       case this.notificationStore.model:
         data.forEach(item => {
           item.admin = item.owner;
+          item.client = this.resolveItem(item.client, this.clientStore);
+          item.workout = this.resolveItem(item.workout, this.workoutStore);
           this.notificationStore.create(item);
         });
         break;

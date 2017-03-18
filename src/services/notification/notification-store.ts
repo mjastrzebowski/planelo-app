@@ -17,6 +17,11 @@ export class NotificationStore extends BaseStore {
     this.init();
   }
 
+  convertItem(item: any) {
+    item.workout = JSON.parse(item.workout);
+    return item;
+  }
+
   public count(timer: number): number {
     if (!timer) {
       return this.size;
