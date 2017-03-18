@@ -15,7 +15,7 @@ import { NotificationStore } from 'app/services/notification/notification-store'
 import { PlaceStore } from 'app/services/place/place-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
 import { UserStore } from 'app/services/user/user-store';
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 import { ClientDetailProfileModal } from '../client-detail-profile/client-detail-profile';
 import { ClientDetailAccessModal } from '../client-detail-access/client-detail-access';
@@ -43,17 +43,17 @@ export class ClientDetailPage {
     private auth: AuthService,
     private user: UserStore,
     private clientStore: ClientStore,
-    private workoutStore: WorkoutStore,
+    private profileSessionStore: ProfileSessionStore,
     public placeStore: PlaceStore,
     public trainerStore: TrainerStore
   ) {
     this.client = this.navParams.data;
 
-    this.trainingsDone = this.workoutStore.filterBy({ client: this.client.key, fixed: false, completed: false, dateBefore: new Date() });
+    this.trainingsDone = this.profileSessionStore.filterBy({ client: this.client.key, fixed: false, completed: false, dateBefore: new Date() });
     this.trainingsDoneLast = this.trainingsDone.get(-1);
-    this.trainingsTodo = this.workoutStore.filterBy({ client: this.client.key, fixed: false, completed: false, dateAfter: new Date() });
+    this.trainingsTodo = this.profileSessionStore.filterBy({ client: this.client.key, fixed: false, completed: false, dateAfter: new Date() });
     this.trainingsTodoNext = this.trainingsTodo.get(0);
-    this.trainingsScheduled = this.workoutStore.filterBy({ client: this.client.key, fixed: true });
+    this.trainingsScheduled = this.profileSessionStore.filterBy({ client: this.client.key, fixed: true });
   }
 
   showClientProfile(client): void {

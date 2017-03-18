@@ -14,7 +14,7 @@ import { ClientStore } from 'app/services/client/client-store';
 import { NotificationStore } from 'app/services/notification/notification-store';
 import { PlaceStore } from 'app/services/place/place-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 import { TrainerDetailProfileModal } from '../trainer-detail-profile/trainer-detail-profile';
 import { TrainerDetailHoursModal } from '../trainer-detail-hours/trainer-detail-hours';
@@ -82,7 +82,7 @@ export class TrainerDetailPage {
     private modalCtrl: ModalController,
     private navParams: NavParams,
     private trainerStore: TrainerStore,
-    private workoutStore: WorkoutStore,
+    private profileSessionStore: ProfileSessionStore,
     private notificationStore: NotificationStore,
     private auth: AuthService,
     public utils: Utils,
@@ -90,11 +90,11 @@ export class TrainerDetailPage {
     public placeStore: PlaceStore
   ) {
     // this.trainer = this.navParams.data;
-    // this.trainingsDone = this.workoutStore.filterBy({ trainer: this.trainer.key, fixed: false, completed: false, dateBefore: new Date() });
+    // this.trainingsDone = this.profileSessionStore.filterBy({ trainer: this.trainer.key, fixed: false, completed: false, dateBefore: new Date() });
     // this.trainingsDoneLast = this.trainingsDone.get(-1);
-    // this.trainingsTodo = this.workoutStore.filterBy({ trainer: this.trainer.key, fixed: false, completed: false, dateAfter: new Date() });
+    // this.trainingsTodo = this.profileSessionStore.filterBy({ trainer: this.trainer.key, fixed: false, completed: false, dateAfter: new Date() });
     // this.trainingsTodoNext = this.trainingsTodo.get(0);
-    // this.trainingsScheduled = this.workoutStore.filterBy({ trainer: this.trainer.key, fixed: true });
+    // this.trainingsScheduled = this.profileSessionStore.filterBy({ trainer: this.trainer.key, fixed: true });
   }
 
   ngOnInit(): void {

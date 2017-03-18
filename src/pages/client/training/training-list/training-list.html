@@ -17,7 +17,7 @@
 
 <ion-content class="trainings">
   <div>
-    <workout-list [workouts]="workoutStore.getByClient(this.auth.id)" [changeDate]="changeDate"></workout-list>
+    <workout-list [workouts]="profileSessionStore.getByClient(this.auth.id)" [changeDate]="changeDate"></workout-list>
 
     <ion-buttons padding>
       <button ion-button color="primary" block type="submit" (click)="showTrainingReserveForm()">Dodaj trening</button>

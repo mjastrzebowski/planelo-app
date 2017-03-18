@@ -10,7 +10,7 @@ import { AuthService } from 'app/services/auth/auth-service';
 
 import { ClientStore } from 'app/services/client/client-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 
 @Component({
@@ -42,7 +42,7 @@ export class TrainingListTrainerPage {
     private utils: Utils,
     private clientStore: ClientStore,
     private trainerStore: TrainerStore,
-    public workoutStore: WorkoutStore,
+    public profileSessionStore: ProfileSessionStore,
     public auth: AuthService
   ) {
     this.dates = [];
@@ -75,7 +75,7 @@ export class TrainingListTrainerPage {
     this.calendar = false;
     this.place = this.auth.place;
 
-    this.sub = this.workoutStore.subscribe(loaded => {
+    this.sub = this.profileSessionStore.subscribe(loaded => {
       if (!loaded) {
         return;
       }
@@ -165,7 +165,7 @@ export class TrainingListTrainerPage {
 
   getEvents(start?, end?, timezone?, callback?): any {
     let events = [];
-    this.workoutStore.list.forEach(workout => {
+    this.profileSessionStore.list.forEach(workout => {
       if (workout.fixed || workout.timeStart === '' ||
         (start && workout.date < start.format('YYYY-MM-DD')) || (end && workout.date > end.format('YYYY-MM-DD'))) {
         return;

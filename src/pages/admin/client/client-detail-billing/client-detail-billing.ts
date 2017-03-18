@@ -7,7 +7,7 @@ import { IClient } from 'app/services/client/client';
 
 import { Utils } from 'app/providers/utils';
 import { BillStore } from 'app/services/bill/bill-store';
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 declare let pdfMake: any;
 
@@ -33,16 +33,8 @@ export class ClientDetailBillingModal {
     private http: Http,
     private utils: Utils,
     private billStore: BillStore,
-    private workoutStore: WorkoutStore,
+    private profileSessionStore: ProfileSessionStore,
   ) {
-    this.params = params;
-    this.viewCtrl = viewCtrl;
-    this.http = http;
-    this.utils = utils;
-
-    this.billStore = billStore;
-    this.workoutStore = workoutStore;
-
     this.trainingPrice = 120;
   }
 
@@ -95,7 +87,7 @@ export class ClientDetailBillingModal {
     let month = date.getMonth();
     let firstDay = new Date(year, month, 1);
     let lastDay = new Date(year, month + 1, 1);
-    this.trainingsTodo = this.workoutStore.filterBy({
+    this.trainingsTodo = this.profileSessionStore.filterBy({
       client: this.client.key,
       fixed: false,
       dateAfter: firstDay,
@@ -105,7 +97,7 @@ export class ClientDetailBillingModal {
 
     firstDay = new Date(year, --month, 1);
     lastDay = new Date(year, month + 1, 1);
-    this.trainingsDone = this.workoutStore.filterBy({
+    this.trainingsDone = this.profileSessionStore.filterBy({
       client: this.client.key,
       fixed: false,
       dateAfter: firstDay,

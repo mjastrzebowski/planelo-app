@@ -4,26 +4,26 @@ import * as moment from 'moment';
 
 import { Utils } from 'app/providers/utils';
 
-import { IWorkout } from 'app/services/workout/workout';
+import { IProfileSession } from 'app/services/profile-session/profile-session';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 @Component({
   templateUrl: 'workout-reserve.html'
 })
 export class WorkoutReserveModal {
-  @Input() model: IWorkout;
+  @Input() model: IProfileSession;
 
   constructor(
     private params: NavParams,
     private viewCtrl: ViewController,
     private utils: Utils,
     private trainerStore: TrainerStore,
-    private workoutStore: WorkoutStore
+    private profileSessionStore: ProfileSessionStore
   ) {}
 
   ngOnInit(): void {
-    this.model = this.workoutStore.getItem(this.params.data) || new IWorkout();
+    this.model = this.profileSessionStore.getItem(this.params.data) || new IProfileSession();
   }
 
   getStartDate() {
@@ -51,10 +51,9 @@ export class WorkoutReserveModal {
     let end = this.getEndDate();
     // console.log(start.toString(), end.toString());
     Utils.forEachDay(start, end).forEach(day => {
-      let weekday = day.weekday()
-      console.log('dzien tygodnia', weekday);
+      let weekday = day.weekday();
       this.utils.getBussinesHoursArray().forEach(hour => {
-        this.trainerStore.filterBy({ placeId: 1, }).forEach(trainer => {
+        this.trainerStore.filterBy({ placeId: 1 }).forEach(trainer => {
 
         });
       });
@@ -80,7 +79,7 @@ export class WorkoutReserveModal {
 
   save(): void {
     this.utils.showLoading('Zapisywanie rezerwacji...');
-    this.workoutStore.create(this.model).then(() => {
+    this.profileSessionStore.create(this.model).then(() => {
       this.utils.stopLoading();
       this.utils.showMessage('Rezerwacja dodane.');
       this.dismiss();

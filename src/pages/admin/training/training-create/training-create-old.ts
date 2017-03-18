@@ -6,7 +6,7 @@ import { AuthService } from 'app/services/auth/auth-service';
 
 import { ClientStore } from 'app/services/client/client-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 
 @Component({
@@ -28,7 +28,7 @@ export class TrainingCreateModal {
     private viewCtrl: ViewController,
     private auth: AuthService,
     private trainerStore: TrainerStore,
-    private workoutStore: WorkoutStore,
+    private profileSessionStore: ProfileSessionStore,
     public clientStore: ClientStore
   ) {
     this.available = [];
@@ -57,7 +57,7 @@ export class TrainingCreateModal {
       this.trainings = [{}];
     }
 
-    this.sub = this.workoutStore.subscribe(loaded => {
+    this.sub = this.profileSessionStore.subscribe(loaded => {
       if (!loaded) {
         return;
       }
@@ -258,11 +258,11 @@ export class TrainingCreateModal {
         let nextDate = new Date(training.date);
         nextDate.setDate(firstDate.getDate() + 7 * d);
         let nextFormat = '2016-' + this.leadingZero(nextDate.getMonth()+1) + '-' + this.leadingZero(nextDate.getDate());
-        let index = this.workoutStore.findClientWorkoutIndex(training.clientKey, nextFormat, training.timeStart);
-        if (index !== -1) {
-          let rep = Object.assign({}, this.workoutStore.list.get(index));
-          this.repeated.push(rep);
-        }
+        // let index = this.profileSessionStore.findClientWorkoutIndex(training.clientKey, nextFormat, training.timeStart);
+        // if (index !== -1) {
+          // let rep = Object.assign({}, this.profileSessionStore.list.get(index));
+          // this.repeated.push(rep);
+        // }
       }
     }
   }

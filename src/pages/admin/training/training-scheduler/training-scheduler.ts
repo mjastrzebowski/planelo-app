@@ -12,7 +12,7 @@ import { AuthService } from 'app/services/auth/auth-service';
 import { ClientStore } from 'app/services/client/client-store';
 import { PlaceStore } from 'app/services/place/place-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 import { TrainingSchedulerFormModal } from '../training-scheduler-form/training-scheduler-form'
 
@@ -47,7 +47,7 @@ export class TrainingSchedulerPage {
     private alertCtrl: AlertController,
     private actionSheetCtrl: ActionSheetController,
     private utils: Utils,
-    private workoutStore: WorkoutStore,
+    private profileSessionStore: ProfileSessionStore,
     private clientStore: ClientStore,
     private placeStore: PlaceStore,
     private trainerStore: TrainerStore,
@@ -93,7 +93,7 @@ export class TrainingSchedulerPage {
       this.place = this.auth.place;
     }
 
-    this.sub = this.workoutStore.subscribe(loaded => {
+    this.sub = this.profileSessionStore.subscribe(loaded => {
       if (!loaded) {
         return;
       }
@@ -165,7 +165,7 @@ export class TrainingSchedulerPage {
 
       if (data[0].hasOwnProperty('delete')) {
         data.forEach(training => {
-          this.workoutStore.removeWorkout(training);
+          this.profileSessionStore.delete(training);
         });
         this.deleteTrainingAlert(data[0]);
       } else if (this.editing) {
@@ -184,22 +184,22 @@ export class TrainingSchedulerPage {
           if (training.trainer) {
             changes.place = this.trainerStore.getItem(training.trainer).place;
           }
-          this.workoutStore.updateWorkout(training, changes);
+          this.profileSessionStore.update(training, changes);
         });
       } else {
         let client = data[0].client || '';
         data.forEach(training => {
           let place = this.trainerStore.getItem(training.trainer).place;
-          this.workoutStore.createWorkout(
-            place,
-            training.trainer || '',
-            client,
-            training.date.date || '',
-            training.date.dateTime || '',
-            training.date.timeStart || '',
-            training.date.timeEnd || '',
-            training.repeat || false,
-            true);
+          // this.profileSessionStore.create(
+          //   place,
+          //   training.trainer || '',
+          //   client,
+          //   training.date.date || '',
+          //   training.date.dateTime || '',
+          //   training.date.timeStart || '',
+          //   training.date.timeEnd || '',
+          //   training.repeat || false,
+          //   true);
         });
 
         this.saveTrainingAlert(data[0]);
@@ -255,7 +255,7 @@ export class TrainingSchedulerPage {
           text: 'Odwołaj',
           handler: data => {
             let date = moment().format('DD.MM.YYYY, HH:mm');
-            this.workoutStore.updateWorkout(workout, {
+            this.profileSessionStore.update(workout, {
               completed: '[' + date + '] ' + data.title
             });
             this.deleteTrainingAlert(workout);
@@ -337,7 +337,7 @@ export class TrainingSchedulerPage {
   }
 
   calendarDrag(event, delta, revertFunc): void {
-    let workout = this.workoutStore.getItem(event.id);
+    let workout = this.profileSessionStore.getItem(event.id);
     let changes = {
       trainer: event.resourceId,
       date: event.start.format('YYYY-MM-DD'),
@@ -347,7 +347,7 @@ export class TrainingSchedulerPage {
     };
 
     if (confirm('Czy na pewno przenieść stały trening?')) {
-      this.workoutStore.updateWorkout(workout, changes);
+      this.profileSessionStore.update(workout, changes);
     }
     this.refreshCalendar(true);
   }
@@ -364,7 +364,7 @@ export class TrainingSchedulerPage {
   }
 
   calendarEvent(event): void {
-    let workout = this.workoutStore.getItem(event.id);
+    let workout = this.profileSessionStore.getItem(event.id);
     this.showTrainingSchedulerForm(workout);
   }
 
@@ -391,7 +391,7 @@ export class TrainingSchedulerPage {
 
   getEvents(start?, end?, timezone?, callback?): any {
     let events = [];
-    this.workoutStore.list.forEach(workout => {
+    this.profileSessionStore.list.forEach(workout => {
       if (!workout.fixed) {
         return;
       }

@@ -11,7 +11,7 @@ import { ClientStore } from 'app/services/client/client-store';
 import { NotificationStore } from 'app/services/notification/notification-store';
 import { PlaceStore } from 'app/services/place/place-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 @Component({
   templateUrl: 'import.html'
@@ -30,17 +30,53 @@ export class ImportPage {
     private notificationStore: NotificationStore,
     private placeStore: PlaceStore,
     private trainerStore: TrainerStore,
-    private workoutStore: WorkoutStore
+    private profileSessionStore: ProfileSessionStore
   ) {
     this.submitted = false;
     this.import = {};
   }
 
-  private resolveItem(item, service) {
+  private resolveItemByKey(item, service) {
     if (typeof item === 'object') {
       return JSON.stringify(item);
     }
     return service.getItemByKey(item);
+  }
+
+  private getAdminId(key) {
+    switch (key) {
+      case '-KBN-b7GjsB6FS8Opmx0':
+      case '-KNSsNzm8WH_t_lwASAz': {
+        return 106;
+      }
+      case '-KBN-fYLnmIQ_6pSwnV6': {
+        return 11;
+      }
+      default: {
+        return 2;
+      }
+    }
+  }
+
+  private importNotificationItem(item) {
+    item.admin = this.getAdminId(item.owner);
+
+    switch (item.type) {
+      case 'clientAdded':
+
+        break;
+      case 'clientRemoved':
+        break;
+      case 'workoutAdded':
+        break;
+      case 'workoutRemoved':
+        break;
+      case 'workoutRejected':
+        break;
+    }
+    item.client = this.resolveItemByKey(item.client, this.clientStore);
+    item.workout = this.resolveItemByKey(item.workout, this.profileSessionStore);
+    this.notificationStore.create(item);
   }
 
   save(form): void {
@@ -51,10 +87,7 @@ export class ImportPage {
     switch (this.model) {
       case this.notificationStore.model:
         data.forEach(item => {
-          item.admin = item.owner;
-          item.client = this.resolveItem(item.client, this.clientStore);
-          item.workout = this.resolveItem(item.workout, this.workoutStore);
-          this.notificationStore.create(item);
+          this.importNotificationItem(item);
         });
         break;
     }

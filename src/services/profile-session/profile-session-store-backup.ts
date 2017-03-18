@@ -16,7 +16,7 @@
 // import { FIREBASE_WORKOUTS_URL } from 'app/config';
 
 // @Injectable()
-// export class WorkoutStore {
+// export class ProfileSessionStore {
 //   private loaded: boolean = false;
 //   private emitter: EventEmitter<any> = new EventEmitter();
 //   private workouts: FirebaseListObservable<IWorkout[]>;

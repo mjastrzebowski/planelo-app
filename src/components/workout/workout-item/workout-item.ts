@@ -4,8 +4,8 @@ import * as moment from 'moment';
 
 import { AuthService } from 'app/services/auth/auth-service';
 
-import { IWorkout } from 'app/services/workout/workout';
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { IProfileSession } from 'app/services/profile-session/profile-session';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 import { NotificationStore } from 'app/services/notification/notification-store';
 
@@ -15,13 +15,13 @@ import { NotificationStore } from 'app/services/notification/notification-store'
   templateUrl: 'workout-item.html'
 })
 export class WorkoutItem {
-  @Input() model: IWorkout;
+  @Input() model: IProfileSession;
   @Input() changeDate: any;
   currentDate: any;
 
   constructor(
     private alertCtrl: AlertController,
-    private workoutStore: WorkoutStore,
+    private profileSessionStore: ProfileSessionStore,
     private notificationStore: NotificationStore,
     public auth: AuthService
   ) {
@@ -29,7 +29,7 @@ export class WorkoutItem {
   }
 
   removeWorkout(workout): void {
-    this.workoutStore.removeWorkout(workout)
+    this.profileSessionStore.delete(workout)
       .then((res) => {
         let notification = {
           type: 'workoutRemoved',
@@ -81,7 +81,7 @@ export class WorkoutItem {
             let changes = {
               completed: '[' + date + '] ' + data.title
             };
-            this.workoutStore.updateWorkout(workout, changes)
+            this.profileSessionStore.update(workout, changes)
               .then((res) => {
                 let notification = {
                   type: 'workoutRejected',

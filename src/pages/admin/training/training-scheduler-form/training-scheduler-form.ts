@@ -6,7 +6,7 @@ import { AuthService } from 'app/services/auth/auth-service';
 
 import { ClientStore } from 'app/services/client/client-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 
 @Component({
@@ -25,7 +25,7 @@ export class TrainingSchedulerFormModal {
     private params: NavParams,
     private viewCtrl: ViewController,
     private trainerStore: TrainerStore,
-    private workoutStore: WorkoutStore,
+    private profileSessionStore: ProfileSessionStore,
     public auth: AuthService,
     public clientStore: ClientStore
   ) {
@@ -53,7 +53,7 @@ export class TrainingSchedulerFormModal {
       this.trainings = [{}];
     }
 
-    this.sub = this.workoutStore.subscribe(loaded => {
+    this.sub = this.profileSessionStore.subscribe(loaded => {
       if (!loaded) {
         return;
       }
@@ -120,7 +120,7 @@ export class TrainingSchedulerFormModal {
 
               let d = thisDate.getDay()-1;
               if ((trainer.hours[d] && trainer.hours[d][hour.timeStart])) {
-                if (!this.workoutStore.list.find(workout => {
+                if (!this.profileSessionStore.list.find(workout => {
                   if (workout.fixed && (date === workout.date && workout.timeStart === time && workout.trainerKey === trainer.key)
                     && !(this.trainings[0] && workout.date === this.trainings[0].date && workout.timeStart === this.trainings[0].timeStart && trainer.key === this.trainings[0].trainer)) {
                     return true;

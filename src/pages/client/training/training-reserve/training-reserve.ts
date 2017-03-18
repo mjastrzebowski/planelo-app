@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import { AuthService } from 'app/services/auth/auth-service';
 
 import { TrainerStore } from 'app/services/trainer/trainer-store';
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class TrainingReserveModal {
   constructor(
     private viewCtrl: ViewController,
     private trainerStore: TrainerStore,
-    public workoutStore: WorkoutStore,
+    public profileSessionStore: ProfileSessionStore,
     public auth: AuthService
   ) {
     this.available = [];
@@ -38,7 +38,7 @@ export class TrainingReserveModal {
   }
 
   ngOnInit(): void {
-    this.sub = this.workoutStore.subscribe(loaded => {
+    this.sub = this.profileSessionStore.subscribe(loaded => {
       if (!loaded) {
         return;
       }
@@ -185,7 +185,7 @@ export class TrainingReserveModal {
                     (time === '08:00' || time === '09:00' || time === '10:00' || time === '11:00' || time === '12:00'))
                 ) {
                 // TODO: LISTALL
-                let find = this.workoutStore.list.filter(workout => {
+                let find = this.profileSessionStore.list.filter(workout => {
                   if (!this.auth.isAdmin && (!workout.fixed && !workout.completed && (date === workout.date && workout.timeStart === time && (workout.trainerKey === trainer.key || (this.auth.isClient && workout.clientKey === this.auth.key)))
                     && !(this.trainings[0] && workout.date === this.trainings[0].date && workout.timeStart === this.trainings[0].timeStart && (trainer.key === this.trainings[0].trainer || (this.auth.isClient && this.auth.key === this.trainings[0].client))))) {
                     return true;

@@ -31,7 +31,7 @@ import { MuscleService } from 'app/services/muscle/muscle-service';
 import { NotificationService } from 'app/services/notification/notification-service';
 import { PlaceService } from 'app/services/place/place-service';
 import { SessionService } from 'app/services/session/session-service';
-import { WorkoutService } from 'app/services/workout/workout-service';
+import { ProfileSessionService } from 'app/services/profile-session/profile-session-service';
 
 // import { TrainerService } from 'app/services/trainer/trainer-service';
 
@@ -53,7 +53,7 @@ import { PlaceStore } from 'app/services/place/place-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
 import { SessionStore } from 'app/services/session/session-store';
 import { UserStore } from 'app/services/user/user-store';
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 // providers
 // import { USER_PROVIDERS } from 'app/services/user/providers';
@@ -297,7 +297,7 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
     PlaceService,
     // TrainerService,
     SessionService,
-    WorkoutService,
+    ProfileSessionService,
 
     ActivityStore,
     ActivityTypeStore,
@@ -317,7 +317,7 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
     TrainerStore,
     SessionStore,
     UserStore,
-    WorkoutStore,
+    ProfileSessionStore,
     Utils
   ]
 })

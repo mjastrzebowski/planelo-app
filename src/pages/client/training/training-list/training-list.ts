@@ -11,7 +11,7 @@ import { AuthService } from 'app/services/auth/auth-service';
 
 import { ClientStore } from 'app/services/client/client-store';
 import { NotificationStore } from 'app/services/notification/notification-store';
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 import { TrainingReserveModal } from '../training-reserve/training-reserve';
 
@@ -68,7 +68,7 @@ export class TrainingListClientPage {
     private utils: Utils,
     private clientStore: ClientStore,
     private notificationStore: NotificationStore,
-    public workoutStore: WorkoutStore,
+    public profileSessionStore: ProfileSessionStore,
     public auth: AuthService
   ) {
     this.dates = [];
@@ -101,7 +101,7 @@ export class TrainingListClientPage {
 
   ngOnInit(): void {
     this.utils.showLoading('Ładowanie treningów...');
-    this.sub = this.workoutStore.subscribe(loaded => {
+    this.sub = this.profileSessionStore.subscribe(loaded => {
       if (!loaded) {
         return;
       }
@@ -132,38 +132,39 @@ export class TrainingListClientPage {
       let client = data[0].client || '';
       data.forEach(training => {
         let place = training.trainer.place;
-        this.workoutStore.createWorkout(
-          place,
-          training.trainer || '',
-          client,
-          training.date.date || '',
-          training.date.dateTime || '',
-          training.date.timeStart || '',
-          training.date.timeEnd || '',
-          training.repeat || false)
-        .then((res) => {
-          let notification = {
-            type: 'workoutAdded',
-            workout: {
-              // key: res.getKey(),
-              trainer: training.trainer || '',
-              client: client || '',
-              date: training.date.date || '',
-              dateTime: training.date.dateTime || '',
-              timeStart: training.date.timeStart || '',
-              timeEnd: training.date.timeEnd || '',
-              place: place || ''
-            },
-            admin: null,
-            client: null
-          };
-          if (this.auth.isAdmin) {
-            notification.admin = this.auth.key || true;
-          } else if (this.auth.isClient) {
-            notification.client = this.auth.key;
-          }
-          this.notificationStore.create(notification);
-        });
+        // TODO: update!!!
+        // this.profileSessionStore.create(
+        //   place,
+        //   training.trainer || '',
+        //   client,
+        //   training.date.date || '',
+        //   training.date.dateTime || '',
+        //   training.date.timeStart || '',
+        //   training.date.timeEnd || '',
+        //   training.repeat || false)
+        // .then((res) => {
+        //   let notification = {
+        //     type: 'workoutAdded',
+        //     workout: {
+        //       // key: res.getKey(),
+        //       trainer: training.trainer || '',
+        //       client: client || '',
+        //       date: training.date.date || '',
+        //       dateTime: training.date.dateTime || '',
+        //       timeStart: training.date.timeStart || '',
+        //       timeEnd: training.date.timeEnd || '',
+        //       place: place || ''
+        //     },
+        //     admin: null,
+        //     client: null
+        //   };
+        //   if (this.auth.isAdmin) {
+        //     notification.admin = this.auth.key || true;
+        //   } else if (this.auth.isClient) {
+        //     notification.client = this.auth.key;
+        //   }
+        //   this.notificationStore.create(notification);
+        // });
         this.saveTrainingAlert(data[0]);
       });
       this.utils.stopLoading();

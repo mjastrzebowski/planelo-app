@@ -4,8 +4,8 @@ import { NavParams, ViewController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
 
-import { IWorkout } from 'app/services/workout/workout';
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { IProfileSession } from 'app/services/profile-session/profile-session';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 import { ActivityStore } from 'app/services/activity/activity-store';
 import { ActivityTypeStore } from 'app/services/activity-type/activity-type-store';
@@ -17,13 +17,13 @@ import { SessionStore } from 'app/services/session/session-store';
   templateUrl: 'workout-create.html'
 })
 export class WorkoutCreateModal {
-  @Input() model: IWorkout;
+  @Input() model: IProfileSession;
 
   constructor(
     private params: NavParams,
     private viewCtrl: ViewController,
     private utils: Utils,
-    private workoutStore: WorkoutStore,
+    private profileSessionStore: ProfileSessionStore,
     private activityStore: ActivityStore,
     private activityTypeStore: ActivityTypeStore,
     private clientStore: ClientStore,
@@ -32,7 +32,7 @@ export class WorkoutCreateModal {
   ) {}
 
   ngOnInit(): void {
-    this.model = this.workoutStore.getItem(this.params.data) || new IWorkout();
+    this.model = this.profileSessionStore.getItem(this.params.data) || new IProfileSession();
   }
 
   changeActivityType(): void {
@@ -56,7 +56,7 @@ export class WorkoutCreateModal {
 
   save(): void {
     this.utils.showLoading('Zapisywanie treningu...');
-    this.workoutStore.create(this.model).then(() => {
+    this.profileSessionStore.create(this.model).then(() => {
       this.utils.stopLoading();
       this.utils.showMessage('Trening dodany.');
       this.dismiss();

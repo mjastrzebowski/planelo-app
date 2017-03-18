@@ -3,7 +3,7 @@ import { NavParams, ViewController } from 'ionic-angular';
 
 import { IClient } from 'app/services/client/client';
 
-import { WorkoutStore } from 'app/services/workout/workout-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 @Component({
   templateUrl: 'client-detail-workouts.html'
@@ -16,7 +16,7 @@ export class ClientDetailWorkoutsModal {
   constructor(
     private params: NavParams,
     private viewCtrl: ViewController,
-    private workoutStore: WorkoutStore
+    private profileSessionStore: ProfileSessionStore
   ) {}
 
   ngOnInit(): void {
@@ -26,7 +26,7 @@ export class ClientDetailWorkoutsModal {
     } else {
       this.client = new IClient();
     }
-    this.clientWorkouts = this.workoutStore.filterBy({ client: this.client.key });
+    this.clientWorkouts = this.profileSessionStore.filterBy({ client: this.client.key });
   }
 
   dismiss(): void {

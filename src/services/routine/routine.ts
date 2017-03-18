@@ -1,22 +1,20 @@
-export class IWorkout {
+export class IRoutine {
   createdAt?: number;
   id: number;
   key?: string;
   hide?: boolean;
   active?: boolean;
-  routineDayId: number;
   name: string;
   description: string;
 }
 
 
-export class Workout implements IWorkout {
+export class Routine implements IRoutine {
   id: number;
-  routineDayId: number;
   name: string;
   description: string;
 
-  constructor(routineDayId: number) {
-    this.routineDayId = routineDayId;
+  constructor(name: string) {
+    this.name = name;
   }
 }
