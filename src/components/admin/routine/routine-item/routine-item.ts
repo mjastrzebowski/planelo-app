@@ -7,7 +7,7 @@ import { Utils } from 'app/providers/utils';
 import { IRoutine } from 'app/services/routine/routine';
 import { RoutineStore } from 'app/services/routine/routine-store';
 
-// import { RoutineDetailPage } from 'app/pages/admin/routine/routine-detail/routine-detail';
+import { RoutineDetailPage } from 'app/pages/admin/routine/routine-detail/routine-detail';
 
 
 @Component({
@@ -32,6 +32,6 @@ export class RoutineItem {
 
   goToRoutineDetail(routine) {
     this.nav = this.app.getActiveNav();
-    // this.nav.push(RoutineDetailPage, routine);
+    this.nav.push(RoutineDetailPage, routine);
   }
 }

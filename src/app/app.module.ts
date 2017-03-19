@@ -33,6 +33,7 @@ import { PlaceService } from 'app/services/place/place-service';
 import { ProfileSessionService } from 'app/services/profile-session/profile-session-service';
 import { RoutineService } from 'app/services/routine/routine-service';
 import { RoutineDayService } from 'app/services/routine-day/routine-day-service';
+import { RoutineDayWorkoutService } from 'app/services/routine-day-workout/routine-day-workout-service';
 import { SessionService } from 'app/services/session/session-service';
 import { WorkoutService } from 'app/services/workout/workout-service';
 import { WorkoutExerciseService } from 'app/services/workout-exercise/workout-exercise-service';
@@ -60,6 +61,7 @@ import { PlaceStore } from 'app/services/place/place-store';
 import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 import { RoutineStore } from 'app/services/routine/routine-store';
 import { RoutineDayStore } from 'app/services/routine-day/routine-day-store';
+import { RoutineDayWorkoutStore } from 'app/services/routine-day-workout/routine-day-workout-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
 import { SessionStore } from 'app/services/session/session-store';
 import { UserStore } from 'app/services/user/user-store';
@@ -132,6 +134,8 @@ import { ExerciseListPage } from 'app/pages/admin/exercise/exercise-list/exercis
 import { ExerciseCreateModal } from 'app/pages/admin/exercise/exercise-create/exercise-create';
 import { ExerciseDetailPage } from 'app/pages/admin/exercise/exercise-detail/exercise-detail';
 import { RoutineListPage } from 'app/pages/admin/routine/routine-list/routine-list';
+import { RoutineCreateModal } from 'app/pages/admin/routine/routine-create/routine-create';
+import { RoutineDetailPage } from 'app/pages/admin/routine/routine-detail/routine-detail';
 import { TrainerCreateModal } from 'app/pages/admin/trainer/trainer-create/trainer-create';
 import { TrainerDetailPage, GroupHoursPipe } from 'app/pages/admin/trainer/trainer-detail/trainer-detail';
 import { TrainerDetailHoursModal } from 'app/pages/admin/trainer/trainer-detail-hours/trainer-detail-hours';
@@ -213,6 +217,8 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
     ExerciseCreateModal,
     ExerciseDetailPage,
     RoutineListPage,
+    RoutineCreateModal,
+    RoutineDetailPage,
     TrainerCreateModal,
     TrainerDetailPage,
     TrainerDetailHoursModal,
@@ -248,6 +254,19 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
         }
       },
       prodMode: true
+    }, {
+      links: [
+        { component: TrainingListPage, name: 'Treningi', segment: 'trainings' },
+        { component: TrainingSchedulerPage, name: 'Grafik', segment: 'scheduler' },
+        { component: ClientListPage, name: 'Klienci', segment: 'clients' },
+        { component: BillListPage, name: 'Rachunki', segment: 'bills' },
+        { component: TrainerListPage, name: 'Trenerzy', segment: 'trainers' },
+        { component: ExerciseListPage, name: 'Ćwiczenia', segment: 'exercises' },
+        { component: RoutineListPage, name: 'Plany treningowe', segment: 'routines' },
+        { component: ImportPage, name: 'Import', segment: 'import' },
+        { component: SettingsPage, name: 'Ustawienia', segment: 'settings' },
+        { component: LoginPage, name: 'Logowanie', segment: 'login' }
+      ]
     })
   ],
   bootstrap: [
@@ -276,6 +295,8 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
     ExerciseCreateModal,
     ExerciseDetailPage,
     RoutineListPage,
+    RoutineCreateModal,
+    RoutineDetailPage,
     TrainerCreateModal,
     TrainerDetailPage,
     TrainerDetailHoursModal,
@@ -324,6 +345,7 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
     SessionService,
     RoutineService,
     RoutineDayService,
+    RoutineDayWorkoutService,
     WorkoutService,
     WorkoutExerciseService,
     WorkoutGroupService,
@@ -348,6 +370,7 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
     ProfileSessionStore,
     RoutineStore,
     RoutineDayStore,
+    RoutineDayWorkoutStore,
     SessionStore,
     TrainerStore,
     UserStore,

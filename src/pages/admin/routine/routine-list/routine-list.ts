@@ -9,8 +9,8 @@ import { Utils } from 'app/providers/utils';
 import { AuthService } from 'app/services/auth/auth-service';
 import { RoutineStore } from 'app/services/routine/routine-store';
 
-// import { RoutineCreateModal } from '../routine-create/routine-create'
-// import { RoutineDetailPage } from '../routine-detail/routine-detail'
+import { RoutineCreateModal } from '../routine-create/routine-create'
+import { RoutineDetailPage } from '../routine-detail/routine-detail'
 
 @Component({
   templateUrl: 'routine-list.html'
@@ -46,10 +46,18 @@ export class RoutineListPage {
   }
 
   goToRoutineDetail(routine): void {
-    // this.nav.push(RoutineDetailPage, routine);
+    this.nav.push(RoutineDetailPage, routine);
   }
 
-  // showRoutineCreate(): void {
-  //   this.modalCtrl.create(RoutineCreateModal).present();
-  // }
+  showRoutineCreate(): void {
+    let modal = this.modalCtrl.create(RoutineCreateModal);
+    modal.onDidDismiss(this.afterCreate.bind(this));
+    modal.present();
+  }
+
+  afterCreate(result): void {
+    if (result && result.id) {
+      this.nav.push(RoutineDetailPage, result.id);
+    }
+  }
 }
