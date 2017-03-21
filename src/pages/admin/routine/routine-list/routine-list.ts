@@ -45,10 +45,6 @@ export class RoutineListPage {
     }
   }
 
-  goToRoutineDetail(routine): void {
-    this.nav.push(RoutineDetailPage, routine);
-  }
-
   showRoutineCreate(): void {
     let modal = this.modalCtrl.create(RoutineCreateModal);
     modal.onDidDismiss(this.afterCreate.bind(this));

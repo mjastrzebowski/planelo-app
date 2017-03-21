@@ -19,6 +19,6 @@ export class RoutineDetailPage {
     private utils: Utils,
     private routineStore: RoutineStore
   ) {
-    this.model = this.routineStore.getItem(this.params.data) || new IRoutine();
+    this.model = this.routineStore.getItem(this.params.data.id) || new IRoutine();
   }
 }

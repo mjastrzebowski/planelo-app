@@ -263,6 +263,7 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
         { component: TrainerListPage, name: 'Trenerzy', segment: 'trainers' },
         { component: ExerciseListPage, name: 'Ćwiczenia', segment: 'exercises' },
         { component: RoutineListPage, name: 'Plany treningowe', segment: 'routines' },
+        { component: RoutineDetailPage, name: 'Plan treningowy', segment: 'routine/:id', defaultHistory: [ RoutineListPage ] },
         { component: ImportPage, name: 'Import', segment: 'import' },
         { component: SettingsPage, name: 'Ustawienia', segment: 'settings' },
         { component: LoginPage, name: 'Logowanie', segment: 'login' }

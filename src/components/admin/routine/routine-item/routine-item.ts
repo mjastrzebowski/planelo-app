@@ -32,6 +32,6 @@ export class RoutineItem {
 
   goToRoutineDetail(routine) {
     this.nav = this.app.getActiveNav();
-    this.nav.push(RoutineDetailPage, routine);
+    this.nav.push(RoutineDetailPage, { id: routine });
   }
 }
