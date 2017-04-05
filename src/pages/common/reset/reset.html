@@ -1,35 +1,31 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>Reset hasła</ion-title>
-  </ion-navbar>
-</ion-header>
+<ion-content class="reset-page box-page">
+  <div class="box-overlay" text-center>
+    <div class="box" center-col padding>
+      <div class="box-header" padding>
+        <img src="/assets/img/planelo-logo.png">
+      </div>
 
-<ion-content>
-  <div class="about-header">
-    <img src="http://www.egobody.pl/gfx/home/logo_egobody.png">
-  </div>
+      <form #form="ngForm" novalidate>
+        <div center-col>
+          <ion-list>
+            <ion-list-header>Reset hasła</ion-list-header>
+            <ion-item>
+              <ion-label floating color="primary"><ion-icon name="person"></ion-icon> Adres e-mail</ion-label>
+              <ion-input [(ngModel)]="user.email" name="email" type="text" #email="ngModel" spellcheck="false" autocapitalize="off" required>
+              </ion-input>
+            </ion-item>
+            <p ion-text [hidden]="email.valid || submitted == false" color="danger" padding-left>
+              Nazwa użytkownika jest wymagana
+            </p>
+          </ion-list>
 
-  <form #form="ngForm" novalidate>
-    <div center-col>
-      <ion-list>
-        <ion-item>
-          <ion-label floating color="primary"><ion-icon name="person"></ion-icon> Użytkownik</ion-label>
-          <ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" required>
-          </ion-input>
-        </ion-item>
-        <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
-          Nazwa użytkownika jest wymagana
-        </p>
-      </ion-list>
-
-      <ion-row text-center responsive-sm>
-        <ion-col>
           <button ion-button (click)="reset(form)" type="submit">Zresetuj</button>
-        </ion-col>
-        <ion-col>
-          <button ion-button (click)="openLoginPage()" clear>Logowanie</button>
-        </ion-col>
-      </ion-row>
+        </div>
+      </form>
+
+      <p padding-top>
+        <button ion-button (click)="openLoginPage()" clear block>Zaloguj się</button>
+      </p>
     </div>
-  </form>
+  </div>
 </ion-content>

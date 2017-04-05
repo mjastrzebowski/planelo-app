@@ -185,7 +185,8 @@ export class BaseStore {
     this.emitter.next(this.loaded);
   }
 
-  private findIndex(id: number): number {
+  private findIndex(id: any): number {
+    id = parseInt(id);
     return this.list.findIndex((item: any) => {
       return item.id === id;
     });
@@ -195,7 +196,8 @@ export class BaseStore {
       return item.key === key;
     });
   }
-  private findIndexByProfile(profileId: number): number {
+  private findIndexByProfile(profileId: any): number {
+    profileId = parseInt(profileId);
     return this.list.findIndex((item: any) => {
       return item.profileId === profileId;
     });
@@ -204,5 +206,10 @@ export class BaseStore {
     return this.list.findIndex((item: any) => {
       return item.username === username;
     });
+  }
+
+  public labelAttribute = 'name';
+  getResults(keyword: string): any {
+    return this.list.toArray();
   }
 }

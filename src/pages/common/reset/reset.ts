@@ -7,6 +7,8 @@ import { AuthService } from 'app/services/auth/auth-service';
 import { ClientStore } from 'app/services/client/client-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
 
+import { LoginPage } from 'app/pages/common/login/login';
+
 @Component({
   templateUrl: 'reset.html'
 })
@@ -28,7 +30,7 @@ export class ResetPage {
   }
 
   openLoginPage(): void {
-    this.nav.pop();
+    this.nav.push(LoginPage);
   }
 
   reset(form: any): void {
@@ -45,7 +47,7 @@ export class ResetPage {
     this.utils.stopLoading();
     this.alertCtrl.create({
       title: 'Wysłano',
-      message: 'Nowe hasło zostało wysłane na adres e-mail.',
+      message: 'Instrukcje zostały wysłane na adres e-mail.',
       buttons: ['Ok']
     }).present();
   }

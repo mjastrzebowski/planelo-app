@@ -43,10 +43,33 @@ export class AuthService extends BaseService {
     return this.api.post(this.action, body);
   }
 
-  login(loginData: { username: string, password: string }) {
+  login(userData: { username: string, password: string }) {
     return new Promise((resolve, reject) => {
-      this.api.post(this.action + '/login', loginData, { include: 'User' }).then(data => {
+      this.api.post(this.action + '/login', userData, { include: 'User' }).then(data => {
         this.setSession(data);
+        this.emit();
+        resolve();
+      }, (error) => {
+        reject(error);
+      });
+    });
+  }
+
+  register(userData: { username: string, password: string }) {
+    return new Promise((resolve, reject) => {
+      this.api.post(this.action, userData, { include: 'User' }).then(data => {
+        this.setSession(data);
+        this.emit();
+        resolve();
+      }, (error) => {
+        reject(error);
+      });
+    });
+  }
+
+  reset(userData: { email: string }) {
+    return new Promise((resolve, reject) => {
+      this.api.post(this.action + '/reset', userData, { include: 'User' }).then(data => {
         this.emit();
         resolve();
       }, (error) => {
@@ -77,18 +100,6 @@ export class AuthService extends BaseService {
     //     reject();
     //   }
     // });
-  }
-
-  reset(loginData: { username: string }) {
-    return new Promise((resolve, reject) => {
-      // this.api.post(this.action + '/login', loginData, { include: 'User' }).then(data => {
-      //   this.setSession(data);
-      //   this.emit();
-        resolve();
-      // }, (error) => {
-      //   reject(error);
-      // });
-    });
   }
 
   isLoggedIn() {

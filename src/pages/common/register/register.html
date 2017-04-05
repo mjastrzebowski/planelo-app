@@ -1,4 +1,4 @@
-<ion-content class="login-page box-page">
+<ion-content class="register-page box-page">
   <div class="box-overlay" text-center>
     <div class="box" center-col padding>
       <div class="box-header" padding>
@@ -8,7 +8,7 @@
       <form #form="ngForm" novalidate>
         <div center-col>
           <ion-list>
-            <ion-list-header>Logowanie</ion-list-header>
+            <ion-list-header>Rejestracja</ion-list-header>
             <ion-item>
               <ion-label floating color="primary"><ion-icon name="person"></ion-icon> Użytkownik</ion-label>
               <ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" required>
@@ -28,20 +28,14 @@
             </p>
           </ion-list>
 
-          <button ion-button (click)="login(form)" type="submit">Zaloguj</button>
+          <button ion-button (click)="register(form)" type="submit">Rejestruj</button>
         </div>
       </form>
 
       <p padding-top>
-        Nie masz konta?
-        <button ion-button (click)="openRegisterPage()" clear block>Zarejestruj się</button>
-      </p>
-
-      <p>
-        Zapomniałeś hasła?
-        <button ion-button (click)="openResetPage()" clear block>Reset hasła</button>
+        Masz już konto?
+        <button ion-button (click)="openLoginPage()" clear block>Zaloguj się</button>
       </p>
     </div>
-    <p color="light">© 2017 planelo.com • Wszelkie prawa zastrzeżone.</p>
   </div>
 </ion-content>

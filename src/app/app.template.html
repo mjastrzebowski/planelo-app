@@ -9,8 +9,16 @@
 
     <ion-content class="menu outer-content">
       <ion-list class="menu-admin" *ngIf="auth.isAdmin">
-        <ion-list-header>Szef</ion-list-header>
+        <ion-list-header>Admin</ion-list-header>
         <button ion-item icon-left menuClose="menuLeft" *ngFor="let page of adminPages" (click)="openPage(page)">
+          <ion-icon item-left [name]="page.icon"></ion-icon>
+          {{ page?.title }}
+        </button>
+      </ion-list>
+
+      <ion-list class="menu-company" *ngIf="auth.isAdmin">
+        <ion-list-header>Firma</ion-list-header>
+        <button ion-item icon-left menuClose="menuLeft" *ngFor="let page of companyPages" (click)="openPage(page)">
           <ion-icon item-left [name]="page.icon"></ion-icon>
           {{ page?.title }}
         </button>

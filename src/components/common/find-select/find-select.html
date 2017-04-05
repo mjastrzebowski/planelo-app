@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Wybierz</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span color="primary" showWhen="ios">Zamknij</span>
+        <ion-icon name="close" hideWhen="ios"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="find-select">
+  <ion-searchbar color="primary" [(ngModel)]="filter.query" placeholder="Szukaj"></ion-searchbar>
+
+  <ion-list class="find-select-list">
+    <ion-item class="find-select-item" #items *ngFor="let item of store.get() | filterFindSelect:filter:limit" (click)="select(item)" [hidden]="item.hide">
+      <h3>{{ item?.name }}</h3>
+    </ion-item>
+
+    <!-- <ion-list-header *ngIf="isEmpty()">
+      Nie znaleziono
+    </ion-list-header> -->
+  </ion-list>
+
+  <button ion-button (click)="create()">Dodaj</button>
+  <button ion-button color="light" block (click)="dismiss()">Anuluj</button>
+</ion-content>

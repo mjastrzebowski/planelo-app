@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Firma</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="company-detail">
+  <div class="company-header">
+    <img src="http://www.egobody.pl/wp-content/uploads/2017/02/TreningPersonalny-150x150.jpg">
+    <ion-card>
+      <h2 text-center> {{ model?.name }} </h2>
+    </ion-card>
+  </div>
+
+  <ion-grid no-padding>
+    <ion-row>
+      <ion-col col-md-6 col-12>
+        <ion-card class="card-places">
+          <ion-card-header ion-item>
+            <ion-icon name="pin"></ion-icon>
+            <h3>Miejsca</h3>
+            <button item-right ion-button icon-only clear (click)="showPlaceCreate()">
+              <ion-icon name="add"></ion-icon>
+            </button>
+          </ion-card-header>
+          <ion-scroll scrollY="true">
+            <ion-list>
+              <ion-item>Hermanowska</ion-item>
+              <ion-item>Zwycięska</ion-item>
+            </ion-list>
+          </ion-scroll>
+        </ion-card>
+
+        <ion-card class="card-employees">
+          <ion-card-header ion-item>
+            <ion-icon name="people"></ion-icon>
+            <h3>Pracownicy</h3>
+            <button item-right ion-button icon-only clear (click)="showEmployeeCreate()">
+              <ion-icon name="add"></ion-icon>
+            </button>
+          </ion-card-header>
+          <ion-searchbar color="primary" [(ngModel)]="employeeFilter" placeholder="Szukaj"></ion-searchbar>
+          <ion-scroll scrollY="true">
+            <trainer-list class="employee-list" [filter]="employeeFilter"></trainer-list>
+          </ion-scroll>
+        </ion-card>
+      </ion-col>
+
+      <ion-col col-md-6 col-12>
+        <ion-card class="card-clients">
+          <ion-card-header ion-item>
+            <ion-icon name="contacts"></ion-icon>
+            <h3>Klienci</h3>
+            <button item-right ion-button icon-only clear (click)="showClientCreate()">
+              <ion-icon name="add"></ion-icon>
+            </button>
+          </ion-card-header>
+          <ion-searchbar color="primary" [(ngModel)]="clientFilter" placeholder="Szukaj"></ion-searchbar>
+          <ion-scroll scrollY="true">
+            <client-list class="client-list" [filter]="clientFilter"></client-list>
+          </ion-scroll>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

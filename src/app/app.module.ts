@@ -9,6 +9,8 @@ import { DavidApp } from './app.component';
 
 import { FirebaseModule } from '../firebase-module';
 
+import { AUTOCOMPLETE_DIRECTIVES, AUTOCOMPLETE_PIPES } from 'ionic2-auto-complete';
+
 import { Utils } from 'app/providers/utils';
 
 // services
@@ -19,6 +21,7 @@ import { BaseService } from 'app/services/_base/base-service';
 
 import { ActivityService } from 'app/services/activity/activity-service';
 import { ActivityTypeService } from 'app/services/activity-type/activity-type-service';
+import { CompanyService } from 'app/services/company/company-service';
 import { EquipmentService } from 'app/services/equipment/equipment-service';
 import { ExerciseService } from 'app/services/exercise/exercise-service';
 import { ExerciseCategoryService } from 'app/services/exercise-category/exercise-category-service';
@@ -47,6 +50,7 @@ import { ActivityStore } from 'app/services/activity/activity-store';
 import { ActivityTypeStore } from 'app/services/activity-type/activity-type-store';
 import { BillStore } from 'app/services/bill/bill-store';
 import { ClientStore } from 'app/services/client/client-store';
+import { CompanyStore } from 'app/services/company/company-store';
 import { EquipmentStore } from 'app/services/equipment/equipment-store';
 import { ExerciseStore } from 'app/services/exercise/exercise-store';
 import { ExerciseCategoryStore } from 'app/services/exercise-category/exercise-category-store';
@@ -89,11 +93,18 @@ import { ClientList } from 'app/components/client/client-list/client-list';
 import { ClientFilter } from 'app/components/client/client-filter/client-filter';
 import { ClientListFilterPipe } from 'app/components/client/client-list/client-list-filter-pipe';
 
+import { CompanyItem } from 'app/components/admin/company/company-item/company-item';
+import { CompanyList } from 'app/components/admin/company/company-list/company-list';
+import { CompanyListFilterPipe } from 'app/components/admin/company/company-list/company-list-filter-pipe';
+
 import { ExerciseItem } from 'app/components/admin/exercise/exercise-item/exercise-item';
 import { ExerciseList } from 'app/components/admin/exercise/exercise-list/exercise-list';
 import { ExerciseListFilterPipe } from 'app/components/admin/exercise/exercise-list/exercise-list-filter-pipe';
 import { ExerciseCategoryItem } from 'app/components/admin/exercise-category/exercise-category-item/exercise-category-item';
 import { ExerciseCategoryList } from 'app/components/admin/exercise-category/exercise-category-list/exercise-category-list';
+
+import { FindSelectModal } from 'app/components/common/find-select/find-select';
+import { FindSelectFilterPipe } from 'app/components/common/find-select/find-select-filter-pipe';
 
 import { NotificationItem } from 'app/components/notification/notification-item/notification-item';
 import { NotificationList } from 'app/components/notification/notification-list/notification-list';
@@ -117,6 +128,7 @@ import { WorkoutListFilterPipe } from 'app/components/workout/workout-list/worko
 // pages - common
 import { ImportPage } from 'app/pages/common/import/import';
 import { LoginPage } from 'app/pages/common/login/login';
+import { RegisterPage } from 'app/pages/common/register/register';
 import { ResetPage } from 'app/pages/common/reset/reset';
 import { SettingsPage } from 'app/pages/common/settings/settings';
 import { NotificationListPage } from 'app/pages/common/notification/notification-list/notification-list';
@@ -130,6 +142,9 @@ import { ClientDetailBillingModal } from 'app/pages/admin/client/client-detail-b
 import { ClientDetailProfileModal } from 'app/pages/admin/client/client-detail-profile/client-detail-profile';
 import { ClientDetailWorkoutsModal } from 'app/pages/admin/client/client-detail-workouts/client-detail-workouts';
 import { ClientListPage } from 'app/pages/admin/client/client-list/client-list';
+import { CompanyListPage } from 'app/pages/admin/company/company-list/company-list';
+import { CompanyCreateModal } from 'app/pages/admin/company/company-create/company-create';
+import { CompanyDetailPage } from 'app/pages/admin/company/company-detail/company-detail';
 import { ExerciseListPage } from 'app/pages/admin/exercise/exercise-list/exercise-list';
 import { ExerciseCreateModal } from 'app/pages/admin/exercise/exercise-create/exercise-create';
 import { ExerciseDetailPage } from 'app/pages/admin/exercise/exercise-detail/exercise-detail';
@@ -159,87 +174,165 @@ import { TrainingListClientPage } from 'app/pages/client/training/training-list/
 import { TrainingReserveModal } from 'app/pages/client/training/training-reserve/training-reserve';
 import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/workout-reserve';
 
+let components = [
+  // components
+  BillItem,
+  BillList,
+  BillFilter,
+  BillListFilterPipe,
+  ClientItem,
+  ClientList,
+  ClientFilter,
+  ClientListFilterPipe,
+  CompanyItem,
+  CompanyList,
+  CompanyListFilterPipe,
+  ExerciseItem,
+  ExerciseList,
+  ExerciseListFilterPipe,
+  ExerciseCategoryItem,
+  ExerciseCategoryList,
+  FindSelectModal,
+  FindSelectFilterPipe,
+  NotificationItem,
+  NotificationList,
+  NotificationFilter,
+  NotificationCounter,
+  NotificationListFilterPipe,
+  RoutineItem,
+  RoutineList,
+  RoutineListFilterPipe,
+  TrainerItem,
+  TrainerList,
+  TrainerListFilterPipe,
+  WorkoutItem,
+  WorkoutList,
+  WorkoutListGroupPipe,
+  WorkoutListFilterPipe,
+  GroupHoursPipe
+];
 
+let pages = [
+  // common
+  FindSelectModal,
+  ImportPage,
+  LoginPage,
+  RegisterPage,
+  ResetPage,
+  SettingsPage,
+  NotificationListPage,
+
+  // admin
+  BillListPage,
+  ClientCreateModal,
+  ClientDetailPage,
+  ClientDetailAccessModal,
+  ClientDetailBillingModal,
+  ClientDetailProfileModal,
+  ClientDetailWorkoutsModal,
+  ClientListPage,
+  CompanyListPage,
+  CompanyCreateModal,
+  CompanyDetailPage,
+  ExerciseListPage,
+  ExerciseCreateModal,
+  ExerciseDetailPage,
+  RoutineListPage,
+  RoutineCreateModal,
+  RoutineDetailPage,
+  TrainerCreateModal,
+  TrainerDetailPage,
+  TrainerDetailHoursModal,
+  TrainerDetailProfileModal,
+  TrainerDetailVacationModal,
+  TrainerListPage,
+  TrainingCreateModal,
+  TrainingDetailPage,
+  TrainingHistoryModal,
+  TrainingListPage,
+  TrainingSchedulerPage,
+  TrainingSchedulerFormModal,
+  WorkoutCreateModal,
+
+  // trainer
+  TrainingListTrainerPage,
+
+  // client
+  TrainingListClientPage,
+  TrainingReserveModal,
+  WorkoutReserveModal
+];
+let services = [
+  // HttpModule,
+  Api,
+  AuthService,
+  BaseStream,
+  BaseService,
+
+  ActivityService,
+  ActivityTypeService,
+  CompanyService,
+  EquipmentService,
+  ExerciseService,
+  ExerciseCategoryService,
+  ExerciseCommentService,
+  ExerciseEquipmentService,
+  ExerciseImageService,
+  ExerciseMuscleService,
+  HourService,
+  MuscleService,
+  NotificationService,
+  PlaceService,
+  ProfileSessionService,
+  // TrainerService,
+  SessionService,
+  RoutineService,
+  RoutineDayService,
+  RoutineDayWorkoutService,
+  WorkoutService,
+  WorkoutExerciseService,
+  WorkoutGroupService,
+  WorkoutGroupTypeService,
+  WorkoutSetService,
+
+  ActivityStore,
+  ActivityTypeStore,
+  BillStore,
+  ClientStore,
+  CompanyStore,
+  EquipmentStore,
+  ExerciseStore,
+  ExerciseCategoryStore,
+  ExerciseCommentStore,
+  ExerciseEquipmentStore,
+  ExerciseImageStore,
+  ExerciseMuscleStore,
+  HourStore,
+  MuscleStore,
+  NotificationStore,
+  PlaceStore,
+  ProfileSessionStore,
+  RoutineStore,
+  RoutineDayStore,
+  RoutineDayWorkoutStore,
+  SessionStore,
+  TrainerStore,
+  UserStore,
+  WorkoutStore,
+  WorkoutExerciseStore,
+  WorkoutGroupStore,
+  WorkoutGroupTypeStore,
+  WorkoutSetStore,
+  Utils
+];
 
 @NgModule({
   declarations: [
     DavidApp,
-
-    // components
-    BillItem,
-    BillList,
-    BillFilter,
-    BillListFilterPipe,
-    ClientItem,
-    ClientList,
-    ClientFilter,
-    ClientListFilterPipe,
-    ExerciseItem,
-    ExerciseList,
-    ExerciseListFilterPipe,
-    ExerciseCategoryItem,
-    ExerciseCategoryList,
-    NotificationItem,
-    NotificationList,
-    NotificationFilter,
-    NotificationCounter,
-    NotificationListFilterPipe,
-    RoutineItem,
-    RoutineList,
-    RoutineListFilterPipe,
-    TrainerItem,
-    TrainerList,
-    TrainerListFilterPipe,
-    WorkoutItem,
-    WorkoutList,
-    WorkoutListGroupPipe,
-    WorkoutListFilterPipe,
-    GroupHoursPipe,
-
-    // pages - common
-    ImportPage,
-    LoginPage,
-    ResetPage,
-    ResetPage,
-    SettingsPage,
-    NotificationListPage,
-
-    // pages - admin
-    BillListPage,
-    ClientCreateModal,
-    ClientDetailPage,
-    ClientDetailAccessModal,
-    ClientDetailBillingModal,
-    ClientDetailProfileModal,
-    ClientDetailWorkoutsModal,
-    ClientListPage,
-    ExerciseListPage,
-    ExerciseCreateModal,
-    ExerciseDetailPage,
-    RoutineListPage,
-    RoutineCreateModal,
-    RoutineDetailPage,
-    TrainerCreateModal,
-    TrainerDetailPage,
-    TrainerDetailHoursModal,
-    TrainerDetailProfileModal,
-    TrainerDetailVacationModal,
-    TrainerListPage,
-    TrainingCreateModal,
-    TrainingDetailPage,
-    TrainingHistoryModal,
-    TrainingListPage,
-    TrainingSchedulerPage,
-    TrainingSchedulerFormModal,
-    WorkoutCreateModal,
-
-    // pages - trainer
-    TrainingListTrainerPage,
-
-    // pages - client
-    TrainingListClientPage,
-    TrainingReserveModal,
-    WorkoutReserveModal
+    components,
+    pages,
+    AUTOCOMPLETE_DIRECTIVES,
+    AUTOCOMPLETE_PIPES
   ],
   imports: [
     BrowserModule,
@@ -258,6 +351,8 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
       links: [
         { component: TrainingListPage, name: 'Treningi', segment: 'trainings' },
         { component: TrainingSchedulerPage, name: 'Grafik', segment: 'scheduler' },
+        { component: CompanyListPage, name: 'Firmy', segment: 'companies' },
+        { component: CompanyDetailPage, name: 'Firma', segment: 'company/:id', defaultHistory: [ CompanyListPage ] },
         { component: ClientListPage, name: 'Klienci', segment: 'clients' },
         { component: BillListPage, name: 'Rachunki', segment: 'bills' },
         { component: TrainerListPage, name: 'Trenerzy', segment: 'trainers' },
@@ -266,7 +361,9 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
         { component: RoutineDetailPage, name: 'Plan treningowy', segment: 'routine/:id', defaultHistory: [ RoutineListPage ] },
         { component: ImportPage, name: 'Import', segment: 'import' },
         { component: SettingsPage, name: 'Ustawienia', segment: 'settings' },
-        { component: LoginPage, name: 'Logowanie', segment: 'login' }
+        { component: LoginPage, name: 'Logowanie', segment: 'login' },
+        { component: RegisterPage, name: 'Rejestracja', segment: 'register' },
+        { component: ResetPage, name: 'Reset hasła', segment: 'reset' }
       ]
     })
   ],
@@ -275,112 +372,11 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
   ],
   entryComponents: [
     DavidApp,
-
-    // common
-    ImportPage,
-    LoginPage,
-    ResetPage,
-    SettingsPage,
-    NotificationListPage,
-
-    // admin
-    BillListPage,
-    ClientCreateModal,
-    ClientDetailPage,
-    ClientDetailAccessModal,
-    ClientDetailBillingModal,
-    ClientDetailProfileModal,
-    ClientDetailWorkoutsModal,
-    ClientListPage,
-    ExerciseListPage,
-    ExerciseCreateModal,
-    ExerciseDetailPage,
-    RoutineListPage,
-    RoutineCreateModal,
-    RoutineDetailPage,
-    TrainerCreateModal,
-    TrainerDetailPage,
-    TrainerDetailHoursModal,
-    TrainerDetailProfileModal,
-    TrainerDetailVacationModal,
-    TrainerListPage,
-    TrainingCreateModal,
-    TrainingDetailPage,
-    TrainingHistoryModal,
-    TrainingListPage,
-    TrainingSchedulerPage,
-    TrainingSchedulerFormModal,
-    WorkoutCreateModal,
-
-    // trainer
-    TrainingListTrainerPage,
-
-    // client
-    TrainingListClientPage,
-    TrainingReserveModal,
-    WorkoutReserveModal
+    pages
   ],
   providers: [
     FIREBASE_PROVIDERS,
-    // HttpModule,
-    Api,
-    AuthService,
-    BaseStream,
-    BaseService,
-
-    ActivityService,
-    ActivityTypeService,
-    EquipmentService,
-    ExerciseService,
-    ExerciseCategoryService,
-    ExerciseCommentService,
-    ExerciseEquipmentService,
-    ExerciseImageService,
-    ExerciseMuscleService,
-    HourService,
-    MuscleService,
-    NotificationService,
-    PlaceService,
-    ProfileSessionService,
-    // TrainerService,
-    SessionService,
-    RoutineService,
-    RoutineDayService,
-    RoutineDayWorkoutService,
-    WorkoutService,
-    WorkoutExerciseService,
-    WorkoutGroupService,
-    WorkoutGroupTypeService,
-    WorkoutSetService,
-
-    ActivityStore,
-    ActivityTypeStore,
-    BillStore,
-    ClientStore,
-    EquipmentStore,
-    ExerciseStore,
-    ExerciseCategoryStore,
-    ExerciseCommentStore,
-    ExerciseEquipmentStore,
-    ExerciseImageStore,
-    ExerciseMuscleStore,
-    HourStore,
-    MuscleStore,
-    NotificationStore,
-    PlaceStore,
-    ProfileSessionStore,
-    RoutineStore,
-    RoutineDayStore,
-    RoutineDayWorkoutStore,
-    SessionStore,
-    TrainerStore,
-    UserStore,
-    WorkoutStore,
-    WorkoutExerciseStore,
-    WorkoutGroupStore,
-    WorkoutGroupTypeStore,
-    WorkoutSetStore,
-    Utils
+    services
   ]
 })
 export class AppModule {}

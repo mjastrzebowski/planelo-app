@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Firmy</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showCreateModal()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <notification-counter></notification-counter>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="trainer-list">
+  <ion-searchbar color="primary" [(ngModel)]="filter.query" placeholder="Szukaj"></ion-searchbar>
+
+  <company-list class="companies" [filter]="filter"></company-list>
+</ion-content>

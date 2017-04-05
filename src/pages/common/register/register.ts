@@ -7,14 +7,13 @@ import { AuthService } from 'app/services/auth/auth-service';
 import { ClientStore } from 'app/services/client/client-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
 
-import { ResetPage } from 'app/pages/common/reset/reset';
-import { RegisterPage } from 'app/pages/common/register/register';
+import { LoginPage } from 'app/pages/common/login/login';
 
 @Component({
-  templateUrl: 'login.html'
+  templateUrl: 'register.html'
 })
 
-export class LoginPage {
+export class RegisterPage {
   user: any;
   submitted: boolean;
 
@@ -30,39 +29,31 @@ export class LoginPage {
     this.submitted = false;
   }
 
-  openResetPage(): void {
-    this.nav.push(ResetPage);
+  openLoginPage(): void {
+    this.nav.push(LoginPage);
   }
 
-  openRegisterPage(): void {
-    this.nav.push(RegisterPage);
-  }
-
-  login(form: any): void {
+  register(form: any): void {
     this.submitted = true;
     if (form.valid) {
-      this.utils.showLoading('Logowanie...');
-      this.auth.login(form.value)
-        .then(() => this.postLogin())
-        .catch(() => this.errorLogin());
+      this.utils.showLoading('Rejestrowanie...');
+      this.auth.register(form.value)
+        .then(() => this.postRegister())
+        .catch(() => this.errorRegister());
     }
   }
 
-  logout(): void {
-    this.auth.logout();
-  }
-
-  private postLogin(): void {
+  private postRegister(): void {
     this.utils.stopLoading();
     // this.router.navigate(['/Workouts']);
     // this.nav.setRoot(TrainingListPage);
   }
 
-  private errorLogin(): void {
+  private errorRegister(): void {
     this.utils.stopLoading();
     this.alertCtrl.create({
       title: 'Błąd',
-      message: 'Nieprawidłowy login lub hasło.',
+      message: 'Wystąpił błąd podczas rejestracji. Spróbuj ponownie.',
       buttons: ['Ok']
     }).present();
   }

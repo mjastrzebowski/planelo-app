@@ -15,6 +15,7 @@ import { NotificationListPage } from 'app/pages/common/notification/notification
 // pages - admin
 import { BillListPage } from 'app/pages/admin/bill/bill-list/bill-list';
 import { ClientListPage } from 'app/pages/admin/client/client-list/client-list';
+import { CompanyListPage } from 'app/pages/admin/company/company-list/company-list';
 import { ExerciseListPage } from 'app/pages/admin/exercise/exercise-list/exercise-list';
 import { RoutineListPage } from 'app/pages/admin/routine/routine-list/routine-list';
 import { TrainerListPage } from 'app/pages/admin/trainer/trainer-list/trainer-list';
@@ -51,14 +52,18 @@ export class DavidApp {
   // the left menu only works after login
   // the login page disables the left menu
   adminPages: PageInterface[] = [
+    { title: 'Firmy', component: CompanyListPage, icon: 'book' },
+    { title: 'Import danych', component: ImportPage, icon: 'cloud-upload' }
+  ];
+  companyPages: PageInterface[] = [
     { title: 'Treningi', component: TrainingListPage, icon: 'clipboard' },
     { title: 'Grafik', component: TrainingSchedulerPage, icon: 'calendar' },
     { title: 'Klienci', component: ClientListPage, icon: 'contacts' },
     { title: 'Rachunki', component: BillListPage, icon: 'cash' },
-    { title: 'Trenerzy', component: TrainerListPage, icon: 'people' },
+    { title: 'Pracownicy', component: TrainerListPage, icon: 'people' },
+    { title: 'Miejsca', component: TrainerListPage, icon: 'pin' },
     { title: 'Ćwiczenia', component: ExerciseListPage, icon: 'list' },
-    { title: 'Plany treningowe', component: RoutineListPage, icon: 'list' },
-    { title: 'Import', component: ImportPage, icon: 'cloud-upload' }
+    { title: 'Plany treningowe', component: RoutineListPage, icon: 'list' }
   ];
   trainerPages: PageInterface[] = [
     { title: 'Treningi', component: TrainingListTrainerPage, icon: 'clipboard' }
