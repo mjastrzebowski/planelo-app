@@ -10,6 +10,7 @@ import { CompanyStore } from 'app/services/company/company-store';
 import { ClientStore } from 'app/services/client/client-store';
 import { ClientDetailPage } from 'app/pages/admin/client/client-detail/client-detail';
 import { EmployeeStore } from 'app/services/employee/employee-store';
+import { TrainerDetailPage } from 'app/pages/admin/trainer/trainer-detail/trainer-detail';
 
 @Component({
   templateUrl: 'company-detail.html'
@@ -20,6 +21,7 @@ export class CompanyDetailPage {
   employeeFilter = '';
   clientFilter = '';
   clientDetailPage = ClientDetailPage;
+  trainerDetailPage = TrainerDetailPage;
 
   constructor(
     private params: NavParams,

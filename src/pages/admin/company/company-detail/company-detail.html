@@ -44,7 +44,7 @@
           </ion-card-header>
           <ion-searchbar color="primary" [(ngModel)]="employeeFilter" placeholder="Szukaj"></ion-searchbar>
           <ion-scroll scrollY="true">
-            <common-item-list class="employee-list" [store]="employeeStore" [filter]="employeeFilter"></common-item-list>
+            <common-item-list class="employee-list" [data]="model?.employees" [store]="employeeStore" [detail]="trainerDetailPage" [filter]="employeeFilter"></common-item-list>
           </ion-scroll>
         </ion-card>
       </ion-col>

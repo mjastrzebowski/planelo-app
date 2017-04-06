@@ -9,6 +9,7 @@ import { BaseStore } from 'app/services/_base/base-store';
 export class CommonItemList {
   private sub;
   @Input() store: BaseStore;
+  @Input() data: any;
   @Input() detail: any;
   @Input() filter: any;
   @Input() limit: any;

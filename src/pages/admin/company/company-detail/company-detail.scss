@@ -50,12 +50,8 @@
     &.card-clients ion-card-header {
       background-color: color($colors, card-orange);
     }
-    ion-item {
-      font-size: 14px;
+    ion-item, .common-item {
       border-bottom: 1px solid #eee;
-    }
-    ion-buttons {
-      padding: 10px 0;
     }
   }
 }

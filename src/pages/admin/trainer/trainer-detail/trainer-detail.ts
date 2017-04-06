@@ -10,6 +10,7 @@ import 'rxjs/add/operator/toPromise';
 import { AuthService } from 'app/services/auth/auth-service';
 import { Utils } from 'app/providers/utils';
 
+import { ITrainer } from 'app/services/trainer/trainer';
 import { ClientStore } from 'app/services/client/client-store';
 import { NotificationStore } from 'app/services/notification/notification-store';
 import { PlaceStore } from 'app/services/place/place-store';
@@ -72,6 +73,8 @@ export class GroupHoursPipe implements PipeTransform {
   templateUrl: 'trainer-detail.html'
 })
 export class TrainerDetailPage {
+  private sub;
+  client: ITrainer;
   trainer: any;
   trainingsDone: any;
   trainingsDoneLast: any;
@@ -80,7 +83,7 @@ export class TrainerDetailPage {
 
   constructor(
     private modalCtrl: ModalController,
-    private navParams: NavParams,
+    private params: NavParams,
     private trainerStore: TrainerStore,
     private profileSessionStore: ProfileSessionStore,
     private notificationStore: NotificationStore,
@@ -97,9 +100,24 @@ export class TrainerDetailPage {
     // this.trainingsScheduled = this.profileSessionStore.filterBy({ trainer: this.trainer.key, fixed: true });
   }
 
+  init(): void {
+    this.trainer = this.trainerStore.getItem(this.params.data.id) || new ITrainer();
+  }
+
   ngOnInit(): void {
-    if (this.navParams.data) {
-      this.trainer = this.trainerStore.getItem(this.navParams.data.id);
+    this.utils.showLoading('Ładowanie danych trenera...');
+    this.sub = this.trainerStore.subscribe(loaded => {
+      if (!loaded) {
+        return;
+      }
+      this.init();
+      this.utils.stopLoading();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
     }
   }
 
