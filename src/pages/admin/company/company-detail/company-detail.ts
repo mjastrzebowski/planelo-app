@@ -10,6 +10,7 @@ import { CompanyStore } from 'app/services/company/company-store';
 import { ClientStore } from 'app/services/client/client-store';
 import { ClientDetailPage } from 'app/pages/admin/client/client-detail/client-detail';
 import { EmployeeStore } from 'app/services/employee/employee-store';
+import { PlaceStore } from 'app/services/place/place-store';
 import { TrainerDetailPage } from 'app/pages/admin/trainer/trainer-detail/trainer-detail';
 
 @Component({
@@ -29,6 +30,7 @@ export class CompanyDetailPage {
     private utils: Utils,
     private companyStore: CompanyStore,
     private clientStore: ClientStore,
+    private placeStore: PlaceStore,
     private employeeStore: EmployeeStore
   ) {}
 

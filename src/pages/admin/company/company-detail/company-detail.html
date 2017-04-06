@@ -27,10 +27,7 @@
             </button>
           </ion-card-header>
           <ion-scroll scrollY="true">
-            <ion-list>
-              <ion-item>Hermanowska</ion-item>
-              <ion-item>Zwycięska</ion-item>
-            </ion-list>
+            <common-item-list class="place-list" [data]="placeStore.get()" [store]="placeStore"></common-item-list>
           </ion-scroll>
         </ion-card>
 
@@ -60,7 +57,7 @@
           </ion-card-header>
           <ion-searchbar color="primary" [(ngModel)]="clientFilter" placeholder="Szukaj"></ion-searchbar>
           <ion-scroll scrollY="true">
-            <common-item-list class="employee-list" [store]="clientStore" [detail]="clientDetailPage" [filter]="clientFilter"></common-item-list>
+            <common-item-list class="employee-list" [data]="clientStore.get()" [store]="clientStore" [detail]="clientDetailPage" [filter]="clientFilter"></common-item-list>
           </ion-scroll>
         </ion-card>
       </ion-col>
