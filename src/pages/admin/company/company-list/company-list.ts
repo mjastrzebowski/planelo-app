@@ -10,7 +10,7 @@ import { AuthService } from 'app/services/auth/auth-service';
 import { CompanyStore } from 'app/services/company/company-store';
 
 import { CompanyCreateModal } from '../company-create/company-create';
-import { FindSelectModal } from 'app/components/common/find-select/find-select';
+// import { FindSelectModal } from 'app/components/common/find-select/find-select';
 
 @Component({
   templateUrl: 'company-list.html'
@@ -47,7 +47,7 @@ export class CompanyListPage {
   }
 
   showCreateModal(): void {
-    // this.modalCtrl.create(CompanyCreateModal).present();
-    this.modalCtrl.create(FindSelectModal, this.companyStore).present();
+    this.modalCtrl.create(CompanyCreateModal).present();
+    // this.modalCtrl.create(FindSelectModal, this.companyStore).present();
   }
 }

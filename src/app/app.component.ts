@@ -95,7 +95,7 @@ export class DavidApp {
       } else {
         // this.root = TrainingListPage;
         // this.root = ExerciseListPage;
-        this.root = RoutineListPage;
+        this.root = CompanyListPage;
         // this.root = WorkoutReserveModal;
       }
     });
