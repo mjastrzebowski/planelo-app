@@ -8,7 +8,11 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
+import { Utils } from 'app/providers/utils';
+
 import { AuthService } from 'app/services/auth/auth-service';
+
+import { IClient } from 'app/services/client/client';
 
 import { ClientStore } from 'app/services/client/client-store';
 import { NotificationStore } from 'app/services/notification/notification-store';
@@ -26,7 +30,8 @@ import { ClientDetailWorkoutsModal } from '../client-detail-workouts/client-deta
   templateUrl: 'client-detail.html'
 })
 export class ClientDetailPage {
-  client: any;
+  private sub;
+  client: IClient;
   trainingsDone: any;
   trainingsDoneLast: any;
   trainingsTodo: any;
@@ -37,23 +42,42 @@ export class ClientDetailPage {
 
   constructor(
     private modalCtrl: ModalController,
-    private navParams: NavParams,
+    private params: NavParams,
     private http: Http,
     private notificationStore: NotificationStore,
     private auth: AuthService,
+    private utils: Utils,
     private user: UserStore,
     private clientStore: ClientStore,
     private profileSessionStore: ProfileSessionStore,
     public placeStore: PlaceStore,
     public trainerStore: TrainerStore
-  ) {
-    this.client = this.navParams.data;
+  ) {}
 
+  init(): void {
+    this.client = this.clientStore.getItem(this.params.data.id) || new IClient();
     this.trainingsDone = this.profileSessionStore.filterBy({ client: this.client.key, fixed: false, completed: false, dateBefore: new Date() });
     this.trainingsDoneLast = this.trainingsDone.get(-1);
     this.trainingsTodo = this.profileSessionStore.filterBy({ client: this.client.key, fixed: false, completed: false, dateAfter: new Date() });
     this.trainingsTodoNext = this.trainingsTodo.get(0);
     this.trainingsScheduled = this.profileSessionStore.filterBy({ client: this.client.key, fixed: true });
+  }
+
+  ngOnInit(): void {
+    this.utils.showLoading('Ładowanie danych klienta...');
+    this.sub = this.clientStore.subscribe(loaded => {
+      if (!loaded) {
+        return;
+      }
+      this.init();
+      this.utils.stopLoading();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   showClientProfile(client): void {

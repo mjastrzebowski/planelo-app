@@ -12,6 +12,7 @@ export class IClient {
   password?: string;
   gender?: any;
   hide?: boolean;
+  active?: boolean;
 
   delete?: boolean;
   message?: any;

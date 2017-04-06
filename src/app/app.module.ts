@@ -21,6 +21,7 @@ import { BaseService } from 'app/services/_base/base-service';
 import { ActivityService } from 'app/services/activity/activity-service';
 import { ActivityTypeService } from 'app/services/activity-type/activity-type-service';
 import { CompanyService } from 'app/services/company/company-service';
+import { EmployeeService } from 'app/services/employee/employee-service';
 import { EquipmentService } from 'app/services/equipment/equipment-service';
 import { ExerciseService } from 'app/services/exercise/exercise-service';
 import { ExerciseCategoryService } from 'app/services/exercise-category/exercise-category-service';
@@ -47,9 +48,11 @@ import { WorkoutSetService } from 'app/services/workout-set/workout-set-service'
 
 import { ActivityStore } from 'app/services/activity/activity-store';
 import { ActivityTypeStore } from 'app/services/activity-type/activity-type-store';
+import { AuthStore } from 'app/services/auth/auth-store';
 import { BillStore } from 'app/services/bill/bill-store';
 import { ClientStore } from 'app/services/client/client-store';
 import { CompanyStore } from 'app/services/company/company-store';
+import { EmployeeStore } from 'app/services/employee/employee-store';
 import { EquipmentStore } from 'app/services/equipment/equipment-store';
 import { ExerciseStore } from 'app/services/exercise/exercise-store';
 import { ExerciseCategoryStore } from 'app/services/exercise-category/exercise-category-store';
@@ -82,6 +85,10 @@ import { WorkoutSetStore } from 'app/services/workout-set/workout-set-store';
 // import { BILL_PROVIDERS } from 'app/services/bill/providers';
 
 // components
+import { CommonItem } from 'app/components/common/common-item-list/common-item';
+import { CommonItemList } from 'app/components/common/common-item-list/common-item-list';
+import { CommonItemFilterPipe } from 'app/components/common/common-item-list/common-item-filter';
+
 import { BillItem } from 'app/components/bill/bill-item/bill-item';
 import { BillList } from 'app/components/bill/bill-list/bill-list';
 import { BillFilter } from 'app/components/bill/bill-filter/bill-filter';
@@ -95,6 +102,10 @@ import { ClientListFilterPipe } from 'app/components/client/client-list/client-l
 import { CompanyItem } from 'app/components/admin/company/company-item/company-item';
 import { CompanyList } from 'app/components/admin/company/company-list/company-list';
 import { CompanyListFilterPipe } from 'app/components/admin/company/company-list/company-list-filter-pipe';
+
+import { EmployeeItem } from 'app/components/company/employee/employee-item/employee-item';
+import { EmployeeList } from 'app/components/company/employee/employee-list/employee-list';
+import { EmployeeListFilterPipe } from 'app/components/company/employee/employee-list/employee-list-filter-pipe';
 
 import { ExerciseItem } from 'app/components/admin/exercise/exercise-item/exercise-item';
 import { ExerciseList } from 'app/components/admin/exercise/exercise-list/exercise-list';
@@ -134,6 +145,7 @@ import { NotificationListPage } from 'app/pages/common/notification/notification
 
 // pages - admin
 import { BillListPage } from 'app/pages/admin/bill/bill-list/bill-list';
+
 import { ClientCreateModal } from 'app/pages/admin/client/client-create/client-create';
 import { ClientDetailPage } from 'app/pages/admin/client/client-detail/client-detail';
 import { ClientDetailAccessModal } from 'app/pages/admin/client/client-detail-access/client-detail-access';
@@ -141,21 +153,26 @@ import { ClientDetailBillingModal } from 'app/pages/admin/client/client-detail-b
 import { ClientDetailProfileModal } from 'app/pages/admin/client/client-detail-profile/client-detail-profile';
 import { ClientDetailWorkoutsModal } from 'app/pages/admin/client/client-detail-workouts/client-detail-workouts';
 import { ClientListPage } from 'app/pages/admin/client/client-list/client-list';
+
 import { CompanyListPage } from 'app/pages/admin/company/company-list/company-list';
 import { CompanyCreateModal } from 'app/pages/admin/company/company-create/company-create';
 import { CompanyDetailPage } from 'app/pages/admin/company/company-detail/company-detail';
+
 import { ExerciseListPage } from 'app/pages/admin/exercise/exercise-list/exercise-list';
 import { ExerciseCreateModal } from 'app/pages/admin/exercise/exercise-create/exercise-create';
 import { ExerciseDetailPage } from 'app/pages/admin/exercise/exercise-detail/exercise-detail';
+
 import { RoutineListPage } from 'app/pages/admin/routine/routine-list/routine-list';
 import { RoutineCreateModal } from 'app/pages/admin/routine/routine-create/routine-create';
 import { RoutineDetailPage } from 'app/pages/admin/routine/routine-detail/routine-detail';
+
 import { TrainerCreateModal } from 'app/pages/admin/trainer/trainer-create/trainer-create';
 import { TrainerDetailPage, GroupHoursPipe } from 'app/pages/admin/trainer/trainer-detail/trainer-detail';
 import { TrainerDetailHoursModal } from 'app/pages/admin/trainer/trainer-detail-hours/trainer-detail-hours';
 import { TrainerDetailProfileModal } from 'app/pages/admin/trainer/trainer-detail-profile/trainer-detail-profile';
 import { TrainerDetailVacationModal } from 'app/pages/admin/trainer/trainer-detail-vacation/trainer-detail-vacation';
 import { TrainerListPage } from 'app/pages/admin/trainer/trainer-list/trainer-list';
+
 import { TrainingCreateModal } from 'app/pages/admin/training/training-create/training-create';
 import { TrainingDetailPage } from 'app/pages/admin/training/training-detail/training-detail';
 import { TrainingHistoryModal } from 'app/pages/admin/training/training-history/training-history';
@@ -175,6 +192,10 @@ import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/wo
 
 let components = [
   // components
+  CommonItem,
+  CommonItemList,
+  CommonItemFilterPipe,
+
   BillItem,
   BillList,
   BillFilter,
@@ -186,6 +207,9 @@ let components = [
   CompanyItem,
   CompanyList,
   CompanyListFilterPipe,
+  EmployeeItem,
+  EmployeeList,
+  EmployeeListFilterPipe,
   ExerciseItem,
   ExerciseList,
   ExerciseListFilterPipe,
@@ -272,6 +296,7 @@ let services = [
   ActivityService,
   ActivityTypeService,
   CompanyService,
+  EmployeeService,
   EquipmentService,
   ExerciseService,
   ExerciseCategoryService,
@@ -297,9 +322,11 @@ let services = [
 
   ActivityStore,
   ActivityTypeStore,
+  AuthStore,
   BillStore,
   ClientStore,
   CompanyStore,
+  EmployeeStore,
   EquipmentStore,
   ExerciseStore,
   ExerciseCategoryStore,

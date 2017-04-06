@@ -4,6 +4,7 @@ export class IEmployee {
   key?: string;
   hide?: boolean;
   active?: boolean;
+  name?: string;
   companyId: number;
 }
 

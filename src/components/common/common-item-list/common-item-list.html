@@ -1,0 +1,7 @@
+<ion-list class="common-item-list">
+  <common-item #items [model]="item" *ngFor="let item of store.get() | filterCommonItems:filter:limit" [detail]="detail"></common-item>
+
+  <ion-list-header *ngIf="isEmpty()">
+    Nie znaleziono
+  </ion-list-header>
+</ion-list>
