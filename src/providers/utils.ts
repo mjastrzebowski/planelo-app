@@ -40,12 +40,12 @@ export class Utils {
       duration: duration
     };
     this.loading = this.loadingCtrl.create(options);
-    this.loading.present();
+    // this.loading.present();
   }
 
   stopLoading(force?: boolean): void {
     if (this.loading && (force || this.active)) {
-      this.loading.dismiss();
+      this.loading.dismiss().catch(() => console.log('ERROR CATCH: LoadingController dismiss'));
     }
     this.loading = null;
     this.active = false;

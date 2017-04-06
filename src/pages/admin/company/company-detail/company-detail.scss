@@ -60,7 +60,7 @@
   }
 }
 
-@media screen and (min-width: $grid-responsive-md-break) {
+@media screen and (min-width: breakpoint-min(md)) {
   .company-detail {
     .company-header {
       padding: 50px 0 30px 100px;

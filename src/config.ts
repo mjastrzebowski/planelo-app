@@ -1,7 +1,7 @@
 export const Config = {
   // API_URL: "http://api.egobody.usermd.net/api/"
   // API_URL: "http://192.168.1.102:3000/api/",
-  API_URL: "http://192.168.1.100:3000/api/",
+  API_URL: "http://localhost:3000/api/",
   BUSINESS_HOURS: {
     START: 7,
     END: 22

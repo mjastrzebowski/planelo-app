@@ -113,21 +113,21 @@ ion-modal.my-popup {
 [center-col] {
   margin-left: auto;
   margin-right: auto;
-  max-width: $grid-responsive-sm-break/2;
+  max-width: breakpoint-min(sm)/2;
 }
 
-@media screen and (max-width: $grid-responsive-sm-break) {
+@media screen and (max-width: breakpoint-min(sm)) {
   .hidden-sm {
     display: none !important;
   }
 }
-@media screen and (max-width: $grid-responsive-md-break) {
+@media screen and (max-width: breakpoint-min(md)) {
   .hidden-md {
     display: none !important;
   }
 }
 
-@media screen and (min-width: $grid-responsive-lg-break) {
+@media screen and (min-width: breakpoint-min(lg)) {
   // disable sliding options on desktop
   ion-item-sliding {
     &.active-slide .item {

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 import { FIREBASE_PROVIDERS } from 'angularfire2';
 
@@ -8,8 +9,6 @@ import { IonicApp, IonicModule } from 'ionic-angular';
 import { DavidApp } from './app.component';
 
 import { FirebaseModule } from '../firebase-module';
-
-import { AUTOCOMPLETE_DIRECTIVES, AUTOCOMPLETE_PIPES } from 'ionic2-auto-complete';
 
 import { Utils } from 'app/providers/utils';
 
@@ -330,40 +329,30 @@ let services = [
   declarations: [
     DavidApp,
     components,
-    pages,
-    AUTOCOMPLETE_DIRECTIVES,
-    AUTOCOMPLETE_PIPES
+    pages
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     FormsModule,
     FirebaseModule,
-    IonicModule.forRoot(DavidApp, {
-      statusbarPadding: false,
-      platforms: {
-        android: {
-          activator: 'ripple',
-          backButtonIcon: 'md-arrow-back'
-        }
-      },
-      prodMode: true
-    }, {
+    IonicModule.forRoot(DavidApp, {}, {
       links: [
-        { component: TrainingListPage, name: 'Treningi', segment: 'trainings' },
-        { component: TrainingSchedulerPage, name: 'Grafik', segment: 'scheduler' },
-        { component: CompanyListPage, name: 'Firmy', segment: 'companies' },
-        { component: CompanyDetailPage, name: 'Firma', segment: 'company/:id', defaultHistory: [ CompanyListPage ] },
-        { component: ClientListPage, name: 'Klienci', segment: 'clients' },
-        { component: BillListPage, name: 'Rachunki', segment: 'bills' },
-        { component: TrainerListPage, name: 'Trenerzy', segment: 'trainers' },
-        { component: ExerciseListPage, name: 'Ćwiczenia', segment: 'exercises' },
-        { component: RoutineListPage, name: 'Plany treningowe', segment: 'routines' },
-        { component: RoutineDetailPage, name: 'Plan treningowy', segment: 'routine/:id', defaultHistory: [ RoutineListPage ] },
-        { component: ImportPage, name: 'Import', segment: 'import' },
-        { component: SettingsPage, name: 'Ustawienia', segment: 'settings' },
-        { component: LoginPage, name: 'Logowanie', segment: 'login' },
-        { component: RegisterPage, name: 'Rejestracja', segment: 'register' },
-        { component: ResetPage, name: 'Reset hasła', segment: 'reset' }
+        { component: TrainingListPage, name: 'trainings', segment: 'trainings' },
+        { component: TrainingSchedulerPage, name: 'scheduler', segment: 'scheduler' },
+        { component: CompanyListPage, name: 'companies', segment: 'companies' },
+        { component: CompanyDetailPage, name: 'company', segment: 'company/:id', defaultHistory: [ 'companies' ] },
+        { component: ClientListPage, name: 'clients', segment: 'clients' },
+        { component: BillListPage, name: 'bills', segment: 'bills' },
+        { component: TrainerListPage, name: 'trainers', segment: 'trainers' },
+        { component: ExerciseListPage, name: 'exercises', segment: 'exercises' },
+        { component: RoutineListPage, name: 'routines', segment: 'routines' },
+        { component: RoutineDetailPage, name: 'routine', segment: 'routine/:id', defaultHistory: [ 'routines' ] },
+        { component: ImportPage, name: 'import', segment: 'import' },
+        { component: SettingsPage, name: 'settings', segment: 'settings' },
+        { component: LoginPage, name: 'login', segment: 'login' },
+        { component: RegisterPage, name: 'register', segment: 'register' },
+        { component: ResetPage, name: 'reset', segment: 'reset' }
       ]
     })
   ],
