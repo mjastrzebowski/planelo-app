@@ -23,6 +23,7 @@ export class WorkoutStore extends BaseStore {
   }
 
   convertItem(item: any) {
+    item = super.convertItem(item);
     item.groups = this.workoutGroupStore.filterBy({ workoutId: item.id });
     return item;
   }

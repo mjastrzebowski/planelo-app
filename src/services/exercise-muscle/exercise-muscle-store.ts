@@ -23,6 +23,7 @@ export class ExerciseMuscleStore extends BaseStore {
   }
 
   convertItem(item: any) {
+    item = super.convertItem(item);
     item.muscle = this.muscleStore.getItem(item.muscleId);
     return item;
   }

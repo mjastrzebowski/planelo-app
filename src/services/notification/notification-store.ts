@@ -18,6 +18,7 @@ export class NotificationStore extends BaseStore {
   }
 
   convertItem(item: any) {
+    item = super.convertItem(item);
     item.workout = JSON.parse(item.workout);
     return item;
   }

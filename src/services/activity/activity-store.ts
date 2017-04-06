@@ -23,6 +23,7 @@ export class ActivityStore extends BaseStore {
   }
 
   convertItem(item: any) {
+    item = super.convertItem(item);
     item.activityType = this.activityTypeStore.getItem(item.activityTypeId);
     return item;
   }

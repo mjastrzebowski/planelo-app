@@ -23,6 +23,7 @@ export class SessionStore extends BaseStore {
   }
 
   convertItem(item: any) {
+    item = super.convertItem(item);
     item.activity = this.activityStore.getItem(item.activityId);
     return item;
   }

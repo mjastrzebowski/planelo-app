@@ -27,6 +27,7 @@ export class TrainerStore extends BaseStore {
   }
 
   convertItem(item: any) {
+    item = super.convertItem(item);
     item.title = item.name + ' ' + item.lastname;
     item.days = [];
     item.hours = this.hourStore.filterBy({ profileId: item.id });

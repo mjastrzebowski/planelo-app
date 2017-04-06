@@ -23,6 +23,7 @@ export class RoutineDayWorkoutStore extends BaseStore {
   }
 
   convertItem(item: any) {
+    item = super.convertItem(item);
     item.workout = this.workoutStore.getItem(item.workoutId);
     return item;
   }

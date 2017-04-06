@@ -11,7 +11,7 @@
             <ion-list-header>Logowanie</ion-list-header>
             <ion-item>
               <ion-label floating color="primary"><ion-icon name="person"></ion-icon> Użytkownik</ion-label>
-              <ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" required>
+              <ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" autofocus required>
               </ion-input>
             </ion-item>
             <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>

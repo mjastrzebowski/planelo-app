@@ -26,6 +26,7 @@ export class WorkoutExerciseStore extends BaseStore {
   }
 
   convertItem(item: any) {
+    item = super.convertItem(item);
     item.exercise = this.exerciseStore.getItem(item.exerciseId);
     item.sets = this.workoutSetStore.filterBy({ workoutExerciseId: item.id });
     return item;

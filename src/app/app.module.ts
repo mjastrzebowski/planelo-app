@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { FIREBASE_PROVIDERS } from 'angularfire2';
 
-import { IonicApp, IonicModule } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { DavidApp } from './app.component';
 
 import { FirebaseModule } from '../firebase-module';
@@ -261,6 +261,7 @@ let pages = [
   TrainingReserveModal,
   WorkoutReserveModal
 ];
+
 let services = [
   // HttpModule,
   Api,
@@ -364,6 +365,7 @@ let services = [
     pages
   ],
   providers: [
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     FIREBASE_PROVIDERS,
     services
   ]

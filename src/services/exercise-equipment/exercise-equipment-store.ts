@@ -23,6 +23,7 @@ export class ExerciseEquipmentStore extends BaseStore {
   }
 
   convertItem(item: any) {
+    item = super.convertItem(item);
     item.equipment = this.equipmentStore.getItem(item.equipmentId);
     return item;
   }

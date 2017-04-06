@@ -17,7 +17,8 @@ export class EmployeeStore extends BaseStore {
     this.init();
   }
 
-  convertItem(item: any) {
-    return item;
-  }
+  // convertItem(item: any) {
+  //   item = super.convertItem(item);
+  //   return item;
+  // }
 }

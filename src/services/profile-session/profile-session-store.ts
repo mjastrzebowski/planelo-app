@@ -44,6 +44,7 @@ export class ProfileSessionStore extends BaseStore {
   }
 
   convertItem(item: any) {
+    item = super.convertItem(item);
     if (item.date !== '' && item.timeStart !== '') {
       // item.key = item.$key;
 

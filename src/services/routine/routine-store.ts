@@ -23,6 +23,7 @@ export class RoutineStore extends BaseStore {
   }
 
   convertItem(item: any) {
+    item = super.convertItem(item);
     item.days = this.routineDayStore.filterBy({ routineId: item.id });
     return item;
   }
