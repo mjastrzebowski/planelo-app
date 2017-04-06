@@ -16,8 +16,8 @@
     "build": "ionic-app-scripts build",
     "clean": "ionic-app-scripts clean",
     "minify": "ionic-app-scripts minify",
-    "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ionic:build": "ionic-app-scripts build --target prod --wwwDir public_html && ionic-app-scripts minify --target prod --wwwDir public_html",
+    "ionic:serve": "ionic-app-scripts serve -b"
   },
   "dependencies": {
     "@angular/common": "4.0.0",
