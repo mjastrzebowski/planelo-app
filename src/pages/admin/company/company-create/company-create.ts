@@ -1,12 +1,16 @@
 import { Component, Input, Renderer } from '@angular/core';
 
-import { NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
 
 import { ICompany } from 'app/services/company/company';
 import { CompanyStore } from 'app/services/company/company-store';
 
+@IonicPage({
+  name: 'companies/create',
+  segment: 'companies/create'
+})
 @Component({
   templateUrl: 'company-create.html'
 })

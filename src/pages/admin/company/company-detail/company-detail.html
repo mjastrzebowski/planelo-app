@@ -41,7 +41,7 @@
           </ion-card-header>
           <ion-searchbar color="primary" [(ngModel)]="employeeFilter" placeholder="Szukaj"></ion-searchbar>
           <ion-scroll scrollY="true">
-            <common-item-list class="employee-list" [data]="model?.employees" [store]="employeeStore" [detail]="trainerDetailPage" [filter]="employeeFilter"></common-item-list>
+            <common-item-list class="employee-list" [data]="model?.employees" [store]="employeeStore" detail="trainer" [filter]="employeeFilter"></common-item-list>
           </ion-scroll>
         </ion-card>
       </ion-col>
@@ -57,7 +57,7 @@
           </ion-card-header>
           <ion-searchbar color="primary" [(ngModel)]="clientFilter" placeholder="Szukaj"></ion-searchbar>
           <ion-scroll scrollY="true">
-            <common-item-list class="employee-list" [data]="clientStore.get()" [store]="clientStore" [detail]="clientDetailPage" [filter]="clientFilter"></common-item-list>
+            <common-item-list class="employee-list" [data]="clientStore.get()" [store]="clientStore" detail="client" [filter]="clientFilter"></common-item-list>
           </ion-scroll>
         </ion-card>
       </ion-col>

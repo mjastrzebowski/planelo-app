@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
 
@@ -8,11 +8,14 @@ import { ICompany } from 'app/services/company/company';
 import { CompanyStore } from 'app/services/company/company-store';
 
 import { ClientStore } from 'app/services/client/client-store';
-import { ClientDetailPage } from 'app/pages/admin/client/client-detail/client-detail';
 import { EmployeeStore } from 'app/services/employee/employee-store';
 import { PlaceStore } from 'app/services/place/place-store';
-import { TrainerDetailPage } from 'app/pages/admin/trainer/trainer-detail/trainer-detail';
 
+@IonicPage({
+  name: 'company',
+  segment: 'company/:id',
+  defaultHistory: ['companies']
+})
 @Component({
   templateUrl: 'company-detail.html'
 })
@@ -21,8 +24,6 @@ export class CompanyDetailPage {
   private sub;
   employeeFilter = '';
   clientFilter = '';
-  clientDetailPage = ClientDetailPage;
-  trainerDetailPage = TrainerDetailPage;
 
   constructor(
     private params: NavParams,

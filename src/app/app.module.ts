@@ -12,6 +12,9 @@ import { FirebaseModule } from '../firebase-module';
 
 import { Utils } from 'app/providers/utils';
 
+// modules
+import { ComponentsModule } from 'app/components/components.module';
+
 // services
 import { Api } from 'app/services/api/api-service';
 import { AuthService } from 'app/services/auth/auth-service';
@@ -84,208 +87,6 @@ import { WorkoutSetStore } from 'app/services/workout-set/workout-set-store';
 // import { WORKOUT_PROVIDERS } from 'app/services/workout/providers';
 // import { BILL_PROVIDERS } from 'app/services/bill/providers';
 
-// components
-import { CommonItem } from 'app/components/common/common-item-list/common-item';
-import { CommonItemList } from 'app/components/common/common-item-list/common-item-list';
-import { CommonItemFilterPipe } from 'app/components/common/common-item-list/common-item-filter';
-
-import { BillItem } from 'app/components/bill/bill-item/bill-item';
-import { BillList } from 'app/components/bill/bill-list/bill-list';
-import { BillFilter } from 'app/components/bill/bill-filter/bill-filter';
-import { BillListFilterPipe } from 'app/components/bill/bill-list/bill-list-filter-pipe';
-
-import { ClientItem } from 'app/components/client/client-item/client-item';
-import { ClientList } from 'app/components/client/client-list/client-list';
-import { ClientFilter } from 'app/components/client/client-filter/client-filter';
-import { ClientListFilterPipe } from 'app/components/client/client-list/client-list-filter-pipe';
-
-import { CompanyItem } from 'app/components/admin/company/company-item/company-item';
-import { CompanyList } from 'app/components/admin/company/company-list/company-list';
-import { CompanyListFilterPipe } from 'app/components/admin/company/company-list/company-list-filter-pipe';
-
-import { EmployeeItem } from 'app/components/company/employee/employee-item/employee-item';
-import { EmployeeList } from 'app/components/company/employee/employee-list/employee-list';
-import { EmployeeListFilterPipe } from 'app/components/company/employee/employee-list/employee-list-filter-pipe';
-
-import { ExerciseItem } from 'app/components/admin/exercise/exercise-item/exercise-item';
-import { ExerciseList } from 'app/components/admin/exercise/exercise-list/exercise-list';
-import { ExerciseListFilterPipe } from 'app/components/admin/exercise/exercise-list/exercise-list-filter-pipe';
-import { ExerciseCategoryItem } from 'app/components/admin/exercise-category/exercise-category-item/exercise-category-item';
-import { ExerciseCategoryList } from 'app/components/admin/exercise-category/exercise-category-list/exercise-category-list';
-
-import { FindSelectModal } from 'app/components/common/find-select/find-select';
-import { FindSelectFilterPipe } from 'app/components/common/find-select/find-select-filter-pipe';
-
-import { NotificationItem } from 'app/components/notification/notification-item/notification-item';
-import { NotificationList } from 'app/components/notification/notification-list/notification-list';
-import { NotificationFilter } from 'app/components/notification/notification-filter/notification-filter';
-import { NotificationCounter } from 'app/components/notification/notification-counter/notification-counter';
-import { NotificationListFilterPipe } from 'app/components/notification/notification-list/notification-list-filter-pipe';
-
-import { RoutineItem } from 'app/components/admin/routine/routine-item/routine-item';
-import { RoutineList } from 'app/components/admin/routine/routine-list/routine-list';
-import { RoutineListFilterPipe } from 'app/components/admin/routine/routine-list/routine-list-filter-pipe';
-
-import { TrainerItem } from 'app/components/trainer/trainer-item/trainer-item';
-import { TrainerList } from 'app/components/trainer/trainer-list/trainer-list';
-import { TrainerListFilterPipe } from 'app/components/trainer/trainer-list/trainer-list-filter-pipe';
-
-import { WorkoutItem } from 'app/components/workout/workout-item/workout-item';
-import { WorkoutList } from 'app/components/workout/workout-list/workout-list';
-import { WorkoutListGroupPipe } from 'app/components/workout/workout-list/workout-list-group-pipe';
-import { WorkoutListFilterPipe } from 'app/components/workout/workout-list/workout-list-filter-pipe';
-
-// pages - common
-import { ImportPage } from 'app/pages/common/import/import';
-import { LoginPage } from 'app/pages/common/login/login';
-import { RegisterPage } from 'app/pages/common/register/register';
-import { ResetPage } from 'app/pages/common/reset/reset';
-import { SettingsPage } from 'app/pages/common/settings/settings';
-import { NotificationListPage } from 'app/pages/common/notification/notification-list/notification-list';
-
-// pages - admin
-import { BillListPage } from 'app/pages/admin/bill/bill-list/bill-list';
-
-import { ClientCreateModal } from 'app/pages/admin/client/client-create/client-create';
-import { ClientDetailPage } from 'app/pages/admin/client/client-detail/client-detail';
-import { ClientDetailAccessModal } from 'app/pages/admin/client/client-detail-access/client-detail-access';
-import { ClientDetailBillingModal } from 'app/pages/admin/client/client-detail-billing/client-detail-billing';
-import { ClientDetailProfileModal } from 'app/pages/admin/client/client-detail-profile/client-detail-profile';
-import { ClientDetailWorkoutsModal } from 'app/pages/admin/client/client-detail-workouts/client-detail-workouts';
-import { ClientListPage } from 'app/pages/admin/client/client-list/client-list';
-
-import { CompanyListPage } from 'app/pages/admin/company/company-list/company-list';
-import { CompanyCreateModal } from 'app/pages/admin/company/company-create/company-create';
-import { CompanyDetailPage } from 'app/pages/admin/company/company-detail/company-detail';
-
-import { ExerciseListPage } from 'app/pages/admin/exercise/exercise-list/exercise-list';
-import { ExerciseCreateModal } from 'app/pages/admin/exercise/exercise-create/exercise-create';
-import { ExerciseDetailPage } from 'app/pages/admin/exercise/exercise-detail/exercise-detail';
-
-import { RoutineListPage } from 'app/pages/admin/routine/routine-list/routine-list';
-import { RoutineCreateModal } from 'app/pages/admin/routine/routine-create/routine-create';
-import { RoutineDetailPage } from 'app/pages/admin/routine/routine-detail/routine-detail';
-
-import { TrainerCreateModal } from 'app/pages/admin/trainer/trainer-create/trainer-create';
-import { TrainerDetailPage, GroupHoursPipe } from 'app/pages/admin/trainer/trainer-detail/trainer-detail';
-import { TrainerDetailHoursModal } from 'app/pages/admin/trainer/trainer-detail-hours/trainer-detail-hours';
-import { TrainerDetailProfileModal } from 'app/pages/admin/trainer/trainer-detail-profile/trainer-detail-profile';
-import { TrainerDetailVacationModal } from 'app/pages/admin/trainer/trainer-detail-vacation/trainer-detail-vacation';
-import { TrainerListPage } from 'app/pages/admin/trainer/trainer-list/trainer-list';
-
-import { TrainingCreateModal } from 'app/pages/admin/training/training-create/training-create';
-import { TrainingDetailPage } from 'app/pages/admin/training/training-detail/training-detail';
-import { TrainingHistoryModal } from 'app/pages/admin/training/training-history/training-history';
-import { TrainingListPage } from 'app/pages/admin/training/training-list/training-list';
-import { TrainingSchedulerPage } from 'app/pages/admin/training/training-scheduler/training-scheduler';
-import { TrainingSchedulerFormModal } from 'app/pages/admin/training/training-scheduler-form/training-scheduler-form';
-
-import { WorkoutCreateModal } from 'app/pages/admin/workout/workout-create/workout-create';
-
-// pages - trainer
-import { TrainingListTrainerPage } from 'app/pages/trainer/training/training-list/training-list';
-
-// pages - client
-import { TrainingListClientPage } from 'app/pages/client/training/training-list/training-list';
-import { TrainingReserveModal } from 'app/pages/client/training/training-reserve/training-reserve';
-import { WorkoutReserveModal } from 'app/pages/client/workout/workout-reserve/workout-reserve';
-
-let components = [
-  // components
-  CommonItem,
-  CommonItemList,
-  CommonItemFilterPipe,
-
-  BillItem,
-  BillList,
-  BillFilter,
-  BillListFilterPipe,
-  ClientItem,
-  ClientList,
-  ClientFilter,
-  ClientListFilterPipe,
-  CompanyItem,
-  CompanyList,
-  CompanyListFilterPipe,
-  EmployeeItem,
-  EmployeeList,
-  EmployeeListFilterPipe,
-  ExerciseItem,
-  ExerciseList,
-  ExerciseListFilterPipe,
-  ExerciseCategoryItem,
-  ExerciseCategoryList,
-  FindSelectModal,
-  FindSelectFilterPipe,
-  NotificationItem,
-  NotificationList,
-  NotificationFilter,
-  NotificationCounter,
-  NotificationListFilterPipe,
-  RoutineItem,
-  RoutineList,
-  RoutineListFilterPipe,
-  TrainerItem,
-  TrainerList,
-  TrainerListFilterPipe,
-  WorkoutItem,
-  WorkoutList,
-  WorkoutListGroupPipe,
-  WorkoutListFilterPipe,
-  GroupHoursPipe
-];
-
-let pages = [
-  // common
-  FindSelectModal,
-  ImportPage,
-  LoginPage,
-  RegisterPage,
-  ResetPage,
-  SettingsPage,
-  NotificationListPage,
-
-  // admin
-  BillListPage,
-  ClientCreateModal,
-  ClientDetailPage,
-  ClientDetailAccessModal,
-  ClientDetailBillingModal,
-  ClientDetailProfileModal,
-  ClientDetailWorkoutsModal,
-  ClientListPage,
-  CompanyListPage,
-  CompanyCreateModal,
-  CompanyDetailPage,
-  ExerciseListPage,
-  ExerciseCreateModal,
-  ExerciseDetailPage,
-  RoutineListPage,
-  RoutineCreateModal,
-  RoutineDetailPage,
-  TrainerCreateModal,
-  TrainerDetailPage,
-  TrainerDetailHoursModal,
-  TrainerDetailProfileModal,
-  TrainerDetailVacationModal,
-  TrainerListPage,
-  TrainingCreateModal,
-  TrainingDetailPage,
-  TrainingHistoryModal,
-  TrainingListPage,
-  TrainingSchedulerPage,
-  TrainingSchedulerFormModal,
-  WorkoutCreateModal,
-
-  // trainer
-  TrainingListTrainerPage,
-
-  // client
-  TrainingListClientPage,
-  TrainingReserveModal,
-  WorkoutReserveModal
-];
-
 let services = [
   // HttpModule,
   Api,
@@ -356,40 +157,20 @@ let services = [
 @NgModule({
   declarations: [
     DavidApp,
-    components,
-    pages
   ],
   imports: [
     BrowserModule,
     HttpModule,
     FormsModule,
     FirebaseModule,
-    IonicModule.forRoot(DavidApp, {}, {
-      links: [
-        { component: TrainingListPage, name: 'trainings', segment: 'trainings' },
-        { component: TrainingSchedulerPage, name: 'scheduler', segment: 'scheduler' },
-        { component: CompanyListPage, name: 'companies', segment: 'companies' },
-        { component: CompanyDetailPage, name: 'company', segment: 'company/:id', defaultHistory: [ 'companies' ] },
-        { component: ClientListPage, name: 'clients', segment: 'clients' },
-        { component: BillListPage, name: 'bills', segment: 'bills' },
-        { component: TrainerListPage, name: 'trainers', segment: 'trainers' },
-        { component: ExerciseListPage, name: 'exercises', segment: 'exercises' },
-        { component: RoutineListPage, name: 'routines', segment: 'routines' },
-        { component: RoutineDetailPage, name: 'routine', segment: 'routine/:id', defaultHistory: [ 'routines' ] },
-        { component: ImportPage, name: 'import', segment: 'import' },
-        { component: SettingsPage, name: 'settings', segment: 'settings' },
-        { component: LoginPage, name: 'login', segment: 'login' },
-        { component: RegisterPage, name: 'register', segment: 'register' },
-        { component: ResetPage, name: 'reset', segment: 'reset' }
-      ]
-    })
+    ComponentsModule,
+    IonicModule.forRoot(DavidApp)
   ],
   bootstrap: [
     IonicApp
   ],
   entryComponents: [
-    DavidApp,
-    pages
+    DavidApp
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },

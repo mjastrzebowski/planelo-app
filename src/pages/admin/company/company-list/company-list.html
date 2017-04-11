@@ -14,7 +14,7 @@
 </ion-header>
 
 <ion-content class="trainer-list">
-  <ion-searchbar color="primary" [(ngModel)]="filter.query" placeholder="Szukaj"></ion-searchbar>
+  <ion-searchbar color="primary" [(ngModel)]="filter" placeholder="Szukaj"></ion-searchbar>
 
-  <company-list class="companies" [filter]="filter"></company-list>
+  <common-item-list class="company-list" [data]="companyStore.get()" [store]="companyStore" detail="company" [filter]="filter"></common-item-list>
 </ion-content>

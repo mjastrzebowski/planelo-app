@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ModalController, NavController } from 'ionic-angular';
+import { IonicPage, ModalController, NavController } from 'ionic-angular';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -9,18 +9,16 @@ import { Utils } from 'app/providers/utils';
 import { AuthService } from 'app/services/auth/auth-service';
 import { CompanyStore } from 'app/services/company/company-store';
 
-import { CompanyCreateModal } from '../company-create/company-create';
-// import { FindSelectModal } from 'app/components/common/find-select/find-select';
-
+@IonicPage({
+  name: 'companies',
+  segment: 'companies'
+})
 @Component({
   templateUrl: 'company-list.html'
 })
 export class CompanyListPage {
   private sub;
-  filter = {
-    category: 0,
-    query: ''
-  };
+  filter = '';
 
   constructor(
     private nav: NavController,
@@ -47,7 +45,6 @@ export class CompanyListPage {
   }
 
   showCreateModal(): void {
-    this.modalCtrl.create(CompanyCreateModal).present();
-    // this.modalCtrl.create(FindSelectModal, this.companyStore).present();
+    this.modalCtrl.create('companies/create').present();
   }
 }
