@@ -1,11 +1,11 @@
 {
   "private": true,
-  "name": "egobody-david",
+  "name": "planelo",
   "version": "2.0.0",
   "description": "David - Personal Trainings Management",
   "repository": {
     "type": "git",
-    "url": "https://repo0.mydevil.net/git/priv/egobody/egobody-david/"
+    "url": "https://repo13.mydevil.net/git/priv/planelo/planelo-app/"
   },
   "config": {
     "ionic_webpack": "./config/webpack.config.js",
@@ -35,7 +35,7 @@
     "event-stream": "^3.3.4",
     "firebase": "^3.5.0",
     "immutable": "~3.8.1",
-    "ionic-angular": "3.0.0",
+    "ionic-angular": "3.0.1",
     "ionicons": "~3.0.0",
     "rxjs": "5.1.1",
     "zone.js": "^0.8.4"
