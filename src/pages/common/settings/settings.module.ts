@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 
-import { ImportPage } from './import';
+import { SettingsPage } from './settings';
 
 import { ComponentsModule } from 'app/components/components.module';
 
 @NgModule({
   declarations: [
-    ImportPage
+    SettingsPage
   ],
   imports: [
     ComponentsModule,
-    IonicPageModule.forChild(ImportPage)
+    IonicPageModule.forChild(SettingsPage)
   ],
   exports: [
-    ImportPage
+    SettingsPage
   ]
 })
-export class CommonImportModule {}
+export class CommonSettingsModule {}

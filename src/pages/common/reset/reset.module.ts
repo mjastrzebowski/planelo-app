@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 
-import { ImportPage } from './import';
+import { ResetPage } from './reset';
 
 import { ComponentsModule } from 'app/components/components.module';
 
 @NgModule({
   declarations: [
-    ImportPage
+    ResetPage
   ],
   imports: [
     ComponentsModule,
-    IonicPageModule.forChild(ImportPage)
+    IonicPageModule.forChild(ResetPage)
   ],
   exports: [
-    ImportPage
+    ResetPage
   ]
 })
-export class CommonImportModule {}
+export class CommonResetModule {}

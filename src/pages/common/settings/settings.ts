@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
-import { AlertController } from 'ionic-angular';
+import { IonicPage, AlertController } from 'ionic-angular';
 
 import { AuthService } from 'app/services/auth/auth-service';
 
+@IonicPage({
+  name: 'settings',
+  segment: 'settings'
+})
 @Component({
   templateUrl: 'settings.html'
 })
-
 export class SettingsPage {
   settings: any;
   submitted: boolean;

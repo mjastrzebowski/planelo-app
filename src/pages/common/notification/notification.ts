@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
+import { IonicPage } from 'ionic-angular';
 
-@Component({
-  templateUrl: 'notification-list.html'
+@IonicPage({
+  name: 'notification',
+  segment: 'notification'
 })
-export class NotificationListPage {
+@Component({
+  templateUrl: 'notification.html'
+})
+export class NotificationPage {
   filter: any;
 
   constructor() {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController } from 'ionic-angular';
+import { IonicPage, AlertController } from 'ionic-angular';
 
 import { List } from 'immutable';
 
@@ -13,10 +13,13 @@ import { PlaceStore } from 'app/services/place/place-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
 import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
+@IonicPage({
+  name: 'import',
+  segment: 'import'
+})
 @Component({
   templateUrl: 'import.html'
 })
-
 export class ImportPage {
   import: any;
   submitted: boolean;

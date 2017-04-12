@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController } from 'ionic-angular';
+import { IonicPage, AlertController, NavController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
 
@@ -7,13 +7,13 @@ import { AuthService } from 'app/services/auth/auth-service';
 import { ClientStore } from 'app/services/client/client-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
 
-import { ResetPage } from 'app/pages/common/reset/reset';
-import { RegisterPage } from 'app/pages/common/register/register';
-
+@IonicPage({
+  name: 'login',
+  segment: 'login'
+})
 @Component({
   templateUrl: 'login.html'
 })
-
 export class LoginPage {
   user: any;
   submitted: boolean;
@@ -31,11 +31,11 @@ export class LoginPage {
   }
 
   openResetPage(): void {
-    this.nav.push(ResetPage);
+    this.nav.push('reset');
   }
 
   openRegisterPage(): void {
-    this.nav.push(RegisterPage);
+    this.nav.push('register');
   }
 
   login(form: any): void {

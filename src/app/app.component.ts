@@ -68,10 +68,7 @@ export class DavidApp {
       if (!this.authenticated) {
         this.root = 'login';
       } else {
-        // this.root = TrainingListPage;
-        // this.root = ExerciseListPage;
         this.root = 'companies';
-        // this.root = WorkoutReserveModal;
       }
     });
   }
@@ -83,11 +80,7 @@ export class DavidApp {
 
   openPage(page, data) {
     if (typeof page === 'string') {
-      switch (page) {
-        case 'NotificationListPage':
-          this.nav.push('NotificationListPage', data);
-          break;
-      }
+      this.nav.push(page, data);
     } else if (page.title === 'Wyloguj') {
       this.signOut();
     } else {

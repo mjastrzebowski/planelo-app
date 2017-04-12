@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController } from 'ionic-angular';
+import { IonicPage, AlertController, NavController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
 
@@ -7,12 +7,13 @@ import { AuthService } from 'app/services/auth/auth-service';
 import { ClientStore } from 'app/services/client/client-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
 
-import { LoginPage } from 'app/pages/common/login/login';
-
+@IonicPage({
+  name: 'reset',
+  segment: 'reset'
+})
 @Component({
   templateUrl: 'reset.html'
 })
-
 export class ResetPage {
   user: any;
   submitted: boolean;
@@ -30,7 +31,7 @@ export class ResetPage {
   }
 
   openLoginPage(): void {
-    this.nav.push(LoginPage);
+    this.nav.push('login');
   }
 
   reset(form: any): void {
