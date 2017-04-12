@@ -28,18 +28,17 @@ export class DavidApp {
   // the left menu only works after login
   // the login page disables the left menu
   adminPages: PageInterface[] = [
-    { title: 'Firmy', component: 'companies', icon: 'book' },
+    { title: 'Firmy', component: 'companies', icon: 'briefcase' },
     { title: 'Import danych', component: 'import', icon: 'cloud-upload' }
   ];
   companyPages: PageInterface[] = [
     { title: 'Treningi', component: 'trainings', icon: 'clipboard' },
     { title: 'Grafik', component: 'scheduler', icon: 'calendar' },
-    { title: 'Klienci', component: 'clients', icon: 'contacts' },
-    { title: 'Rachunki', component: 'bills', icon: 'cash' },
-    { title: 'Pracownicy', component: 'trainers', icon: 'people' },
-    { title: 'Miejsca', component: 'places', icon: 'pin' },
-    { title: 'Ćwiczenia', component: 'exercises', icon: 'list' },
-    { title: 'Plany treningowe', component: 'routines', icon: 'list' }
+    { title: 'Klienci', component: 'clients', icon: 'address-book-o' },
+    { title: 'Rachunki', component: 'bills', icon: 'money' },
+    { title: 'Pracownicy', component: 'trainers', icon: 'users' },
+    { title: 'Miejsca', component: 'places', icon: 'globe' },
+    { title: 'Ćwiczenia i plany', component: 'exercises', icon: 'book' }
   ];
   trainerPages: PageInterface[] = [
     { title: 'Treningi', component: 'trainings', icon: 'clipboard' }
@@ -48,10 +47,10 @@ export class DavidApp {
     { title: 'Treningi', component: 'trainings', icon: 'clipboard' }
   ];
   commonPages: PageInterface[] = [
-    { title: 'Ustawienia', component: 'settings', icon: 'settings' },
-    // { title: 'Zaloguj', component: 'login', icon: 'log-in' },
-    // { title: 'Rejestracja', component: 'signup', icon: 'person-add' },
-    { title: 'Wyloguj', component: 'login', icon: 'log-out' }
+    { title: 'Ustawienia', component: 'settings', icon: 'cogs' },
+    // { title: 'Zaloguj', component: 'login', icon: 'sign-in' },
+    // { title: 'Rejestracja', component: 'signup', icon: 'user-plus' },
+    { title: 'Wyloguj', component: 'login', icon: 'sign-out' }
   ];
   authenticated: boolean;
   root: any;

@@ -8,6 +8,7 @@
     "url": "https://repo13.mydevil.net/git/priv/planelo/planelo-app/"
   },
   "config": {
+    "ionic_copy": "./config/copy.config.js",
     "ionic_webpack": "./config/webpack.config.js",
     "ionic_experimental_manual_treeshaking": true,
     "ionic_experimental_purge_decorators": true
@@ -20,15 +21,15 @@
     "ionic:serve": "ionic-app-scripts serve -b"
   },
   "dependencies": {
-    "@angular/common": "4.0.0",
-    "@angular/compiler": "4.0.0",
-    "@angular/compiler-cli": "4.0.0",
-    "@angular/core": "4.0.0",
-    "@angular/forms": "4.0.0",
-    "@angular/http": "4.0.0",
-    "@angular/platform-browser": "4.0.0",
-    "@angular/platform-browser-dynamic": "4.0.0",
-    "@angular/platform-server": "4.0.0",
+    "@angular/common": "4.0.2",
+    "@angular/compiler": "4.0.2",
+    "@angular/compiler-cli": "4.0.2",
+    "@angular/core": "4.0.2",
+    "@angular/forms": "4.0.2",
+    "@angular/http": "4.0.2",
+    "@angular/platform-browser": "4.0.2",
+    "@angular/platform-browser-dynamic": "4.0.2",
+    "@angular/platform-server": "4.0.2",
     "@ionic-native/core": "3.4.2",
     "@ionic/storage": "2.0.1",
     "angularfire2": "^2.0.0-beta.6",
