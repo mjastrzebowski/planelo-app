@@ -75,6 +75,7 @@ export class DavidApp {
 
   signOut(): void {
     this.auth.logout();
+    this.root = 'login';
     location.reload();
   }
 
