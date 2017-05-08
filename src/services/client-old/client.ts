@@ -1,19 +1,19 @@
 export class IClient {
-  createdAt?: number;
-  id: number;
+  completed: boolean;
+  createdAt: number;
+  id?: number;
   key?: string;
-  hide?: boolean;
-  active?: boolean;
-  name?: string;
-  companyId: number;
-
-  email?: string;
-  phone?: string;
-  comment?: string;
-  lastname?: string;
+  name: string;
+  lastname: string;
+  email: string;
+  phone: string;
+  comment: string;
   username?: string;
   password?: string;
   gender?: any;
+  hide?: boolean;
+  active?: boolean;
+
   delete?: boolean;
   message?: any;
   surcharge?: any;
@@ -37,12 +37,20 @@ export class IClient {
   billSendError?: any;
 }
 
-
 export class Client implements IClient {
-  id: number;
-  companyId: number;
+  completed: boolean = false;
+  createdAt: number = firebase.database['ServerValue']['TIMESTAMP'];
+  name: string;
+  lastname: string;
+  email: string = '';
+  phone: string = '';
+  comment: string = '';
 
-  constructor(companyId: number) {
-    this.companyId = companyId;
+  constructor(name: string, lastname: string, email: string, phone: string, comment: string) {
+    this.name = name;
+    this.lastname = lastname;
+    this.email = email;
+    this.phone = phone;
+    this.comment = comment;
   }
 }

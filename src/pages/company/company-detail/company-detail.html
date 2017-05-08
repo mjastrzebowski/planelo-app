@@ -19,7 +19,7 @@
   <ion-grid no-padding>
     <ion-row>
       <ion-col col-md-6 col-12>
-        <ion-card class="card-places">
+        <ion-card class="list-card card-places">
           <ion-card-header ion-item>
             <i item-left class="fa fa-globe"></i>
             <h3>Miejsca</h3>
@@ -27,12 +27,14 @@
               <ion-icon name="add"></ion-icon>
             </button>
           </ion-card-header>
-          <ion-scroll scrollY="true">
-            <common-item-list class="place-list" [data]="placeStore.get()" [store]="placeStore"></common-item-list>
-          </ion-scroll>
+          <ion-card-content no-padding>
+            <ion-scroll scrollY="true">
+              <common-item-list class="place-list" [data]="placeStore.get()" [store]="placeStore"></common-item-list>
+            </ion-scroll>
+          </ion-card-content>
         </ion-card>
 
-        <ion-card class="card-employees">
+        <ion-card class="list-card card-employees">
           <ion-card-header ion-item>
             <i item-left class="fa fa-users"></i>
             <h3>Pracownicy</h3>
@@ -40,15 +42,17 @@
               <ion-icon name="add"></ion-icon>
             </button>
           </ion-card-header>
-          <ion-searchbar color="primary" [(ngModel)]="employeeFilter" placeholder="Szukaj"></ion-searchbar>
-          <ion-scroll scrollY="true">
-            <common-item-list class="employee-list" [data]="model?.employees" [store]="employeeStore" detail="employee" [filter]="employeeFilter"></common-item-list>
-          </ion-scroll>
+          <ion-card-content no-padding>
+            <ion-searchbar color="primary" [(ngModel)]="employeeFilter" placeholder="Szukaj"></ion-searchbar>
+            <ion-scroll scrollY="true">
+              <common-item-list class="employee-list" [data]="model?.employees" [store]="employeeStore" detail="employee" [filter]="employeeFilter"></common-item-list>
+            </ion-scroll>
+          </ion-card-content>
         </ion-card>
       </ion-col>
 
       <ion-col col-md-6 col-12>
-        <ion-card class="card-clients">
+        <ion-card class="list-card card-clients">
           <ion-card-header ion-item>
             <i item-left class="fa fa-address-book-o"></i>
             <h3>Klienci</h3>
@@ -56,10 +60,12 @@
               <ion-icon name="add"></ion-icon>
             </button>
           </ion-card-header>
-          <ion-searchbar color="primary" [(ngModel)]="clientFilter" placeholder="Szukaj"></ion-searchbar>
-          <ion-scroll scrollY="true">
-            <common-item-list class="employee-list" [data]="clientStore.get()" [store]="clientStore" detail="client" [filter]="clientFilter"></common-item-list>
-          </ion-scroll>
+          <ion-card-content no-padding>
+            <ion-searchbar color="primary" [(ngModel)]="clientFilter" placeholder="Szukaj"></ion-searchbar>
+            <ion-scroll scrollY="true">
+              <common-item-list class="employee-list" [data]="clientStore.get()" [store]="clientStore" detail="client" [filter]="clientFilter"></common-item-list>
+            </ion-scroll>
+          </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>

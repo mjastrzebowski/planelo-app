@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Nowy klient</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span color="primary" showWhen="ios">Zamknij</span>
+        <ion-icon name="close" hideWhen="ios"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="has-header">
+  <form #form="ngForm" novalidate>
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Nazwa</ion-label>
+        <ion-input type="text" [(ngModel)]="model.name" name="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Opis</ion-label>
+        <ion-textarea [(ngModel)]="model.description" name="description"></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <ion-row responsive-sm>
+      <ion-col>
+        <button ion-button color="primary" block type="submit" (click)="save()">Zapisz</button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="light" block (click)="dismiss()">Anuluj</button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

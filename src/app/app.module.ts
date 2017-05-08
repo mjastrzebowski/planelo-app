@@ -23,6 +23,7 @@ import { BaseService } from 'app/services/_base/base-service';
 
 import { ActivityService } from 'app/services/activity/activity-service';
 import { ActivityTypeService } from 'app/services/activity-type/activity-type-service';
+import { ClientService } from 'app/services/client/client-service';
 import { CompanyService } from 'app/services/company/company-service';
 import { EmployeeService } from 'app/services/employee/employee-service';
 import { EquipmentService } from 'app/services/equipment/equipment-service';
@@ -96,6 +97,7 @@ let services = [
 
   ActivityService,
   ActivityTypeService,
+  ClientService,
   CompanyService,
   EmployeeService,
   EquipmentService,

@@ -11,7 +11,7 @@
       <ion-list class="menu-admin" *ngIf="auth.isAdmin">
         <ion-list-header>Admin</ion-list-header>
         <button ion-item icon-left menuClose="menuLeft" *ngFor="let page of adminPages" (click)="openPage(page)">
-          <i item-left class="fa fa-{{ page.icon }}"></i>
+          <i item-left class="fa fa-fw fa-{{ page.icon }}"></i>
           {{ page?.title }}
         </button>
       </ion-list>
@@ -19,7 +19,7 @@
       <ion-list class="menu-company" *ngIf="auth.isAdmin">
         <ion-list-header>Firma</ion-list-header>
         <button ion-item icon-left menuClose="menuLeft" *ngFor="let page of companyPages" (click)="openPage(page)">
-          <i item-left class="fa fa-{{ page.icon }}"></i>
+          <i item-left class="fa fa-fw fa-{{ page.icon }}"></i>
           {{ page?.title }}
         </button>
       </ion-list>
@@ -27,20 +27,20 @@
       <ion-list class="menu-client" *ngIf="auth.isClient">
         <ion-list-header>Klient</ion-list-header>
         <button ion-item icon-left menuClose="menuLeft" *ngFor="let page of clientPages" (click)="openPage(page)">
-          <i item-left class="fa fa-{{ page.icon }}"></i>
+          <i item-left class="fa fa-fw fa-{{ page.icon }}"></i>
           {{ page?.title }}
         </button>
       </ion-list>
 
       <ion-list class="menu-common">
         <button ion-item icon-left menuClose="menuLeft" *ngFor="let page of commonPages" (click)="openPage(page)">
-          <i item-left class="fa fa-{{ page.icon }}"></i>
+          <i item-left class="fa fa-fw fa-{{ page.icon }}"></i>
           {{ page?.title }}
         </button>
       </ion-list>
 
       <code padding *ngIf="auth.isAdmin">
-        <small>Wersja: 2.0.0 (z dnia 06.04.2017 r.)</small>
+        <small>Wersja: 2.0.0 (z dnia 20.04.2017 r.)</small>
       </code>
     </ion-content>
   </ion-menu>

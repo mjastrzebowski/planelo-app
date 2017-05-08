@@ -24,7 +24,28 @@
     }
   }
 
-  ion-card {
+  ion-card ion-card-header h3 {
+    text-transform: uppercase;
+  }
+  ion-card.button-card ion-card-header {
+    padding: 10% 0;
+    i {
+      font-size: 2em;
+      padding-bottom: .5em;
+    }
+  }
+
+  ion-segment-button.segment-button {
+    padding-top: .5em;
+    height: 7rem;
+    line-height: 3em;
+    h3 {
+      font-size: 1em;
+      margin: 0;
+    }
+  }
+
+  ion-card.list-card {
     ion-scroll {
       height: 200px;
     }
@@ -32,13 +53,9 @@
       h3, i.fa, ion-icon {
         color: white;
       }
-      h3 {
-        // font-size: 18px;
-        text-transform: uppercase;
-      }
     }
     &.card-places ion-card-header {
-        background-color: color($colors, card-green);
+      background-color: color($colors, card-green);
     }
     &.card-employees ion-card-header {
       background-color: color($colors, card-darkblue);
@@ -54,7 +71,7 @@
     }
   }
 
-  ion-grid ion-card {
+  ion-grid ion-card.list-card {
     margin-bottom: 30px;
   }
 }

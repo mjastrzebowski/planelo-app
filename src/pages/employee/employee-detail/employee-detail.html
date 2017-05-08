@@ -16,7 +16,7 @@
     </ion-card>
   </div>
 
-  <ion-card class="card-sessions">
+  <ion-card class="list-card card-sessions">
     <ion-card-header ion-item>
       <i item-left class="fa fa-handshake-o"></i>
       <h3>Spotkania</h3>
@@ -24,8 +24,10 @@
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-card-header>
-    <ion-scroll scrollY="true">
-      <common-item-list class="place-list" [data]="placeStore.get()" [store]="placeStore"></common-item-list>
-    </ion-scroll>
+    <ion-card-content no-padding>
+      <ion-scroll scrollY="true">
+        <common-item-list class="place-list" [data]="placeStore.get()" [store]="placeStore"></common-item-list>
+      </ion-scroll>
+    </ion-card-content>
   </ion-card>
 </ion-content>

@@ -126,8 +126,16 @@ ion-modal.my-popup-unused {
     display: none !important;
   }
 }
+@media screen and (max-width: breakpoint-min(lg)) {
+  .hidden-lg {
+    display: none !important;
+  }
+}
 
 @media screen and (min-width: breakpoint-min(lg)) {
+  .hidden-above-lg {
+    display: none !important;
+  }
   // disable sliding options on desktop
   ion-item-sliding {
     &.active-slide .item {
