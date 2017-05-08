@@ -40,7 +40,7 @@ export class Utils {
       duration: duration
     };
     this.loading = this.loadingCtrl.create(options);
-    // this.loading.present();
+    this.loading.present();
   }
 
   stopLoading(force?: boolean): void {
