@@ -1,2 +1,127 @@
-webpackJsonp([2],{544:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var o=n(0),i=n(17),a=n(556),r=n(422);n.d(t,"EmployeeDetailModule",function(){return s});var c=this&&this.__decorate||function(e,t,n,o){var i,a=arguments.length,r=a<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)r=Reflect.decorate(e,t,n,o);else for(var c=e.length-1;c>=0;c--)(i=e[c])&&(r=(a<3?i(r):a>3?i(t,n,r):i(t,n))||r);return a>3&&r&&Object.defineProperty(t,n,r),r},s=function(){function e(){}return e}();s=c([n.i(o.b)({declarations:[a.a],imports:[r.a,i.d.forChild(a.a)],exports:[a.a]})],s)},556:function(e,t,n){"use strict";var o=n(0),i=n(17),a=n(21),r=n(131),c=n(60),s=n(61);n.d(t,"a",function(){return u});var l=this&&this.__decorate||function(e,t,n,o){var i,a=arguments.length,r=a<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)r=Reflect.decorate(e,t,n,o);else for(var c=e.length-1;c>=0;c--)(i=e[c])&&(r=(a<3?i(r):a>3?i(t,n,r):i(t,n))||r);return a>3&&r&&Object.defineProperty(t,n,r),r},d=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},u=function(){function e(e,t,n,o,i,a){this.params=e,this.viewCtrl=t,this.utils=n,this.employeeStore=o,this.clientStore=i,this.placeStore=a,this.employeeFilter="",this.clientFilter=""}return e.prototype.ngOnInit=function(){var e=this;this.utils.showLoading("Ładowanie firm..."),this.sub=this.employeeStore.subscribe(function(t){t&&(e.model=e.employeeStore.getItem(e.params.data.id),e.utils.stopLoading())})},e.prototype.ngOnDestroy=function(){this.sub&&this.sub.unsubscribe()},e}();l([n.i(o.w)(),d("design:type",Object)],u.prototype,"model",void 0),u=l([n.i(i.e)({name:"employee",segment:"employee/:id",defaultHistory:["companies"]}),n.i(o.L)({template:'<ion-header>\n  <ion-navbar>\n    <button ion-button icon-only menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Pracownik</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="detail-page employee-detail">\n  <div class="detail-header">\n    <img src="http://www.egobody.pl/wp-content/uploads/2017/02/TreningPersonalny-150x150.jpg">\n    <ion-card text-center>\n      <h2> {{ model?.name }} </h2>\n      <h4> Pracownik </h4>\n    </ion-card>\n  </div>\n\n  <ion-card class="card-sessions">\n    <ion-card-header ion-item>\n      <i item-left class="fa fa-handshake-o"></i>\n      <h3>Spotkania</h3>\n      <button item-right ion-button icon-only clear (click)="showPlaceCreate()">\n        <ion-icon name="add"></ion-icon>\n      </button>\n    </ion-card-header>\n    <ion-scroll scrollY="true">\n      <common-item-list class="place-list" [data]="placeStore.get()" [store]="placeStore"></common-item-list>\n    </ion-scroll>\n  </ion-card>\n</ion-content>\n'}),d("design:paramtypes",[i.f,i.g,a.a,r.a,c.a,s.a])],u)}});
-//# sourceMappingURL=/Users/mjastrzebowski/GitHub/egobody-david-2.0/public_html/build/2.main.js.map
+webpackJsonp([2],{
+
+/***/ 501:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__employee_detail__ = __webpack_require__(515);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_components_components_module__ = __webpack_require__(376);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EmployeeDetailModule", function() { return EmployeeDetailModule; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+var EmployeeDetailModule = (function () {
+    function EmployeeDetailModule() {
+    }
+    return EmployeeDetailModule;
+}());
+EmployeeDetailModule = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["b" /* NgModule */])({
+        declarations: [
+            __WEBPACK_IMPORTED_MODULE_2__employee_detail__["a" /* EmployeeDetailPage */]
+        ],
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_3_app_components_components_module__["a" /* ComponentsModule */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__employee_detail__["a" /* EmployeeDetailPage */])
+        ],
+        exports: [
+            __WEBPACK_IMPORTED_MODULE_2__employee_detail__["a" /* EmployeeDetailPage */]
+        ]
+    })
+], EmployeeDetailModule);
+
+//# sourceMappingURL=employee-detail.module.js.map
+
+/***/ }),
+
+/***/ 515:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_providers_utils__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_services_employee_employee_store__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_services_client_client_store__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_services_place_place_store__ = __webpack_require__(57);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EmployeeDetailPage; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var EmployeeDetailPage = (function () {
+    function EmployeeDetailPage(params, viewCtrl, utils, employeeStore, clientStore, placeStore) {
+        this.params = params;
+        this.viewCtrl = viewCtrl;
+        this.utils = utils;
+        this.employeeStore = employeeStore;
+        this.clientStore = clientStore;
+        this.placeStore = placeStore;
+        this.employeeFilter = '';
+        this.clientFilter = '';
+    }
+    EmployeeDetailPage.prototype.ngOnInit = function () {
+        var _this = this;
+        this.utils.showLoading('Ładowanie firm...');
+        this.sub = this.employeeStore.subscribe(function (loaded) {
+            if (!loaded) {
+                return;
+            }
+            _this.model = _this.employeeStore.getItem(_this.params.data.id);
+            _this.utils.stopLoading();
+        });
+    };
+    EmployeeDetailPage.prototype.ngOnDestroy = function () {
+        if (this.sub) {
+            this.sub.unsubscribe();
+        }
+    };
+    return EmployeeDetailPage;
+}());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* Input */])(),
+    __metadata("design:type", Object)
+], EmployeeDetailPage.prototype, "model", void 0);
+EmployeeDetailPage = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPage */])({
+        name: 'employee',
+        segment: 'employee/:id',
+        defaultHistory: ['companies']
+    }),
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({template:/*ion-inline-start:"/Users/mjastrzebowski/GitHub/egobody-david-2.0/src/pages/employee/employee-detail/employee-detail.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button icon-only menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Pracownik</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="detail-page employee-detail">\n  <div class="detail-header">\n    <img src="http://www.egobody.pl/wp-content/uploads/2017/02/TreningPersonalny-150x150.jpg">\n    <ion-card text-center>\n      <h2> {{ model?.name }} </h2>\n      <h4> Pracownik </h4>\n    </ion-card>\n  </div>\n\n  <ion-card class="list-card card-sessions">\n    <ion-card-header ion-item>\n      <i item-left class="fa fa-handshake-o"></i>\n      <h3>Spotkania</h3>\n      <button item-right ion-button icon-only clear (click)="showPlaceCreate()">\n        <ion-icon name="add"></ion-icon>\n      </button>\n    </ion-card-header>\n    <ion-card-content no-padding>\n      <ion-scroll scrollY="true">\n        <common-item-list class="place-list" [data]="placeStore.get()" [store]="placeStore"></common-item-list>\n      </ion-scroll>\n    </ion-card-content>\n  </ion-card>\n</ion-content>\n'/*ion-inline-end:"/Users/mjastrzebowski/GitHub/egobody-david-2.0/src/pages/employee/employee-detail/employee-detail.html"*/
+    }),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */],
+        __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ViewController */],
+        __WEBPACK_IMPORTED_MODULE_2_app_providers_utils__["a" /* Utils */],
+        __WEBPACK_IMPORTED_MODULE_3_app_services_employee_employee_store__["a" /* EmployeeStore */],
+        __WEBPACK_IMPORTED_MODULE_4_app_services_client_client_store__["a" /* ClientStore */],
+        __WEBPACK_IMPORTED_MODULE_5_app_services_place_place_store__["a" /* PlaceStore */]])
+], EmployeeDetailPage);
+
+//# sourceMappingURL=employee-detail.js.map
+
+/***/ })
+
+});
+//# sourceMappingURL=2.main.js.map

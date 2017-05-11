@@ -1,2 +1,143 @@
-webpackJsonp([1],{540:function(n,t,e){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var o=e(0),i=e(17),a=e(552),r=e(422);e.d(t,"CompanyCreateModule",function(){return c});var s=this&&this.__decorate||function(n,t,e,o){var i,a=arguments.length,r=a<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,e):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)r=Reflect.decorate(n,t,e,o);else for(var s=n.length-1;s>=0;s--)(i=n[s])&&(r=(a<3?i(r):a>3?i(t,e,r):i(t,e))||r);return a>3&&r&&Object.defineProperty(t,e,r),r},c=function(){function n(){}return n}();c=s([e.i(o.b)({declarations:[a.a],imports:[r.a,i.d.forChild(a.a)],exports:[a.a]})],c)},545:function(n,t,e){"use strict";e.d(t,"a",function(){return o});var o=function(){function n(){}return n}();!function(){function n(n){this.name=n}n}()},552:function(n,t,e){"use strict";var o=e(0),i=e(17),a=e(21),r=e(545),s=e(423);e.d(t,"a",function(){return u});var c=this&&this.__decorate||function(n,t,e,o){var i,a=arguments.length,r=a<3?t:null===o?o=Object.getOwnPropertyDescriptor(t,e):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)r=Reflect.decorate(n,t,e,o);else for(var s=n.length-1;s>=0;s--)(i=n[s])&&(r=(a<3?i(r):a>3?i(t,e,r):i(t,e))||r);return a>3&&r&&Object.defineProperty(t,e,r),r},l=this&&this.__metadata||function(n,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(n,t)},u=function(){function n(n,t,e,o,i){this.params=n,this.viewCtrl=t,this.renderer=e,this.utils=o,this.companyStore=i,this.renderer.setElementClass(this.viewCtrl.pageRef().nativeElement,"my-popup",!0)}return n.prototype.ngOnInit=function(){this.model=this.companyStore.getItem(this.params.data)||new r.a},n.prototype.save=function(){var n=this;this.utils.showLoading("Zapisywanie firmy..."),this.companyStore.create(this.model).then(function(){n.utils.stopLoading(),n.utils.showMessage("Firma dodana."),n.dismiss()})},n.prototype.dismiss=function(){this.viewCtrl.dismiss()},n}();c([e.i(o.w)(),l("design:type",r.a)],u.prototype,"model",void 0),u=c([e.i(i.e)({name:"companies/create",segment:"companies/create"}),e.i(o.L)({template:'<ion-header>\n  <ion-navbar>\n    <ion-title>Nowa firma</ion-title>\n    <ion-buttons start>\n      <button ion-button (click)="dismiss()">\n        <span color="primary" showWhen="ios">Zamknij</span>\n        <ion-icon name="close" hideWhen="ios"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="has-header">\n  <form #form="ngForm" novalidate>\n    <ion-list>\n      <ion-item>\n        <ion-label floating>Nazwa</ion-label>\n        <ion-input type="text" [(ngModel)]="model.name" name="name"></ion-input>\n      </ion-item>\n      <ion-item>\n        <ion-label floating>Opis</ion-label>\n        <ion-textarea [(ngModel)]="model.description" name="description"></ion-textarea>\n      </ion-item>\n    </ion-list>\n    <ion-row responsive-sm>\n      <ion-col>\n        <button ion-button color="primary" block type="submit" (click)="save()">Zapisz</button>\n      </ion-col>\n      <ion-col>\n        <button ion-button color="light" block (click)="dismiss()">Anuluj</button>\n      </ion-col>\n    </ion-row>\n  </form>\n</ion-content>\n'}),l("design:paramtypes",[i.f,i.g,o.v,a.a,s.a])],u)}});
-//# sourceMappingURL=/Users/mjastrzebowski/GitHub/egobody-david-2.0/public_html/build/1.main.js.map
+webpackJsonp([1],{
+
+/***/ 497:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__company_create__ = __webpack_require__(511);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_components_components_module__ = __webpack_require__(376);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CompanyCreateModule", function() { return CompanyCreateModule; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+var CompanyCreateModule = (function () {
+    function CompanyCreateModule() {
+    }
+    return CompanyCreateModule;
+}());
+CompanyCreateModule = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["b" /* NgModule */])({
+        declarations: [
+            __WEBPACK_IMPORTED_MODULE_2__company_create__["a" /* CompanyCreateModal */]
+        ],
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_3_app_components_components_module__["a" /* ComponentsModule */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__company_create__["a" /* CompanyCreateModal */])
+        ],
+        exports: [
+            __WEBPACK_IMPORTED_MODULE_2__company_create__["a" /* CompanyCreateModal */]
+        ]
+    })
+], CompanyCreateModule);
+
+//# sourceMappingURL=company-create.module.js.map
+
+/***/ }),
+
+/***/ 502:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ICompany; });
+/* unused harmony export Company */
+var ICompany = (function () {
+    function ICompany() {
+    }
+    return ICompany;
+}());
+
+var Company = (function () {
+    function Company(name) {
+        this.name = name;
+    }
+    return Company;
+}());
+
+//# sourceMappingURL=company.js.map
+
+/***/ }),
+
+/***/ 511:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_providers_utils__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_services_company_company__ = __webpack_require__(502);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_services_company_company_store__ = __webpack_require__(377);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompanyCreateModal; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var CompanyCreateModal = (function () {
+    function CompanyCreateModal(params, viewCtrl, renderer, utils, companyStore) {
+        this.params = params;
+        this.viewCtrl = viewCtrl;
+        this.renderer = renderer;
+        this.utils = utils;
+        this.companyStore = companyStore;
+        this.renderer.setElementClass(this.viewCtrl.pageRef().nativeElement, 'my-popup', true);
+    }
+    CompanyCreateModal.prototype.ngOnInit = function () {
+        this.model = this.companyStore.getItem(this.params.data) || new __WEBPACK_IMPORTED_MODULE_3_app_services_company_company__["a" /* ICompany */]();
+    };
+    CompanyCreateModal.prototype.save = function () {
+        var _this = this;
+        this.utils.showLoading('Zapisywanie firmy...');
+        this.companyStore.create(this.model).then(function () {
+            _this.utils.stopLoading();
+            _this.utils.showMessage('Firma dodana.');
+            _this.dismiss();
+        });
+    };
+    CompanyCreateModal.prototype.dismiss = function () {
+        this.viewCtrl.dismiss();
+    };
+    return CompanyCreateModal;
+}());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* Input */])(),
+    __metadata("design:type", __WEBPACK_IMPORTED_MODULE_3_app_services_company_company__["a" /* ICompany */])
+], CompanyCreateModal.prototype, "model", void 0);
+CompanyCreateModal = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPage */])({
+        name: 'companies/create',
+        segment: 'companies/create'
+    }),
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({template:/*ion-inline-start:"/Users/mjastrzebowski/GitHub/egobody-david-2.0/src/pages/company/company-create/company-create.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>Nowa firma</ion-title>\n    <ion-buttons start>\n      <button ion-button (click)="dismiss()">\n        <span color="primary" showWhen="ios">Zamknij</span>\n        <ion-icon name="close" hideWhen="ios"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="has-header">\n  <form #form="ngForm" novalidate>\n    <ion-list>\n      <ion-item>\n        <ion-label floating>Nazwa</ion-label>\n        <ion-input type="text" [(ngModel)]="model.name" name="name"></ion-input>\n      </ion-item>\n      <ion-item>\n        <ion-label floating>Opis</ion-label>\n        <ion-textarea [(ngModel)]="model.description" name="description"></ion-textarea>\n      </ion-item>\n    </ion-list>\n    <ion-row responsive-sm>\n      <ion-col>\n        <button ion-button color="primary" block type="submit" (click)="save()">Zapisz</button>\n      </ion-col>\n      <ion-col>\n        <button ion-button color="light" block (click)="dismiss()">Anuluj</button>\n      </ion-col>\n    </ion-row>\n  </form>\n</ion-content>\n'/*ion-inline-end:"/Users/mjastrzebowski/GitHub/egobody-david-2.0/src/pages/company/company-create/company-create.html"*/
+    }),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */],
+        __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ViewController */],
+        __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* Renderer */],
+        __WEBPACK_IMPORTED_MODULE_2_app_providers_utils__["a" /* Utils */],
+        __WEBPACK_IMPORTED_MODULE_4_app_services_company_company_store__["a" /* CompanyStore */]])
+], CompanyCreateModal);
+
+//# sourceMappingURL=company-create.js.map
+
+/***/ })
+
+});
+//# sourceMappingURL=1.main.js.map
