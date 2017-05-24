@@ -2,7 +2,7 @@
   "private": true,
   "name": "planelo",
   "version": "2.0.0",
-  "description": "David - Personal Trainings Management",
+  "description": "Planelo - Personal Trainings Management",
   "repository": {
     "type": "git",
     "url": "https://repo13.mydevil.net/git/priv/planelo/planelo-app/"
@@ -21,22 +21,22 @@
     "ionic:serve": "ionic-app-scripts serve -b"
   },
   "dependencies": {
-    "@angular/common": "4.1.0",
-    "@angular/compiler": "4.1.0",
-    "@angular/compiler-cli": "4.1.0",
-    "@angular/core": "4.1.0",
-    "@angular/forms": "4.1.0",
-    "@angular/http": "4.1.0",
-    "@angular/platform-browser": "4.1.0",
-    "@angular/platform-browser-dynamic": "4.1.0",
-    "@angular/platform-server": "4.1.0",
+    "@angular/common": "4.1.2",
+    "@angular/compiler": "4.1.2",
+    "@angular/compiler-cli": "4.1.2",
+    "@angular/core": "4.1.2",
+    "@angular/forms": "4.1.2",
+    "@angular/http": "4.1.2",
+    "@angular/platform-browser": "4.1.2",
+    "@angular/platform-browser-dynamic": "4.1.2",
+    "@angular/platform-server": "4.1.2",
     "@ionic-native/core": "3.6.1",
     "@ionic/storage": "2.0.1",
     "angularfire2": "^2.0.0-beta.6",
     "event-stream": "^3.3.4",
     "firebase": "^3.5.0",
     "immutable": "~3.8.1",
-    "ionic-angular": "3.2.1",
+    "ionic-angular": "3.3.0",
     "ionicons": "~3.0.0",
     "rxjs": "5.1.1",
     "zone.js": "^0.8.10"
@@ -50,7 +50,7 @@
     "fullcalendar": "^2.6.1",
     "ionic-gulp-scripts-copy": "^2.0.0",
     "strip-sourcemap-loader": "0.0.1",
-    "typescript": "~2.2.1"
+    "typescript": "~2.3.2"
   },
   "cordovaPlugins": [
     "cordova-plugin-whitelist",
