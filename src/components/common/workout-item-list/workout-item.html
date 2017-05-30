@@ -1,0 +1,10 @@
+<ion-item-sliding class="workouts-hidden month-{{ model.monthId }}" [hidden]="model.fixed || model.timeStart == '' || model.date == '2099-12-31'">
+  <ion-item>
+    <h3>{{ model?.session?.activity?.activityType?.name }} {{ model?.session?.activity?.name }} ({{ model?.session?.name }})</h3>
+    <h3><strong>{{ model?.timeStart }} - {{ model?.timeEnd }}</strong>, {{ model?.descDate }}</h3>
+    <p>{{ model.place?.name }}, <strong>{{ model.trainer?.name }}</strong></p>
+    <button ion-button color="favorite" item-right *ngIf="!model.completed && changeDate && model.fullDate > changeDate" (click)="removeWorkout(model)">Odwołaj</button>
+    <button ion-button color="danger" item-right *ngIf="!model.completed && changeDate && model.fullDate < changeDate && model.fullDate > currentDate" (click)="rejectWorkout(model)">Odwołaj</button>
+    <ion-badge color="danger" item-right *ngIf="auth.isAdmin && model.completed">Odwołany</ion-badge>
+  </ion-item>
+</ion-item-sliding>

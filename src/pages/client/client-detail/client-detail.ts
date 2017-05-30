@@ -19,7 +19,32 @@ import { PlaceStore } from 'app/services/place/place-store';
 export class ClientDetailPage {
   @Input() model: any;
   private sub;
-  clientFilter = '';
+  sections = [{
+    value: 'sessions',
+    icon: 'handshake-o',
+    title: 'Spotkania'
+  },{
+    value: 'measurements',
+    icon: 'bar-chart',
+    title: 'Pomiary'
+  },{
+    value: 'routines',
+    icon: 'book',
+    title: 'Treningi'
+  },{
+    value: 'diet',
+    icon: 'cutlery',
+    title: 'Dieta'
+  },{
+    value: 'bills',
+    icon: 'money',
+    title: 'Rachunki'
+  },{
+    value: 'notes',
+    icon: 'sticky-note-o',
+    title: 'Notatki'
+  }];
+  section = this.sections[0].value;
 
   constructor(
     private params: NavParams,

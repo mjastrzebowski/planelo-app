@@ -17,86 +17,21 @@
   </div>
 
   <div padding class="hidden-lg">
-    <ion-segment [(ngModel)]="clientFilter">
-      <ion-segment-button value="sessions">
-        <i class="fa fa-2x fa-handshake-o"></i>
-        <h3>Spotkania</h3>
-      </ion-segment-button>
-      <ion-segment-button value="measurements">
-        <i class="fa fa-2x fa-bar-chart"></i>
-        <h3>Pomiary</h3>
-      </ion-segment-button>
-      <ion-segment-button value="routines">
-        <i class="fa fa-2x fa-book"></i>
-        <h3>Treningi</h3>
-      </ion-segment-button>
-      <ion-segment-button value="diet">
-        <i class="fa fa-2x fa-cutlery"></i>
-        <h3>Dieta</h3>
-      </ion-segment-button>
-      <ion-segment-button value="bills">
-        <i class="fa fa-2x fa-money"></i>
-        <h3>Rachunki</h3>
-      </ion-segment-button>
-      <ion-segment-button value="notes">
-        <i class="fa fa-2x fa-sticky-note-o"></i>
-        <h3>Notatki</h3>
+    <ion-segment [(ngModel)]="section" (ionChange)="onSectionChanged()">
+      <ion-segment-button *ngFor="let section of sections" [value]="section.value">
+        <i class="fa fa-2x fa-{{ section?.icon }}"></i>
+        <h3>{{ section?.title }}</h3>
       </ion-segment-button>
     </ion-segment>
   </div>
 
   <ion-grid no-padding class="hidden-above-lg">
     <ion-row>
-      <ion-col col-lg-2 col-md-3 col-sm-4 col-6>
-        <ion-card class="button-card card-sessions">
-          <ion-card-header text-center (click)="showPlaceCreate()">
-            <i class="fa fa-handshake-o"></i>
-            <h3>Spotkania</h3>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-
-      <ion-col col-lg-2 col-md-3 col-sm-4 col-6>
-        <ion-card class="button-card card-measurements">
-          <ion-card-header text-center (click)="showPlaceCreate()">
-            <i class="fa fa-bar-chart"></i>
-            <h3>Pomiary</h3>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-
-      <ion-col col-lg-2 col-md-3 col-sm-4 col-6>
-        <ion-card class="button-card card-routines">
-          <ion-card-header text-center (click)="showPlaceCreate()">
-            <i class="fa fa-book"></i>
-            <h3>Treningi</h3>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-
-      <ion-col col-lg-2 col-md-3 col-sm-4 col-6>
-        <ion-card class="button-card card-diet">
-          <ion-card-header text-center (click)="showPlaceCreate()">
-            <i class="fa fa-cutlery"></i>
-            <h3>Dieta</h3>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-
-      <ion-col col-lg-2 col-md-3 col-sm-4 col-6>
-        <ion-card class="button-card card-bills">
-          <ion-card-header text-center (click)="showPlaceCreate()">
-            <i class="fa fa-money"></i>
-            <h3>Rachunki</h3>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-
-      <ion-col col-lg-2 col-md-3 col-sm-4 col-6>
-        <ion-card class="button-card card-notes">
-          <ion-card-header text-center (click)="showPlaceCreate()">
-            <i class="fa fa-sticky-note-o"></i>
-            <h3>Notatki</h3>
+      <ion-col *ngFor="let section of sections" col-lg-2 col-md-3 col-sm-4 col-6>
+        <ion-card class="button-card">
+          <ion-card-header text-center (click)="onSectionChanged(section)">
+            <i class="fa fa-{{ section?.icon }}"></i>
+            <h3>{{ section?.title }}</h3>
           </ion-card-header>
         </ion-card>
       </ion-col>
