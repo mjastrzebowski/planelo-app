@@ -1,0 +1,31 @@
+<ion-content class="reset-page box-page">
+  <div class="box-overlay" text-center>
+    <div class="box" center-col padding>
+      <div class="box-header" padding>
+        <img src="/assets/img/planelo-logo.png">
+      </div>
+
+      <form #form="ngForm" novalidate>
+        <div center-col>
+          <ion-list>
+            <ion-list-header>Reset hasła</ion-list-header>
+            <ion-item>
+              <ion-label floating color="primary"><ion-icon name="person"></ion-icon> Adres e-mail</ion-label>
+              <ion-input [(ngModel)]="user.email" name="email" type="text" #email="ngModel" spellcheck="false" autocapitalize="off" required>
+              </ion-input>
+            </ion-item>
+            <p ion-text [hidden]="email.valid || submitted == false" color="danger" padding-left>
+              Nazwa użytkownika jest wymagana
+            </p>
+          </ion-list>
+
+          <button ion-button (click)="reset(form)" type="submit">Zresetuj</button>
+        </div>
+      </form>
+
+      <p padding-top>
+        <button ion-button (click)="openLoginPage()" clear block>Zaloguj się</button>
+      </p>
+    </div>
+  </div>
+</ion-content>

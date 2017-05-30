@@ -1,0 +1,52 @@
+
+.training-detail {
+  .set-header {
+    font-size: smaller;
+  }
+
+  ion-col ion-input, ion-col ion-select {
+    min-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+    .select-icon {
+      width: 16px;
+    }
+    .text-input {
+      text-align: center;
+    }
+  }
+  ion-input.ng-touched.ng-dirty,
+  ion-select.ng-touched.ng-dirty,
+  /* select ng-dirty fix */
+  .fix-ng-dirty {
+    border-bottom: 1px solid orange;
+  }
+
+  /* responsive table fix */
+  [responsive-sm] {
+    ion-col ion-col {
+      margin-bottom: 0;
+    }
+    &[padding-0] {
+      ion-card {
+        margin: 0;
+        padding: 0;
+        ion-col[width-10] {
+          -webkit-box-flex: 0;
+          -webkit-flex: 0 0 10%;
+          -ms-flex: 0 0 10%;
+          flex: 0 0 10%;
+          max-width: 10%;
+        }
+        ion-col[width-25] {
+          -webkit-box-flex: 0;
+          -webkit-flex: 0 0 25%;
+          -ms-flex: 0 0 25%;
+          flex: 0 0 25%;
+          max-width: 25%;
+        }
+      }
+    }
+  }
+}

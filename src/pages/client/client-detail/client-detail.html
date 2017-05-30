@@ -3,87 +3,38 @@
     <button ion-button icon-only menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{ client?.name }} {{ client?.lastname }}</ion-title>
+    <ion-title>Klient</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content class="client-detail">
-  <ion-list>
-    <button ion-item (click)="showClientProfile(client)">
-      <ion-icon name="contact" item-left></ion-icon>
-      Profil
-    </button>
+<ion-content class="detail-page client-detail">
+  <div class="detail-header">
+    <img src="http://www.egobody.pl/wp-content/uploads/2017/02/TreningPersonalny-150x150.jpg">
+    <ion-card text-center>
+      <h2> {{ model?.name }} </h2>
+      <h4> Klient </h4>
+    </ion-card>
+  </div>
 
-    <button ion-item large (click)="showClientWorkouts(client)">
-      <ion-icon name="clipboard" item-left></ion-icon>
-      <h2>Treningi</h2>
-      <p>• zrobione: {{ trainingsDone?.size }}
-        <small *ngIf="trainingsDoneLast"> (ostatni: <i>
-          {{ trainingsDoneLast?.dateTime }},
-          {{ placeStore.getItem(trainingsDoneLast.place)?.title }},
-          {{ trainerStore.getItem(trainingsDoneLast.trainer)?.alias }})
-      </i></small></p>
-      <p>• zaplanowane: {{ trainingsTodo?.size }}
-        <small *ngIf="trainingsTodoNext"> (następny: <i>
-          {{ trainingsTodoNext?.dateTime }},
-          {{ placeStore.getItem(trainingsTodoNext.place)?.title }},
-          {{ trainerStore.getItem(trainingsTodoNext.trainer)?.alias }})
-      </i></small></p>
-    </button>
+  <div padding class="hidden-lg">
+    <ion-segment [(ngModel)]="section" (ionChange)="onSectionChanged()">
+      <ion-segment-button *ngFor="let section of sections" [value]="section.value">
+        <i class="fa fa-2x fa-{{ section?.icon }}"></i>
+        <h3>{{ section?.title }}</h3>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 
-    <ion-item>
-      <ion-icon name="calendar" item-left></ion-icon>
-      <h2>Grafik</h2>
-      <p *ngFor="let training of trainingsScheduled"> •
-        {{ training?.weekDay }} {{ training?.timeStart }},
-        {{ placeStore.getItem(training.place)?.title }},
-        {{ trainerStore.getItem(training.trainer)?.alias }}
-      </p>
-      <p *ngIf="!trainingsScheduled.size">
-        • brak stałych treningów
-      </p>
-    </ion-item>
-
-    <button ion-item disabled>
-      <ion-icon name="body" item-left></ion-icon>
-      Pomiary
-    </button>
-    <button ion-item (click)="showClientBilling(client)">
-      <ion-icon name="cash" item-left></ion-icon>
-      Rachunki
-    </button>
-
-    <button ion-item (click)="showClientAccess(client)">
-      <ion-icon name="key" item-left></ion-icon>
-      Dostęp
-      <ion-note item-right>
-        <span *ngIf="client.active">aktywny</span>
-        <span *ngIf="!client.active">nieaktywny</span>
-      </ion-note>
-    </button>
-  </ion-list>
-</ion-content>
-
-<!--
-<ion-footer>
-  <ion-toolbar position="bottom">
+  <ion-grid no-padding class="hidden-above-lg">
     <ion-row>
-      <ion-col text-center>
-        <button clear><ion-icon name="call"></ion-icon></button>
-      </ion-col>
-      <ion-col text-center>
-        <button clear><ion-icon name="text"></ion-icon></button>
-      </ion-col>
-      <ion-col text-center>
-        <button clear><ion-icon name="mail"></ion-icon></button>
-      </ion-col>
-      <ion-col text-center>
-        <button clear><ion-icon name="contact"></ion-icon></button>
-      </ion-col>
-      <ion-col text-center>
-        <button clear><ion-icon name="document"></ion-icon></button>
+      <ion-col *ngFor="let section of sections" col-lg-2 col-md-3 col-sm-4 col-6>
+        <ion-card class="button-card">
+          <ion-card-header text-center (click)="onSectionChanged(section)">
+            <i class="fa fa-{{ section?.icon }}"></i>
+            <h3>{{ section?.title }}</h3>
+          </ion-card-header>
+        </ion-card>
       </ion-col>
     </ion-row>
-  </ion-toolbar>
-</ion-footer>
--->
+  </ion-grid>
+</ion-content>

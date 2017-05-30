@@ -1,200 +1,183 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 import { FIREBASE_PROVIDERS } from 'angularfire2';
 
-import { IonicApp, IonicModule } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { DavidApp } from './app.component';
 
-import { FirebaseModule } from '../firebase';
+import { FirebaseModule } from '../firebase-module';
 
-import { Utils } from '../providers/utils';
+import { Utils } from 'app/providers/utils';
+
+// modules
+import { ComponentsModule } from 'app/components/components.module';
 
 // services
-import { PlaceService } from '../core/place/place-service';
-import { TrainerService } from '../core/trainer/trainer-service';
+import { Api } from 'app/services/api/api-service';
+import { AuthService } from 'app/services/auth/auth-service';
+import { BaseStream } from 'app/services/_base/base-stream';
+import { BaseService } from 'app/services/_base/base-service';
 
-import { AuthService } from '../core/auth/auth-service';
-import { BillStore } from '../core/bill/bill-store';
-import { ClientStore } from '../core/client/client-store';
-import { NotificationStore } from '../core/notification/notification-store';
-import { PlaceStore } from '../core/place/place-store';
-import { TrainerStore } from '../core/trainer/trainer-store';
-import { UserStore } from '../core/user/user-store';
-import { WorkoutStore } from '../core/workout/workout-store';
+import { ActivityService } from 'app/services/activity/activity-service';
+import { ActivityTypeService } from 'app/services/activity-type/activity-type-service';
+import { ClientService } from 'app/services/client/client-service';
+import { CompanyService } from 'app/services/company/company-service';
+import { EmployeeService } from 'app/services/employee/employee-service';
+import { EquipmentService } from 'app/services/equipment/equipment-service';
+import { ExerciseService } from 'app/services/exercise/exercise-service';
+import { ExerciseCategoryService } from 'app/services/exercise-category/exercise-category-service';
+import { ExerciseCommentService } from 'app/services/exercise-comment/exercise-comment-service';
+import { ExerciseEquipmentService } from 'app/services/exercise-equipment/exercise-equipment-service';
+import { ExerciseImageService } from 'app/services/exercise-image/exercise-image-service';
+import { ExerciseMuscleService } from 'app/services/exercise-muscle/exercise-muscle-service';
+import { HourService } from 'app/services/hour/hour-service';
+import { MuscleService } from 'app/services/muscle/muscle-service';
+import { NotificationService } from 'app/services/notification/notification-service';
+import { PlaceService } from 'app/services/place/place-service';
+import { ProfileSessionService } from 'app/services/profile-session/profile-session-service';
+import { RoutineService } from 'app/services/routine/routine-service';
+import { RoutineDayService } from 'app/services/routine-day/routine-day-service';
+import { RoutineDayWorkoutService } from 'app/services/routine-day-workout/routine-day-workout-service';
+import { SessionService } from 'app/services/session/session-service';
+import { WorkoutService } from 'app/services/workout/workout-service';
+import { WorkoutExerciseService } from 'app/services/workout-exercise/workout-exercise-service';
+import { WorkoutGroupService } from 'app/services/workout-group/workout-group-service';
+import { WorkoutGroupTypeService } from 'app/services/workout-group-type/workout-group-type-service';
+import { WorkoutSetService } from 'app/services/workout-set/workout-set-service';
+
+// import { TrainerService } from 'app/services/trainer/trainer-service';
+
+import { ActivityStore } from 'app/services/activity/activity-store';
+import { ActivityTypeStore } from 'app/services/activity-type/activity-type-store';
+import { AuthStore } from 'app/services/auth/auth-store';
+import { BillStore } from 'app/services/bill/bill-store';
+import { ClientStore } from 'app/services/client/client-store';
+import { CompanyStore } from 'app/services/company/company-store';
+import { EmployeeStore } from 'app/services/employee/employee-store';
+import { EquipmentStore } from 'app/services/equipment/equipment-store';
+import { ExerciseStore } from 'app/services/exercise/exercise-store';
+import { ExerciseCategoryStore } from 'app/services/exercise-category/exercise-category-store';
+import { ExerciseCommentStore } from 'app/services/exercise-comment/exercise-comment-store';
+import { ExerciseEquipmentStore } from 'app/services/exercise-equipment/exercise-equipment-store';
+import { ExerciseImageStore } from 'app/services/exercise-image/exercise-image-store';
+import { ExerciseMuscleStore } from 'app/services/exercise-muscle/exercise-muscle-store';
+import { HourStore } from 'app/services/hour/hour-store';
+import { MuscleStore } from 'app/services/muscle/muscle-store';
+import { NotificationStore } from 'app/services/notification/notification-store';
+import { PlaceStore } from 'app/services/place/place-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
+import { RoutineStore } from 'app/services/routine/routine-store';
+import { RoutineDayStore } from 'app/services/routine-day/routine-day-store';
+import { RoutineDayWorkoutStore } from 'app/services/routine-day-workout/routine-day-workout-store';
+import { TrainerStore } from 'app/services/trainer/trainer-store';
+import { SessionStore } from 'app/services/session/session-store';
+import { UserStore } from 'app/services/user/user-store';
+import { WorkoutStore } from 'app/services/workout/workout-store';
+import { WorkoutExerciseStore } from 'app/services/workout-exercise/workout-exercise-store';
+import { WorkoutGroupStore } from 'app/services/workout-group/workout-group-store';
+import { WorkoutGroupTypeStore } from 'app/services/workout-group-type/workout-group-type-store';
+import { WorkoutSetStore } from 'app/services/workout-set/workout-set-store';
 
 // providers
-// import { USER_PROVIDERS } from '../core/user/providers';
-// import { PLACE_PROVIDERS } from '../core/place/providers';
-// import { TRAINER_PROVIDERS } from '../core/trainer/providers';
-// import { WORKOUT_PROVIDERS } from '../core/workout/providers';
-// import { BILL_PROVIDERS } from '../core/bill/providers';
+// import { USER_PROVIDERS } from 'app/services/user/providers';
+// import { PLACE_PROVIDERS } from 'app/services/place/providers';
+// import { TRAINER_PROVIDERS } from 'app/services/trainer/providers';
+// import { WORKOUT_PROVIDERS } from 'app/services/workout/providers';
+// import { BILL_PROVIDERS } from 'app/services/bill/providers';
 
-// components
-import { BillItem } from '../components/bill/bill-item/bill-item';
-import { BillList } from '../components/bill/bill-list/bill-list';
-import { BillFilter } from '../components/bill/bill-filter/bill-filter';
-import { BillListFilterPipe } from '../components/bill/bill-list/bill-list-filter-pipe';
+let services = [
+  // HttpModule,
+  Api,
+  AuthService,
+  BaseStream,
+  BaseService,
 
-import { ClientItem } from '../components/client/client-item/client-item';
-import { ClientList } from '../components/client/client-list/client-list';
-import { ClientFilter } from '../components/client/client-filter/client-filter';
-import { ClientListFilterPipe } from '../components/client/client-list/client-list-filter-pipe';
+  ActivityService,
+  ActivityTypeService,
+  ClientService,
+  CompanyService,
+  EmployeeService,
+  EquipmentService,
+  ExerciseService,
+  ExerciseCategoryService,
+  ExerciseCommentService,
+  ExerciseEquipmentService,
+  ExerciseImageService,
+  ExerciseMuscleService,
+  HourService,
+  MuscleService,
+  NotificationService,
+  PlaceService,
+  ProfileSessionService,
+  // TrainerService,
+  SessionService,
+  RoutineService,
+  RoutineDayService,
+  RoutineDayWorkoutService,
+  WorkoutService,
+  WorkoutExerciseService,
+  WorkoutGroupService,
+  WorkoutGroupTypeService,
+  WorkoutSetService,
 
-import { NotificationItem } from '../components/notification/notification-item/notification-item';
-import { NotificationList } from '../components/notification/notification-list/notification-list';
-import { NotificationFilter } from '../components/notification/notification-filter/notification-filter';
-import { NotificationCounter } from '../components/notification/notification-counter/notification-counter';
-import { NotificationListFilterPipe } from '../components/notification/notification-list/notification-list-filter-pipe';
-
-import { WorkoutItem } from '../components/workout/workout-item/workout-item';
-import { WorkoutList } from '../components/workout/workout-list/workout-list';
-import { WorkoutListGroupPipe } from '../components/workout/workout-list/workout-list-group-pipe';
-import { WorkoutListFilterPipe } from '../components/workout/workout-list/workout-list-filter-pipe';
-
-// pages
-// import { AboutPage } from '../pages/about/about';
-
-import { BillListPage } from '../pages/bill/bill-list/bill-list';
-import { ClientCreateModal } from '../pages/client/client-create/client-create';
-import { ClientDetailPage } from '../pages/client/client-detail/client-detail';
-import { ClientDetailAccessModal } from '../pages/client/client-detail-access/client-detail-access';
-import { ClientDetailBillingModal } from '../pages/client/client-detail-billing/client-detail-billing';
-import { ClientDetailProfileModal } from '../pages/client/client-detail-profile/client-detail-profile';
-import { ClientDetailWorkoutsModal } from '../pages/client/client-detail-workouts/client-detail-workouts';
-import { ClientListPage } from '../pages/client/client-list/client-list';
-import { LoginPage } from '../pages/login/login';
-import { NotificationListPage } from '../pages/notification/notification-list/notification-list';
-import { TrainerCreateModal } from '../pages/trainer/trainer-create/trainer-create';
-import { TrainerDetailPage, GroupHoursPipe } from '../pages/trainer/trainer-detail/trainer-detail';
-import { TrainerDetailHoursModal } from '../pages/trainer/trainer-detail-hours/trainer-detail-hours';
-import { TrainerDetailProfileModal } from '../pages/trainer/trainer-detail-profile/trainer-detail-profile';
-import { TrainerDetailVacationModal } from '../pages/trainer/trainer-detail-vacation/trainer-detail-vacation';
-import { TrainerListPage } from '../pages/trainer/trainer-list/trainer-list';
-import { TrainingCreateModal } from '../pages/training/training-create/training-create';
-import { TrainingDetailPage } from '../pages/training/training-detail/training-detail';
-import { TrainingHistoryModal } from '../pages/training/training-history/training-history';
-import { TrainingListPage } from '../pages/training/training-list/training-list';
-import { TrainingReserveModal } from '../pages/training/training-reserve/training-reserve';
-import { TrainingSchedulerPage } from '../pages/training/training-scheduler/training-scheduler';
-import { TrainingSchedulerFormModal } from '../pages/training/training-scheduler-form/training-scheduler-form';
-import { SettingsPage } from '../pages/settings/settings';
-
+  ActivityStore,
+  ActivityTypeStore,
+  AuthStore,
+  BillStore,
+  ClientStore,
+  CompanyStore,
+  EmployeeStore,
+  EquipmentStore,
+  ExerciseStore,
+  ExerciseCategoryStore,
+  ExerciseCommentStore,
+  ExerciseEquipmentStore,
+  ExerciseImageStore,
+  ExerciseMuscleStore,
+  HourStore,
+  MuscleStore,
+  NotificationStore,
+  PlaceStore,
+  ProfileSessionStore,
+  RoutineStore,
+  RoutineDayStore,
+  RoutineDayWorkoutStore,
+  SessionStore,
+  TrainerStore,
+  UserStore,
+  WorkoutStore,
+  WorkoutExerciseStore,
+  WorkoutGroupStore,
+  WorkoutGroupTypeStore,
+  WorkoutSetStore,
+  Utils
+];
 
 @NgModule({
   declarations: [
     DavidApp,
-
-    BillItem,
-    BillList,
-    BillFilter,
-    BillListFilterPipe,
-
-    ClientItem,
-    ClientList,
-    ClientFilter,
-    ClientListFilterPipe,
-
-    NotificationItem,
-    NotificationList,
-    NotificationFilter,
-    NotificationCounter,
-    NotificationListFilterPipe,
-
-    WorkoutItem,
-    WorkoutList,
-    WorkoutListGroupPipe,
-    WorkoutListFilterPipe,
-
-    GroupHoursPipe,
-
-    BillListPage,
-    ClientCreateModal,
-    ClientDetailPage,
-    ClientDetailAccessModal,
-    ClientDetailBillingModal,
-    ClientDetailProfileModal,
-    ClientDetailWorkoutsModal,
-    ClientListPage,
-    LoginPage,
-    NotificationListPage,
-    TrainerCreateModal,
-    TrainerDetailPage,
-    TrainerDetailHoursModal,
-    TrainerDetailProfileModal,
-    TrainerDetailVacationModal,
-    TrainerListPage,
-    TrainingCreateModal,
-    TrainingDetailPage,
-    TrainingHistoryModal,
-    TrainingListPage,
-    TrainingReserveModal,
-    TrainingSchedulerPage,
-    TrainingSchedulerFormModal,
-    SettingsPage
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     FormsModule,
     FirebaseModule,
-    IonicModule.forRoot(DavidApp, {
-      statusbarPadding: false,
-      platforms: {
-        android: {
-          activator: 'ripple',
-          backButtonIcon: 'md-arrow-back'
-        }
-      },
-      prodMode: true
-    })
+    ComponentsModule,
+    IonicModule.forRoot(DavidApp)
   ],
   bootstrap: [
     IonicApp
   ],
   entryComponents: [
-    DavidApp,
-
-    BillListPage,
-    ClientCreateModal,
-    ClientDetailPage,
-    ClientDetailAccessModal,
-    ClientDetailBillingModal,
-    ClientDetailProfileModal,
-    ClientDetailWorkoutsModal,
-    ClientListPage,
-    LoginPage,
-    NotificationListPage,
-    TrainerCreateModal,
-    TrainerDetailPage,
-    TrainerDetailHoursModal,
-    TrainerDetailProfileModal,
-    TrainerDetailVacationModal,
-    TrainerListPage,
-    TrainingCreateModal,
-    TrainingDetailPage,
-    TrainingHistoryModal,
-    TrainingListPage,
-    TrainingReserveModal,
-    TrainingSchedulerPage,
-    TrainingSchedulerFormModal,
-    SettingsPage
+    DavidApp
   ],
   providers: [
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     FIREBASE_PROVIDERS,
-    // HttpModule,
-    AuthService,
-    PlaceService,
-    TrainerService,
-
-    BillStore,
-    ClientStore,
-    PlaceStore,
-    TrainerStore,
-    NotificationStore,
-    UserStore,
-    WorkoutStore,
-    Utils
+    services
   ]
 })
 export class AppModule {}

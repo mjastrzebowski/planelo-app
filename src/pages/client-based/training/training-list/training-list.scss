@@ -1,0 +1,12 @@
+.trainings, .workout-list {
+  .workouts-hidden {
+    display: none;
+<<<<<<< HEAD:src/pages/training/training-list/training-list.scss
+    &.month-201702, &.month-201703 {
+=======
+    &.month-201702 {
+>>>>>>> live:src/pages/client-based/training/training-list/training-list.scss
+      display: block;
+    }
+  }
+}

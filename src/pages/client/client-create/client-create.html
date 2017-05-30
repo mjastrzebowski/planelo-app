@@ -11,40 +11,24 @@
 </ion-header>
 
 <ion-content class="has-header">
-  <form #clientCreateForm="ngForm" novalidate>
+  <form #form="ngForm" novalidate>
     <ion-list>
       <ion-item>
-        <ion-label floating>Imię</ion-label>
-        <ion-input type="text" [(ngModel)]="client.name" name="name"></ion-input>
+        <ion-label floating>Nazwa</ion-label>
+        <ion-input type="text" [(ngModel)]="model.name" name="name"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Nazwisko</ion-label>
-        <ion-input type="text" [(ngModel)]="client.lastname" name="lastname"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Adres e-mail</ion-label>
-        <ion-input type="email" [(ngModel)]="client.email" name="email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Telefon</ion-label>
-        <ion-input type="tel" [(ngModel)]="client.phone" name="phone"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Uwagi</ion-label>
-        <ion-textarea [(ngModel)]="client.comment" name="comment"></ion-textarea>
+        <ion-label floating>Opis</ion-label>
+        <ion-textarea [(ngModel)]="model.description" name="description"></ion-textarea>
       </ion-item>
     </ion-list>
-
     <ion-row responsive-sm>
       <ion-col>
-        <button ion-button color="primary" block type="submit" (click)="save()">Utwórz profil</button>
+        <button ion-button color="primary" block type="submit" (click)="save()">Zapisz</button>
       </ion-col>
       <ion-col>
         <button ion-button color="light" block (click)="dismiss()">Anuluj</button>
       </ion-col>
     </ion-row>
-    <!-- <ion-col center text-center>
-      <button ion-button clear small color="danger" center text-center (click)="delete()">Usuń konto oraz wszystkie treningi</button>
-    </ion-col> -->
   </form>
 </ion-content>

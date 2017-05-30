@@ -1,8 +1,10 @@
 {
   "dependencies": {
-    "immutable": "registry:npm/immutable#3.7.6+20160411060006"
+    "immutable": "registry:npm/immutable#3.7.6+20160411060006",
+    "sse": "file:typings/custom/sse.d.ts"
   },
   "globalDependencies": {
-    "immutable": "registry:dt/immutable#3.8.1+20160608070634"
+    "immutable": "registry:dt/immutable#3.8.1+20160608070634",
+    "sse": "file:typings/custom/sse.d.ts"
   }
 }

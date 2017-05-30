@@ -1,0 +1,41 @@
+<ion-content class="register-page box-page">
+  <div class="box-overlay" text-center>
+    <div class="box" center-col padding>
+      <div class="box-header" padding>
+        <img src="/assets/img/planelo-logo.png">
+      </div>
+
+      <form #form="ngForm" novalidate>
+        <div center-col>
+          <ion-list>
+            <ion-list-header>Rejestracja</ion-list-header>
+            <ion-item>
+              <ion-label floating color="primary"><ion-icon name="person"></ion-icon> Użytkownik</ion-label>
+              <ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" required>
+              </ion-input>
+            </ion-item>
+            <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
+              Nazwa użytkownika jest wymagana
+            </p>
+
+            <ion-item>
+              <ion-label floating color="primary"><ion-icon name="lock"></ion-icon> Hasło</ion-label>
+              <ion-input [(ngModel)]="user.password" name="password" type="password" #password="ngModel" required>
+              </ion-input>
+            </ion-item>
+            <p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
+              Hasło jest wymagane
+            </p>
+          </ion-list>
+
+          <button ion-button (click)="register(form)" type="submit">Rejestruj</button>
+        </div>
+      </form>
+
+      <p padding-top>
+        Masz już konto?
+        <button ion-button (click)="openLoginPage()" clear block>Zaloguj się</button>
+      </p>
+    </div>
+  </div>
+</ion-content>

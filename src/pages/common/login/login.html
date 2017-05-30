@@ -1,0 +1,47 @@
+<ion-content class="login-page box-page">
+  <div class="box-overlay" text-center>
+    <div class="box" center-col padding>
+      <div class="box-header" padding>
+        <img src="/assets/img/planelo-logo.png">
+      </div>
+
+      <form #form="ngForm" novalidate>
+        <div center-col>
+          <ion-list>
+            <ion-list-header>Logowanie</ion-list-header>
+            <ion-item>
+              <ion-label floating color="primary"><ion-icon name="person"></ion-icon> Użytkownik</ion-label>
+              <ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" autofocus required>
+              </ion-input>
+            </ion-item>
+            <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
+              Nazwa użytkownika jest wymagana
+            </p>
+
+            <ion-item>
+              <ion-label floating color="primary"><ion-icon name="lock"></ion-icon> Hasło</ion-label>
+              <ion-input [(ngModel)]="user.password" name="password" type="password" #password="ngModel" required>
+              </ion-input>
+            </ion-item>
+            <p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
+              Hasło jest wymagane
+            </p>
+          </ion-list>
+
+          <button ion-button (click)="login(form)" type="submit">Zaloguj</button>
+        </div>
+      </form>
+
+      <p padding-top>
+        Nie masz konta?
+        <button ion-button (click)="openRegisterPage()" clear block>Zarejestruj się</button>
+      </p>
+
+      <p>
+        Zapomniałeś hasła?
+        <button ion-button (click)="openResetPage()" clear block>Reset hasła</button>
+      </p>
+    </div>
+    <p color="light">© 2017 planelo.com • Wszelkie prawa zastrzeżone.</p>
+  </div>
+</ion-content>

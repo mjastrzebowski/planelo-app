@@ -1,6 +1,6 @@
 import { Component, Input, ViewChildren } from '@angular/core';
 
-import { BillStore } from '../../../core/bill/bill-store';
+import { BillStore } from 'app/services/bill/bill-store';
 
 
 @Component({

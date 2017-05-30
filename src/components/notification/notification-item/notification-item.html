@@ -2,8 +2,8 @@
   <div [ngSwitch]="model.type">
     <div *ngSwitchCase="'clientAdded'">
       <h3>
-        <strong><u>{{ getOwnerAlias(model?.owner) }}</u></strong>
-        dodał klienta 
+        <strong><u>{{ getAdminAlias(model?.admin) }}</u></strong>
+        dodał klienta
         <strong>{{ model?.client?.name }} {{ model?.client?.lastname }}</strong>
       </h3>
       <p><small><i title="Wydarzenie z {{ model?.descDate }}">{{ model?.fromNow }}</i></small></p>
@@ -11,36 +11,36 @@
 
     <div *ngSwitchCase="'clientRemoved'">
       <h3>
-        <strong *ngIf="model?.owner"><u>{{ getOwnerAlias(model?.owner) }}</u></strong>
-        usunął klienta 
+        <strong *ngIf="model?.admin"><u>{{ getAdminAlias(model?.admin) }}</u></strong>
+        usunął klienta
         <strong>{{ model?.client?.name }} {{ model?.client?.lastname }}</strong>
       </h3>
       <p><small><i title="Wydarzenie z {{ model?.descDate }}">{{ model?.fromNow }}</i></small></p>
     </div>
 
     <div *ngSwitchCase="'workoutAdded'">
-      <h3 *ngIf="model?.owner">
-        <strong><u>{{ getOwnerAlias(model?.owner) }}</u></strong>
-        dodał trening 
+      <h3 *ngIf="model?.admin">
+        <strong><u>{{ getAdminAlias(model?.admin) }}</u></strong>
+        dodał trening
         <strong (click)="goToClientDetail(clientStore.getItem(model?.workout?.client))">{{ clientStore.getItem(model?.workout?.client)?.name }} {{ clientStore.getItem(model?.workout?.client)?.lastname }} &bull; {{ model?.workout?.date }} {{ model?.workout?.timeStart }} &bull; {{ placeStore.getItem(model?.workout?.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
       </h3>
-      <h3 *ngIf="!model?.owner">
+      <h3 *ngIf="!model?.admin">
         <strong (click)="goToClientDetail(clientStore.getItem(model?.client))">{{ clientStore.getItem(model?.client)?.name }} {{ clientStore.getItem(model?.client)?.lastname }}</strong>
-        zarezerwował/a trening 
+        zarezerwował/a trening
         <strong>{{ model?.workout?.date }} {{ model?.workout?.timeStart }} &bull; {{ placeStore.getItem(model?.workout?.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
       </h3>
       <p><small><i title="Wydarzenie z {{ model?.descDate }}">{{ model?.fromNow }}</i></small></p>
     </div>
 
     <div *ngSwitchCase="'workoutRemoved'">
-      <h3 *ngIf="model?.owner">
-        <strong><u>{{ getOwnerAlias(model?.owner) }}</u></strong>
-        usunął trening 
+      <h3 *ngIf="model?.admin">
+        <strong><u>{{ getAdminAlias(model?.admin) }}</u></strong>
+        usunął trening
         <strong (click)="goToClientDetail(clientStore.getItem(model?.workout?.client))">{{ clientStore.getItem(model?.workout?.client)?.name }} {{ clientStore.getItem(model?.workout?.client)?.lastname }} &bull; {{ model?.workout?.date }} {{ model?.workout?.timeStart }} &bull; {{ placeStore.getItem(model?.workout?.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
       </h3>
-      <h3 *ngIf="!model?.owner">
+      <h3 *ngIf="!model?.admin">
         <strong (click)="goToClientDetail(clientStore.getItem(model?.client))">{{ clientStore.getItem(model?.client)?.name }} {{ clientStore.getItem(model?.client)?.lastname }}</strong>
-        odwołał/a trening 
+        odwołał/a trening
         <strong>{{ model?.workout?.date }} {{ model?.workout?.timeStart }} &bull; {{ placeStore.getItem(model?.workout?.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
       </h3>
       <p><small><i title="Wydarzenie z {{ model?.descDate }}">{{ model?.fromNow }}</i></small></p>
@@ -49,7 +49,7 @@
     <div *ngSwitchCase="'workoutRejected'">
       <h3>
         <strong (click)="goToClientDetail(clientStore.getItem(model?.client))">{{ clientStore.getItem(model?.client)?.name }} {{ clientStore.getItem(model?.client)?.lastname }}</strong>
-        nie będzie obecny/a na treningu 
+        nie będzie obecny/a na treningu
         <strong>{{ model?.workout?.date }} {{ model?.workout?.timeStart }} &bull; {{ placeStore.getItem(model?.workout?.place)?.title }} &bull; {{ trainerStore.getItem(model?.workout.trainer)?.alias }}</strong>
         z powodu <i>"{{ model?.reason }}"</i>
       </h3>

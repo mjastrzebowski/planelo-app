@@ -1,39 +1,45 @@
-import { Component, Input } from '@angular/core';
-import { NavParams, ViewController } from 'ionic-angular';
+import { Component, Input, Renderer } from '@angular/core';
 
-import { IClient } from '../../../core/client/client';
+import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 
+import { Utils } from 'app/providers/utils';
+
+import { ClientStore } from 'app/services/client/client-store';
+
+@IonicPage({
+  name: 'clients/create',
+  segment: 'clients/create'
+})
 @Component({
   templateUrl: 'client-create.html'
 })
 export class ClientCreateModal {
-  @Input() client: IClient;
-  editing: boolean = false;
+  @Input() model: any;
 
   constructor(
     private params: NavParams,
-    private viewCtrl: ViewController
-  ) {}
+    private viewCtrl: ViewController,
+    private renderer: Renderer,
+    private utils: Utils,
+    private clientStore: ClientStore
+  ) {
+    this.renderer.setElementClass(this.viewCtrl.pageRef().nativeElement, 'my-popup', true);
+  }
 
   ngOnInit(): void {
-    if (this.params.data.hasOwnProperty('key')) {
-      this.editing = true;
-      this.client = this.params.data;
-    } else {
-      this.client = {};
-    }
+    this.model = this.clientStore.getItem(this.params.data);
   }
 
   save(): void {
-    this.viewCtrl.dismiss(this.client);
+    this.utils.showLoading('Zapisywanie klienta...');
+    this.clientStore.create(this.model).then(() => {
+      this.utils.stopLoading();
+      this.utils.showMessage('Klient dodany.');
+      this.dismiss();
+    });
   }
 
   dismiss(): void {
     this.viewCtrl.dismiss();
-  }
-
-  delete(): void {
-    this.client.delete = true;
-    this.viewCtrl.dismiss(this.client);
   }
 }

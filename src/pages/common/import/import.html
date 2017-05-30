@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button icon-only menuToggle="left">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Import danych</ion-title>
+
+    <ion-buttons end>
+      <notification-counter></notification-counter>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="import-page">
+  <ion-list>
+    <form #form="ngForm" novalidate>
+      <ion-item>
+        <ion-label floating>Model danych</ion-label>
+        <ion-select [(ngModel)]="model" name="model">
+          <ion-option *ngFor="let model of models" [value]="model">{{ model }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Dane do importu</ion-label>
+        <ion-textarea [(ngModel)]="import.db" name="db" #db="ngModel" required></ion-textarea>
+      </ion-item>
+
+      <ion-row responsive-sm>
+        <ion-col>
+          <button ion-button (click)="save(form)" type="submit" color="primary" block>Import</button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-list>
+</ion-content>

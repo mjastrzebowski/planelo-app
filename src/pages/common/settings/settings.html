@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button icon-only menuToggle="left">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Ustawienia</ion-title>
+
+    <ion-buttons end>
+      <notification-counter></notification-counter>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="settings-page">
+  <ion-list>
+    <form #form="ngForm" novalidate>
+      <ion-item>
+        <ion-label floating primary>Użytkownik</ion-label>
+        <ion-input [(ngModel)]="settings.email" name="email" type="email" #email="ngModel" required readonly>
+        </ion-input>
+      </ion-item>
+      <p [hidden]="email.valid || submitted == false" danger padding-left>
+        Nazwa użytkownika jest wymagana
+      </p>
+
+      <ion-item>
+        <ion-label floating primary>Obecne hasło</ion-label>
+        <ion-input [(ngModel)]="settings.oldPassword" name="oldPassword" type="password" #oldPassword="ngModel" required>
+        </ion-input>
+      </ion-item>
+      <p [hidden]="oldPassword.valid || submitted == false" danger padding-left>
+        Obecne hasło jest wymagane
+      </p>
+
+      <ion-item>
+        <ion-label floating primary>Nowe hasło</ion-label>
+        <ion-input [(ngModel)]="settings.newPassword" name="newPassword" type="password" #newPassword="ngModel" required>
+        </ion-input>
+      </ion-item>
+      <p [hidden]="newPassword.valid || submitted == false" danger padding-left>
+        Nowe hasło jest wymagane
+      </p>
+
+      <ion-row responsive-sm>
+        <ion-col>
+          <button ion-button (click)="changePassword(form)" type="submit" color="primary" block>Zapisz</button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-list>
+</ion-content>

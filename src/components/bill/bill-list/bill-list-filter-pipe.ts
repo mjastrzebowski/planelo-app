@@ -1,12 +1,11 @@
 import { Pipe, PipeTransform, ChangeDetectionStrategy } from '@angular/core';
 
-import { IBill } from '../../../core/bill/bill';
+import { IBill } from 'app/services/bill/bill';
 
 
 @Pipe({
   name: 'filterBills',
-  pure: false,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  pure: false
 })
 export class BillListFilterPipe implements PipeTransform {
   transform(list: IBill[], filter?: any, limit?: any): IBill[] {

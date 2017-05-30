@@ -1,6 +1,6 @@
 import { Component, Input, ViewChildren } from '@angular/core';
 
-import { NotificationStore } from '../../../core/notification/notification-store';
+import { NotificationStore } from 'app/services/notification/notification-store';
 
 @Component({
   selector: 'notification-list',
@@ -10,6 +10,8 @@ export class NotificationList {
   @Input() filter: any;
   @Input() limit: any;
   @ViewChildren('notifications') notifications: any;
+  isMore: boolean;
+  baseLimit: number;
 
   constructor(
     public notificationStore: NotificationStore

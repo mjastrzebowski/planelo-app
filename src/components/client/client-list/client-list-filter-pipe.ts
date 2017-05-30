@@ -1,12 +1,11 @@
 import { Pipe, PipeTransform, ChangeDetectionStrategy } from '@angular/core';
 
-import { IClient } from '../../../core/client/client';
+import { IClient } from 'app/services/client/client';
 
 
 @Pipe({
   name: 'filterClients',
-  pure: false,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  pure: false
 })
 export class ClientListFilterPipe implements PipeTransform {
   transform(list: IClient[], filter?: any, limit?: any): IClient[] {

@@ -1,33 +1,192 @@
-.menu-userbar .toolbar-content {
-  padding-left: 1em;
-  h1 {
-    font-size: 2.2rem;
-    font-weight: 400;
-    margin-bottom: 0;
+// .menu-userbar .toolbar-content {
+//   padding-left: 1em;
+//   h1 {
+//     font-size: 2.2rem;
+//     font-weight: 400;
+//     margin-bottom: 0;
+//   }
+//   h2 {
+//     font-size: 1rem;
+//     font-weight: 200;
+//     text-transform: uppercase;
+//     margin-bottom: -0.5em;
+//   }
+// }
+// .content-md {
+//   background-color: $outer-content-md-background-color;
+// }
+// .list-header-md {
+//   color: $list-ios-header-color;
+//   background-color: $list-ios-header-background-color;
+// }
+
+// .split-pane-visible > .split-pane-side {
+//   order: 0;
+// }
+
+// .ion-page .header {
+//   color: #fff;
+//   .toolbar-background {
+//     background: color($colors, ego-red);
+//   }
+// }
+
+.box-page {
+  background: url('/assets/img/appbg.jpg') center center;
+  .box-overlay {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    padding-top: 20px;
   }
-  h2 {
-    font-size: 1rem;
-    font-weight: 200;
-    text-transform: uppercase;
-    margin-bottom: -0.5em;
+  .box {
+    background: #fff;
+    border-radius: 8px;
   }
 }
 
+.box-page .logo {
+  padding: 20px 0;
+  min-height: 200px;
+  text-align: center;
+}
 
-@media (min-width: $grid-responsive-lg-break) {
-  .logged-owner-not {
-    ion-menu {
-      transform: translateX(0) !important;
+.box-page .logo img {
+  max-width: 150px;
+}
+
+
+ion-modal.my-popup-unused {
+  @media (min-height: 500px) {
+    ion-backdrop {
+      visibility: visible;
+    }
+  }
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $z-index-overlay;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  contain: strict;
+  .modal-wrapper {
+    &,
+    .ion-page,
+    .ion-page .content,
+    .ion-page .content .scroll-content {
+      contain: content;
+      position: relative;
+      top: auto;
+      left: auto;
+    }
+
+    z-index: $z-index-overlay-wrapper;
+    display: flex;
+    overflow: hidden;
+
+    flex-direction: column;
+
+    // min-width: $alert-min-width;
+    // max-height: $alert-max-height;
+
+    opacity: 0;
+
+    height: auto;
+    max-width: $alert-md-max-width;
+    border-radius: $alert-md-border-radius;
+    background-color: $alert-md-background-color;
+    box-shadow: $alert-md-box-shadow;
+
+    .ion-page .content {
+      background-color: color($colors, light);
+    }
+  }
+}
+
+[center-col] {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: breakpoint-min(sm)/2;
+}
+
+@media screen and (max-width: breakpoint-min(sm)) {
+  .hidden-sm {
+    display: none !important;
+  }
+}
+@media screen and (max-width: breakpoint-min(md)) {
+  .hidden-md {
+    display: none !important;
+  }
+}
+@media screen and (max-width: breakpoint-min(lg)) {
+  .hidden-lg {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: breakpoint-min(lg)) {
+  .hidden-above-lg {
+    display: none !important;
+  }
+  // disable sliding options on desktop
+  ion-item-sliding {
+    &.active-slide .item {
+      transform: none !important;
+    }
+    ion-item-options {
+      display: none !important;
+    }
+  }
+  .logged {
+    ion-menu#menuLeft {
+      display: block !important;
+      right: auto !important;
+      width: 310px !important;
+      > .menu-inner {
+        transform: translateX(0) !important;
+      }
       > ion-backdrop {
         display: none !important;
       }
     }
     ion-nav {
-      left: 300px;
-      width: calc(100% - 300px);
+      left: 304px;
+      width: calc(100% - 304px);
     }
     button [menutoggle], .bar-button-menutoggle {
       display: none;
+    }
+    .notification-button {
+      display: block !important;
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .logged {
+    ion-menu#menuRight {
+      display: block !important;
+      left: auto !important;
+      right: 0 !important;
+      width: 310px !important;
+      > .menu-inner {
+        transform: translateX(0) !important;
+      }
+      > ion-backdrop {
+        display: none !important;
+      }
+    }
+    ion-nav {
+      left: 304px;
+      width: calc(100% - 608px);
     }
   }
 }

@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ trainer?.title }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="trainer-detail">
+  <ion-list>
+    <button ion-item (click)="showTrainerProfile(trainer)">
+      <ion-icon name="contact" item-left></ion-icon>
+      Profil
+    </button>
+
+    <ion-item large>
+      <ion-icon name="clipboard" item-left></ion-icon>
+      <h2>Treningi</h2>
+      <p>• zrobione: {{ trainingsDone?.size }}
+        <small *ngIf="trainingsDoneLast"> (ostatni: <i>
+          {{ trainingsDoneLast?.dateTime }},
+          {{ placeStore.getItem(trainingsDoneLast.place)?.title }},
+          {{ clientStore.getItem(trainingsDoneLast.client)?.name }} {{ clientStore.getItem(trainingsDoneLast.client)?.lastname }})
+      </i></small></p>
+      <p>• zaplanowane: {{ trainingsTodo?.size }}
+        <small *ngIf="trainingsTodoNext"> (następny: <i>
+          {{ trainingsTodoNext?.dateTime }},
+          {{ placeStore.getItem(trainingsTodoNext.place)?.title }},
+          {{ clientStore.getItem(trainingsTodoNext.client)?.name }} {{ clientStore.getItem(trainingsTodoNext.client)?.lastname }})
+      </i></small></p>
+    </ion-item>
+
+    <button ion-item (click)="showTrainerHours(trainer)">
+      <ion-icon name="clock" item-left></ion-icon>
+      <h2>Godziny pracy</h2>
+      <p *ngFor="let day of trainer.days">
+        <span *ngIf="day"> •
+          <small>{{ utils.weekdays[day[0].day] }}: </small>
+          <span *ngFor="let hour of day">{{ hour.start }}-{{ hour.end }}, </span>
+        </span>
+      </p>
+      <p *ngIf="!trainer.days.length">
+        • brak ustalonych godzin pracy
+      </p>
+    </button>
+
+    <button ion-item (click)="showTrainerVacation(trainer)">
+      <ion-icon name="calendar" item-left></ion-icon>
+      <h2>Zaplanowane urlopy</h2>
+      <p *ngFor="let vacation of trainer.vacation">
+        • od {{ vacation?.dateStart }} do {{ vacation?.dateEnd }}
+      </p>
+      <p *ngIf="!trainer.vacation">
+        • brak planowanych urlopów
+      </p>
+    </button>
+
+    <button ion-item disabled>
+      <ion-icon name="key" item-left></ion-icon>
+      Dostęp
+      <ion-note item-right>
+        <span>aktywny</span>
+        <!-- <span *ngIf="trainer.active">aktywny</span>
+        <span *ngIf="!trainer.active">nieaktywny</span> -->
+      </ion-note>
+    </button>
+  </ion-list>
+</ion-content>

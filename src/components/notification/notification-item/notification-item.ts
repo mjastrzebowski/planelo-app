@@ -1,15 +1,16 @@
 import { Component, Input, Pipe } from '@angular/core';
+import * as moment from 'moment';
 
 import { App } from 'ionic-angular';
 
-import { INotification } from '../../../core/notification/notification';
-import { NotificationStore } from '../../../core/notification/notification-store';
+import { INotification } from 'app/services/notification/notification';
+import { NotificationStore } from 'app/services/notification/notification-store';
 
-import { PlaceStore } from '../../../core/place/place-store';
-import { ClientStore } from '../../../core/client/client-store';
-import { TrainerStore } from '../../../core/trainer/trainer-store';
+import { PlaceStore } from 'app/services/place/place-store';
+import { ClientStore } from 'app/services/client/client-store';
+import { TrainerStore } from 'app/services/trainer/trainer-store';
 
-import { ClientDetailPage } from '../../../pages/client/client-detail/client-detail';
+import { ClientDetailPage } from 'app/pages/admin/client/client-detail/client-detail';
 
 
 @Component({
@@ -18,6 +19,7 @@ import { ClientDetailPage } from '../../../pages/client/client-detail/client-det
 })
 export class NotificationItem {
   @Input() model: INotification;
+  nav: any;
 
   constructor(
     private app: App,
@@ -32,16 +34,16 @@ export class NotificationItem {
     this.model.fromNow = created.fromNow();
     this.model.descDate = created.format('DD.MM.YYYY, HH:mm');
 
-    let read = localStorage.getItem('notification-counter-read');
+    let read = parseInt(localStorage.getItem('notification-counter-read'));
     this.model.unread = (this.model.createdAt > read);
   }
 
   delete(): void {
-    this.notificationStore.removeNotification(this.model);
+    this.notificationStore.delete(this.model.id);
   }
 
   // TEMP solution!
-  getOwnerAlias(key): string {
+  getAdminAlias(key): string {
     switch (key) {
       case '-KBN-b7GjsB6FS8Opmx0':
       case '-KNSsNzm8WH_t_lwASAz': {

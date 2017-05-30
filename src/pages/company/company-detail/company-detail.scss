@@ -1,0 +1,102 @@
+.detail-page {
+  .detail-header {
+    padding: 90px 0 10px;
+    img {
+      margin-left: -75px;
+      width: 150px;
+      height: 150px;
+      border: 4px solid #eee;
+      border-radius: 50%;
+      display: block;
+      position: absolute;
+      top: 10px;
+      left: 50%;
+    }
+    h2 {
+      padding: 70px 20px 20px;
+      font-size: 32px;
+    }
+    h4 {
+      margin-top: -20px;
+      padding-bottom: 10px;
+      color: #aaa;
+      text-transform: uppercase;
+    }
+  }
+
+  ion-card ion-card-header h3 {
+    text-transform: uppercase;
+  }
+  ion-card.button-card ion-card-header {
+    padding: 10% 0;
+    i {
+      font-size: 2em;
+      padding-bottom: .5em;
+    }
+  }
+
+  ion-segment-button.segment-button {
+    padding-top: .5em;
+    height: 7rem;
+    line-height: 3em;
+    h3 {
+      font-size: 1em;
+      margin: 0;
+    }
+  }
+
+  ion-card.list-card {
+    ion-scroll {
+      height: 200px;
+    }
+    ion-card-header {
+      h3, i.fa, ion-icon {
+        color: white;
+      }
+    }
+    &.card-places ion-card-header {
+      background-color: color($colors, card-green);
+    }
+    &.card-employees ion-card-header {
+      background-color: color($colors, card-darkblue);
+    }
+    &.card-clients ion-card-header {
+      background-color: color($colors, card-orange);
+    }
+    &.card-sessions ion-card-header {
+      background-color: color($colors, card-blue);
+    }
+    ion-item, .common-item {
+      border-bottom: 1px solid #eee;
+    }
+  }
+
+  ion-grid ion-card.list-card {
+    margin-bottom: 30px;
+  }
+}
+
+@media screen and (min-width: breakpoint-min(md)) {
+  .detail-page {
+    .detail-header {
+      padding: 50px 0 30px 100px;
+      img {
+        margin: -25px 0 0 -90px;
+        top: auto;
+        left: auto;
+      }
+      h2 {
+        padding: 10px 40px 20px 60px;
+      }
+    }
+    .card-places ion-scroll {
+      height: 100px;
+    }
+    .card-employees ion-scroll {
+      height: 200px;
+    }
+    .card-clients ion-scroll {
+      height: 385px;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Treningi</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showTrainingForm()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <notification-counter></notification-counter>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="trainings">
+  <div padding *ngIf="placeStore.list.size">
+    <ion-segment [(ngModel)]="place" (ionChange)="onPlaceChanged()">
+      <ion-segment-button *ngFor="let place of placeStore.list" [value]="place.id">{{ place?.name }}</ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div id="calendar"></div>
+</ion-content>

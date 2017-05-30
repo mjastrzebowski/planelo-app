@@ -1,12 +1,11 @@
 import { Pipe, PipeTransform, ChangeDetectionStrategy } from '@angular/core';
 
-import { INotification } from '../../../core/notification/notification';
+import { INotification } from 'app/services/notification/notification';
 
 
 @Pipe({
   name: 'filterNotifications',
-  pure: false,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  pure: false
 })
 export class NotificationListFilterPipe implements PipeTransform {
   transform(list: INotification[], filter?: any, limit?: any): INotification[] {

@@ -2,10 +2,10 @@ import { Component, Input } from '@angular/core';
 
 import { App } from 'ionic-angular';
 
-import { IClient } from '../../../core/client/client';
-import { ClientStore } from '../../../core/client/client-store';
+import { IClient } from 'app/services/client/client';
+import { ClientStore } from 'app/services/client/client-store';
 
-import { ClientDetailPage } from '../../../pages/client/client-detail/client-detail';
+import { ClientDetailPage } from 'app/pages/admin/client/client-detail/client-detail';
 
 
 @Component({
@@ -14,6 +14,7 @@ import { ClientDetailPage } from '../../../pages/client/client-detail/client-det
 })
 export class ClientItem {
   @Input() model: IClient;
+  nav: any;
 
   constructor(
     private app: App,

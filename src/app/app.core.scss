@@ -1,6 +1,5 @@
 // http://ionicframework.com/docs/v2/theming/
 
-
 // App Shared Imports
 // --------------------------------------------------
 // These are the various page imports which make up this app.
@@ -9,20 +8,30 @@
 
 @import "./app.scss";
 
-@import "../components/notification/notification-item/notification-item";
-@import "../components/notification/notification-counter/notification-counter";
+// components
+@import "../components/admin/exercise-category/exercise-category-item/exercise-category-item";
 @import "../components/bill/bill-list/bill-list";
 @import "../components/bill/bill-item/bill-item";
+@import "../components/notification/notification-item/notification-item";
+@import "../components/notification/notification-counter/notification-counter";
 
-@import "../pages/about/about";
-@import "../pages/login/login";
+// pages - common
+// @import "../pages/common/about/about";
+@import "../pages/common/import/import";
 
-@import "../pages/client/client-detail/client-detail";
+@import "../pages/company/company-detail/company-detail";
 
-@import "../pages/training/training";
-@import "../pages/training/training-list/training-list";
-@import "../pages/training/training-scheduler/training-scheduler";
-@import "../pages/training/training-detail/training-detail";
-@import "../pages/training/training-history/training-history";
-@import "../pages/training/training-create/training-create";
-@import "../pages/training/training-reserve/training-reserve";
+// pages - admin
+@import "../pages/admin/client/client-detail/client-detail";
+@import "../pages/admin/trainer/trainer-detail-hours/trainer-detail-hours";
+@import "../pages/admin/training/training";
+@import "../pages/admin/training/training-scheduler/training-scheduler";
+@import "../pages/admin/training/training-detail/training-detail";
+@import "../pages/admin/training/training-history/training-history";
+@import "../pages/admin/training/training-create/training-create";
+
+// pages - trainer
+
+// pages - client
+// @import "../pages/client/training/training-list/training-list";
+// @import "../pages/client/training/training-reserve/training-reserve";

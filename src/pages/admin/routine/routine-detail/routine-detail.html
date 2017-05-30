@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Plan treningowy</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showDetailCreate()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <notification-counter></notification-counter>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div ego-header padding>
+    <h1> {{ model?.name }} </h1>
+    <p style="white-space: pre-line"> {{ model?.description }} </p>
+  </div>
+
+  <ion-card *ngFor="let day of model.days; let d = index">
+    <ion-card-header> Dzień {{ d+1 }} </ion-card-header>
+    <ion-card-content>
+      <div *ngFor="let workout of day.workouts">
+        <ion-card-title> {{ workout?.workout?.name }} </ion-card-title>
+        <div *ngFor="let group of workout.workout.groups">
+          {{ group?.type?.name }}
+          <div *ngFor="let exercise of group.exercises">
+            {{ exercise?.exercise?.name }}
+            <div *ngFor="let set of exercise.sets">
+              x {{ set?.reps }} x {{ set?.volume }} kg
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+
+<!--     <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small>
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div>12 Likes</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-left clear small>
+          <ion-icon name="text"></ion-icon>
+          <div>4 Comments</div>
+        </button>
+      </ion-col>
+      <ion-col center text-center>
+        <ion-note>
+          11h ago
+        </ion-note>
+      </ion-col>
+    </ion-row> -->
+  </ion-card>
+
+</ion-content>

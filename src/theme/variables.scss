@@ -13,7 +13,6 @@
 $text-color:        #000;
 $background-color:  #fff;
 
-
 // Named Color Variables
 // --------------------------------------------------
 // Named colors makes it easy to reuse colors on various components.
@@ -29,29 +28,14 @@ $colors: (
   light:      #f4f4f4,
   dark:       #222,
   favorite:   #69BB7B,
-  energized:  #ffc527
+  energized:  #ffc527,
+  ego-red:    #e61c1c,
+  card-violet:   #8e24aa,
+  card-green:    #37989c,
+  card-orange:   #da7a14,
+  card-blue:     #00acc1,
+  card-darkblue: #14124A
 );
-
-
-// App iOS Variables
-// --------------------------------------------------
-// iOS only Sass variables can go here
-
-
-
-
-// App Material Design Variables
-// --------------------------------------------------
-// Material Design only Sass variables can go here
-
-
-
-
-// App Windows Variables
-// --------------------------------------------------
-// Windows only Sass variables can go here
-
-
 
 
 // App Theme
@@ -64,10 +48,54 @@ $colors: (
 @import "ionic.theme.default";
 
 
+// @font-face {
+//   font-family: 'Lato';
+//   font-style: normal;
+//   font-weight: 400;
+//   src: local('Lato'), url(../../assets/fonts/Lato-Regular.ttf) format('truetype');
+// }
+// @font-face {
+//   font-family: 'Lato';
+//   font-style: italic;
+//   font-weight: 400;
+//   src: local('Lato'), url(../../assets/fonts/Lato-Italic.ttf) format('truetype');
+// }
+// @font-face {
+//   font-family: 'Lato';
+//   font-style: normal;
+//   font-weight: 700;
+//   src: local('Lato'), url(../../assets/fonts/Lato-Bold.ttf) format('truetype');
+// }
+// $font-family-base: 'Lato', sans-serif;
+// $font-family-md-base: $font-family-base;
+// $font-family-wp-base: $font-family-base;
+
+
+// App iOS Variables
+// --------------------------------------------------
+// iOS only Sass variables can go here
+
+
+
+
+// App Material Design Variables
+// --------------------------------------------------
+// Material Design only Sass variables can go here
+// $outer-content-md-background-color: #efeff4;
+
+
+
+// App Windows Variables
+// --------------------------------------------------
+// Windows only Sass variables can go here
+
+
+
+
 // Ionicons
 // --------------------------------------------------
 // The premium icon font for Ionic. For more info, please see:
 // http://ionicframework.com/docs/v2/ionicons/
 
 $ionicons-font-path: "../assets/fonts";
-@import "ionicons";
+@import "ionic.ionicons";

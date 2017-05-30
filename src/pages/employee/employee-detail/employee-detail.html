@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Pracownik</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="detail-page employee-detail">
+  <div class="detail-header">
+    <img src="http://www.egobody.pl/wp-content/uploads/2017/02/TreningPersonalny-150x150.jpg">
+    <ion-card text-center>
+      <h2> {{ model?.name }} </h2>
+      <h4> Pracownik </h4>
+    </ion-card>
+  </div>
+
+  <ion-card class="list-card card-sessions">
+    <ion-card-header ion-item>
+      <i item-left class="fa fa-handshake-o"></i>
+      <h3>Spotkania</h3>
+      <button item-right ion-button icon-only clear (click)="showPlaceCreate()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-card-header>
+    <ion-card-content no-padding>
+      <ion-scroll scrollY="true">
+        <common-item-list class="place-list" [data]="placeStore.get()" [store]="placeStore"></common-item-list>
+      </ion-scroll>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

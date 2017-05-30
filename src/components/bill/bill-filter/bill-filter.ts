@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import { ClientStore } from '../../../core/client/client-store';
-import { PlaceStore } from '../../../core/place/place-store';
+import { ClientStore } from 'app/services/client/client-store';
+import { PlaceStore } from 'app/services/place/place-store';
 
 
 @Component({
@@ -13,7 +13,7 @@ export class BillFilter {
   @Input() limit: any;
 
   constructor(
-    public clientStore: ClientStore, 
+    public clientStore: ClientStore,
     public placeStore: PlaceStore
   ) {}
 }

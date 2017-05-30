@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Klienci</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showClientCreate()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <notification-counter></notification-counter>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="client-list">
+  <ion-searchbar color="primary" [(ngModel)]="filter" placeholder="Szukaj"></ion-searchbar>
+  <client-list class="clients" [filter]="filter"></client-list>
+</ion-content>

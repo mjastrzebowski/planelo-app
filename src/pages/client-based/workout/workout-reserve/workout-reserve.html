@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Rezerwacja treningu</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span color="primary" showWhen="ios">Zamknij</span>
+        <ion-icon name="close" hideWhen="ios"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="has-header">
+  <form #form="ngForm" novalidate>
+    <ion-list>
+      <ion-item-group *ngFor="let w of getAvailableHours()">
+        <ion-item-divider sticky>{{ w.descDate }}</ion-item-divider>
+        <ion-item *ngFor="let hour of w.hours" (click)="selectHour(hour)">
+          <h3>{{ hour.timeStart }} - {{ hour.timeEnd }}</h3>
+          <button ion-button color="favorite" item-right>{{ hour.trainers.length }} dostępne</button>
+        </ion-item>
+      </ion-item-group>
+    </ion-list>
+
+    <ion-row responsive-sm>
+      <ion-col>
+        <button ion-button color="light" block (click)="dismiss()">Anuluj</button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
