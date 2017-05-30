@@ -23,7 +23,7 @@ export class IBill {
 
 export class Bill implements IBill {
   completed: boolean = false;
-  createdAt: number = firebase.database['ServerValue']['TIMESTAMP'];
+  createdAt: number; // = firebase.database['ServerValue']['TIMESTAMP'];
   client: string;
   month: string;
   discount: number;

@@ -19,7 +19,7 @@ export interface PageInterface {
 @Component({
   templateUrl: 'app.template.html'
 })
-export class DavidApp {
+export class PlaneloApp {
   // the root nav is a child of the root app component
   // @ViewChild(Nav) gets a reference to the app's root nav
   @ViewChild(Nav) nav: Nav;
@@ -60,7 +60,9 @@ export class DavidApp {
     private utils: Utils,
     public menu: MenuController,
     public auth: AuthService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.utils.showLoading('Uruchamianie aplikacji...');
     this.auth.subscribe((authenticated: boolean) => {
       this.authenticated = authenticated;

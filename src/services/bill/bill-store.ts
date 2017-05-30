@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+// import { AngularFire, FirebaseListObservable } from 'angularfire2';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -12,27 +12,27 @@ import { FIREBASE_BILLS_URL } from 'app/config';
 export class BillStore {
   private loaded: boolean = false;
   private emitter: EventEmitter<any> = new EventEmitter();
-  public bills: FirebaseListObservable<IBill[]>;
+  public bills: any; // FirebaseListObservable<IBill[]>;
   public list: List<any> = List();
 
   constructor(
-    private af: AngularFire
+    // private af: AngularFire
   ) {
-    this.bills = this.af.database.list('cal_bills', {
-      query: {
-        orderByChild: 'month'
-      }
-    });
-    this.bills.subscribe(list => {
-      this.list = List(list);
-      this.list.forEach(item => {
-        item.key = item.$key;
-        item.clientKey = item.client;
-      });
+    // this.bills = this.af.database.list('cal_bills', {
+    //   query: {
+    //     orderByChild: 'month'
+    //   }
+    // });
+    // this.bills.subscribe(list => {
+    //   this.list = List(list);
+    //   this.list.forEach(item => {
+    //     item.key = item.$key;
+    //     item.clientKey = item.client;
+    //   });
 
-      this.loaded = true;
-      this.emit();
-    });
+    //   this.loaded = true;
+    //   this.emit();
+    // });
   }
 
   createBill(client: string, month: string, discount?: number) {

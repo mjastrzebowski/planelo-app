@@ -42,13 +42,9 @@ var rollupConfig = {
     commonjs({
       include: [
         'node_modules/rxjs/**',
-        'node_modules/immutable/dist/**',
-        'node_modules/firebase/**',
-        'node_modules/angularfire2/**'
+        'node_modules/immutable/dist/**'
       ],
       namedExports: {
-        'node_modules/firebase/firebase.js': ['initializeApp', 'auth', 'database'],
-        'node_modules/angularfire2/node_modules/firebase/firebase-browser.js': ['initializeApp', 'auth', 'database'],
         'node_modules/immutable/dist/immutable.js': ["Iterable", "Seq", "Collection", "Map", "OrderedMap", "List", "Stack", "Set", "OrderedSet", "Record", "Range", "Repeat", "is", "fromJS"]
       }
     }),

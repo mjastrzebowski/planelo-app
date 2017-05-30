@@ -9,7 +9,7 @@ export class IUser {
 
 export class User implements IUser {
   completed: boolean = false;
-  createdAt: number = firebase.database['ServerValue']['TIMESTAMP'];
+  createdAt: number; // = firebase.database['ServerValue']['TIMESTAMP'];
   key: string;
   type: string;
 
