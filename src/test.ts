@@ -12,10 +12,10 @@ import { getTestBed, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
 // Ionic Components:
-import { App, Config, Form, IonicModule, Keyboard, DomController, MenuController, NavController, Platform } from 'ionic-angular';
+import { App, Config, Form, IonicModule, Keyboard, DomController, MenuController, ViewController, NavController, Platform } from 'ionic-angular';
 
 // Ionic Mocks:
-import { AppMock, ConfigMock, FormMock, KeyboardMock, MenuController, NavController, Platform } from 'ionic-mocks';
+import { AppMock, ConfigMock, FormMock, KeyboardMock, MenuControllerMock, ViewControllerMock, NavControllerMock, PlatformMock } from 'ionic-mocks';
 
 // Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
 declare var __karma__: any;

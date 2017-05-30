@@ -1,5 +1,5 @@
 <ion-item-sliding>
-  <button ion-item class="common-item" (click)="goToDetail(model.id)" [hidden]="model.hide">
+  <button ion-item class="common-item" (click)="goToDetail(model.id)" [hidden]="model?.hide">
     <h3>{{ model?.name }}</h3>
 
     <button ion-button item-right icon-left clear color="danger" class="hidden-sm" small (click)="delete($event)">

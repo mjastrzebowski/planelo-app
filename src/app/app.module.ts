@@ -3,12 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { FIREBASE_PROVIDERS } from 'angularfire2';
-
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { DavidApp } from './app.component';
-
-import { FirebaseModule } from '../firebase-module';
+import { PlaneloApp } from './app.component';
 
 import { Utils } from 'app/providers/utils';
 
@@ -158,25 +154,23 @@ let services = [
 
 @NgModule({
   declarations: [
-    DavidApp,
+    PlaneloApp,
   ],
   imports: [
     BrowserModule,
     HttpModule,
     FormsModule,
-    FirebaseModule,
     ComponentsModule,
-    IonicModule.forRoot(DavidApp)
+    IonicModule.forRoot(PlaneloApp)
   ],
   bootstrap: [
     IonicApp
   ],
   entryComponents: [
-    DavidApp
+    PlaneloApp
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    FIREBASE_PROVIDERS,
     services
   ]
 })

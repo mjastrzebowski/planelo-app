@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+// import { AngularFire, FirebaseListObservable } from 'angularfire2';
 
 import { List } from 'immutable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -12,30 +12,30 @@ import { FIREBASE_USERS_URL } from 'app/config';
 export class UserStore {
   private loaded: boolean = false;
   private emitter: EventEmitter<any> = new EventEmitter();
-  public users: FirebaseListObservable<IUser[]>;
+  public users: any; // FirebaseListObservable<IUser[]>;
   public list: List<any> = List();
 
   constructor(
-    private af: AngularFire
+    // private af: AngularFire
   ) {
-    this.users = this.af.database.list('users', {
-      query: {
-        orderByChild: 'lastname'
-      }
-    });
-    this.users.subscribe(list => {
-      this.list = List(list);
-      this.list.forEach(item => {
-        item.id = item.$key;
-      });
+    // this.users = this.af.database.list('users', {
+    //   query: {
+    //     orderByChild: 'lastname'
+    //   }
+    // });
+    // this.users.subscribe(list => {
+    //   this.list = List(list);
+    //   this.list.forEach(item => {
+    //     item.id = item.$key;
+    //   });
 
-      this.loaded = true;
-      this.emit();
-    });
+    //   this.loaded = true;
+    //   this.emit();
+    // });
   }
 
   createUser(id: string, key: string, type: string) {
-    debugger;
+    // debugger;
     // return this.users.$ref.child(id).set(new User(key, type));
   }
 

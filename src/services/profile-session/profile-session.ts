@@ -28,7 +28,7 @@ export class IProfileSession {
 
 export class ProfileSession implements IProfileSession {
   completed: any = false;
-  createdAt: number = firebase.database['ServerValue']['TIMESTAMP'];
+  createdAt: number; // = firebase.database['ServerValue']['TIMESTAMP'];
   place: string;
   trainer: string;
   client: string;

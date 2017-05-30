@@ -9,7 +9,7 @@ export class IPlace {
 
 export class Place implements IPlace {
   completed: boolean = false;
-  createdAt: number = firebase.database['ServerValue']['TIMESTAMP'];
+  createdAt: number; // = firebase.database['ServerValue']['TIMESTAMP'];
   id: number;
   name: string;
 

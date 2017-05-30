@@ -10,6 +10,7 @@
   "config": {
     "ionic_copy": "./config/copy.config.js",
     "ionic_webpack": "./config/webpack.config.js",
+    "ionic_watch": "./config/watch.config.js",
     "ionic_experimental_manual_treeshaking": true,
     "ionic_experimental_purge_decorators": true
   },
@@ -33,7 +34,6 @@
     "@angular/platform-server": "4.1.2",
     "@ionic-native/core": "3.6.1",
     "@ionic/storage": "2.0.1",
-    "angularfire2": "^2.0.0-beta.6",
     "event-stream": "^3.3.4",
     "firebase": "^3.5.0",
     "immutable": "~3.8.1",
