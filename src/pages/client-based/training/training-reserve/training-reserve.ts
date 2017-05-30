@@ -135,11 +135,7 @@ export class TrainingReserveModal {
               let thisDate = new Date(date);
               let thisDay = thisDate.getDate();
 
-<<<<<<< HEAD:src/pages/training/training-reserve/training-reserve.ts
-              if (!this.auth.isOwner && trainer.vacation &&
-=======
               if (!this.auth.isAdmin && trainer.vacation &&
->>>>>>> live:src/pages/client-based/training/training-reserve/training-reserve.ts
                 !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04') &&
                 !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-14')) {
 
@@ -177,11 +173,7 @@ export class TrainingReserveModal {
               }
 
               let d = thisDate.getDay() - 1;
-<<<<<<< HEAD:src/pages/training/training-reserve/training-reserve.ts
-              if (this.auth.isOwner || (trainer.hours[d] && trainer.hours[d][hour.timeStart] &&
-=======
               if (this.auth.isAdmin || (trainer.hours[d] && trainer.hours[d][hour.timeStart] &&
->>>>>>> live:src/pages/client-based/training/training-reserve/training-reserve.ts
                 !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-02-04' &&
                   (time === '16:00' || time === '17:00' || time === '18:00' || time === '19:00' || time === '20:00')) &&
                 !(trainer.key === '-KGHHXLT2oypqidXcL2T' && date === '2017-01-21' &&
