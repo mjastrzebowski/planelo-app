@@ -1,7 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
-import { BaseStore } from 'app/services/_base/base-store';
-import { BaseStream } from 'app/services/_base/base-stream';
+import { BaseStore, BaseStream } from 'app/services/_base';
 
 import { IEmployeeHour, EmployeeHour } from './employee-hour';
 import { EmployeeHourService } from './employee-hour-service';

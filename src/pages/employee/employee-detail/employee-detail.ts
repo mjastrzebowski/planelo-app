@@ -4,10 +4,7 @@ import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
 
-import { EmployeeStore } from 'app/services/employee/employee-store';
-
-import { ClientStore } from 'app/services/client/client-store';
-import { PlaceStore } from 'app/services/place/place-store';
+import { ClientStore, EmployeeStore, PlaceStore } from 'app/services';
 
 @IonicPage({
   name: 'employee',

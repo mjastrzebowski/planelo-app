@@ -1,5 +1,5 @@
 export * from './_base';
-export * from './api/api-service';
+export * from './api';
 export * from './auth';
 
 export * from './activity';

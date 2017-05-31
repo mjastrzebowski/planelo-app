@@ -1,14 +1,13 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
-import { BaseStore } from 'app/services/_base/base-store';
-import { BaseStream } from 'app/services/_base/base-stream';
+import { BaseStore, BaseStream } from 'app/services/_base';
 
 import { IEmployee, Employee } from './employee';
 import { EmployeeService } from './employee-service';
 
-import { AuthStore } from 'app/services/auth/auth-store';
+import { AuthStore } from 'app/services/auth';
 
-import { EmployeeHourStore } from 'app/services/employee-hour/employee-hour-store';
+import { EmployeeHourStore } from 'app/services/employee-hour';
 // import { CompanyStore } from 'app/services/company/company-store';
 
 @Injectable()
