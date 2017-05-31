@@ -6,3 +6,7 @@ export class UtilsMock {
 export class AuthServiceMock {
   public subscribe(): any { return {} };
 }
+
+export class BaseStore {
+
+}

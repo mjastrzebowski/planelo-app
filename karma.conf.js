@@ -28,6 +28,10 @@ module.exports = function (config) {
         lcovonly: './coverage/coverage.lcov'
       }
     },
+    coverageIstanbulReporter: {
+      reports: [ 'html', 'lcovonly' ],
+      fixWebpackSourcePaths: true
+    },
     angularCli: {
       config: './angular-cli.json',
       environment: 'dev'
