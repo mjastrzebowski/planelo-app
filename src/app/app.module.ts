@@ -6,22 +6,16 @@ import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { PlaneloApp } from './app.component';
 
-import { Utils } from 'app/providers/utils';
-
 // modules
 import { ComponentsModule } from 'app/components/components.module';
+
+// providers
+import { Utils } from 'app/providers/utils';
 
 // services
 import * as allServices from 'app/services';
 
-// providers
-// import { USER_PROVIDERS } from 'app/services/user/providers';
-// import { PLACE_PROVIDERS } from 'app/services/place/providers';
-// import { TRAINER_PROVIDERS } from 'app/services/trainer/providers';
-// import { WORKOUT_PROVIDERS } from 'app/services/workout/providers';
-// import { BILL_PROVIDERS } from 'app/services/bill/providers';
-
-let services = Object.keys(allServices).map(key => {
+export let services = Object.keys(allServices).map(key => {
   allServices[key].key = key;
   return allServices[key];
 });
