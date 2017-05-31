@@ -3,19 +3,19 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { BaseStore } from 'app/services/_base/base-store';
 import { BaseStream } from 'app/services/_base/base-stream';
 
-import { IHour, Hour } from './hour';
-import { HourService } from './hour-service';
+import { IEmployeeHour, EmployeeHour } from './employee-hour';
+import { EmployeeHourService } from './employee-hour-service';
 
 @Injectable()
-export class HourStore extends BaseStore {
+export class EmployeeHourStore extends BaseStore {
   filter = { filter: { order: ['day', 'start'] }};
 
   constructor(
-    private hourService: HourService,
+    private employeeHourService: EmployeeHourService,
     private baseStream: BaseStream
   ) {
-    super(hourService, baseStream);
-    this.model = 'WorkingHour';
+    super(employeeHourService, baseStream);
+    this.model = 'EmployeeHour';
     this.init();
   }
 

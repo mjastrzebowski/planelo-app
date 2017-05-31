@@ -47,10 +47,10 @@ import { NotificationListFilterPipe } from 'app/components/notification/notifica
 // import { TrainerList } from 'app/components/trainer/trainer-list/trainer-list';
 // import { TrainerListFilterPipe } from 'app/components/trainer/trainer-list/trainer-list-filter-pipe';
 
-// import { WorkoutItem } from 'app/components/workout/workout-item/workout-item';
-// import { WorkoutList } from 'app/components/workout/workout-list/workout-list';
-// import { WorkoutListGroupPipe } from 'app/components/workout/workout-list/workout-list-group-pipe';
-// import { WorkoutListFilterPipe } from 'app/components/workout/workout-list/workout-list-filter-pipe';
+import { WorkoutItem } from 'app/components/common/workout-item-list/workout-item';
+import { WorkoutList } from 'app/components/common/workout-item-list/workout-list';
+import { WorkoutListGroupPipe } from 'app/components/common/workout-item-list/workout-list-group';
+import { WorkoutListFilterPipe } from 'app/components/common/workout-item-list/workout-list-filter';
 
 
 let components = [
@@ -90,10 +90,10 @@ let components = [
   // TrainerItem,
   // TrainerList,
   // TrainerListFilterPipe,
-  // WorkoutItem,
-  // WorkoutList,
-  // WorkoutListGroupPipe,
-  // WorkoutListFilterPipe,
+  WorkoutItem,
+  WorkoutList,
+  WorkoutListGroupPipe,
+  WorkoutListFilterPipe,
   // GroupHoursPipe
 ];
 

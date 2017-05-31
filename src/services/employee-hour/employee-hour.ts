@@ -1,4 +1,4 @@
-export class IHour {
+export class IEmployeeHour {
   id: number;
   day?: any;
   start?: any;
@@ -7,7 +7,7 @@ export class IHour {
 }
 
 
-export class Hour implements IHour {
+export class EmployeeHour implements IEmployeeHour {
   id: number;
   profileId: number
 
