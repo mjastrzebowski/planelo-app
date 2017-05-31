@@ -4,8 +4,8 @@ import { Api } from 'app/services/api/api-service';
 import { BaseService } from 'app/services/_base/base-service';
 
 @Injectable()
-export class HourService extends BaseService {
-  action = 'working-hours';
+export class EmployeeHourService extends BaseService {
+  action = 'employee-hours';
 
   constructor(public api: Api) {
     super(api);

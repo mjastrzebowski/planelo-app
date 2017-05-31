@@ -37,4 +37,12 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <div>
+    <workout-list [workouts]="profileSessionStore.getByClient(model?.id)" [changeDate]="changeDate"></workout-list>
+
+    <ion-buttons padding>
+      <button ion-button color="primary" block type="submit" (click)="showTrainingReserveForm()">Dodaj trening</button>
+    </ion-buttons>
+  </div>
 </ion-content>

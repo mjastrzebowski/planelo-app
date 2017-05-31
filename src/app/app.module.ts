@@ -22,6 +22,7 @@ import { ActivityTypeService } from 'app/services/activity-type/activity-type-se
 import { ClientService } from 'app/services/client/client-service';
 import { CompanyService } from 'app/services/company/company-service';
 import { EmployeeService } from 'app/services/employee/employee-service';
+import { EmployeeHourService } from 'app/services/employee-hour/employee-hour-service';
 import { EquipmentService } from 'app/services/equipment/equipment-service';
 import { ExerciseService } from 'app/services/exercise/exercise-service';
 import { ExerciseCategoryService } from 'app/services/exercise-category/exercise-category-service';
@@ -29,7 +30,6 @@ import { ExerciseCommentService } from 'app/services/exercise-comment/exercise-c
 import { ExerciseEquipmentService } from 'app/services/exercise-equipment/exercise-equipment-service';
 import { ExerciseImageService } from 'app/services/exercise-image/exercise-image-service';
 import { ExerciseMuscleService } from 'app/services/exercise-muscle/exercise-muscle-service';
-import { HourService } from 'app/services/hour/hour-service';
 import { MuscleService } from 'app/services/muscle/muscle-service';
 import { NotificationService } from 'app/services/notification/notification-service';
 import { PlaceService } from 'app/services/place/place-service';
@@ -53,6 +53,7 @@ import { BillStore } from 'app/services/bill/bill-store';
 import { ClientStore } from 'app/services/client/client-store';
 import { CompanyStore } from 'app/services/company/company-store';
 import { EmployeeStore } from 'app/services/employee/employee-store';
+import { EmployeeHourStore } from 'app/services/employee-hour/employee-hour-store';
 import { EquipmentStore } from 'app/services/equipment/equipment-store';
 import { ExerciseStore } from 'app/services/exercise/exercise-store';
 import { ExerciseCategoryStore } from 'app/services/exercise-category/exercise-category-store';
@@ -60,7 +61,6 @@ import { ExerciseCommentStore } from 'app/services/exercise-comment/exercise-com
 import { ExerciseEquipmentStore } from 'app/services/exercise-equipment/exercise-equipment-store';
 import { ExerciseImageStore } from 'app/services/exercise-image/exercise-image-store';
 import { ExerciseMuscleStore } from 'app/services/exercise-muscle/exercise-muscle-store';
-import { HourStore } from 'app/services/hour/hour-store';
 import { MuscleStore } from 'app/services/muscle/muscle-store';
 import { NotificationStore } from 'app/services/notification/notification-store';
 import { PlaceStore } from 'app/services/place/place-store';
@@ -96,6 +96,7 @@ let services = [
   ClientService,
   CompanyService,
   EmployeeService,
+  EmployeeHourService,
   EquipmentService,
   ExerciseService,
   ExerciseCategoryService,
@@ -103,7 +104,6 @@ let services = [
   ExerciseEquipmentService,
   ExerciseImageService,
   ExerciseMuscleService,
-  HourService,
   MuscleService,
   NotificationService,
   PlaceService,
@@ -126,6 +126,7 @@ let services = [
   ClientStore,
   CompanyStore,
   EmployeeStore,
+  EmployeeHourStore,
   EquipmentStore,
   ExerciseStore,
   ExerciseCategoryStore,
@@ -133,7 +134,6 @@ let services = [
   ExerciseEquipmentStore,
   ExerciseImageStore,
   ExerciseMuscleStore,
-  HourStore,
   MuscleStore,
   NotificationStore,
   PlaceStore,

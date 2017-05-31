@@ -8,7 +8,7 @@ import { BaseStream } from 'app/services/_base/base-stream';
 import { ITrainer, Trainer } from './trainer';
 import { AuthService } from 'app/services/auth/auth-service';
 
-import { HourStore } from 'app/services/hour/hour-store';
+import { EmployeeHourStore } from 'app/services/employee-hour/employee-hour-store';
 
 @Injectable()
 export class TrainerStore extends BaseStore {
@@ -16,21 +16,21 @@ export class TrainerStore extends BaseStore {
 
   constructor(
     private auth: AuthService,
-    private hourStore: HourStore,
+    private employeeHourStore: EmployeeHourStore,
     private baseStream: BaseStream
   ) {
     super(auth, baseStream);
     this.model = 'Profile';
     this.init();
 
-    this.hourStore.subscribe(this.refresh.bind(this));
+    this.employeeHourStore.subscribe(this.refresh.bind(this));
   }
 
   convertItem(item: any) {
     item = super.convertItem(item);
     item.title = item.name + ' ' + item.lastname;
     item.days = [];
-    item.hours = this.hourStore.filterBy({ profileId: item.id });
+    item.hours = this.employeeHourStore.filterBy({ profileId: item.id });
     item.hours.forEach(hour => {
       if (!item.days.hasOwnProperty(hour.day)) {
         item.days[hour.day] = [];
@@ -64,11 +64,11 @@ export class TrainerStore extends BaseStore {
             return;
           }
           if (hour.create) {
-            this.hourStore.create(hour);
+            this.employeeHourStore.create(hour);
           } else if (hour.delete) {
-            this.hourStore.delete(hour.id);
+            this.employeeHourStore.delete(hour.id);
           } else if (hour.update) {
-            this.hourStore.update(hour.id, hour);
+            this.employeeHourStore.update(hour.id, hour);
           }
         });
       });

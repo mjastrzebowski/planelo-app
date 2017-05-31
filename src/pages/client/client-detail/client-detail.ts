@@ -7,6 +7,7 @@ import { Utils } from 'app/providers/utils';
 import { ClientStore } from 'app/services/client/client-store';
 
 import { PlaceStore } from 'app/services/place/place-store';
+import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
 
 @IonicPage({
   name: 'client',
@@ -51,7 +52,8 @@ export class ClientDetailPage {
     private viewCtrl: ViewController,
     private utils: Utils,
     private clientStore: ClientStore,
-    private placeStore: PlaceStore
+    private placeStore: PlaceStore,
+    public profileSessionStore: ProfileSessionStore
   ) {}
 
   ngOnInit(): void {
