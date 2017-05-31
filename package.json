@@ -19,7 +19,7 @@
     "clean": "ionic-app-scripts clean",
     "minify": "ionic-app-scripts minify",
     "ionic:build": "ionic-app-scripts build --target prod --wwwDir public_html && ionic-app-scripts minify --target prod --wwwDir public_html",
-    "ionic:serve": "ionic-app-scripts serve -b",
+    "ionic:serve": "ionic-app-scripts serve",
     "test": "ng test"
   },
   "dependencies": {

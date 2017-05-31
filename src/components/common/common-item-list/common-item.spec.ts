@@ -17,13 +17,14 @@ let de: DebugElement;
 let el: HTMLElement;
 
 let modelStub;
+let storeStub;
 
-describe('Component: CommonItem Component', () => {
+describe('Component: CommonItem', () => {
   beforeEach(async(() => {
     modelStub = {
       id: 1,
       name: 'Test name',
-      hide: true
+      hide: null
     };
 
     TestBed.configureTestingModule({
@@ -41,7 +42,7 @@ describe('Component: CommonItem Component', () => {
     comp = fixture.componentInstance;
     comp.model = modelStub;
     fixture.detectChanges();
-    de = fixture.debugElement.query(By.css('h3'));
+    de = fixture.debugElement.query(By.css('button'));
     el = de.nativeElement;
   });
 
@@ -57,15 +58,61 @@ describe('Component: CommonItem Component', () => {
     expect(comp).toBeTruthy();
   });
 
-  it('should show model name', () => {
-    let content = el.textContent;
-    expect(content).toContain('Test name');
+  describe('element', function () {
+    it('should be visible by default', () => {
+      expect(el.hidden).toBeFalsy();
+    });
+
+    it('should be hidden when filtered', () => {
+      modelStub.hide = true;
+      fixture.detectChanges();
+      expect(el.hidden).toBeTruthy();
+    });
+
+    it('should show model name', () => {
+      de = de.query(By.css('h3'));
+      el = de.nativeElement;
+      let content = el.textContent;
+      expect(content).toContain('Test name');
+    });
+
+    it('should show "test"', () => {
+      modelStub.name = 'test';
+      fixture.detectChanges();
+      de = de.query(By.css('h3'));
+      el = de.nativeElement;
+      let content = el.textContent;
+      expect(content).toContain("test");
+    });
+
+    it('should call goToDetail() method when has been clicked', () => {
+      const spy = spyOn(comp, 'goToDetail');
+      de.triggerEventHandler('click', null);
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call goToDetail() method with item id on click', () => {
+      const spy = spyOn(comp, 'goToDetail');
+      de.triggerEventHandler('click', null);
+      expect(spy).toHaveBeenCalledWith(1);
+    });
   });
 
-  it('should show "test"', () => {
-    modelStub.name = 'test';
-    fixture.detectChanges();
-    let content = el.textContent;
-    expect(content).toContain("test");
+  describe('behaviour', function() {
+    beforeEach(() => {
+      modelStub.store = storeStub;
+    });
+
+    xit('should call goToDetail() method when has been clicked', () => {
+      const spy = spyOn(comp, 'goToDetail');
+      de.triggerEventHandler('click', null);
+      expect(spy).toHaveBeenCalled();
+    });
+
+    xit('should call goToDetail() method with item id on click', () => {
+      const spy = spyOn(comp, 'goToDetail');
+      de.triggerEventHandler('click', null);
+      expect(spy).toHaveBeenCalledWith(1);
+    });
   });
 });
