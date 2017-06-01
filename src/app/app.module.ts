@@ -18,16 +18,10 @@ import { EmployeeDetailHoursPage } from 'app/pages/employee/employee-detail-hour
 // services
 import * as allServices from 'app/services';
 
-export let services = [];
-Object.keys(allServices).forEach(key => {
-  services[key] = allServices[key];
+export let services = Object.keys(allServices).map(key => {
+  allServices[key].key = key;
+  return allServices[key];
 });
-
-// not compatible with AoT
-// export let services: [] = Object.keys(allServices).map(key => {
-//   allServices[key].key = key;
-//   return allServices[key];
-// });
 
 
 @NgModule({
