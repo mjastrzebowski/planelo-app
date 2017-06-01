@@ -30,20 +30,7 @@
       </button>
     </ion-card-header>
     <ion-card-content no-padding>
-      <ion-list>
-        <ion-item>
-          <span item-left>Imię i nazwisko</span>
-          <span item-right>{{ model?.name }}</span>
-        </ion-item>
-        <ion-item>
-          <span item-left>Adres e-mail</span>
-          <span item-right>{{ model?.email }}</span>
-        </ion-item>
-        <ion-item>
-          <span item-left>Imię i nazwisko</span>
-          <span item-right>{{ model?.name }}</span>
-        </ion-item>
-      </ion-list>
+      <employee-detail-hours></employee-detail-hours>
     </ion-card-content>
   </ion-card>
 
@@ -73,15 +60,7 @@
     <button ion-item (click)="showHours(model?.id)">
       <ion-icon name="clock" item-left></ion-icon>
       <h2>Godziny pracy</h2>
-      <p *ngFor="let day of model?.days">
-        <span *ngIf="day"> •
-          <small>{{ utils.weekdays[day[0].day] }}: </small>
-          <span *ngFor="let hour of day">{{ hour.start }}-{{ hour.end }}, </span>
-        </span>
-      </p>
-      <p *ngIf="!model?.days?.length">
-        • brak ustalonych godzin pracy
-      </p>
+
     </button>
 
     <button ion-item (click)="showVacation(trainer)">

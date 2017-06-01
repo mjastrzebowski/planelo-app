@@ -12,9 +12,10 @@ import { getTestBed, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { App, Config, Form, IonicModule, Keyboard, DomController, MenuController, NavController, Platform } from 'ionic-angular';
 
-import { ConfigMock, PlatformMock } from './mocks';
+import { ConfigMock, PlatformMock, UtilsMock } from './mocks';
 // import { ClickersServiceMock } from './services/clickers.mock';
-// import { ClickersService } from './services';
+// import { Utils } from './services';
+import { Utils } from 'app/providers/utils';
 
 // Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
 declare var __karma__: any;
@@ -63,7 +64,7 @@ export class TestUtils {
         App, Form, Keyboard, DomController, MenuController, NavController,
         { provide: Platform, useClass: PlatformMock },
         { provide: Config, useClass: ConfigMock },
-        // { provide: ClickersService, useClass: ClickersServiceMock },
+        { provide: Utils, useClass: UtilsMock },
       ],
       imports: [
         FormsModule,
