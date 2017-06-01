@@ -22,7 +22,7 @@
   </div>
 
   <ion-list>
-    <button ion-item (click)="showTrainerProfile(trainer)">
+    <button ion-item (click)="showProfile()">
       <ion-icon name="contact" item-left></ion-icon>
       Profil
     </button>
@@ -44,7 +44,7 @@
       </i></small></p>
     </ion-item>
 
-    <button ion-item (click)="showTrainerHours(model)">
+    <button ion-item (click)="showHours(model?.id)">
       <ion-icon name="clock" item-left></ion-icon>
       <h2>Godziny pracy</h2>
       <p *ngFor="let day of model?.days">
@@ -58,7 +58,7 @@
       </p>
     </button>
 
-    <button ion-item (click)="showTrainerVacation(trainer)">
+    <button ion-item (click)="showVacation(trainer)">
       <ion-icon name="calendar" item-left></ion-icon>
       <h2>Zaplanowane urlopy</h2>
       <p *ngFor="let vacation of trainer?.vacation">

@@ -44,4 +44,33 @@ export class EmployeeStore extends BaseStore {
     });
     return item;
   }
+
+
+  updateHours(employeeId: number, days: any) {
+    return new Promise((resolve, reject) => {
+      days.forEach(day => {
+        if (!day) {
+          return;
+        }
+        day.forEach(hour => {
+          if (!hour.start || !hour.end) {
+            return;
+          }
+          if (hour.create) {
+            this.employeeHourStore.create(hour);
+          } else if (hour.delete) {
+            this.employeeHourStore.delete(hour.id);
+          } else if (hour.update) {
+            this.employeeHourStore.update(hour.id, hour);
+          }
+        });
+      });
+      resolve();
+      // }, (error) => {
+      //   reject(error);
+      // });
+    });
+    // this.deleteHours(employeeId).then(() => {
+    // });
+  }
 }
