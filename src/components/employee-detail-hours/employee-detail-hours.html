@@ -1,0 +1,9 @@
+<p *ngFor="let day of model?.days">
+  <span *ngIf="day"> •
+    <small>{{ utils.weekdays[day[0].day] }}: </small>
+    <span *ngFor="let hour of day">{{ hour.start }}-{{ hour.end }}, </span>
+  </span>
+</p>
+<p *ngIf="!model?.days?.length">
+  • brak ustalonych godzin pracy
+</p>
