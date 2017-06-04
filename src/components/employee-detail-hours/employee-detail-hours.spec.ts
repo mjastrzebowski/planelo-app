@@ -23,6 +23,9 @@ describe('Component: EmployeeDetailHours', function () {
   });
 
   it('is created', () => {
+    expect(fixture).toBeTruthy();
     expect(instance).toBeTruthy();
   });
+
+
 });
