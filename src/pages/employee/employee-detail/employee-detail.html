@@ -22,16 +22,7 @@
   </div>
 
   <ion-card class="card-employee-detail-profile">
-    <ion-card-header ion-item>
-      <i item-left class="fa fa-clock-o"></i>
-      <h3>Godziny pracy</h3>
-      <button item-right ion-button icon-only clear (click)="editHours()">
-        <i item-left class="fa fa-pencil"></i>
-      </button>
-    </ion-card-header>
-    <ion-card-content no-padding>
-      <employee-detail-hours [model]="model"></employee-detail-hours>
-    </ion-card-content>
+    <employee-detail-hours [model]="model"></employee-detail-hours>
   </ion-card>
 
   <ion-list>

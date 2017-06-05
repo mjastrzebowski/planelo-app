@@ -166,6 +166,20 @@ export class AppMock {
   }
 }
 
+export class ModalMock {
+  public create(): any {
+    let rtn: Object = {};
+    rtn['present'] = (() => true);
+    return rtn;
+  }
+
+  public dismiss(): Promise<{}> {
+    return new Promise(function(resolve: Function): void {
+      resolve();
+    });
+  }
+}
+
 export class UtilsMock {
   public showLoading(): any { return {} };
   public stopLoading(): any { return {} };

@@ -1,9 +1,24 @@
-<p *ngFor="let day of model?.days">
-  <span *ngIf="day"> •
-    <small>{{ utils.weekdays[day[0].day] }}: </small>
-    <span *ngFor="let hour of day">{{ hour.start }}-{{ hour.end }}, </span>
-  </span>
-</p>
-<p *ngIf="!model?.days?.length">
-  • brak ustalonych godzin pracy
-</p>
+<ion-card-header ion-item>
+  <i item-left class="fa fa-clock-o"></i>
+  <h3>Godziny pracy</h3>
+  <button item-right ion-button icon-only clear (click)="editHours()">
+    <i item-left class="fa fa-pencil"></i>
+  </button>
+</ion-card-header>
+
+<ion-card-content no-padding>
+  <ion-list *ngIf="model?.days?.length">
+    <span *ngFor="let day of model?.days">
+      <ion-item *ngIf="day"> •
+        {{ utils.weekdays[day[0].day] }}:
+        <ion-note item-end>
+          <span *ngFor="let hour of day">{{ hour.start }}-{{ hour.end }}, </span>
+        </ion-note>
+      </ion-item>
+    </span>
+  </ion-list>
+
+  <p *ngIf="!model?.days?.length">
+    • brak ustalonych godzin pracy
+  </p>
+</ion-card-content>

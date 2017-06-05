@@ -10,9 +10,9 @@ import 'zone.js/dist/fake-async-test';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { getTestBed, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-import { App, Config, Form, IonicModule, Keyboard, DomController, MenuController, NavController, Platform } from 'ionic-angular';
+import { App, Config, Form, IonicModule, Keyboard, DomController, MenuController, NavController, AlertController, ModalController, DeepLinker, Platform } from 'ionic-angular';
 
-import { ConfigMock, PlatformMock, UtilsMock } from './mocks';
+import { ConfigMock, PlatformMock, AlertMock, ModalMock, UtilsMock } from './mocks';
 // import { ClickersServiceMock } from './services/clickers.mock';
 // import { Utils } from './services';
 import { Utils } from 'app/providers/utils';
@@ -64,6 +64,8 @@ export class TestUtils {
         App, Form, Keyboard, DomController, MenuController, NavController,
         { provide: Platform, useClass: PlatformMock },
         { provide: Config, useClass: ConfigMock },
+        { provide: AlertController, useClass: AlertMock },
+        { provide: ModalController, useClass: ModalMock },
         { provide: Utils, useClass: UtilsMock },
       ],
       imports: [

@@ -1,12 +1,10 @@
 import { Component, Input } from '@angular/core';
 
-import { IonicPage, NavParams, ViewController, ModalController } from 'ionic-angular';
+import { IonicPage, NavParams } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
 
 import { ClientStore, EmployeeStore, PlaceStore } from 'app/services';
-
-import { EmployeeDetailHoursPage } from '../employee-detail-hours/employee-detail-hours';
 
 @IonicPage({
   name: 'employee',
@@ -24,8 +22,6 @@ export class EmployeeDetailPage {
 
   constructor(
     private params: NavParams,
-    private viewCtrl: ViewController,
-    private modalCtrl: ModalController,
     private utils: Utils,
     private employeeStore: EmployeeStore,
     private clientStore: ClientStore,
@@ -47,9 +43,5 @@ export class EmployeeDetailPage {
     if (this.sub) {
       this.sub.unsubscribe();
     }
-  }
-
-  showHours(): void {
-    this.modalCtrl.create(EmployeeDetailHoursPage, this.model).present();
   }
 }
