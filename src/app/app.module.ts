@@ -12,9 +12,11 @@ import { ComponentsModule } from 'app/components/components.module';
 // providers
 import { Utils } from 'app/providers/utils';
 
+// modal pages
+import { EmployeeDetailHoursPage } from 'app/pages/employee/employee-detail-hours/employee-detail-hours';
+
 // services
 import * as allServices from 'app/services';
-
 export let services = Object.keys(allServices).map(key => {
   allServices[key].key = key;
   return allServices[key];
@@ -24,6 +26,7 @@ export let services = Object.keys(allServices).map(key => {
 @NgModule({
   declarations: [
     PlaneloApp,
+    EmployeeDetailHoursPage
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ export let services = Object.keys(allServices).map(key => {
     IonicApp
   ],
   entryComponents: [
-    PlaneloApp
+    PlaneloApp,
+    EmployeeDetailHoursPage
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },

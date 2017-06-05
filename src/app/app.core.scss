@@ -9,29 +9,9 @@
 @import "./app.scss";
 
 // components
-@import "../components/admin/exercise-category/exercise-category-item/exercise-category-item";
-@import "../components/bill/bill-list/bill-list";
-@import "../components/bill/bill-item/bill-item";
 @import "../components/notification/notification-item/notification-item";
 @import "../components/notification/notification-counter/notification-counter";
 
-// pages - common
-// @import "../pages/common/about/about";
+// pages
 @import "../pages/common/import/import";
-
 @import "../pages/company/company-detail/company-detail";
-
-// pages - admin
-@import "../pages/admin/client/client-detail/client-detail";
-@import "../pages/admin/trainer/trainer-detail-hours/trainer-detail-hours";
-@import "../pages/admin/training/training";
-@import "../pages/admin/training/training-scheduler/training-scheduler";
-@import "../pages/admin/training/training-detail/training-detail";
-@import "../pages/admin/training/training-history/training-history";
-@import "../pages/admin/training/training-create/training-create";
-
-// pages - trainer
-
-// pages - client
-// @import "../pages/client/training/training-list/training-list";
-// @import "../pages/client/training/training-reserve/training-reserve";

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { IonicPage, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavParams } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
 
@@ -22,7 +22,6 @@ export class EmployeeDetailPage {
 
   constructor(
     private params: NavParams,
-    private viewCtrl: ViewController,
     private utils: Utils,
     private employeeStore: EmployeeStore,
     private clientStore: ClientStore,
@@ -30,7 +29,7 @@ export class EmployeeDetailPage {
   ) {}
 
   ngOnInit(): void {
-    this.utils.showLoading('Ładowanie firm...');
+    this.utils.showLoading('Ładowanie pracownika...');
     this.sub = this.employeeStore.subscribe(loaded => {
       if (!loaded) {
         return;

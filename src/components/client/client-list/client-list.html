@@ -1,7 +1,0 @@
-<ion-list class="client-list">
-  <client-item #clients [model]="client" *ngFor="let client of clientStore.get() | filterClients:filter:limit"></client-item>
-
-  <ion-list-header *ngIf="isEmpty()">
-    Nie znaleziono klientów
-  </ion-list-header>
-</ion-list>

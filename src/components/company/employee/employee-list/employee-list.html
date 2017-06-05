@@ -1,7 +1,0 @@
-<ion-list class="employee-list">
-  <employee-item #items [model]="employee" *ngFor="let employee of employeeStore.get() | filterEmployees:filter:limit"></employee-item>
-
-  <ion-list-header *ngIf="isEmpty()">
-    Nie znaleziono
-  </ion-list-header>
-</ion-list>
