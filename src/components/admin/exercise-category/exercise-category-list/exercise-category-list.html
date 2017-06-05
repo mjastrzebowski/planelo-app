@@ -1,7 +1,0 @@
-<ion-list class="exercise-category-list">
-  <exercise-category-item #exerciseCategories [model]="exerciseCategory" [filter]="filter" *ngFor="let exerciseCategory of exerciseCategoryStore.get()"></exercise-category-item>
-
-  <ion-list-header *ngIf="isEmpty()">
-    Nie znaleziono kategorii ćwiczeń
-  </ion-list-header>
-</ion-list>

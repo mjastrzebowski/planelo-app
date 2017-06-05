@@ -10,7 +10,7 @@ import { PlaceStore } from 'app/services/place/place-store';
 import { ClientStore } from 'app/services/client/client-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
 
-import { ClientDetailPage } from 'app/pages/admin/client/client-detail/client-detail';
+// import { ClientDetailPage } from 'app/pages/admin/client/client-detail/client-detail';
 
 
 @Component({
@@ -60,6 +60,6 @@ export class NotificationItem {
 
   goToClientDetail(client): void {
     this.nav = this.app.getActiveNav();
-    this.nav.push(ClientDetailPage, client);
+    // this.nav.push(ClientDetailPage, client);
   }
 }

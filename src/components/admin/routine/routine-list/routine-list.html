@@ -1,7 +1,0 @@
-<ion-list class="routine-list">
-  <routine-item #routines [model]="routine" *ngFor="let routine of routineStore.get() | filterRoutines:filter:limit"></routine-item>
-
-  <ion-list-header *ngIf="isEmpty()">
-    Nie znaleziono planów treningowych
-  </ion-list-header>
-</ion-list>

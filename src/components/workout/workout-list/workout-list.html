@@ -1,6 +1,0 @@
-<ion-list class="workout-list">
-  <div *ngFor="let workout of workouts | groupWorkouts">
-    <ion-item-divider light *ngIf="workout.nextMonth" (click)="showMonth(workout.monthId)" [hidden]="workout.fixed || workout.timeStart == '' || workout.date == '2099-12-31'">{{ workout?.month }}</ion-item-divider>
-    <workout-item [model]="workout" [changeDate]="changeDate"></workout-item>
-  </div>
-</ion-list>

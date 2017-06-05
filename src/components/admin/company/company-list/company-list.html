@@ -1,7 +1,0 @@
-<ion-list class="company-list">
-  <company-item #companies [model]="company" *ngFor="let company of companyStore.get() | filterCompanies:filter:limit"></company-item>
-
-  <ion-list-header *ngIf="isEmpty()">
-    Nie znaleziono firm
-  </ion-list-header>
-</ion-list>
