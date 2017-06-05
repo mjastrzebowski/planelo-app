@@ -12,8 +12,12 @@ import { ComponentsModule } from 'app/components/components.module';
 // providers
 import { Utils } from 'app/providers/utils';
 
-// modal pages
-import { EmployeeDetailHoursPage } from 'app/pages/employee/employee-detail-hours/employee-detail-hours';
+// modal only pages
+import * as allPages from 'app/pages';
+export let modalPages = Object.keys(allPages).map(key => {
+  allPages[key].key = key;
+  return allPages[key];
+});
 
 // services
 import * as allServices from 'app/services';
@@ -26,7 +30,7 @@ export let services = Object.keys(allServices).map(key => {
 @NgModule({
   declarations: [
     PlaneloApp,
-    EmployeeDetailHoursPage
+    modalPages
   ],
   imports: [
     BrowserModule,
@@ -40,7 +44,7 @@ export let services = Object.keys(allServices).map(key => {
   ],
   entryComponents: [
     PlaneloApp,
-    EmployeeDetailHoursPage
+    modalPages
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },

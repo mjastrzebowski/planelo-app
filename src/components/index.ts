@@ -1,5 +1,6 @@
 export * from './common';
 export * from './employee-detail-hours/employee-detail-hours';
+export * from './employee-detail-vacations/employee-detail-vacations';
 
 export * from './notification/notification-item/notification-item';
 export * from './notification/notification-list/notification-list';

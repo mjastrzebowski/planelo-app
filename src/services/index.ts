@@ -8,6 +8,7 @@ export * from './client';
 export * from './company';
 export * from './employee';
 export * from './employee-hour';
+export * from './employee-vacation';
 export * from './equipment';
 export * from './exercise';
 export * from './exercise-category';

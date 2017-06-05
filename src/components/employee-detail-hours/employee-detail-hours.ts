@@ -17,7 +17,7 @@ export class EmployeeDetailHours {
     private utils: Utils
   ) {}
 
-  editHours(): void {
+  edit(): void {
     this.modalCtrl.create(EmployeeDetailHoursPage, this.model).present();
   }
 }

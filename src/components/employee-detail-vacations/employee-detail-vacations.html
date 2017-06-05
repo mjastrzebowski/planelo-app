@@ -1,0 +1,22 @@
+<ion-card-header ion-item>
+  <i item-left class="fa fa-calendar-times-o"></i>
+  <h3>Zaplanowane urlopy</h3>
+  <button item-right ion-button icon-only clear (click)="edit()">
+    <i item-left class="fa fa-pencil"></i>
+  </button>
+</ion-card-header>
+
+<ion-card-content no-padding>
+  <ion-list *ngIf="model?.vacations?.size">
+    <ion-item *ngFor="let vacation of model?.vacations">
+      {{ vacation?.start | date }} - {{ vacation?.end | date }}
+      <ion-note item-end>
+        {{ vacation?.reason }}
+      </ion-note>
+    </ion-item>
+  </ion-list>
+
+  <p *ngIf="!model?.vacations?.size">
+    Brak zaplanowanych urlopów
+  </p>
+</ion-card-content>

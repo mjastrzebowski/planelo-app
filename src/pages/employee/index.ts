@@ -1,2 +1,2 @@
-export * from './employee-create';
-export * from './employee-detail';
+export * from './employee-detail-hours';
+export * from './employee-detail-vacations';

@@ -8,6 +8,7 @@ import { EmployeeService } from './employee-service';
 import { AuthStore } from 'app/services/auth';
 
 import { EmployeeHourStore } from 'app/services/employee-hour';
+import { EmployeeVacationStore } from 'app/services/employee-vacation';
 // import { CompanyStore } from 'app/services/company/company-store';
 
 @Injectable()
@@ -16,7 +17,8 @@ export class EmployeeStore extends BaseStore {
     private employeeService: EmployeeService,
     private baseStream: BaseStream,
     private authStore: AuthStore,
-    private employeeHourStore: EmployeeHourStore
+    private employeeHourStore: EmployeeHourStore,
+    private employeeVacationStore: EmployeeVacationStore
     // private companyStore: CompanyStore
   ) {
     super(employeeService, baseStream);
@@ -25,6 +27,7 @@ export class EmployeeStore extends BaseStore {
 
     this.authStore.subscribe(this.refresh.bind(this));
     this.employeeHourStore.subscribe(this.refresh.bind(this));
+    this.employeeVacationStore.subscribe(this.refresh.bind(this));
     // this.companyStore.subscribe(this.refresh.bind(this));
   }
 
@@ -33,6 +36,8 @@ export class EmployeeStore extends BaseStore {
     item.profile = this.authStore.getItem(item.profileId) || {};
     item.name = item.profile.name + ' ' + item.profile.lastname;
     // item.company = this.companyStore.getItem(item.companyId);
+
+    item.vacations = this.employeeVacationStore.filterBy({ employeeId: item.id });
 
     item.days = [];
     item.hours = this.employeeHourStore.filterBy({ employeeId: item.id });
