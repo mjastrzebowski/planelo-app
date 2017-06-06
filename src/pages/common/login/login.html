@@ -8,7 +8,7 @@
       <form #form="ngForm" novalidate>
         <div center-col>
           <ion-list>
-            <ion-list-header>Logowanie</ion-list-header>
+            <ion-list-header>{{ 'Login' | translate }}</ion-list-header>
             <ion-item>
               <ion-label floating color="primary"><ion-icon name="person"></ion-icon> Użytkownik</ion-label>
               <ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" autofocus required>
