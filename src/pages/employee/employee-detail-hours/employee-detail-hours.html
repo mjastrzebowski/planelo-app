@@ -16,15 +16,15 @@
       <ion-list-header padding-v-0>{{ utils.weekdays[day] }}</ion-list-header>
       <ion-item-sliding *ngFor="let hour of model[day]">
         <ion-item *ngIf="!hour.delete">
-          <div pln-col ion-item item-content>
+          <div pln-hour-col ion-item item-content>
             <ion-label>Początek</ion-label>
             <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="hour.start" name="start{{ hour.id }}" (ionChange)="hour.update = true"></ion-datetime>
           </div>
-          <div pln-col ion-item item-content>
+          <div pln-hour-col ion-item item-content>
             <ion-label>Koniec</ion-label>
             <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="hour.end" name="end{{ hour.id }}" (ionChange)="hour.update = true"></ion-datetime>
           </div>
-          <div pln-col item-right class="hidden-sm">
+          <div pln-hour-col item-right class="hidden-sm">
             <button ion-button icon-left clear color="danger" small (click)="remove(hour)">
               <ion-icon name="trash"></ion-icon> Usuń
             </button>

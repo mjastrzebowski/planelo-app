@@ -1,12 +1,11 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
-import { BaseStore } from 'app/services/_base/base-store';
-import { BaseStream } from 'app/services/_base/base-stream';
+import { BaseStore, BaseStream } from 'app/services/_base';
 
 import { ICompany, Company } from './company';
 import { CompanyService } from './company-service';
 
-import { EmployeeStore } from 'app/services/employee/employee-store';
+import { EmployeeStore } from 'app/services/employee';
 
 @Injectable()
 export class CompanyStore extends BaseStore {

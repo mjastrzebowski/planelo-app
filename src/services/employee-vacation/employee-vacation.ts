@@ -2,15 +2,16 @@ export class IEmployeeVacation {
   id: number;
   start?: any;
   end?: any;
-  profileId?: number;
+  employeeId?: number;
+  reason?: string;
 }
 
 
 export class EmployeeVacation implements IEmployeeVacation {
   id: number;
-  profileId: number
+  employeeId: number
 
-  constructor(profileId: number) {
-    this.profileId = profileId;
+  constructor(employeeId: number) {
+    this.employeeId = employeeId;
   }
 }

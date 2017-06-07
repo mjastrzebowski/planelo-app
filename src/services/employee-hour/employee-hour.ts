@@ -3,15 +3,15 @@ export class IEmployeeHour {
   day?: any;
   start?: any;
   end?: any;
-  profileId?: number;
+  employeeId?: number;
 }
 
 
 export class EmployeeHour implements IEmployeeHour {
   id: number;
-  profileId: number
+  employeeId: number
 
-  constructor(profileId: number) {
-    this.profileId = profileId;
+  constructor(employeeId: number) {
+    this.employeeId = employeeId;
   }
 }

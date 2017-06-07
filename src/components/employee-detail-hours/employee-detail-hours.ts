@@ -3,7 +3,7 @@ import { ModalController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
 
-import { EmployeeDetailHoursPage } from 'app/pages/employee/employee-detail-hours/employee-detail-hours';
+import { EmployeeDetailHoursPage } from 'app/pages';
 
 @Component({
   selector: 'employee-detail-hours',

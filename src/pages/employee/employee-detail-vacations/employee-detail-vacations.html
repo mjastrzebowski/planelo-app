@@ -10,40 +10,39 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="trainer-detail-hours has-header">
-  <form #trainerForm="ngForm" novalidate>
-    <ion-list *ngFor="let day of days">
-      <ion-list-header padding-v-0>{{ utils.weekdays[day] }}</ion-list-header>
-      <ion-item-sliding *ngFor="let hour of model[day]">
-        <ion-item *ngIf="!hour.delete">
-          <div pln-col ion-item item-content>
+<ion-content class="employee-detail-vacations has-header">
+  <form #form="ngForm" novalidate>
+    <ion-list>
+      <ion-item-sliding *ngFor="let vacation of model">
+        <ion-item *ngIf="!vacation.delete">
+          <div pln-hour-col ion-item item-content>
             <ion-label>Początek</ion-label>
-            <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="hour.start" name="start{{ hour.id }}" (ionChange)="hour.update = true"></ion-datetime>
+            <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="DD.MM.YYYY 'godz.' HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="vacation.start" name="start{{ vacation.id }}" (ionChange)="vacation.update = true"></ion-datetime>
           </div>
-          <div pln-col ion-item item-content>
+          <div pln-hour-col ion-item item-content>
             <ion-label>Koniec</ion-label>
-            <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="hour.end" name="end{{ hour.id }}" (ionChange)="hour.update = true"></ion-datetime>
+            <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="vacation.end" name="end{{ vacation.id }}" (ionChange)="vacation.update = true"></ion-datetime>
           </div>
-          <div pln-col item-right class="hidden-sm">
-            <button ion-button icon-left clear color="danger" small (click)="remove(hour)">
+          <div pln-hour-col item-right class="hidden-sm">
+            <button ion-button icon-left clear color="danger" small (click)="remove(vacation)">
               <ion-icon name="trash"></ion-icon> Usuń
             </button>
           </div>
         </ion-item>
         <ion-item-options side="right" icon-left>
-          <button ion-button color="danger" (click)="remove(hour)">
+          <button ion-button color="danger" (click)="remove(vacation)">
             <ion-icon name="trash"></ion-icon> Usuń
           </button>
         </ion-item-options>
       </ion-item-sliding>
       <ion-buttons padding text-center>
-        <button ion-button icon-left outline small (click)="add(day)"><ion-icon name="add"></ion-icon> dodaj godziny</button>
+        <button ion-button icon-left outline small (click)="add()"><ion-icon name="add"></ion-icon> dodaj urlop</button>
       </ion-buttons>
     </ion-list>
 
     <ion-row responsive-sm>
       <ion-col>
-        <button ion-button color="primary" block type="submit" (click)="save()">Zapisz godziny</button>
+        <button ion-button color="primary" block type="submit" (click)="save()">Zapisz zmiany</button>
       </ion-col>
       <ion-col>
         <button ion-button color="light" block (click)="dismiss()">Anuluj</button>

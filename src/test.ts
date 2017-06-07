@@ -10,11 +10,13 @@ import 'zone.js/dist/fake-async-test';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { getTestBed, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-import { App, Config, Form, IonicModule, Keyboard, DomController, MenuController, NavController, AlertController, ModalController, DeepLinker, Platform } from 'ionic-angular';
+import { App, Config, Form, IonicModule, Keyboard, DomController, MenuController, NavController, NavParams, AlertController, ModalController, ViewController, DeepLinker, Platform } from 'ionic-angular';
 
-import { ConfigMock, PlatformMock, AlertMock, ModalMock, UtilsMock } from './mocks';
-// import { ClickersServiceMock } from './services/clickers.mock';
-// import { Utils } from './services';
+import { ConfigMock, PlatformMock, AlertMock, ModalMock, NavParamsMock, UtilsMock, ViewMock } from './mocks';
+import { AuthServiceMock, EmployeeStoreMock } from './services/mocks';
+
+import { AuthService } from './services/auth';
+import { EmployeeStore } from './services/employee';
 import { Utils } from 'app/providers/utils';
 
 // Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
@@ -66,7 +68,12 @@ export class TestUtils {
         { provide: Config, useClass: ConfigMock },
         { provide: AlertController, useClass: AlertMock },
         { provide: ModalController, useClass: ModalMock },
-        { provide: Utils, useClass: UtilsMock },
+        { provide: ViewController, useClass: ViewMock },
+        { provide: NavParams, useClass: NavParamsMock },
+
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: EmployeeStore, useClass: EmployeeStoreMock },
+        { provide: Utils, useClass: UtilsMock }
       ],
       imports: [
         FormsModule,

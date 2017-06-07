@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
-import { AuthService } from 'app/services/auth/auth-service';
+import { AuthService } from 'app/services/auth';
 import { ITrainer } from 'app/services/trainer/trainer';
 import { EmployeeStore } from 'app/services/employee';
 
@@ -18,7 +18,7 @@ import { EmployeeStore } from 'app/services/employee';
 export class EmployeeDetailVacationsPage {
   @Input() model: any;
   days = [1, 2, 3, 4, 5, 6, 0];
-  trainerId: number;
+  employeeId: number;
   newId: number = 0;
 
   constructor(
@@ -28,42 +28,31 @@ export class EmployeeDetailVacationsPage {
     private employeeStore: EmployeeStore,
     public utils: Utils
   ) {
-    this.trainerId = this.navParams.data.id;
-    this.model = Utils.clone(this.navParams.data.days);
+    this.employeeId = this.navParams.data.id;
+    this.model = Utils.clone(this.navParams.data.vacations);
   }
 
-  ngOnInit(): void {
-    // this.utils.showLoading('Ładowanie godzin pracownika...');
-    // this.sub = this.employeeStore.subscribe(loaded => {
-    //   if (!loaded) {
-    //     return;
-    //   }
-    //   this.model = this.employeeStore.getItem(this.params.data.id);
-    //   this.utils.stopLoading();
-    // });
-  }
-
-  add(day: number): void {
-    if (!this.model[day]) {
-      this.model[day] = [];
+  add(): void {
+    if (!this.model) {
+      this.model = [];
     }
-    this.model[day].push({
+    this.model.push({
       id: this.newId++,
       start: '',
       end: '',
-      profileId: this.trainerId,
-      day: day,
+      employeeId: this.employeeId,
+      reason: '',
       create: true
     });
   }
 
-  remove(hour: any): void {
-    hour.delete = true;
+  remove(vacation: any): void {
+    vacation.delete = true;
   }
 
   save(): void {
     this.utils.showLoading('Zapisywanie godzin...');
-    // this.employeeStore.updateVacations(this.trainerId, this.model).then(() => {
+    // this.employeeStore.updateVacations(this.employeeId, this.model).then(() => {
     //   this.utils.stopLoading();
     //   this.utils.showMessage('Godziny zapisane.');
     //   this.dismiss();

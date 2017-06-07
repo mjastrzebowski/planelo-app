@@ -180,6 +180,23 @@ export class ModalMock {
   }
 }
 
+export class ViewMock{
+  readReady = { subscribe() {} };
+  writeReady = { subscribe() {} };
+  dismiss() {
+    console.log('View Controller Dismiss Called');
+  }
+  _setHeader(){}
+  _setNavbar(){}
+  _setIONContent(){}
+  _setIONContentRef(){}
+}
+
+export class NavParamsMock {
+  public data: any;
+}
+
+
 export class UtilsMock {
   public showLoading(): any { return {} };
   public stopLoading(): any { return {} };
