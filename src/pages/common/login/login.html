@@ -8,9 +8,9 @@
       <form #form="ngForm" novalidate>
         <div center-col>
           <ion-list>
-            <ion-list-header>Logowanie</ion-list-header>
+            <ion-list-header>{{ 'Login' | translate }}</ion-list-header>
             <ion-item>
-              <ion-label floating color="primary"><ion-icon name="person"></ion-icon> Użytkownik</ion-label>
+              <ion-label floating color="primary"><ion-icon name="person"></ion-icon> {{ 'User' | translate }}</ion-label>
               <ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" autofocus required>
               </ion-input>
             </ion-item>
@@ -19,7 +19,7 @@
             </p>
 
             <ion-item>
-              <ion-label floating color="primary"><ion-icon name="lock"></ion-icon> Hasło</ion-label>
+              <ion-label floating color="primary"><ion-icon name="lock"></ion-icon> {{ 'Password' | translate }}</ion-label>
               <ion-input [(ngModel)]="user.password" name="password" type="password" #password="ngModel" required>
               </ion-input>
             </ion-item>
@@ -28,18 +28,18 @@
             </p>
           </ion-list>
 
-          <button ion-button (click)="login(form)" type="submit">Zaloguj</button>
+          <button ion-button (click)="login(form)" type="submit">{{ 'Sign in' | translate }}</button>
         </div>
       </form>
 
       <p padding-top>
         Nie masz konta?
-        <button ion-button (click)="openRegisterPage()" clear block>Zarejestruj się</button>
+        <button ion-button (click)="openRegisterPage()" clear block>{{ 'Sign up' | translate }}</button>
       </p>
 
       <p>
         Zapomniałeś hasła?
-        <button ion-button (click)="openResetPage()" clear block>Reset hasła</button>
+        <button ion-button (click)="openResetPage()" clear block>{{ 'Password reset' | translate }}</button>
       </p>
     </div>
     <p color="light">© 2017 planelo.com • Wszelkie prawa zastrzeżone.</p>
