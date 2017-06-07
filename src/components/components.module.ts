@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from 'ionic-angular';
 
 // components
@@ -13,11 +14,13 @@ export let components = Object.keys(allComponents).map(key => {
   declarations: [
     components
   ],
-  exports: [
-    components
-  ],
   imports: [
-    IonicModule
+    IonicModule,
+    TranslateModule.forChild()
+  ],
+  exports: [
+    components,
+    TranslateModule
   ]
 })
 export class ComponentsModule {}

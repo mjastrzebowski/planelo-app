@@ -1,7 +1,10 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { Http, HttpModule } from '@angular/http';
+
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { PlaneloApp } from './app.component';
@@ -22,6 +25,9 @@ export let services = Object.keys(allServices).map(key => {
   return allServices[key];
 });
 
+export function createTranslateLoader(http: Http) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -33,6 +39,13 @@ export let services = Object.keys(allServices).map(key => {
     HttpModule,
     FormsModule,
     ComponentsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [Http]
+      }
+    }),
     IonicModule.forRoot(PlaneloApp)
   ],
   bootstrap: [

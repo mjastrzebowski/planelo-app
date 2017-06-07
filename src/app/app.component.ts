@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Nav, MenuController } from 'ionic-angular';
 
@@ -57,10 +58,14 @@ export class PlaneloApp {
   showUserBar: boolean;
 
   constructor(
+    private translate: TranslateService,
     private utils: Utils,
     public menu: MenuController,
     public auth: AuthService
-  ) {}
+  ) {
+    translate.setDefaultLang('en');
+    translate.use('pl');
+  }
 
   ngOnInit(): void {
     this.utils.showLoading('Uruchamianie aplikacji...');
