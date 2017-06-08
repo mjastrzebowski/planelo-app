@@ -18,6 +18,7 @@ Responsive web application based on Ionic 3 with TypeScript.
 * Clone this repository: `git clone https://bitbucket.org/planelo/planelo-api.git`.
 * Run `npm install` from the project root.
 * Install the ionic CLI (`npm install -g ionic`)
+* Provide `API_URL` in `src/config.ts` file.
 * Run `ionic serve` in a terminal from the project root.
 * Profit
 
