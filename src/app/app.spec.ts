@@ -1,35 +1,28 @@
-import { ComponentFixture, async } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
-
-import { TestUtils } from 'app/test';
-
 import { PlaneloApp } from './app.component';
-// import { CommonLoginModule } from 'app/pages/common/login/login.module';
-import { LoginPage } from 'app/pages/common/login/login';
+
+import { MenuMock, NavMock, UtilsMock, TranslateServiceMock, AuthServiceMock } from 'app/mocks';
 
 let instance: PlaneloApp;
-let fixture: ComponentFixture<PlaneloApp>;
 
-describe('Component: PlaneloApp Component', () => {
-  beforeEach(async(() => TestUtils.beforeEachCompiler([PlaneloApp]).then(compiled => {
-    fixture = compiled.fixture;
-    instance = compiled.instance;
-
-    // fixture.detectChanges()
-  })));
-
-  afterEach(() => {
-    fixture.destroy();
-    instance = null;
+describe('App: PlaneloApp', () => {
+  beforeEach(() => {
+    instance = new PlaneloApp((<any>new TranslateServiceMock()), (<any> new UtilsMock), (<any> new MenuMock), (<any>new AuthServiceMock()));
+    instance['nav'] = (<any>new NavMock());
   });
 
-  it('is created', () => {
-    expect(fixture).toBeTruthy();
-    expect(instance).toBeTruthy();
+  it('initialises with two possible common pages', () => {
+    expect(instance['commonPages'].length).toEqual(2);
   });
 
-  xit('initialises with a root page of LoginPage', () => {
-    expect(instance['rootPage']).toBe(LoginPage);
+  it('initialises with a root page', () => {
+    expect(instance['rootPage']).not.toBe(null);
+  });
+
+  it('opens a settings page', () => {
+    spyOn(instance['menu'], 'close');
+    spyOn(instance['nav'], 'setRoot');
+    instance.openPage(instance['commonPages'][0]);
+    expect(instance['menu']['close']).toHaveBeenCalled();
+    expect(instance['nav'].setRoot).toHaveBeenCalledWith('settings');
   });
 });

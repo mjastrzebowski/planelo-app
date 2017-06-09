@@ -86,7 +86,7 @@ export class PlaneloApp {
     location.reload();
   }
 
-  openPage(page, data) {
+  openPage(page, data?) {
     if (typeof page === 'string') {
       this.nav.push(page, data);
     } else if (page.title === 'Wyloguj') {
