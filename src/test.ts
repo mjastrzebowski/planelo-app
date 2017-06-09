@@ -7,12 +7,14 @@ import 'zone.js/dist/jasmine-patch';
 import 'zone.js/dist/async-test';
 import 'zone.js/dist/fake-async-test';
 
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { getTestBed, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { App, Config, Form, IonicModule, Keyboard, DomController, MenuController, NavController, NavParams, AlertController, ModalController, ViewController, DeepLinker, Platform } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
-import { ConfigMock, PlatformMock, AlertMock, ModalMock, NavParamsMock, UtilsMock, ViewMock } from './mocks';
+import { ConfigMock, PlatformMock, AlertMock, ModalMock, NavParamsMock, UtilsMock, ViewMock, TranslateServiceMock } from './mocks';
 import { AuthServiceMock, EmployeeStoreMock } from './services/mocks';
 
 import { AuthService } from './services/auth';
@@ -62,6 +64,7 @@ export class TestUtils {
       declarations: [
         ...components,
       ],
+      schemas: [ NO_ERRORS_SCHEMA ],
       providers: [
         App, Form, Keyboard, DomController, MenuController, NavController,
         { provide: Platform, useClass: PlatformMock },
@@ -70,6 +73,7 @@ export class TestUtils {
         { provide: ModalController, useClass: ModalMock },
         { provide: ViewController, useClass: ViewMock },
         { provide: NavParams, useClass: NavParamsMock },
+        { provide: TranslateService, useClass: TranslateServiceMock },
 
         { provide: AuthService, useClass: AuthServiceMock },
         { provide: EmployeeStore, useClass: EmployeeStoreMock },

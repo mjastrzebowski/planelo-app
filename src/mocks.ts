@@ -196,6 +196,11 @@ export class NavParamsMock {
   public data: any;
 }
 
+export class TranslateServiceMock {
+  public setDefaultLang(): any { return {} };
+  public use(): any { return {} };
+}
+
 
 export class UtilsMock {
   public showLoading(): any { return {} };
