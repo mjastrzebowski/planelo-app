@@ -17,6 +17,6 @@ export class WorkoutList {
   constructor(public auth: AuthService) {}
 
   showMonth(monthId): void {
-    $('.workouts-hidden.month-' + monthId).slideToggle();
+    // $('.workouts-hidden.month-' + monthId).slideToggle();
   }
 }
