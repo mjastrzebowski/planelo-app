@@ -35,14 +35,13 @@
     "@angular/platform-browser-dynamic": "4.1.3",
     "@angular/platform-server": "4.1.3",
     "@angular/tsc-wrapped": "^4.2.2",
-    "@ionic-native/core": "3.6.1",
+    "@ionic-native/core": "3.12.1",
     "@ionic/storage": "2.0.1",
     "@ngx-translate/core": "^6.0.1",
     "@ngx-translate/http-loader": "0.0.3",
     "event-stream": "^3.3.4",
-    "firebase": "^3.5.0",
     "immutable": "~3.8.1",
-    "ionic-angular": "3.4.0",
+    "ionic-angular": "3.4.2",
     "ionicons": "~3.0.0",
     "rxjs": "5.4.0",
     "zone.js": "0.8.12"
@@ -75,7 +74,7 @@
     "ts-node": "^3.0.6",
     "tslint": "^5.3.2",
     "tslint-eslint-rules": "^4.1.1",
-    "typescript": "~2.3.3"
+    "typescript": "2.3.4"
   },
   "cordovaPlugins": [
     "cordova-plugin-whitelist",
