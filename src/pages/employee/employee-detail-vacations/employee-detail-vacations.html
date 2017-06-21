@@ -13,15 +13,15 @@
 <ion-content class="employee-detail-vacations has-header">
   <form #form="ngForm" novalidate>
     <ion-list>
-      <ion-item-sliding *ngFor="let vacation of model">
+      <ion-item-sliding *ngFor="let vacation of model; let v = index">
         <ion-item *ngIf="!vacation.delete">
           <div pln-hour-col ion-item item-content>
             <ion-label>Początek</ion-label>
-            <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="DD.MM.YYYY 'godz.' HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="vacation.start" name="start{{ vacation.id }}" (ionChange)="vacation.update = true"></ion-datetime>
+            <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="DD.MM.YYYY 'godz.' HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="vacation.start" name="start-{{ v }}" (ionChange)="vacation.update = true"></ion-datetime>
           </div>
           <div pln-hour-col ion-item item-content>
             <ion-label>Koniec</ion-label>
-            <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="vacation.end" name="end{{ vacation.id }}" (ionChange)="vacation.update = true"></ion-datetime>
+            <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="vacation.end" name="end-{{ v }}" (ionChange)="vacation.update = true"></ion-datetime>
           </div>
           <div pln-hour-col item-right class="hidden-sm">
             <button ion-button icon-left clear color="danger" small (click)="remove(vacation)">
