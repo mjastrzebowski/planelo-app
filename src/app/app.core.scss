@@ -8,6 +8,9 @@
 
 @import "./app.scss";
 
+// fullcalendar.io
+@import "../../node_modules/fullcalendar/dist/fullcalendar";
+
 // components
 @import "../components/notification/notification-item/notification-item";
 @import "../components/notification/notification-counter/notification-counter";

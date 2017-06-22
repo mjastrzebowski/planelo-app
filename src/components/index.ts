@@ -7,3 +7,5 @@ export * from './notification/notification-list/notification-list';
 export * from './notification/notification-filter/notification-filter';
 export * from './notification/notification-counter/notification-counter';
 export * from './notification/notification-list/notification-list-filter-pipe';
+
+export * from './full-calendar/full-calendar';

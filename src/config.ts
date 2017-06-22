@@ -5,6 +5,65 @@ export const Config = {
   BUSINESS_HOURS: {
     START: 7,
     END: 22
+  },
+  CALENDAR_DEFAULTS: {
+    schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+    now: new Date().toDateString(),
+    contentHeight: 'auto',
+    // lang: 'pl',
+    locale: 'pl',
+    allDaySlot: false,
+    slotLabelFormat: 'HH:mm',
+    scrollTime: '07:30',
+    minTime: '07:00:00',
+    maxTime: '23:00:00',
+    firstDay: 1,
+    hiddenDays: [ 0 ],
+    nowIndicator: true,
+    businessHours: {
+      start: '07:00',
+      end: '22:00',
+      dow: [ 1, 2, 3, 4, 5 ]
+    },
+
+    eventOverlap: true,
+    editable: true,
+    eventDurationEditable: false,
+    eventLimit: true,
+    selectable: true,
+    selectHelper: false,
+
+    header: {
+      left: 'today prev,next',
+      center: 'title',
+      right: 'agendaDay,agendaTwoDay,agendaWeek'
+    },
+    defaultView: 'agendaTwoDay',
+    views: {
+      agendaDay: {
+        titleFormat: 'dddd, DD MMMM YYYY',
+      },
+      agendaTwoDay: {
+        type: 'agenda',
+        titleFormat: 'dddd, DD MMM YYYY',
+        duration: { days: 2 },
+        groupByResource: true,
+        groupByDateAndResource: true
+      },
+      agendaWeek: {
+        groupByResource: true,
+        groupByDateAndResource: true
+      }
+    },
+    // resourceGroupField: 'place',
+    resourceLabelText: 'Trenerzy',
+    // resources: this.calendarResources.bind(this),
+    // events: this.calendarEvents.bind(this),
+
+    // eventClick: this.calendarEvent.bind(this),
+    // select: this.calendarSelect.bind(this),
+    // eventDrop: this.calendarDrag.bind(this),
+    // eventRender: this.calendarTooltip.bind(this)
   }
 };
 
