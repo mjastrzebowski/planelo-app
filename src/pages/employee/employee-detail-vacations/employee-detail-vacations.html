@@ -12,18 +12,22 @@
 
 <ion-content class="employee-detail-vacations has-header">
   <form #form="ngForm" novalidate>
-    <ion-list>
+    <ion-list class="vacation-list">
       <ion-item-sliding *ngFor="let vacation of model; let v = index">
-        <ion-item *ngIf="!vacation.delete">
-          <div pln-hour-col ion-item item-content>
+        <ion-item *ngIf="!vacation.delete" class="vacation-item">
+          <div pln-vacation-col ion-item item-content>
             <ion-label>Początek</ion-label>
             <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="DD.MM.YYYY HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="vacation.start" name="start-{{ v }}" (ionChange)="vacation.update = true"></ion-datetime>
           </div>
-          <div pln-hour-col ion-item item-content>
+          <div pln-vacation-col ion-item item-content>
             <ion-label>Koniec</ion-label>
             <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="DD.MM.YYYY HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="vacation.end" name="end-{{ v }}" (ionChange)="vacation.update = true"></ion-datetime>
           </div>
-          <div pln-hour-col item-right class="hidden-sm">
+          <div pln-vacation-col ion-item item-content>
+            <ion-label>Powód</ion-label>
+            <ion-input [(ngModel)]="vacation.reason" name="reason-{{ v }}" (ionChange)="vacation.update = true" placeholder="np. święto, urlop, wyjazd"></ion-input>
+          </div>
+          <div pln-vacation-col item-right class="hidden-sm">
             <button ion-button icon-left clear color="danger" small (click)="remove(vacation)">
               <ion-icon name="trash"></ion-icon> Usuń
             </button>

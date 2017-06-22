@@ -1,0 +1,19 @@
+.employee-detail-vacations {
+  .vacation-item > .item-inner > .input-wrapper {
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: left;
+    -ms-flex-align: left;
+    align-items: left;
+
+  }
+}
+
+[pln-vacation-col] {
+  margin: 0 !important;
+  border-bottom: none !important;
+  .item-inner {
+    border-bottom: none !important;
+  }
+}

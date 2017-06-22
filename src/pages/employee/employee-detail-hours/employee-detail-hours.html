@@ -11,7 +11,7 @@
 </ion-header>
 
 <ion-content class="trainer-detail-hours has-header">
-  <form #trainerForm="ngForm" novalidate>
+  <form #form="ngForm" novalidate>
     <ion-list *ngFor="let day of days; let d = index">
       <ion-list-header padding-v-0>{{ utils.weekdays[day] }}</ion-list-header>
       <ion-item-sliding *ngFor="let hour of model[day]; let i = index">
