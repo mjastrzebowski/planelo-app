@@ -17,11 +17,11 @@
         <ion-item *ngIf="!vacation.delete">
           <div pln-hour-col ion-item item-content>
             <ion-label>Początek</ion-label>
-            <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="DD.MM.YYYY 'godz.' HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="vacation.start" name="start-{{ v }}" (ionChange)="vacation.update = true"></ion-datetime>
+            <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="DD.MM.YYYY HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="vacation.start" name="start-{{ v }}" (ionChange)="vacation.update = true"></ion-datetime>
           </div>
           <div pln-hour-col ion-item item-content>
             <ion-label>Koniec</ion-label>
-            <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="vacation.end" name="end-{{ v }}" (ionChange)="vacation.update = true"></ion-datetime>
+            <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="DD.MM.YYYY HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="vacation.end" name="end-{{ v }}" (ionChange)="vacation.update = true"></ion-datetime>
           </div>
           <div pln-hour-col item-right class="hidden-sm">
             <button ion-button icon-left clear color="danger" small (click)="remove(vacation)">

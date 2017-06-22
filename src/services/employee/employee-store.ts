@@ -50,7 +50,6 @@ export class EmployeeStore extends BaseStore {
     return item;
   }
 
-
   updateHours(employeeId: number, days: any) {
     return new Promise((resolve, reject) => {
       days.forEach(day => {
@@ -71,11 +70,24 @@ export class EmployeeStore extends BaseStore {
         });
       });
       resolve();
-      // }, (error) => {
-      //   reject(error);
-      // });
     });
-    // this.deleteHours(employeeId).then(() => {
-    // });
+  }
+
+  updateVacations(employeeId: number, vacations: any) {
+    return new Promise((resolve, reject) => {
+      vacations.forEach(vacation => {
+        if (!vacation.start || !vacation.end) {
+          return;
+        }
+        if (vacation.create) {
+          this.employeeVacationStore.create(vacation);
+        } else if (vacation.delete) {
+          this.employeeVacationStore.delete(vacation.id);
+        } else if (vacation.update) {
+          this.employeeVacationStore.update(vacation.id, vacation);
+        }
+      });
+      resolve();
+    });
   }
 }

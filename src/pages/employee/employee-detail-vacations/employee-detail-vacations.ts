@@ -51,12 +51,12 @@ export class EmployeeDetailVacationsPage {
   }
 
   save(): void {
-    this.utils.showLoading('Zapisywanie godzin...');
-    // this.employeeStore.updateVacations(this.employeeId, this.model).then(() => {
-    //   this.utils.stopLoading();
-    //   this.utils.showMessage('Godziny zapisane.');
-    //   this.dismiss();
-    // });
+    this.utils.showLoading('Zapisywanie urlopów...');
+    this.employeeStore.updateVacations(this.employeeId, this.model).then(() => {
+      this.utils.stopLoading();
+      this.utils.showMessage('Urlopy zapisane.');
+      this.dismiss();
+    });
   }
 
   dismiss(): void {
