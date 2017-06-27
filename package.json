@@ -69,6 +69,7 @@
     "karma-jasmine": "^1.1.0",
     "karma-mocha-reporter": "^2.2.3",
     "karma-remap-istanbul": "^0.6.0",
+    "moment": "^2.18.1",
     "protractor": "^5.1.2",
     "reflect-metadata": "^0.1.10",
     "strip-sourcemap-loader": "0.0.1",

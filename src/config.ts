@@ -6,9 +6,10 @@ export const Config = {
     START: 7,
     END: 22
   },
+  COLOR_AVAILABLE: '#8fdf82',
+  COLOR_UNAVAILABLE: '#ff9f89',
   CALENDAR_DEFAULTS: {
     schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-    now: new Date().toDateString(),
     contentHeight: 'auto',
     // lang: 'pl',
     locale: 'pl',

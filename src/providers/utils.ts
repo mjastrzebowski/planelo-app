@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { App, LoadingController, ToastController } from 'ionic-angular';
+import * as moment from 'moment';
 
 import { Config } from 'app/config';
 
@@ -76,6 +77,15 @@ export class Utils {
       hours.push(i);
     }
     return hours;
+  }
+
+
+  static dateToMoment(date) {
+    return moment(date.format('YYYY-MM-DD'), 'YYYY-MM-DD');
+  }
+
+  static datetimeToMoment(date, time) {
+    return moment(date.format('YYYY-MM-DD') + ' ' + time, 'YYYY-MM-DD HH:mm');
   }
 
   static forEachDay(startDate, endDate) {

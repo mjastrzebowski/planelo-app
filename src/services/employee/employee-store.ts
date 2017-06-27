@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { BaseStore, BaseStream } from 'app/services/_base';
 
@@ -9,7 +9,7 @@ import { AuthStore } from 'app/services/auth';
 
 import { EmployeeHourStore } from 'app/services/employee-hour';
 import { EmployeeVacationStore } from 'app/services/employee-vacation';
-// import { CompanyStore } from 'app/services/company/company-store';
+import { ProfileSessionStore } from 'app/services/profile-session';
 
 @Injectable()
 export class EmployeeStore extends BaseStore {
@@ -18,8 +18,8 @@ export class EmployeeStore extends BaseStore {
     private baseStream: BaseStream,
     private authStore: AuthStore,
     private employeeHourStore: EmployeeHourStore,
-    private employeeVacationStore: EmployeeVacationStore
-    // private companyStore: CompanyStore
+    private employeeVacationStore: EmployeeVacationStore,
+    private profileSessionStore: ProfileSessionStore
   ) {
     super(employeeService, baseStream);
     this.model = 'Employee';
@@ -28,16 +28,16 @@ export class EmployeeStore extends BaseStore {
     this.authStore.subscribe(this.refresh.bind(this));
     this.employeeHourStore.subscribe(this.refresh.bind(this));
     this.employeeVacationStore.subscribe(this.refresh.bind(this));
-    // this.companyStore.subscribe(this.refresh.bind(this));
+    this.profileSessionStore.subscribe(this.refresh.bind(this));
   }
 
   convertItem(item: any) {
     item = super.convertItem(item);
     item.profile = this.authStore.getItem(item.profileId) || {};
     item.name = item.profile.name + ' ' + item.profile.lastname;
-    // item.company = this.companyStore.getItem(item.companyId);
 
     item.vacations = this.employeeVacationStore.filterBy({ employeeId: item.id });
+    item.sessions = this.profileSessionStore.filterBy({ employeeId: item.id });
 
     item.days = [];
     item.hours = this.employeeHourStore.filterBy({ employeeId: item.id });
