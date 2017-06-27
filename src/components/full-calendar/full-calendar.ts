@@ -1,6 +1,7 @@
 import { Component, Input, AfterViewInit, ElementRef } from '@angular/core';
 import * as $ from 'jquery';
 import 'fullcalendar';
+import 'fullcalendar-scheduler';
 import { Options, EventObject } from 'fullcalendar';
 
 import { Config } from 'app/config';
@@ -20,6 +21,7 @@ export class CalendarComponent implements AfterViewInit {
   hours: any = [];
   vacations: any = [];
   sessions: any = [];
+  employees: any = [];
 
   constructor(
     private element: ElementRef,
@@ -28,41 +30,48 @@ export class CalendarComponent implements AfterViewInit {
     this.employeeStore.subscribe(this.refetch.bind(this));
   }
 
+  get sourceOptions() {
+    return {
+      events: this.getEvents.bind(this),
+      resources: this.getResources.bind(this)
+    };
+  }
+
   get mixedOptions(): Options {
-    return Object.assign({}, Config.CALENDAR_DEFAULTS, this.options);
+    return Object.assign({}, Config.CALENDAR_DEFAULTS, this.sourceOptions, this.options);
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
-      this.setEvents();
+      this.setSources();
       $(this.element.nativeElement).fullCalendar(this.mixedOptions);
-      $(this.element.nativeElement).fullCalendar('addEventSource', this.getEvents.bind(this));
     }, 100);
   }
 
   refetch() {
-    $(this.element.nativeElement).fullCalendar('refetchResources');
     $(this.element.nativeElement).fullCalendar('refetchEvents');
+    $(this.element.nativeElement).fullCalendar('refetchResources');
   }
 
-  setEvents() {
+  setSources() {
     if (this.employee) {
-      this.setEmployeeEvents(this.employee);
+      this.setEmployeeSources(this.employee);
     }
     if (this.company) {
-      this.setCompanyEvents(this.company);
+      this.setCompanySources(this.company);
     }
   }
 
-  setEmployeeEvents(employee) {
-    this.hours.push.apply(this.hours, this.employee.hours.toArray());
-    this.vacations.push.apply(this.vacations, this.employee.vacations.toArray());
-    this.sessions.push.apply(this.sessions, this.employee.sessions.toArray());
+  setEmployeeSources(employee) {
+    this.hours.push.apply(this.hours, employee.hours.toArray());
+    this.vacations.push.apply(this.vacations, employee.vacations.toArray());
+    this.sessions.push.apply(this.sessions, employee.sessions.toArray());
   }
 
-  setCompanyEvents(company) {
+  setCompanySources(company) {
+    this.employees = company.employees;
     company.employees.forEach(employee => {
-      this.setEmployeeEvents(employee);
+      this.setEmployeeSources(employee);
     });
   }
 
@@ -151,21 +160,17 @@ export class CalendarComponent implements AfterViewInit {
     return events;
   }
 
-  calendarResources(callback: any): any {
+  getResources(callback: any): any {
     let resources = [];
-    // this.trainerStore.list.forEach(trainer => {
-    //   if (trainer.placeId !== this.place) {
-    //     return;
-    //   }
-
-    //   let resource = {
-    //     id: trainer.id,
-    //     title: trainer.alias ? trainer.alias : trainer.name,
-    //     eventColor: trainer.color
-    //   };
-    //   resources.push(resource);
-    // });
-
+    this.employees.forEach(employee =>{
+      let resource = {
+        id: employee.id,
+        title: employee.name
+        // title: trainer.alias ? trainer.alias : trainer.name,
+        // eventColor: trainer.color
+      }
+      resources.push(resource);
+    });
     return callback ? callback(resources) : resources;
   }
 }
