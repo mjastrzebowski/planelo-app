@@ -30,6 +30,6 @@
   </ion-card>
 
   <ion-card class="card-employee-detail-calendar">
-    <full-calendar [days]="model?.days" [vacations]="model?.vacations" [sessions]="model?.sessions"></full-calendar>
+    <full-calendar [employee]="model" *ngIf="model"></full-calendar>
   </ion-card>
 </ion-content>

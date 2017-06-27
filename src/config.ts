@@ -39,7 +39,7 @@ export const Config = {
       center: 'title',
       right: 'agendaDay,agendaTwoDay,agendaWeek'
     },
-    defaultView: 'agendaTwoDay',
+    defaultView: 'agendaWeek',
     views: {
       agendaDay: {
         titleFormat: 'dddd, DD MMMM YYYY',

@@ -5,6 +5,8 @@ import { Options, EventObject } from 'fullcalendar';
 
 import { Config } from 'app/config';
 import { Utils } from 'app/providers/utils';
+import { EmployeeStore } from 'app/services/employee';
+import { EmployeeHourStore } from 'app/services/employee-hour';
 
 @Component({
   template: '',
@@ -12,24 +14,56 @@ import { Utils } from 'app/providers/utils';
 })
 export class CalendarComponent implements AfterViewInit {
   @Input() options: Options;
-  @Input() sessions: any;
-  @Input() days: any;
-  @Input() vacations: any;
-  @Input() employees?: any;
+  @Input() company: any;
+  @Input() employee: any;
+  @Input() client: any;
+  hours: any = [];
+  vacations: any = [];
+  sessions: any = [];
 
   constructor(
-    private element: ElementRef
-  ) {}
+    private element: ElementRef,
+    private employeeStore: EmployeeStore
+  ) {
+    this.employeeStore.subscribe(this.refetch.bind(this));
+  }
+
+  get mixedOptions(): Options {
+    return Object.assign({}, Config.CALENDAR_DEFAULTS, this.options);
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {
+      this.setEvents();
       $(this.element.nativeElement).fullCalendar(this.mixedOptions);
       $(this.element.nativeElement).fullCalendar('addEventSource', this.getEvents.bind(this));
     }, 100);
   }
 
-  get mixedOptions(): Options {
-    return Object.assign({}, Config.CALENDAR_DEFAULTS, this.options);
+  refetch() {
+    $(this.element.nativeElement).fullCalendar('refetchResources');
+    $(this.element.nativeElement).fullCalendar('refetchEvents');
+  }
+
+  setEvents() {
+    if (this.employee) {
+      this.setEmployeeEvents(this.employee);
+    }
+    if (this.company) {
+      this.setCompanyEvents(this.company);
+    }
+  }
+
+  setEmployeeEvents(employee) {
+    this.hours.push.apply(this.hours, this.employee.hours.toArray());
+    this.vacations.push.apply(this.vacations, this.employee.vacations.toArray());
+    this.sessions.push.apply(this.sessions, this.employee.sessions.toArray());
+  }
+
+  setCompanyEvents(company) {
+    company.employees.forEach(employee => {
+      this.setEmployeeEvents(employee);
+    });
   }
 
   constructHourEvent(start, end, resource?): EventObject {
@@ -73,27 +107,26 @@ export class CalendarComponent implements AfterViewInit {
 
 
   getEvents(start?, end?, timezone?, callback?): EventObject[] {
-    console.log('#fullcalendar getEvents');
     if (!start || !end) {
       return [];
     }
 
     let events = [];
-    events = events.concat(this.getDayEvents(this.days || [], start, end));
-    events = events.concat(this.getVacationEvents(this.vacations || [], start, end));
-    events = events.concat(this.getSessionEvents(this.sessions || [], start, end));
-
+    let days = EmployeeHourStore.hoursToDays(this.hours);
+    events.push.apply(events, this.getHourEvents(days, start, end));
+    events.push.apply(events, this.getVacationEvents(this.vacations, start, end));
+    events.push.apply(events, this.getSessionEvents(this.sessions, start, end));
     return callback ? callback(events) : events;
   }
 
-  getDayEvents(days, from, to): EventObject[] {
+  getHourEvents(days, from, to): EventObject[] {
     let events = [];
     Utils.forEachDay(from, to).forEach(day => {
       let hours = days[day.day()] || [];
       hours.forEach(hour => {
         let start = Utils.datetimeToMoment(day, hour.start);
         let end = Utils.datetimeToMoment(day, hour.end);
-        let event = this.constructHourEvent(start, end);
+        let event = this.constructHourEvent(start, end, hour.employeeId);
         events.push(event);
       })
     });
@@ -112,7 +145,7 @@ export class CalendarComponent implements AfterViewInit {
   getVacationEvents(vacations, from, to): EventObject[] {
     let events = [];
     vacations.forEach(vacation => {
-      let event = this.constructVacationEvent(vacation.start, vacation.end);
+      let event = this.constructVacationEvent(vacation.start, vacation.end, vacation.employeeId);
       events.push(event);
     });
     return events;

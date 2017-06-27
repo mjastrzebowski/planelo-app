@@ -39,14 +39,8 @@ export class EmployeeStore extends BaseStore {
     item.vacations = this.employeeVacationStore.filterBy({ employeeId: item.id });
     item.sessions = this.profileSessionStore.filterBy({ employeeId: item.id });
 
-    item.days = [];
     item.hours = this.employeeHourStore.filterBy({ employeeId: item.id });
-    item.hours.forEach(hour => {
-      if (!item.days.hasOwnProperty(hour.day)) {
-        item.days[hour.day] = [];
-      }
-      item.days[hour.day].push(hour);
-    });
+    item.days = EmployeeHourStore.hoursToDays(item.hours);
     return item;
   }
 

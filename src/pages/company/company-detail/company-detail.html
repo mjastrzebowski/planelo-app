@@ -70,4 +70,8 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <ion-card class="card-company-detail-calendar">
+    <full-calendar [company]="model" *ngIf="model"></full-calendar>
+  </ion-card>
 </ion-content>

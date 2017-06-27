@@ -18,6 +18,17 @@ export class EmployeeHourStore extends BaseStore {
     this.init();
   }
 
+  static hoursToDays(hours) {
+    let days = [];
+    hours.forEach(hour => {
+      if (!days.hasOwnProperty(hour.day)) {
+        days[hour.day] = [];
+      }
+      days[hour.day].push(hour);
+    });
+    return days;
+  }
+
   clearItem(item: any) {
     item = super.clearItem(item);
     delete item.create;
