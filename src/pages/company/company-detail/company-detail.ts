@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { IonicPage, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController, ModalController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
 
@@ -28,6 +28,7 @@ export class CompanyDetailPage {
   constructor(
     private params: NavParams,
     private viewCtrl: ViewController,
+    private modalCtrl: ModalController,
     private utils: Utils,
     private companyStore: CompanyStore,
     private clientStore: ClientStore,
@@ -50,5 +51,9 @@ export class CompanyDetailPage {
     if (this.sub) {
       this.sub.unsubscribe();
     }
+  }
+
+  createEmployee(model): void {
+    this.modalCtrl.create('employee/create', model).present();
   }
 }

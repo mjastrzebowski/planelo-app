@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { BaseStore, BaseStream } from 'app/services/_base';
 
+import { Utils } from 'app/providers/utils';
 import { IEmployee, Employee } from './employee';
 import { EmployeeService } from './employee-service';
 
@@ -42,6 +43,22 @@ export class EmployeeStore extends BaseStore {
     item.hours = this.employeeHourStore.filterBy({ employeeId: item.id });
     item.days = EmployeeHourStore.hoursToDays(item.hours);
     return item;
+  }
+
+  newProfile(item: any) {
+    if (item.email) {
+      item.password = Utils.generatePassword();
+      // item.username = 'fake-' + Utils.generatePassword();
+    }
+    return this.authStore.create(item).then((user) => {
+      let employee = {
+        companyId: item.companyId,
+        profileId: user.id
+      };
+      return this.create(employee);
+    }).catch((err) => {
+      console.log('profile not created: ', err);
+    });
   }
 
   updateHours(employeeId: number, days: any) {

@@ -4,13 +4,11 @@ import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
 import { AuthService } from 'app/services/auth';
-import { ITrainer } from 'app/services/trainer/trainer';
 import { EmployeeStore } from 'app/services/employee';
 
 @IonicPage({
   name: 'employee-vacations',
-  segment: 'employee-vacations/:id',
-  defaultHistory: ['companies']
+  segment: 'employee-vacations/:id'
 })
 @Component({
   templateUrl: 'employee-detail-vacations.html'

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Nowa firma</ion-title>
+    <ion-title>Nowy pracownik</ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
         <span color="primary" showWhen="ios">Zamknij</span>
@@ -15,11 +15,11 @@
     <ion-list>
       <ion-item>
         <ion-label floating>Nazwa</ion-label>
-        <ion-input type="text" [(ngModel)]="model.name" name="name"></ion-input>
+        <ion-input [(ngModel)]="model.name" type="text" name="name"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Opis</ion-label>
-        <ion-textarea [(ngModel)]="model.description" name="description"></ion-textarea>
+        <ion-label floating>Adres e-mail</ion-label>
+        <ion-input [(ngModel)]="model.email" type="email" name="email"></ion-input>
       </ion-item>
     </ion-list>
     <ion-row responsive-sm>

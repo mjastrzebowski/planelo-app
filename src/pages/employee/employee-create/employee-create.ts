@@ -1,40 +1,40 @@
-import { Component, Input, Renderer } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
-
-import { EmployeeStore } from 'app/services/employee/employee-store';
+import { AuthService } from 'app/services/auth';
+import { EmployeeStore } from 'app/services/employee';
+import { IEmployee } from 'app/services/employee/employee';
 
 @IonicPage({
-  name: 'employees/create',
-  segment: 'employees/create'
+  name: 'employee/create',
+  segment: 'employee/create'
 })
 @Component({
   templateUrl: 'employee-create.html'
 })
-export class EmployeeCreateModal {
-  @Input() model: any;
+export class EmployeeCreatePage {
+  @Input() company: any;
+  model: IEmployee;
 
   constructor(
-    private params: NavParams,
+    private navParams: NavParams,
     private viewCtrl: ViewController,
-    private renderer: Renderer,
-    private utils: Utils,
-    private employeeStore: EmployeeStore
+    private auth: AuthService,
+    private employeeStore: EmployeeStore,
+    public utils: Utils
   ) {
-    this.renderer.setElementClass(this.viewCtrl.pageRef().nativeElement, 'my-popup', true);
-  }
-
-  ngOnInit(): void {
-    this.model = this.employeeStore.getItem(this.params.data);
+    this.company = this.navParams.data;
+    this.model = new IEmployee();
+    this.model.companyId = this.company.id;
   }
 
   save(): void {
-    this.utils.showLoading('Zapisywanie firmy...');
-    this.employeeStore.create(this.model).then(() => {
+    this.utils.showLoading('Zapisywanie pracownika...');
+    this.employeeStore.newProfile(this.model).then(() => {
       this.utils.stopLoading();
-      this.utils.showMessage('Firma dodana.');
+      this.utils.showMessage('Pracownik dodany.');
       this.dismiss();
     });
   }

@@ -1,20 +1,23 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 
-import { EmployeeCreateModal } from './employee-create';
+import { EmployeeCreatePage } from './employee-create';
 
 import { ComponentsModule } from 'app/components/components.module';
 
 @NgModule({
   declarations: [
-    EmployeeCreateModal
+    EmployeeCreatePage
   ],
   imports: [
     ComponentsModule,
-    IonicPageModule.forChild(EmployeeCreateModal)
+    IonicPageModule.forChild(EmployeeCreatePage)
   ],
   exports: [
-    EmployeeCreateModal
+    EmployeeCreatePage
+  ],
+  entryComponents: [
+    EmployeeCreatePage
   ]
 })
 export class EmployeeCreateModule {}
