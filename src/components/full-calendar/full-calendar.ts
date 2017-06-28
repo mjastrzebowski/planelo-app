@@ -49,8 +49,17 @@ export class CalendarComponent implements AfterViewInit {
   }
 
   refetch() {
+    this.clearSources();
+    this.setSources();
     $(this.element.nativeElement).fullCalendar('refetchEvents');
     $(this.element.nativeElement).fullCalendar('refetchResources');
+  }
+
+  clearSources() {
+    this.hours = [];
+    this.vacations = [];
+    this.sessions = [];
+    this.employees = [];
   }
 
   setSources() {
