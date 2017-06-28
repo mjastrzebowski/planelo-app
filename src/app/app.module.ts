@@ -50,7 +50,12 @@ export function createTranslateLoader(http: Http) {
         deps: [Http]
       }
     }),
-    IonicModule.forRoot(PlaneloApp)
+    IonicModule.forRoot(PlaneloApp, {
+      monthNames: ['styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień', 'październik', 'listopad', 'grudzień'],
+      monthShortNames: ['sty.', 'lut.', 'mar.', 'kwi.', 'maj', 'cze.', 'lip.', 'sie.', 'wrz.', 'paź.', 'lis.', 'gru.'],
+      dayNames: ['niedziela', 'poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota'],
+      dayShortNames: ['niedz.', 'pon.', 'wt.', 'śr.', 'czw.', 'pt.', 'sob.'],
+    })
   ],
   bootstrap: [
     IonicApp
