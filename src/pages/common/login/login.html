@@ -11,11 +11,11 @@
             <ion-list-header>{{ 'Login' | translate }}</ion-list-header>
             <ion-item>
               <ion-label floating color="primary"><ion-icon name="person"></ion-icon> {{ 'User' | translate }}</ion-label>
-              <ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" autofocus required>
+              <ion-input [(ngModel)]="user.email" name="email" type="email" #email="ngModel" spellcheck="false" autocapitalize="off" autofocus required>
               </ion-input>
             </ion-item>
-            <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
-              Nazwa użytkownika jest wymagana
+            <p ion-text [hidden]="email.valid || submitted == false" color="danger" padding-left>
+              Adres e-mail jest wymagany
             </p>
 
             <ion-item>

@@ -60,7 +60,16 @@ export class Utils {
     this.toastCtrl.create(options).present();
   }
 
-  generatePassword(): string {
+  getBussinesHoursArray() {
+    let hours = [];
+    for (let i = Config.BUSINESS_HOURS.START; i <= Config.BUSINESS_HOURS.END; i++) {
+      hours.push(i);
+    }
+    return hours;
+  }
+
+
+  static generatePassword(): string {
     let length = 6;
     let charset = 'abcdefghjkpqrstuxyz23456789';
     let retVal = '';
@@ -70,15 +79,6 @@ export class Utils {
     }
     return retVal;
   }
-
-  getBussinesHoursArray() {
-    let hours = [];
-    for (let i = Config.BUSINESS_HOURS.START; i <= Config.BUSINESS_HOURS.END; i++) {
-      hours.push(i);
-    }
-    return hours;
-  }
-
 
   static dateToMoment(date) {
     return moment(date.format('YYYY-MM-DD'), 'YYYY-MM-DD');
