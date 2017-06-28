@@ -10,7 +10,7 @@ import { AuthStore } from 'app/services/auth';
 
 import { EmployeeHourStore } from 'app/services/employee-hour';
 import { EmployeeVacationStore } from 'app/services/employee-vacation';
-import { ProfileSessionStore } from 'app/services/profile-session';
+import { SessionStore } from 'app/services/session';
 
 @Injectable()
 export class EmployeeStore extends BaseStore {
@@ -20,7 +20,7 @@ export class EmployeeStore extends BaseStore {
     private authStore: AuthStore,
     private employeeHourStore: EmployeeHourStore,
     private employeeVacationStore: EmployeeVacationStore,
-    private profileSessionStore: ProfileSessionStore
+    private sessionStore: SessionStore
   ) {
     super(employeeService, baseStream);
     this.model = 'Employee';
@@ -29,7 +29,7 @@ export class EmployeeStore extends BaseStore {
     this.authStore.subscribe(this.refresh.bind(this));
     this.employeeHourStore.subscribe(this.refresh.bind(this));
     this.employeeVacationStore.subscribe(this.refresh.bind(this));
-    this.profileSessionStore.subscribe(this.refresh.bind(this));
+    this.sessionStore.subscribe(this.refresh.bind(this));
   }
 
   convertItem(item: any) {
@@ -38,7 +38,7 @@ export class EmployeeStore extends BaseStore {
     item.name = item.profile.name + ' ' + item.profile.lastname;
 
     item.vacations = this.employeeVacationStore.filterBy({ employeeId: item.id });
-    item.sessions = this.profileSessionStore.filterBy({ employeeId: item.id });
+    item.sessions = this.sessionStore.filterBy({ employeeId: item.id });
 
     item.hours = this.employeeHourStore.filterBy({ employeeId: item.id });
     item.days = EmployeeHourStore.hoursToDays(item.hours);

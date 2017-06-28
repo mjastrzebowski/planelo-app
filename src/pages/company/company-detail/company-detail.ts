@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { IonicPage, NavParams, ViewController, ModalController } from 'ionic-angular';
+import { IonicPage, NavParams, ModalController } from 'ionic-angular';
 
 import { Utils } from 'app/providers/utils';
 
@@ -27,7 +27,6 @@ export class CompanyDetailPage {
 
   constructor(
     private params: NavParams,
-    private viewCtrl: ViewController,
     private modalCtrl: ModalController,
     private utils: Utils,
     private companyStore: CompanyStore,

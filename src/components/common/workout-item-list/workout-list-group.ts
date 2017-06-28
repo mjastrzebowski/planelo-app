@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment';
 
-import { IProfileSession } from 'app/services/profile-session/profile-session';
+import { ISession } from 'app/services/session/session';
 
 
 @Pipe({
@@ -9,7 +9,7 @@ import { IProfileSession } from 'app/services/profile-session/profile-session';
   pure: true
 })
 export class WorkoutListGroupPipe implements PipeTransform {
-  transform(list: IProfileSession[], filterType?: string[]): IProfileSession[] {
+  transform(list: ISession[], filterType?: string[]): ISession[] {
     if (list) {
       let lastMonth = null;
       moment.locale('pl');

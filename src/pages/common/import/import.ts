@@ -11,7 +11,7 @@ import { ClientStore } from 'app/services/client/client-store';
 import { NotificationStore } from 'app/services/notification/notification-store';
 import { PlaceStore } from 'app/services/place/place-store';
 import { TrainerStore } from 'app/services/trainer/trainer-store';
-import { ProfileSessionStore } from 'app/services/profile-session/profile-session-store';
+import { SessionStore } from 'app/services/session/session-store';
 
 @IonicPage({
   name: 'import',
@@ -33,7 +33,7 @@ export class ImportPage {
     private notificationStore: NotificationStore,
     private placeStore: PlaceStore,
     private trainerStore: TrainerStore,
-    private profileSessionStore: ProfileSessionStore
+    private sessionStore: SessionStore
   ) {
     this.submitted = false;
     this.import = {};
@@ -78,7 +78,7 @@ export class ImportPage {
         break;
     }
     item.client = this.resolveItemByKey(item.client, this.clientStore);
-    item.workout = this.resolveItemByKey(item.workout, this.profileSessionStore);
+    item.workout = this.resolveItemByKey(item.workout, this.sessionStore);
     this.notificationStore.create(item);
   }
 

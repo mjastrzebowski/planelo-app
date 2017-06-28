@@ -8,6 +8,8 @@ export const Config = {
   },
   COLOR_AVAILABLE: '#8fdf82',
   COLOR_UNAVAILABLE: '#ff9f89',
+  FORMAT_DATE: 'YYYY-MM-DD',
+  FORMAT_DATETIME: 'YYYY-MM-DD HH:mm',
   CALENDAR_DEFAULTS: {
     schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
     contentHeight: 'auto',

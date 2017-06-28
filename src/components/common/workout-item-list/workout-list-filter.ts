@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { IProfileSession } from 'app/services/profile-session/profile-session';
+import { ISession } from 'app/services/session/session';
 
 
 @Pipe({
@@ -8,7 +8,7 @@ import { IProfileSession } from 'app/services/profile-session/profile-session';
   pure: true
 })
 export class WorkoutListFilterPipe implements PipeTransform {
-  transform(list: IProfileSession[], filterType?: string[]): IProfileSession[] {
+  transform(list: ISession[], filterType?: string[]): ISession[] {
     if (list) {
       return list.slice().reverse();
     }

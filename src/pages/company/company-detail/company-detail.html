@@ -13,8 +13,13 @@
     <ion-card text-center>
       <h2> {{ model?.name }} </h2>
       <h4> Firma </h4>
+      <!-- <p> {{ model?.description }} </p> -->
     </ion-card>
   </div>
+
+  <ion-card class="card-company-detail-calendar">
+    <full-calendar [company]="model" *ngIf="model"></full-calendar>
+  </ion-card>
 
   <ion-grid no-padding>
     <ion-row>
@@ -70,8 +75,4 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <ion-card class="card-company-detail-calendar">
-    <full-calendar [company]="model" *ngIf="model"></full-calendar>
-  </ion-card>
 </ion-content>

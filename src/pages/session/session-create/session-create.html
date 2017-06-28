@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Nowa sesja</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span showWhen="ios">Zamknij</span>
+        <ion-icon name="close" hideWhen="ios"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="session-create has-header">
+  <form #form="ngForm" novalidate>
+    <ion-list>
+      <ion-item>
+        <ion-label>Klient</ion-label>
+        <ion-select [(ngModel)]="model.clientId" name="clientId">
+          <ion-option *ngFor="let client of company.clients" [value]="client.id">{{ client?.lastname }} {{ client?.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Termin</ion-label>
+        <ion-datetime displayFormat="DD.MM.YYYY HH:mm" pickerFormat="DD.MM.YYYY HH:mm" [hourValues]="utils.getBussinesHoursArray()" minuteValues="0,15,30,45" [(ngModel)]="model.start" name="start"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>Pracownik</ion-label>
+        <ion-select [(ngModel)]="model.employeeId" name="employeeId">
+          <ion-option *ngFor="let employee of company.employees" [value]="employee.id">{{ employee?.lastname }} {{ employee?.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <ion-row responsive-sm>
+      <ion-col>
+        <button ion-button color="primary" block type="submit" (click)="save()">Zapisz</button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="light" block (click)="dismiss()">Anuluj</button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

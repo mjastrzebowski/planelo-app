@@ -81,11 +81,16 @@ export class Utils {
   }
 
   static dateToMoment(date) {
-    return moment(date.format('YYYY-MM-DD'), 'YYYY-MM-DD');
+    return moment(date.format(Config.FORMAT_DATE), Config.FORMAT_DATE);
   }
-
   static datetimeToMoment(date, time) {
-    return moment(date.format('YYYY-MM-DD') + ' ' + time, 'YYYY-MM-DD HH:mm');
+    return moment(date.format(Config.FORMAT_DATE) + ' ' + time, Config.FORMAT_DATETIME);
+  }
+  static formatDate(date) {
+    return date.format(Config.FORMAT_DATE);
+  }
+  static formatDatetime(date) {
+    return date.format(Config.FORMAT_DATETIME);
   }
 
   static forEachDay(startDate, endDate) {
